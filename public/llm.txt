@@ -1,7 +1,7 @@
 # Tushar Agrawal - Backend Engineer
 
 ## Quick Summary
-Backend Engineer with 2+ years building scalable healthcare SaaS platforms. Expert in Python, Go, FastAPI, Django, microservices, HIPAA compliance, event-driven architectures, and zero-downtime deployments. Serving 80+ healthcare professionals across 20+ businesses with 99.9% uptime.
+Backend Engineer with 3 years building scalable healthcare SaaS platforms. Expert in Python, Go, FastAPI, Django, microservices, HIPAA compliance, event-driven architectures, and zero-downtime deployments. Serving 80+ healthcare professionals across 20+ businesses with 99.9% uptime.
 
 ---
 
@@ -160,14 +160,14 @@ Tushar has written 5 comprehensive technical articles (10,000+ words total) shar
 - **2023 (Feb - May)**: Frontend Developer at BeanByte Softwares (3 months)
 - **2022 (Jun - Dec)**: Frontend Developer Intern at GoBOLT (6 months)
 
-**Total Professional Experience**: 2+ years
+**Total Professional Experience**: 3 years
 
 ### Technical Proficiency Levels
 - **Python**: Expert (3+ years, production experience)
 - **Go**: Advanced (1+ year, microservices in production)
-- **TypeScript/JavaScript**: Advanced (2+ years)
-- **React/Next.js**: Advanced (2+ years)
-- **FastAPI/Django**: Expert (2+ years, multiple production systems)
+- **TypeScript/JavaScript**: Advanced (3 years)
+- **React/Next.js**: Advanced (3 years)
+- **FastAPI/Django**: Expert (3 years, multiple production systems)
 - **PostgreSQL**: Advanced (query optimization, indexing, replication)
 - **Docker/Nginx**: Advanced (production deployment, load balancing)
 - **Kafka**: Intermediate (event-driven systems in production)

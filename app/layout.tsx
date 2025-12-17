@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3003'),
   title: "Tushar Agrawal - Backend Engineer | Full-Stack Developer",
-  description: "Backend Engineer with 2+ years of experience building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, React, Next.js, Django, FastAPI, PostgreSQL, Redis, Docker, Nginx, and microservices architecture. Specialized in HIPAA-compliant systems, distributed systems, and AI automation.",
+  description: "Backend Engineer with 3 years of experience building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, React, Next.js, Django, FastAPI, PostgreSQL, Redis, Docker, Nginx, and microservices architecture. Specialized in HIPAA-compliant systems, distributed systems, and AI automation.",
   keywords: ["Tushar Agrawal", "Backend Engineer", "Full Stack Developer", "Python Developer", "Go Developer", "TypeScript Developer", "React Developer", "Next.js", "Django", "FastAPI", "PostgreSQL", "Redis", "Docker", "Nginx", "Microservices", "Healthcare SaaS", "HIPAA Compliance", "Distributed Systems", "AI Automation"],
   authors: [{ name: "Tushar Agrawal", url: "https://github.com/Tushar010402" }],
   icons: {
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   manifest: '/site.webmanifest',
   openGraph: {
     title: "Tushar Agrawal - Backend Engineer | Full-Stack Developer",
-    description: "Backend Engineer with 2+ years building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, and modern web technologies.",
+    description: "Backend Engineer with 3 years building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, and modern web technologies.",
     type: "website",
     locale: "en_US",
     url: '/',
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Tushar Agrawal - Backend Engineer",
-    description: "Backend Engineer with 2+ years building scalable healthcare SaaS platforms.",
+    description: "Backend Engineer with 3 years building scalable healthcare SaaS platforms.",
     creator: "@TusharAgrawal",
   },
   robots: {
@@ -71,7 +71,7 @@ export default function RootLayout({
     "@type": "Person",
     name: "Tushar Agrawal",
     jobTitle: "Backend Engineer",
-    description: "Backend Engineer with 2+ years of experience building scalable healthcare SaaS platforms, microservices, and event-driven architectures using Python, Go, FastAPI, Django, and modern DevOps practices.",
+    description: "Backend Engineer with 3 years of experience building scalable healthcare SaaS platforms, microservices, and event-driven architectures using Python, Go, FastAPI, Django, and modern DevOps practices.",
     url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3003",
     email: "tusharagrawal0104@gmail.com",
     telephone: "+91-8126816664",

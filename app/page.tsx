@@ -57,7 +57,7 @@ export default function Home() {
           <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8 hover:border-neutral-700 transition-all">
             <h3 className="text-2xl font-bold text-white mb-4">Professional Background</h3>
             <p className="text-neutral-300 text-base leading-relaxed">
-              Full-Stack Developer with 2.5 years building scalable healthcare SaaS platforms serving 80+ users across 20+ businesses.
+              Full-Stack Developer with 3 years building scalable healthcare SaaS platforms serving 80+ users across 20+ businesses.
               Reduced operational costs by 90% through microservices architecture and AI automation. Collaborated with cross-functional
               teams and third-party vendors to deliver integrated solutions.
             </p>

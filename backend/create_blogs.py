@@ -33,7 +33,7 @@ blogs = [
         "description": "Learn how to architect and build production-ready microservices using Go and FastAPI. Covers system design, API gateways, load balancing, and achieving 99.9% uptime.",
         "content": """# Building Scalable Microservices with Go and FastAPI
 
-As a backend engineer with 2+ years building healthcare SaaS platforms, I've learned that choosing the right tech stack is crucial for building scalable microservices. In this comprehensive guide, I'll share my experience building microservices that handle 50,000+ daily requests with sub-100ms latency.
+As a backend engineer with 3 years building healthcare SaaS platforms, I've learned that choosing the right tech stack is crucial for building scalable microservices. In this comprehensive guide, I'll share my experience building microservices that handle 50,000+ daily requests with sub-100ms latency.
 
 ## Why Go and FastAPI?
 
