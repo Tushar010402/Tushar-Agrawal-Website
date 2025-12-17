@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import BlogPostClient from './blog-post-client';
 import { blogAPI } from '@/lib/api';
+import { Blog, Comment } from '@/lib/types';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -61,10 +62,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
 
-  let blog = null;
-  let comments = [];
-  let relatedBlogs = [];
-  let error = null;
+  let blog: Blog | null = null;
+  let comments: Comment[] = [];
+  let relatedBlogs: (Blog & { commonTags: number })[] = [];
+  let error: string | null = null;
 
   try {
     // Fetch blog post
@@ -80,9 +81,10 @@ export default async function BlogPostPage({ params }: PageProps) {
 
     // Find related blogs based on common tags
     if (blog.tags && allBlogs.length > 0) {
+      const blogId = blog.id;
       const blogTags = blog.tags.split(',').map((t) => t.trim().toLowerCase());
       relatedBlogs = allBlogs
-        .filter((b) => b.id !== blog.id)
+        .filter((b) => b.id !== blogId)
         .map((b) => {
           const bTags = b.tags.split(',').map((t) => t.trim().toLowerCase());
           const commonTags = blogTags.filter((tag) => bTags.includes(tag)).length;

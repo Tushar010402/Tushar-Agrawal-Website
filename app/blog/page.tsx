@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import BlogListingClient from './blog-listing-client';
 import { blogAPI } from '@/lib/api';
+import { Blog } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Technical Blog - Tushar Agrawal',
@@ -34,8 +35,8 @@ export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function BlogPage() {
   // Fetch blogs server-side for SEO and initial render
-  let initialBlogs = [];
-  let error = null;
+  let initialBlogs: Blog[] = [];
+  let error: string | null = null;
 
   try {
     initialBlogs = await blogAPI.getAll();
