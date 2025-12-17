@@ -18,6 +18,20 @@ export const metadata: Metadata = {
   description: "Backend Engineer with 2+ years of experience building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, React, Next.js, Django, FastAPI, PostgreSQL, Redis, Docker, Nginx, and microservices architecture. Specialized in HIPAA-compliant systems, distributed systems, and AI automation.",
   keywords: ["Tushar Agrawal", "Backend Engineer", "Full Stack Developer", "Python Developer", "Go Developer", "TypeScript Developer", "React Developer", "Next.js", "Django", "FastAPI", "PostgreSQL", "Redis", "Docker", "Nginx", "Microservices", "Healthcare SaaS", "HIPAA Compliance", "Distributed Systems", "AI Automation"],
   authors: [{ name: "Tushar Agrawal", url: "https://github.com/Tushar010402" }],
+  icons: {
+    icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      { rel: 'mask-icon', url: '/icon.svg', color: '#6366f1' },
+    ],
+  },
+  manifest: '/site.webmanifest',
   openGraph: {
     title: "Tushar Agrawal - Backend Engineer | Full-Stack Developer",
     description: "Backend Engineer with 2+ years building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, and modern web technologies.",

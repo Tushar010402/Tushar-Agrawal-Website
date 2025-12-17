@@ -1,0 +1,23 @@
+{
+  "name": "Tushar Agrawal - Backend Engineer",
+  "short_name": "Tushar Agrawal",
+  "description": "Backend Engineer with 2+ years of experience building scalable healthcare SaaS platforms",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
