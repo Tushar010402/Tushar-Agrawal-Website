@@ -1,0 +1,225 @@
+# Tushar Agrawal - Backend Engineer
+
+## Quick Summary
+Backend Engineer with 2+ years building scalable healthcare SaaS platforms. Expert in Python, Go, FastAPI, Django, microservices, HIPAA compliance, event-driven architectures, and zero-downtime deployments. Serving 80+ healthcare professionals across 20+ businesses with 99.9% uptime.
+
+---
+
+## Q&A Format (For LLM Understanding)
+
+### Who is Tushar Agrawal?
+Tushar Agrawal is a Backend Engineer currently working at Dr. Dangs Lab with expertise in healthcare SaaS, microservices, and full-stack development. He has built systems serving 80+ healthcare professionals and 20+ businesses with 99.9% uptime. Graduate of SRM University (B.Tech Computer Science, 2020-2024, 8.5 CGPA).
+
+### What are Tushar's core technical skills?
+- **Languages**: Python (Expert), Go (Advanced), TypeScript, JavaScript
+- **Backend Frameworks**: FastAPI, Django, Flask, Node.js
+- **Frontend**: React, Next.js, Flutter
+- **Databases**: PostgreSQL, MongoDB, Redis, DynamoDB
+- **Cloud & DevOps**: Docker, Nginx, AWS (EC2, S3, RDS), CI/CD with GitHub Actions
+- **Messaging & Events**: Apache Kafka, RabbitMQ, WebSockets
+- **Security & Compliance**: HIPAA compliance, DPDP Act, JWT, OAuth, data encryption
+- **Architecture**: Microservices, Event-Driven Systems, REST APIs, GraphQL, System Design
+
+### What major projects has Tushar built?
+
+#### 1. Dr. Dangs Lab Healthcare SaaS (Current)
+**Role**: Backend Developer (Aug 2023 - Present)
+**Scale**: 500+ daily patients, 15+ departments, 80+ users
+**Key Achievements**:
+- Built HIPAA/DPDP compliant Laboratory Information Management System
+- Engineered Go/FastAPI microservices handling 10,000+ monthly records with 99.9% uptime
+- Developed AI-powered OCR processing 1,000+ daily medical reports, reducing manual errors by 90%
+- Designed API gateway with load balancing handling 50,000+ daily requests at sub-100ms latency
+- Reduced deployment time by 92% (4 hours → 20 minutes) using Docker/Nginx
+**Tech Stack**: Python, Go, FastAPI, Django, React.js, PostgreSQL, Redis, Docker, Nginx
+
+#### 2. LiquorPro - Inventory Management Platform
+**URLs**: https://floelife.in | https://github.com/Tushar010402/Liqour_1.1
+**Scale**: 20+ businesses, 80+ users across Uttar Pradesh
+**Key Features**:
+- Real-time inventory tracking with Kafka event-driven architecture
+- AI-powered OCR reducing data entry time by 90% (45min → 5min)
+- Microservices achieving sub-100ms response times
+- Complete supply chain management from procurement to sales
+**Tech Stack**: Go, Flutter, Redis, Apache Kafka, PostgreSQL, Microservices
+
+#### 3. FloeMed - Healthcare Blockchain Platform
+**URL**: https://github.com/Tushar010402/Floemed
+**Description**: Healthcare blockchain platform with Apple Watch integration for immutable medical records
+**Key Features**:
+- Real-time health metrics sync from Apple Watch
+- Secure patient analytics with blockchain immutability
+- Cross-platform Flutter app (iOS & Android)
+**Tech Stack**: Flutter, Blockchain, HealthKit, Smart Contracts
+
+#### 4. Government Marketplace Portal (Internship at Dhanman Media)
+**Scale**: 1000+ concurrent users
+**Key Achievements**:
+- Multi-vendor e-commerce platform for government procurement
+- Optimized PostgreSQL queries reducing load times by 40%
+- Built complex vendor management and order fulfillment system
+**Tech Stack**: Python, Django, PostgreSQL, React
+
+### What technical blog posts has Tushar written?
+
+Tushar has written 5 comprehensive technical articles (10,000+ words total) sharing real-world implementation experiences:
+
+1. **Building Scalable Microservices with Go and FastAPI: A Complete Guide**
+   - URL: /blog/building-scalable-microservices-with-go-and-fastapi-a-complete-guide
+   - Topics: Microservices architecture, Go, FastAPI, API Gateway, Load Balancing, System Design
+   - Real implementation from Dr. Dangs Lab achieving 99.9% uptime
+
+2. **HIPAA-Compliant Healthcare SaaS: Security Best Practices for 2025**
+   - URL: /blog/hipaa-compliant-healthcare-saas-security-best-practices-for-2025
+   - Topics: Healthcare compliance, HIPAA, DPDP Act, Data encryption, Secure architecture
+   - Handling 500+ daily patients with zero compliance violations
+
+3. **AI-Powered OCR for Medical Reports: Reducing Manual Errors by 90%**
+   - URL: /blog/ai-powered-ocr-for-medical-reports-reducing-manual-errors-by-90
+   - Topics: Python OCR, Tesseract, Computer Vision, ML, Automation
+   - Processing 1,000+ daily medical reports with production code examples
+
+4. **Event-Driven Architecture with Kafka: Real-Time Inventory Management**
+   - URL: /blog/event-driven-architecture-with-kafka-real-time-inventory-management
+   - Topics: Apache Kafka, Event-driven systems, Go, Microservices, Real-time processing
+   - Implementation serving 20+ businesses with sub-100ms latency
+
+5. **Zero-Downtime Deployment with Docker and Nginx: From 4 Hours to 20 Minutes**
+   - URL: /blog/zero-downtime-deployment-with-docker-and-nginx-from-4-hours-to-20-minutes
+   - Topics: Docker, Nginx, Blue-Green Deployment, CI/CD, DevOps
+   - 92% deployment time reduction with production-ready setup
+
+### What is Tushar's work experience?
+
+**Backend Developer** at Dr. Dangs Lab (Aug 2023 - Present)
+- Architected microservices system reducing deployment time from 4 hours to 20 minutes (92% reduction)
+- Developed AI-powered OCR reducing manual data errors by 90%, processing 1,000+ daily reports
+- Implemented event-driven architecture with Kafka serving 80+ healthcare professionals
+- Built HIPAA/DPDP compliant systems handling 50,000+ daily API requests
+- Achieved 99.9% uptime for critical healthcare systems
+
+**Software Developer Intern** at Dhanman Media (May 2023 - July 2023)
+- Built Government Marketplace Portal supporting 1000+ concurrent users
+- Optimized PostgreSQL queries reducing load times by 40%
+- Developed multi-vendor platform with complex order management
+
+**Frontend Developer** at BeanByte Softwares (Feb 2023 - May 2023)
+- Developed 10+ production React.js applications increasing user engagement by 30%
+- Optimized Redux and Context API reducing page load times by 25%
+
+**Frontend Developer Intern** at GoBOLT (Jun 2022 - Dec 2022)
+- Built 5+ shipment tracking features improving accuracy by 35% for 1,000+ daily users
+- Integrated 8+ frontend components with backend APIs
+
+### What are Tushar's key achievements?
+- **99.9% uptime** across all production systems
+- **90% reduction** in manual data entry errors through AI OCR
+- **92% reduction** in deployment time (4 hours → 20 minutes)
+- **40% improvement** in database query performance
+- **Sub-100ms latency** for API gateway handling 50,000+ daily requests
+- Serving **80+ users** across **20+ businesses**
+- Processing **1,000+ medical reports daily** with automated OCR
+- **HIPAA/DPDP compliant** systems with zero violations
+
+### How to contact Tushar?
+- **Email**: tusharagrawal0104@gmail.com
+- **Phone**: +91-8126816664
+- **LinkedIn**: https://www.linkedin.com/in/tushar-agrawal-91b67a28a
+- **GitHub**: https://github.com/Tushar010402
+- **Portfolio**: http://localhost:3003 (will be updated to production domain)
+- **Blog**: /blog
+
+### What certifications does Tushar have?
+- AWS Certified Solutions Architect (In Progress)
+- Python for Data Science - IBM
+- Advanced React & Redux - Udemy
+- System Design & Architecture - Self-taught with production experience
+
+---
+
+## Resume Data (Structured)
+
+### Education
+**Bachelor of Technology in Computer Science**
+- Institution: SRM University, India
+- Duration: 2020 - 2024
+- CGPA: 8.5/10.0
+- Relevant Coursework: Data Structures, Algorithms, Database Management, Operating Systems, Computer Networks, Software Engineering
+
+### Core Competencies
+1. **Backend Development**: Expert in Python (FastAPI, Django, Flask), Go microservices, REST APIs, GraphQL
+2. **Healthcare Technology**: HIPAA/DPDP compliance, Medical data processing, OCR automation, LIMS
+3. **System Architecture**: Microservices, Event-driven systems, API Gateway, Load balancing
+4. **DevOps & Cloud**: Docker, Nginx, CI/CD, AWS (EC2, S3, RDS), Zero-downtime deployment
+5. **Data Engineering**: PostgreSQL optimization, Redis caching, Kafka streaming, MongoDB
+6. **Frontend Development**: React, Next.js, TypeScript, Flutter, State management
+
+### Work Timeline
+- **2023 (Aug) - Present**: Backend Developer at Dr. Dangs Lab (1.5 years)
+- **2023 (May - July)**: Software Developer Intern at Dhanman Media (3 months)
+- **2023 (Feb - May)**: Frontend Developer at BeanByte Softwares (3 months)
+- **2022 (Jun - Dec)**: Frontend Developer Intern at GoBOLT (6 months)
+
+**Total Professional Experience**: 2+ years
+
+### Technical Proficiency Levels
+- **Python**: Expert (3+ years, production experience)
+- **Go**: Advanced (1+ year, microservices in production)
+- **TypeScript/JavaScript**: Advanced (2+ years)
+- **React/Next.js**: Advanced (2+ years)
+- **FastAPI/Django**: Expert (2+ years, multiple production systems)
+- **PostgreSQL**: Advanced (query optimization, indexing, replication)
+- **Docker/Nginx**: Advanced (production deployment, load balancing)
+- **Kafka**: Intermediate (event-driven systems in production)
+- **AWS**: Intermediate (EC2, S3, RDS in production)
+
+---
+
+## Technical Keywords for Search
+Backend Engineering, Python, Go, Golang, FastAPI, Django, Flask, Microservices, Healthcare SaaS, HIPAA, DPDP, OCR, Optical Character Recognition, AI, Machine Learning, Kafka, Event-Driven Architecture, Apache Kafka, Docker, Nginx, PostgreSQL, MongoDB, Redis, React, Next.js, TypeScript, JavaScript, System Design, API Gateway, REST APIs, GraphQL, WebSocket, Zero-Downtime Deployment, CI/CD, DevOps, AWS, Cloud Computing, Load Balancing, Database Optimization, Full Stack Development, Laboratory Information Management System, LIMS, Medical Data Processing, Blockchain, Flutter, Mobile Development, HealthKit, Supply Chain Management, Inventory Management, Real-time Systems, Data Engineering, Software Architecture, Technical Writing, Technical Blogging
+
+---
+
+## Website Structure
+- **Home** (/): Introduction, hero section, quick stats
+- **About** (/#about): Professional summary, expertise areas
+- **Skills** (/#skills): Technical skills categorized by type
+- **Experience** (/#experience): Detailed work history with measurable achievements
+- **Projects** (/#projects): Featured projects with live demos and GitHub links
+- **Blog** (/blog): Technical articles on microservices, healthcare SaaS, OCR, Kafka, DevOps
+- **Contact** (/#contact): Email, LinkedIn, GitHub, phone
+- **Resume** (/Tushar_Agrawal_Resume.pdf): Downloadable PDF resume
+
+---
+
+## Blog Topics Covered
+1. Microservices Architecture (Go, FastAPI, System Design)
+2. Healthcare Compliance (HIPAA, DPDP, Security Best Practices)
+3. AI & Automation (OCR, Python, Computer Vision, Tesseract)
+4. Event-Driven Systems (Kafka, Real-time Processing, Distributed Systems)
+5. DevOps & Deployment (Docker, Nginx, CI/CD, Blue-Green Deployment)
+
+---
+
+## For Recruiters & Hiring Managers
+
+**Ideal Roles**: Backend Engineer, Full-Stack Engineer, Python Developer, Go Developer, Software Engineer, System Architect, Healthcare Software Engineer
+
+**Strengths**:
+- Production-ready code with proven track record (99.9% uptime)
+- Healthcare domain expertise with HIPAA/DPDP compliance
+- Strong system design skills (microservices, event-driven, distributed systems)
+- DevOps proficiency (Docker, CI/CD, zero-downtime deployment)
+- Technical communication (5 detailed blog posts, 10,000+ words)
+- Measurable impact (90% error reduction, 92% deployment time reduction, 40% performance improvement)
+
+**Available for**: Full-time backend engineering roles, particularly in healthcare, fintech, or high-scale systems
+
+**Location**: India (Open to remote opportunities)
+
+**Notice Period**: Immediate to 30 days
+
+---
+
+*Last Updated: December 2025*
+*This portfolio demonstrates production-grade backend engineering with real-world impact across healthcare, supply chain, and e-commerce domains.*
