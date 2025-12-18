@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Blog } from '@/lib/types';
-import { Search, Calendar, Eye, Tag as TagIcon, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
+import { Search, Calendar, Tag as TagIcon, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 
 interface BlogListingClientProps {
   initialBlogs: Blog[];
@@ -229,11 +229,10 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                           {formatDate(blog.created_at)}
                         </span>
                         <span className="flex items-center gap-1">
-                          <Eye className="w-4 h-4" />
-                          {blog.views}
+                          <Clock className="w-4 h-4" />
+                          {blog.readingTime || calculateReadingTime(blog.content)}
                         </span>
                       </div>
-                      <span className="text-gray-400">{calculateReadingTime(blog.content)}</span>
                     </div>
                   </div>
                 </div>

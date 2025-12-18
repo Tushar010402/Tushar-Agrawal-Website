@@ -4,40 +4,26 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Blog, Comment } from '@/lib/types';
+import { Blog } from '@/lib/types';
 import {
   Calendar,
-  Eye,
   Tag as TagIcon,
-  Share2,
   ArrowLeft,
   Clock,
   User,
-  Mail,
-  MessageSquare,
-  Send,
   Linkedin,
   Twitter,
   Copy,
   Check,
 } from 'lucide-react';
-import { blogAPI } from '@/lib/api';
 
 interface BlogPostClientProps {
   blog: Blog;
-  comments: Comment[];
+  comments?: never[];
   relatedBlogs: Blog[];
 }
 
-export default function BlogPostClient({ blog, comments: initialComments, relatedBlogs }: BlogPostClientProps) {
-  const [comments, setComments] = useState<Comment[]>(initialComments);
-  const [commentForm, setCommentForm] = useState({
-    author_name: '',
-    author_email: '',
-    content: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
+export default function BlogPostClient({ blog, relatedBlogs }: BlogPostClientProps) {
   const [copied, setCopied] = useState(false);
 
   // Format date
@@ -54,27 +40,6 @@ export default function BlogPostClient({ blog, comments: initialComments, relate
     const words = content.split(/\s+/).length;
     const minutes = Math.ceil(words / 200);
     return `${minutes} min read`;
-  };
-
-  // Handle comment submission
-  const handleCommentSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitMessage('');
-
-    try {
-      await blogAPI.createComment({
-        blog_id: blog.id,
-        ...commentForm,
-      });
-
-      setSubmitMessage('Comment submitted successfully! It will be visible after admin approval.');
-      setCommentForm({ author_name: '', author_email: '', content: '' });
-    } catch (error) {
-      setSubmitMessage('Failed to submit comment. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   // Social sharing functions
@@ -180,10 +145,6 @@ export default function BlogPostClient({ blog, comments: initialComments, relate
               <Clock className="w-4 h-4" />
               {calculateReadingTime(blog.content)}
             </div>
-            <div className="flex items-center gap-2">
-              <Eye className="w-4 h-4" />
-              {blog.views} views
-            </div>
             {blog.author && (
               <div className="flex items-center gap-2">
                 <User className="w-4 h-4" />
@@ -268,126 +229,6 @@ export default function BlogPostClient({ blog, comments: initialComments, relate
           </motion.section>
         )}
 
-        {/* Comments Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-16 pt-8 border-t border-neutral-800"
-        >
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <MessageSquare className="w-6 h-6" />
-            Comments ({comments.length})
-          </h2>
-
-          {/* Existing Comments */}
-          {comments.length > 0 && (
-            <div className="space-y-4 mb-8">
-              {comments.map((comment) => (
-                <div
-                  key={comment.id}
-                  className="bg-neutral-900 border border-neutral-800 rounded-lg p-6"
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <div>
-                      <h4 className="font-semibold text-white">{comment.author_name}</h4>
-                      <p className="text-sm text-gray-400">
-                        {formatDate(comment.created_at)}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-gray-300">{comment.content}</p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Comment Form */}
-          <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4">Leave a Comment</h3>
-            <form onSubmit={handleCommentSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">
-                    Name <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                      type="text"
-                      id="name"
-                      required
-                      value={commentForm.author_name}
-                      onChange={(e) =>
-                        setCommentForm({ ...commentForm, author_name: e.target.value })
-                      }
-                      className="w-full bg-black border border-neutral-800 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Your name"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">
-                    Email (optional)
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                      type="email"
-                      id="email"
-                      value={commentForm.author_email}
-                      onChange={(e) =>
-                        setCommentForm({ ...commentForm, author_email: e.target.value })
-                      }
-                      className="w-full bg-black border border-neutral-800 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="your@email.com"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="content" className="block text-sm font-medium mb-2">
-                  Comment <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="content"
-                  required
-                  rows={5}
-                  value={commentForm.content}
-                  onChange={(e) =>
-                    setCommentForm({ ...commentForm, content: e.target.value })
-                  }
-                  className="w-full bg-black border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                  placeholder="Write your comment..."
-                />
-              </div>
-
-              {submitMessage && (
-                <p
-                  className={`text-sm ${
-                    submitMessage.includes('success') ? 'text-green-400' : 'text-red-400'
-                  }`}
-                >
-                  {submitMessage}
-                </p>
-              )}
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-neutral-700 disabled:cursor-not-allowed rounded-lg transition-all"
-              >
-                <Send className="w-5 h-5" />
-                {isSubmitting ? 'Submitting...' : 'Submit Comment'}
-              </button>
-
-              <p className="text-sm text-gray-400">
-                Your comment will be visible after admin approval.
-              </p>
-            </form>
-          </div>
-        </motion.section>
       </div>
     </div>
   );
