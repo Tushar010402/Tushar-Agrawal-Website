@@ -40,7 +40,7 @@ export default function Home() {
           </Highlight>
           <div className="mt-8">
             <TextGenerateEffect
-              words="Backend Engineer | 2+ YOE | Distributed Systems, Python, TypeScript, Apache & Nginx, PostgreSQL"
+              words="Backend Engineer | 3+ YOE | Distributed Systems, Python, TypeScript, Apache & Nginx, PostgreSQL"
               className="text-xl md:text-2xl"
             />
           </div>
