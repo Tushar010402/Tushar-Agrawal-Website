@@ -91,17 +91,19 @@ export const ContactForm = () => {
         />
       </div>
 
-      {status === "success" && (
-        <div className="p-4 bg-green-500/10 border border-green-500/50 rounded-lg text-green-400 text-center">
-          Message sent successfully! I'll get back to you soon.
-        </div>
-      )}
+      <div aria-live="polite" aria-atomic="true">
+        {status === "success" && (
+          <div className="p-4 bg-green-500/10 border border-green-500/50 rounded-lg text-green-400 text-center" role="status">
+            Message sent successfully! I'll get back to you soon.
+          </div>
+        )}
 
-      {status === "error" && (
-        <div className="p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-400 text-center">
-          {errorMessage}
-        </div>
-      )}
+        {status === "error" && (
+          <div className="p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-400 text-center" role="alert">
+            {errorMessage}
+          </div>
+        )}
+      </div>
 
       <div className="flex justify-center">
         <Button
@@ -113,7 +115,7 @@ export const ContactForm = () => {
           <span className="flex items-center gap-2 font-semibold">
             {status === "sending" ? "Sending..." : "Send Message"}
             {status !== "sending" && (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             )}

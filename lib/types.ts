@@ -13,6 +13,7 @@ export interface Blog {
   views: number;
   created_at: string;
   updated_at: string;
+  readingTime?: string;
 }
 
 export interface Comment {

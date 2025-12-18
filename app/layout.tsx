@@ -79,13 +79,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tusharagrawal.in";
+
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Tushar Agrawal",
     jobTitle: "Backend Engineer",
     description: "Backend Engineer with 3 years of experience building scalable healthcare SaaS platforms, microservices, and event-driven architectures using Python, Go, FastAPI, Django, and modern DevOps practices.",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3003",
+    url: siteUrl,
     email: "tusharagrawal0104@gmail.com",
     telephone: "+91-8126816664",
     sameAs: [
@@ -127,12 +129,58 @@ export default function RootLayout({
     },
   };
 
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Tushar Agrawal",
+    description: "Personal portfolio and technical blog of Tushar Agrawal - Backend Engineer specializing in Python, Go, TypeScript, and distributed systems.",
+    url: siteUrl,
+    author: {
+      "@type": "Person",
+      name: "Tushar Agrawal",
+    },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/blog?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Tushar Agrawal",
+    url: siteUrl,
+    logo: `${siteUrl}/icon.svg`,
+    sameAs: [
+      "https://www.linkedin.com/in/tushar-agrawal-91b67a28a",
+      "https://github.com/Tushar010402",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "tusharagrawal0104@gmail.com",
+      telephone: "+91-8126816664",
+      contactType: "customer service",
+    },
+  };
+
   return (
     <html lang="en">
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
       <body
