@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { blogAPI } from '@/lib/api';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3003';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [

@@ -2,9 +2,10 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Blog } from '@/lib/types';
-import { Search, Calendar, Eye, Tag as TagIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Calendar, Eye, Tag as TagIcon, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 
 interface BlogListingClientProps {
   initialBlogs: Blog[];
@@ -179,10 +180,13 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                   {/* Image */}
                   {blog.image_url && (
                     <div className="relative w-full h-48 bg-neutral-800 overflow-hidden">
-                      <img
+                      <Image
                         src={blog.image_url}
                         alt={blog.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
                       />
                     </div>
                   )}

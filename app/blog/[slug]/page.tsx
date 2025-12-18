@@ -4,6 +4,8 @@ import BlogPostClient from './blog-post-client';
 import { blogAPI } from '@/lib/api';
 import { Blog, Comment } from '@/lib/types';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -18,20 +20,27 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const blog = await blogAPI.getBySlug(slug);
 
     const keywords = blog.tags ? blog.tags.split(',').map((t) => t.trim()) : [];
+    const blogUrl = `${siteUrl}/blog/${blog.slug}`;
 
     return {
       title: `${blog.title} - Tushar Agrawal`,
       description: blog.description,
-      keywords: ['Tushar Agrawal', ...keywords],
-      authors: [{ name: 'Tushar Agrawal' }],
+      keywords: ['Tushar Agrawal', 'backend engineering', 'tech blog', ...keywords],
+      authors: [{ name: 'Tushar Agrawal', url: siteUrl }],
+      alternates: {
+        canonical: blogUrl,
+      },
       openGraph: {
         title: blog.title,
         description: blog.description,
         type: 'article',
+        url: blogUrl,
+        siteName: 'Tushar Agrawal',
         publishedTime: blog.created_at,
         modifiedTime: blog.updated_at,
         authors: ['Tushar Agrawal'],
         tags: keywords,
+        locale: 'en_US',
         images: blog.image_url
           ? [
               {
@@ -49,6 +58,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         description: blog.description,
         images: blog.image_url ? [blog.image_url] : [],
         creator: '@TusharAgrawal',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
       },
     };
   } catch (error) {
@@ -103,19 +118,21 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
+  const blogUrl = `${siteUrl}/blog/${blog.slug}`;
+
   // Generate JSON-LD structured data for BlogPosting
   const blogPostingSchema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: blog.title,
     description: blog.description,
-    image: blog.image_url || 'https://yourdomain.com/default-blog-image.jpg',
+    image: blog.image_url || `${siteUrl}/android-chrome-512x512.png`,
     datePublished: blog.created_at,
     dateModified: blog.updated_at,
     author: {
       '@type': 'Person',
       name: 'Tushar Agrawal',
-      url: 'https://yourdomain.com',
+      url: siteUrl,
       jobTitle: 'Backend Engineer',
       sameAs: [
         'https://www.linkedin.com/in/tushar-agrawal-91b67a28a',
@@ -125,16 +142,23 @@ export default async function BlogPostPage({ params }: PageProps) {
     publisher: {
       '@type': 'Person',
       name: 'Tushar Agrawal',
-      url: 'https://yourdomain.com',
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/android-chrome-512x512.png`,
+      },
     },
     keywords: blog.tags,
     wordCount: blog.content.split(/\s+/).length,
-    articleBody: blog.content,
-    url: `https://yourdomain.com/blog/${blog.slug}`,
+    articleBody: blog.content.substring(0, 500),
+    articleSection: blog.tags.split(',')[0]?.trim() || 'Technology',
+    url: blogUrl,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://yourdomain.com/blog/${blog.slug}`,
+      '@id': blogUrl,
     },
+    inLanguage: 'en-US',
+    isAccessibleForFree: true,
   };
 
   // Generate BreadcrumbList schema
@@ -146,19 +170,19 @@ export default async function BlogPostPage({ params }: PageProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://yourdomain.com',
+        item: siteUrl,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Blog',
-        item: 'https://yourdomain.com/blog',
+        item: `${siteUrl}/blog`,
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: blog.title,
-        item: `https://yourdomain.com/blog/${blog.slug}`,
+        item: blogUrl,
       },
     ],
   };

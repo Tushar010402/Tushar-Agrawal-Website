@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Blog, Comment } from '@/lib/types';
 import {
@@ -17,6 +18,8 @@ import {
   Send,
   Linkedin,
   Twitter,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { blogAPI } from '@/lib/api';
 
@@ -35,6 +38,7 @@ export default function BlogPostClient({ blog, comments: initialComments, relate
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [copied, setCopied] = useState(false);
 
   // Format date
   const formatDate = (dateString: string) => {
@@ -86,9 +90,10 @@ export default function BlogPostClient({ blog, comments: initialComments, relate
     window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href);
-    alert('Link copied to clipboard!');
+  const copyToClipboard = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   // Simple markdown-to-HTML converter (basic implementation)
@@ -149,10 +154,13 @@ export default function BlogPostClient({ blog, comments: initialComments, relate
           {/* Featured Image */}
           {blog.image_url && (
             <div className="relative w-full h-96 mb-8 rounded-xl overflow-hidden">
-              <img
+              <Image
                 src={blog.image_url}
                 alt={blog.title}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, 896px"
+                className="object-cover"
+                priority
               />
             </div>
           )}
@@ -229,8 +237,8 @@ export default function BlogPostClient({ blog, comments: initialComments, relate
                 onClick={copyToClipboard}
                 className="flex items-center gap-2 px-4 py-2 bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 rounded-lg transition-all"
               >
-                <Share2 className="w-5 h-5" />
-                Copy Link
+                {copied ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
+                {copied ? 'Copied!' : 'Copy Link'}
               </button>
             </div>
           </div>

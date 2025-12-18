@@ -7,9 +7,10 @@ Allow: /
 # Disallow crawling of Next.js build artifacts
 Disallow: /_next/static/
 Disallow: /_next/image/
+Disallow: /api/
 
-# Sitemap location (update with your actual domain when deployed)
-# Sitemap: https://yourdomain.com/sitemap.xml
+# Sitemap and RSS feed locations
+Sitemap: https://www.tusharagrawal.in/sitemap.xml
 
 # Specific bot rules
 User-agent: Googlebot
