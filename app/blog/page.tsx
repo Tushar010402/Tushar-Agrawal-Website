@@ -62,6 +62,68 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const posts = getAllPosts();
 
+  // JSON-LD Schema for Blog Listing (CollectionPage)
+  const blogListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Technical Blog - Tushar Agrawal',
+    description: 'In-depth articles on microservices, Python, Go, FastAPI, healthcare SaaS, Docker, Kubernetes, and backend engineering.',
+    url: `${siteUrl}/blog`,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Tushar Agrawal',
+      url: siteUrl,
+    },
+    about: {
+      '@type': 'Thing',
+      name: 'Backend Engineering',
+    },
+    author: {
+      '@type': 'Person',
+      name: 'Tushar Agrawal',
+      url: siteUrl,
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: posts.slice(0, 10).map((post, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'BlogPosting',
+          headline: post.title,
+          description: post.description,
+          url: `${siteUrl}/blog/${post.slug}`,
+          datePublished: post.date,
+          author: {
+            '@type': 'Person',
+            name: 'Tushar Agrawal',
+          },
+          image: post.image || `${siteUrl}/android-chrome-512x512.png`,
+        },
+      })),
+    },
+  };
+
+  // Breadcrumb schema for blog listing
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: `${siteUrl}/blog`,
+      },
+    ],
+  };
+
   if (posts.length === 0) {
     return (
       <div className="min-h-screen bg-black text-white py-20 px-4">
@@ -139,5 +201,18 @@ export default function BlogPage() {
     readingTime: post.readingTime,
   }));
 
-  return <BlogListingClient initialBlogs={blogs} />;
+  return (
+    <>
+      {/* JSON-LD Structured Data for Blog Listing */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <BlogListingClient initialBlogs={blogs} />
+    </>
+  );
 }
