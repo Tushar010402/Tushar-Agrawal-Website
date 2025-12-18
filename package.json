@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "blog:generate": "npx ts-node scripts/generate-blog.ts",
+    "blog:suggest": "npx ts-node scripts/generate-blog.ts --suggest",
+    "blog:drafts": "npx ts-node scripts/generate-blog.ts --list-drafts",
+    "blog:publish": "npx ts-node scripts/generate-blog.ts --publish"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -27,6 +31,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.8",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
