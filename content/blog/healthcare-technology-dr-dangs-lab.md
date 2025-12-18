@@ -443,3 +443,11 @@ Building healthcare technology is challenging but incredibly rewarding. Every im
 ---
 
 *Interested in healthcare technology? Connect on [LinkedIn](https://www.linkedin.com/in/tushar-agrawal-91b67a28a) to discuss building healthcare systems.*
+
+## Related Articles
+
+- [LIMS: Laboratory Information Management Systems](/blog/lims-laboratory-information-management-system) - Deep dive into lab systems
+- [Pathology Lab Management System Guide](/blog/pathology-lab-management-system-guide) - Complete pathology solutions
+- [HIPAA Compliance for Healthcare SaaS](/blog/hipaa-compliance-healthcare-saas) - Security and compliance
+- [WebSocket Real-time Applications](/blog/websocket-real-time-applications-guide) - Real-time patient updates
+- [PostgreSQL Performance Optimization](/blog/postgresql-performance-optimization) - Optimize healthcare databases
