@@ -5,8 +5,8 @@ import { getAllPosts } from '@/lib/blog';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
 
 export const metadata: Metadata = {
-  title: 'Technical Blog - Tushar Agrawal | Backend Engineering & System Design',
-  description: 'In-depth articles on microservices, Python, Go, FastAPI, healthcare SaaS, Docker, DevOps, and backend engineering by Tushar Agrawal. Learn from real-world implementations, system design patterns, and best practices for building scalable applications.',
+  title: 'Technical Blog - Tushar Agrawal | Backend Engineering, System Design & DevOps',
+  description: 'In-depth articles on microservices, Python, Go, FastAPI, healthcare SaaS, Docker, Kubernetes, AWS, PostgreSQL, Redis, and backend engineering by Tushar Agrawal. Learn from real-world implementations at Dr Dangs Lab, system design patterns, and best practices for building scalable applications.',
   keywords: [
     'Tushar Agrawal blog',
     'backend engineering blog',
@@ -16,12 +16,26 @@ export const metadata: Metadata = {
     'healthcare SaaS development',
     'HIPAA compliance guide',
     'Docker deployment tutorial',
+    'Kubernetes tutorial',
+    'AWS services guide',
     'system design patterns',
     'event-driven architecture',
     'distributed systems',
     'API development',
     'software engineering blog',
     'tech blog India',
+    'Dr Dangs Lab technology',
+    'pathology lab software',
+    'LIMS system',
+    'JWT authentication',
+    'OAuth implementation',
+    'WebSocket real-time',
+    'TypeScript best practices',
+    'PostgreSQL optimization',
+    'Redis caching',
+    'Nginx configuration',
+    'CI/CD pipeline',
+    'testing strategies',
   ],
   alternates: {
     canonical: `${siteUrl}/blog`,
@@ -30,18 +44,27 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Technical Blog - Tushar Agrawal',
-    description: 'In-depth articles on microservices, Python, Go, FastAPI, and backend engineering. Learn from real-world implementations.',
+    title: 'Technical Blog - Tushar Agrawal | Backend Engineering & System Design',
+    description: 'In-depth articles on microservices, Python, Go, FastAPI, healthcare SaaS, AWS, Docker, and backend engineering. Learn from real-world implementations at Dr Dangs Lab.',
     type: 'website',
     url: `${siteUrl}/blog`,
     siteName: 'Tushar Agrawal',
     locale: 'en_US',
+    images: [
+      {
+        url: `${siteUrl}/og-blog.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Tushar Agrawal Technical Blog',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Technical Blog - Tushar Agrawal',
-    description: 'In-depth articles on microservices, Python, Go, FastAPI, and backend engineering.',
+    description: 'In-depth articles on microservices, Python, Go, FastAPI, AWS, Docker, and backend engineering best practices.',
     creator: '@TusharAgrawal',
+    images: [`${siteUrl}/og-blog.png`],
   },
 };
 
