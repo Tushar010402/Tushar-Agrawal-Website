@@ -60,15 +60,61 @@ export default async function BlogPage() {
     console.error('Error fetching blogs:', err);
   }
 
-  if (error) {
+  if (error || initialBlogs.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-red-500 mb-4">Error Loading Blogs</h1>
-          <p className="text-gray-400">{error}</p>
-          <p className="text-gray-500 mt-2">
-            Please ensure the backend API is running at {process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}
+      <div className="min-h-screen bg-black text-white py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
+            Technical Blog
+          </h1>
+          <p className="text-gray-400 text-lg mb-8">
+            In-depth articles on microservices, backend engineering, Python, Go, FastAPI, and real-world system design
           </p>
+          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-8 md:p-12">
+            <div className="text-6xl mb-6">🚀</div>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+              Coming Soon
+            </h2>
+            <p className="text-gray-400 text-lg mb-6">
+              I&apos;m working on some exciting technical content about backend engineering,
+              system design, and building scalable applications. Stay tuned!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="https://www.linkedin.com/in/tushar-agrawal-91b67a28a"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-all text-white font-medium"
+              >
+                Follow on LinkedIn
+              </a>
+              <a
+                href="https://github.com/Tushar010402"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-all text-white font-medium"
+              >
+                View GitHub
+              </a>
+            </div>
+          </div>
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
+              <div className="text-2xl mb-3">⚡</div>
+              <h3 className="text-lg font-semibold text-white mb-2">Backend Engineering</h3>
+              <p className="text-gray-400 text-sm">Deep dives into Python, Go, FastAPI, Django, and microservices architecture.</p>
+            </div>
+            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
+              <div className="text-2xl mb-3">🏗️</div>
+              <h3 className="text-lg font-semibold text-white mb-2">System Design</h3>
+              <p className="text-gray-400 text-sm">Real-world patterns for building scalable, distributed systems.</p>
+            </div>
+            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
+              <div className="text-2xl mb-3">🏥</div>
+              <h3 className="text-lg font-semibold text-white mb-2">Healthcare SaaS</h3>
+              <p className="text-gray-400 text-sm">HIPAA compliance, medical data handling, and healthcare tech.</p>
+            </div>
+          </div>
         </div>
       </div>
     );
