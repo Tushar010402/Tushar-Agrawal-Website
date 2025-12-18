@@ -74,7 +74,7 @@ export default function Home() {
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-blue-400">2.5+</div>
+            <div className="text-3xl font-bold text-blue-400">3+</div>
             <div className="text-sm text-neutral-400 mt-2">Years Experience</div>
           </div>
           <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-xl p-6 text-center">
