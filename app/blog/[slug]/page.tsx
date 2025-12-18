@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import BlogPostClient from './blog-post-client';
-import { blogAPI } from '@/lib/api';
-import { Blog, Comment } from '@/lib/types';
+import { getPostBySlug, getRelatedPosts, getAllSlugs } from '@/lib/blog';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
 
@@ -10,125 +9,92 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export const revalidate = 60; // Revalidate every 60 seconds
+// Generate static paths for all blog posts
+export async function generateStaticParams() {
+  const slugs = getAllSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  const post = getPostBySlug(slug);
 
-  try {
-    const blog = await blogAPI.getBySlug(slug);
-
-    const keywords = blog.tags ? blog.tags.split(',').map((t) => t.trim()) : [];
-    const blogUrl = `${siteUrl}/blog/${blog.slug}`;
-
-    return {
-      title: `${blog.title} - Tushar Agrawal`,
-      description: blog.description,
-      keywords: ['Tushar Agrawal', 'backend engineering', 'tech blog', ...keywords],
-      authors: [{ name: 'Tushar Agrawal', url: siteUrl }],
-      alternates: {
-        canonical: blogUrl,
-      },
-      openGraph: {
-        title: blog.title,
-        description: blog.description,
-        type: 'article',
-        url: blogUrl,
-        siteName: 'Tushar Agrawal',
-        publishedTime: blog.created_at,
-        modifiedTime: blog.updated_at,
-        authors: ['Tushar Agrawal'],
-        tags: keywords,
-        locale: 'en_US',
-        images: blog.image_url
-          ? [
-              {
-                url: blog.image_url,
-                width: 1200,
-                height: 630,
-                alt: blog.title,
-              },
-            ]
-          : [],
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: blog.title,
-        description: blog.description,
-        images: blog.image_url ? [blog.image_url] : [],
-        creator: '@TusharAgrawal',
-      },
-      robots: {
-        index: true,
-        follow: true,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    };
-  } catch (error) {
+  if (!post) {
     return {
       title: 'Blog Post Not Found - Tushar Agrawal',
       description: 'The requested blog post could not be found.',
     };
   }
+
+  const blogUrl = `${siteUrl}/blog/${post.slug}`;
+
+  return {
+    title: `${post.title} - Tushar Agrawal`,
+    description: post.description,
+    keywords: ['Tushar Agrawal', 'backend engineering', 'tech blog', ...post.tags],
+    authors: [{ name: 'Tushar Agrawal', url: siteUrl }],
+    alternates: {
+      canonical: blogUrl,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: 'article',
+      url: blogUrl,
+      siteName: 'Tushar Agrawal',
+      publishedTime: post.date,
+      modifiedTime: post.updated || post.date,
+      authors: ['Tushar Agrawal'],
+      tags: post.tags,
+      locale: 'en_US',
+      images: post.image
+        ? [
+            {
+              url: post.image,
+              width: 1200,
+              height: 630,
+              alt: post.title,
+            },
+          ]
+        : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: post.image ? [post.image] : [],
+      creator: '@TusharAgrawal',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
+  const post = getPostBySlug(slug);
 
-  let blog: Blog | null = null;
-  let comments: Comment[] = [];
-  let relatedBlogs: (Blog & { commonTags: number })[] = [];
-  let error: string | null = null;
-
-  try {
-    // Fetch blog post
-    blog = await blogAPI.getBySlug(slug);
-
-    // Fetch comments and related blogs in parallel
-    const [commentsData, allBlogs] = await Promise.all([
-      blogAPI.getComments(blog.id).catch(() => []),
-      blogAPI.getAll().catch(() => []),
-    ]);
-
-    comments = commentsData;
-
-    // Find related blogs based on common tags
-    if (blog.tags && allBlogs.length > 0) {
-      const blogId = blog.id;
-      const blogTags = blog.tags.split(',').map((t) => t.trim().toLowerCase());
-      relatedBlogs = allBlogs
-        .filter((b) => b.id !== blogId)
-        .map((b) => {
-          const bTags = b.tags.split(',').map((t) => t.trim().toLowerCase());
-          const commonTags = blogTags.filter((tag) => bTags.includes(tag)).length;
-          return { ...b, commonTags };
-        })
-        .filter((b) => b.commonTags > 0)
-        .sort((a, b) => b.commonTags - a.commonTags)
-        .slice(0, 3);
-    }
-  } catch (err) {
-    console.error('Error fetching blog:', err);
-    error = err instanceof Error ? err.message : 'Failed to load blog post';
-  }
-
-  if (error || !blog) {
+  if (!post) {
     notFound();
   }
 
-  const blogUrl = `${siteUrl}/blog/${blog.slug}`;
+  const relatedPosts = getRelatedPosts(slug, post.tags, 3);
+  const blogUrl = `${siteUrl}/blog/${post.slug}`;
 
   // Generate JSON-LD structured data for BlogPosting
   const blogPostingSchema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: blog.title,
-    description: blog.description,
-    image: blog.image_url || `${siteUrl}/android-chrome-512x512.png`,
-    datePublished: blog.created_at,
-    dateModified: blog.updated_at,
+    headline: post.title,
+    description: post.description,
+    image: post.image || `${siteUrl}/android-chrome-512x512.png`,
+    datePublished: post.date,
+    dateModified: post.updated || post.date,
     author: {
       '@type': 'Person',
       name: 'Tushar Agrawal',
@@ -148,10 +114,10 @@ export default async function BlogPostPage({ params }: PageProps) {
         url: `${siteUrl}/android-chrome-512x512.png`,
       },
     },
-    keywords: blog.tags,
-    wordCount: blog.content.split(/\s+/).length,
-    articleBody: blog.content.substring(0, 500),
-    articleSection: blog.tags.split(',')[0]?.trim() || 'Technology',
+    keywords: post.tags.join(', '),
+    wordCount: post.content.split(/\s+/).length,
+    articleBody: post.content.substring(0, 500),
+    articleSection: post.tags[0] || 'Technology',
     url: blogUrl,
     mainEntityOfPage: {
       '@type': 'WebPage',
@@ -181,11 +147,43 @@ export default async function BlogPostPage({ params }: PageProps) {
       {
         '@type': 'ListItem',
         position: 3,
-        name: blog.title,
+        name: post.title,
         item: blogUrl,
       },
     ],
   };
+
+  // Transform post to match BlogPostClient expected format
+  const blog = {
+    id: 1,
+    slug: post.slug,
+    title: post.title,
+    description: post.description,
+    content: post.content,
+    author: post.author,
+    tags: post.tags.join(', '),
+    image_url: post.image || '',
+    published: post.published,
+    views: 0,
+    created_at: post.date,
+    updated_at: post.updated || post.date,
+  };
+
+  // Transform related posts
+  const relatedBlogs = relatedPosts.map((p, index) => ({
+    id: index + 2,
+    slug: p.slug,
+    title: p.title,
+    description: p.description,
+    content: '',
+    author: p.author,
+    tags: p.tags.join(', '),
+    image_url: p.image || '',
+    published: p.published,
+    views: 0,
+    created_at: p.date,
+    updated_at: p.updated || p.date,
+  }));
 
   return (
     <>
@@ -199,7 +197,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <BlogPostClient blog={blog} comments={comments} relatedBlogs={relatedBlogs} />
+      <BlogPostClient blog={blog} comments={[]} relatedBlogs={relatedBlogs} />
     </>
   );
 }

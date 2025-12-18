@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import BlogListingClient from './blog-listing-client';
-import { blogAPI } from '@/lib/api';
-import { Blog } from '@/lib/types';
+import { getAllPosts } from '@/lib/blog';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
 
@@ -46,21 +45,10 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export default function BlogPage() {
+  const posts = getAllPosts();
 
-export default async function BlogPage() {
-  // Fetch blogs server-side for SEO and initial render
-  let initialBlogs: Blog[] = [];
-  let error: string | null = null;
-
-  try {
-    initialBlogs = await blogAPI.getAll();
-  } catch (err) {
-    error = err instanceof Error ? err.message : 'Failed to load blogs';
-    console.error('Error fetching blogs:', err);
-  }
-
-  if (error || initialBlogs.length === 0) {
+  if (posts.length === 0) {
     return (
       <div className="min-h-screen bg-black text-white py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -120,5 +108,22 @@ export default async function BlogPage() {
     );
   }
 
-  return <BlogListingClient initialBlogs={initialBlogs} />;
+  // Transform posts to match BlogListingClient expected format
+  const blogs = posts.map((post, index) => ({
+    id: index + 1,
+    slug: post.slug,
+    title: post.title,
+    description: post.description,
+    content: '', // Content not needed for listing
+    author: post.author,
+    tags: post.tags.join(', '),
+    image_url: post.image || '',
+    published: post.published,
+    views: 0,
+    created_at: post.date,
+    updated_at: post.updated || post.date,
+    readingTime: post.readingTime,
+  }));
+
+  return <BlogListingClient initialBlogs={blogs} />;
 }
