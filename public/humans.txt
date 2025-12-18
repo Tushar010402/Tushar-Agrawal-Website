@@ -1,0 +1,22 @@
+/* TEAM */
+Developer: Tushar Agrawal
+Role: Backend Engineer & Full-Stack Developer
+Location: Delhi, India
+LinkedIn: https://www.linkedin.com/in/tushar-agrawal-91b67a28a
+GitHub: https://github.com/Tushar010402
+Email: tusharagrawal0104@gmail.com
+
+/* SITE */
+Last Updated: 2024-12-18
+Language: English
+Standards: HTML5, CSS3, ES6+
+Framework: Next.js 14, React 18
+Styling: Tailwind CSS
+Deployment: Vercel
+Components: Aceternity UI
+
+/* THANKS */
+Next.js Team - https://nextjs.org
+Vercel - https://vercel.com
+Tailwind CSS - https://tailwindcss.com
+Aceternity UI - https://ui.aceternity.com

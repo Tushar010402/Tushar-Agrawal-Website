@@ -50,21 +50,12 @@ export const metadata: Metadata = {
     url: `${siteUrl}/blog`,
     siteName: 'Tushar Agrawal',
     locale: 'en_US',
-    images: [
-      {
-        url: `${siteUrl}/og-blog.png`,
-        width: 1200,
-        height: 630,
-        alt: 'Tushar Agrawal Technical Blog',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Technical Blog - Tushar Agrawal',
     description: 'In-depth articles on microservices, Python, Go, FastAPI, AWS, Docker, and backend engineering best practices.',
     creator: '@TusharAgrawal',
-    images: [`${siteUrl}/og-blog.png`],
   },
 };
 

@@ -43,12 +43,17 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: '/',
+    siteName: 'Tushar Agrawal',
   },
   twitter: {
     card: "summary_large_image",
     title: "Tushar Agrawal - Backend Engineer",
     description: "Backend Engineer with 3 years building scalable healthcare SaaS platforms.",
     creator: "@TusharAgrawal",
+  },
+  other: {
+    'author': 'Tushar Agrawal',
+    'designer': 'Tushar Agrawal',
   },
   robots: {
     index: true,
