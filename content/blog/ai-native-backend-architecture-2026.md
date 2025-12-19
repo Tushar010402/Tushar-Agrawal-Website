@@ -1,7 +1,7 @@
 ---
 title: "Building AI-Native Backends: Architecture for Autonomous Agents in 2026"
 description: "Complete guide to designing backend systems for AI agents - event-driven architectures, MCP protocol, vector databases, agent governance, and production patterns for 2026."
-date: "2024-12-19"
+date: "2025-12-19"
 author: "Tushar Agrawal"
 tags: ["AI Agents", "Backend Architecture", "MCP Protocol", "Vector Database", "Autonomous Systems", "2026", "Agentic AI", "System Design", "Python", "Go"]
 image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=630&fit=crop"
