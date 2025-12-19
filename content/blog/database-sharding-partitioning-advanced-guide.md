@@ -4,7 +4,7 @@ description: "Master horizontal scaling with database sharding and partitioning 
 date: "2025-12-19"
 author: "Tushar Agrawal"
 tags: ["Database Sharding", "Partitioning", "PostgreSQL", "Horizontal Scaling", "Distributed Systems", "System Design", "Performance", "Backend Architecture"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&h=630&fit=crop"
 published: true
 ---
 

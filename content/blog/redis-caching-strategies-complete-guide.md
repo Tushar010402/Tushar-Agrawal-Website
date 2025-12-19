@@ -4,7 +4,7 @@ description: "Master Redis caching patterns including cache-aside, write-through
 date: "2024-12-16"
 author: "Tushar Agrawal"
 tags: ["Redis", "Caching", "Performance", "Python", "Backend", "Database"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=630&fit=crop"
 published: true
 ---
 

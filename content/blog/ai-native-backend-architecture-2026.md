@@ -4,7 +4,7 @@ description: "Complete guide to designing backend systems for AI agents - event-
 date: "2025-12-19"
 author: "Tushar Agrawal"
 tags: ["AI Agents", "Backend Architecture", "MCP Protocol", "Vector Database", "Autonomous Systems", "2026", "Agentic AI", "System Design", "Python", "Go"]
-image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=630&fit=crop"
 published: true
 ---
 

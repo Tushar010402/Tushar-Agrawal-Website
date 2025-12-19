@@ -4,7 +4,7 @@ description: "Comprehensive guide to Apache Kafka covering architecture, produce
 date: "2024-12-18"
 author: "Tushar Agrawal"
 tags: ["Kafka", "Event Streaming", "Message Queue", "Distributed Systems", "Microservices", "Real-time", "Event-Driven"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1200&h=630&fit=crop"
 published: true
 ---
 

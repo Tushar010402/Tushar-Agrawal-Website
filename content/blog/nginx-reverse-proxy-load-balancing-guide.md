@@ -4,7 +4,7 @@ description: "Master Nginx configuration for reverse proxy, load balancing, SSL 
 date: "2024-12-09"
 author: "Tushar Agrawal"
 tags: ["Nginx", "Load Balancing", "DevOps", "Web Server", "Performance", "SSL"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&h=630&fit=crop"
 published: true
 ---
 

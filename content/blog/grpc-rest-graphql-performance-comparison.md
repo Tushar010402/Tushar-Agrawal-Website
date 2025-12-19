@@ -4,7 +4,7 @@ description: "Comprehensive performance comparison of gRPC, REST, and GraphQL. R
 date: "2025-12-19"
 author: "Tushar Agrawal"
 tags: ["gRPC", "REST API", "GraphQL", "Performance", "Microservices", "API Design", "Protocol Buffers", "Backend Architecture"]
-image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
 published: true
 ---
 

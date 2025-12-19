@@ -4,7 +4,7 @@ description: "Deep comparison of RabbitMQ, Redis Streams, and Apache Kafka for m
 date: "2025-12-19"
 author: "Tushar Agrawal"
 tags: ["Message Queue", "RabbitMQ", "Redis", "Kafka", "Event-Driven", "Microservices", "Distributed Systems", "Backend Architecture"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&h=630&fit=crop"
 published: true
 ---
 

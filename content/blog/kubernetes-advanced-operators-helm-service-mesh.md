@@ -4,7 +4,7 @@ description: "Master advanced Kubernetes concepts including Helm charts, custom 
 date: "2024-12-18"
 author: "Tushar Agrawal"
 tags: ["Kubernetes", "Helm", "Istio", "Service Mesh", "Operators", "DevOps", "Cloud Native", "GitOps"]
-image: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&h=630&fit=crop"
 published: true
 ---
 

@@ -4,7 +4,7 @@ description: "Understand when to use GraphQL vs REST API. Compare performance, f
 date: "2024-12-11"
 author: "Tushar Agrawal"
 tags: ["GraphQL", "REST API", "API Design", "Backend", "Web Development", "Architecture"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?w=1200&h=630&fit=crop"
 published: true
 ---
 

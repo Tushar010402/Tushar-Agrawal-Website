@@ -4,7 +4,7 @@ description: "In-depth comparison of Apache and Nginx web servers covering archi
 date: "2024-12-18"
 author: "Tushar Agrawal"
 tags: ["Apache", "Nginx", "Web Servers", "DevOps", "Performance", "Load Balancing", "Reverse Proxy"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=1200&h=630&fit=crop"
 published: true
 ---
 

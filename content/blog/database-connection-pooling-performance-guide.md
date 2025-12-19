@@ -4,7 +4,7 @@ description: "Master database connection pooling with PostgreSQL, PgBouncer, and
 date: "2025-12-19"
 author: "Tushar Agrawal"
 tags: ["Database", "Connection Pooling", "PostgreSQL", "PgBouncer", "Performance", "asyncpg", "Backend Architecture", "Optimization"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1200&h=630&fit=crop"
 published: true
 ---
 

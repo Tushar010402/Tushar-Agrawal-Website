@@ -4,7 +4,7 @@ description: "Master API rate limiting with token bucket, sliding window, and di
 date: "2025-12-19"
 author: "Tushar Agrawal"
 tags: ["Rate Limiting", "API Gateway", "Kong", "Nginx", "Redis", "Backend Architecture", "Security", "Performance", "Microservices"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1558403194-611308249627?w=1200&h=630&fit=crop"
 published: true
 ---
 

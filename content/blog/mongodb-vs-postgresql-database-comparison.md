@@ -4,7 +4,7 @@ description: "Choose the right database for your project. Compare MongoDB and Po
 date: "2024-12-10"
 author: "Tushar Agrawal"
 tags: ["MongoDB", "PostgreSQL", "Database", "Backend", "SQL", "NoSQL"]
-image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1489875347897-49f64b51c1f8?w=1200&h=630&fit=crop"
 published: true
 ---
 

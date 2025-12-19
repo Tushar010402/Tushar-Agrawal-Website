@@ -4,7 +4,7 @@ description: "Complete guide to implementing Zero Trust security in microservice
 date: "2025-12-19"
 author: "Tushar Agrawal"
 tags: ["Security", "Zero Trust", "Microservices", "mTLS", "OAuth2", "Service Mesh", "Istio", "API Security", "OWASP"]
-image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=630&fit=crop"
 published: true
 ---
 

@@ -4,7 +4,7 @@ description: "A comprehensive guide to designing and implementing high-performan
 date: "2024-12-15"
 author: "Tushar Agrawal"
 tags: ["Microservices", "Go", "FastAPI", "Python", "System Design", "Backend"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&h=630&fit=crop"
 published: true
 ---
 

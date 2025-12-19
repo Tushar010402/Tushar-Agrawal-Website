@@ -4,7 +4,7 @@ description: "Complete guide to deploying Node.js applications in production usi
 date: "2024-12-18"
 author: "Tushar Agrawal"
 tags: ["PM2", "Node.js", "Linux", "Systemd", "Process Management", "DevOps", "Production", "Deployment"]
-image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&h=630&fit=crop"
 published: true
 ---
 

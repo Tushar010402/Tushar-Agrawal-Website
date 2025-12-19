@@ -4,7 +4,7 @@ description: "Master authentication and authorization in web applications. Learn
 date: "2024-12-19"
 author: "Tushar Agrawal"
 tags: ["Authentication", "Authorization", "JWT", "OAuth", "Security", "Backend"]
-image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&h=630&fit=crop"
 published: true
 ---
 

@@ -4,7 +4,7 @@ description: "Discover how we built scalable healthcare SaaS platforms at Dr. Da
 date: "2024-12-17"
 author: "Tushar Agrawal"
 tags: ["Healthcare", "Dr Dangs Lab", "Pathology", "LIMS", "SaaS", "Backend", "HIPAA"]
-image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&h=630&fit=crop"
 published: true
 ---
 

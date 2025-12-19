@@ -4,7 +4,7 @@ description: "Master essential AWS services for backend development including EC
 date: "2024-12-16"
 author: "Tushar Agrawal"
 tags: ["AWS", "Cloud", "Backend", "Lambda", "S3", "RDS", "DynamoDB", "Infrastructure", "DevOps"]
-image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&h=630&fit=crop"
 published: true
 ---
 
