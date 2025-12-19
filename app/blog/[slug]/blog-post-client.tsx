@@ -15,15 +15,18 @@ import {
   Twitter,
   Copy,
   Check,
+  BookOpen,
+  ChevronRight,
 } from 'lucide-react';
 
 interface BlogPostClientProps {
   blog: Blog;
   comments?: never[];
   relatedBlogs: Blog[];
+  allBlogs: Blog[];
 }
 
-export default function BlogPostClient({ blog, relatedBlogs }: BlogPostClientProps) {
+export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPostClientProps) {
   const [copied, setCopied] = useState(false);
 
   // Format date
@@ -31,6 +34,14 @@ export default function BlogPostClient({ blog, relatedBlogs }: BlogPostClientPro
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
+      day: 'numeric',
+    });
+  };
+
+  // Short date format for sidebar
+  const formatShortDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
       day: 'numeric',
     });
   };
@@ -45,7 +56,6 @@ export default function BlogPostClient({ blog, relatedBlogs }: BlogPostClientPro
   // Social sharing functions
   const shareOnLinkedIn = () => {
     const url = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent(blog.title);
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
   };
 
@@ -61,10 +71,8 @@ export default function BlogPostClient({ blog, relatedBlogs }: BlogPostClientPro
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Simple markdown-to-HTML converter (basic implementation)
+  // Simple markdown-to-HTML converter
   const renderMarkdown = (markdown: string) => {
-    // This is a simplified markdown renderer
-    // For production, consider using a library like react-markdown or marked
     let html = markdown;
 
     // Headers
@@ -100,135 +108,204 @@ export default function BlogPostClient({ blog, relatedBlogs }: BlogPostClientPro
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="max-w-4xl mx-auto px-4 py-20">
-        {/* Back Button */}
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Back to Blog
-        </Link>
-
-        {/* Article Header */}
-        <motion.article
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* Featured Image */}
-          {blog.image_url && (
-            <div className="relative w-full h-96 mb-8 rounded-xl overflow-hidden">
-              <Image
-                src={blog.image_url}
-                alt={blog.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 896px"
-                className="object-cover"
-                priority
-              />
-            </div>
-          )}
-
-          {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
-            {blog.title}
-          </h1>
-
-          {/* Meta Info */}
-          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-400 mb-8 pb-8 border-b border-neutral-800">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              {formatDate(blog.created_at)}
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4" />
-              {calculateReadingTime(blog.content)}
-            </div>
-            {blog.author && (
-              <div className="flex items-center gap-2">
-                <User className="w-4 h-4" />
-                {blog.author}
-              </div>
-            )}
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {blog.tags.split(',').map((tag, i) => (
+      <div className="max-w-[1400px] mx-auto px-4 py-20">
+        <div className="flex gap-8">
+          {/* Sidebar - Left Navigation */}
+          <aside className="hidden lg:block w-72 flex-shrink-0">
+            <div className="sticky top-24">
+              {/* Back to Blog */}
               <Link
-                key={i}
-                href={`/blog?tag=${encodeURIComponent(tag.trim())}`}
-                className="inline-flex items-center gap-1 px-3 py-1 bg-neutral-900 border border-neutral-800 text-gray-300 text-sm rounded-full hover:border-blue-500 transition-all"
+                href="/blog"
+                className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6"
               >
-                <TagIcon className="w-3 h-3" />
-                {tag.trim()}
+                <ArrowLeft className="w-4 h-4" />
+                All Articles
               </Link>
-            ))}
-          </div>
 
-          {/* Description */}
-          <p className="text-xl text-gray-300 mb-8 leading-relaxed">{blog.description}</p>
+              {/* All Blogs List */}
+              <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-neutral-800">
+                  <BookOpen className="w-4 h-4 text-blue-400" />
+                  <span className="font-semibold text-sm text-white">All Articles</span>
+                  <span className="ml-auto text-xs text-gray-500 bg-neutral-800 px-2 py-0.5 rounded-full">
+                    {allBlogs.length}
+                  </span>
+                </div>
 
-          {/* Content */}
-          <div
-            className="prose prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(blog.content) }}
-          />
-
-          {/* Social Sharing */}
-          <div className="mt-12 pt-8 border-t border-neutral-800">
-            <h3 className="text-lg font-semibold mb-4">Share this article</h3>
-            <div className="flex gap-4">
-              <button
-                onClick={shareOnLinkedIn}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-all"
-              >
-                <Linkedin className="w-5 h-5" />
-                LinkedIn
-              </button>
-              <button
-                onClick={shareOnTwitter}
-                className="flex items-center gap-2 px-4 py-2 bg-sky-500 hover:bg-sky-600 rounded-lg transition-all"
-              >
-                <Twitter className="w-5 h-5" />
-                Twitter
-              </button>
-              <button
-                onClick={copyToClipboard}
-                className="flex items-center gap-2 px-4 py-2 bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 rounded-lg transition-all"
-              >
-                {copied ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
-                {copied ? 'Copied!' : 'Copy Link'}
-              </button>
+                <nav className="space-y-1 max-h-[60vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-neutral-700 scrollbar-track-transparent">
+                  {allBlogs.map((post) => {
+                    const isCurrentPost = post.slug === blog.slug;
+                    return (
+                      <Link
+                        key={post.slug}
+                        href={`/blog/${post.slug}`}
+                        className={`block group ${isCurrentPost ? 'pointer-events-none' : ''}`}
+                      >
+                        <div
+                          className={`p-2 rounded-lg transition-all ${
+                            isCurrentPost
+                              ? 'bg-blue-600/20 border border-blue-500/50'
+                              : 'hover:bg-neutral-800/50'
+                          }`}
+                        >
+                          <div className="flex items-start gap-2">
+                            {isCurrentPost && (
+                              <ChevronRight className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                            )}
+                            <div className={isCurrentPost ? '' : 'pl-6'}>
+                              <h4
+                                className={`text-sm font-medium line-clamp-2 ${
+                                  isCurrentPost ? 'text-blue-400' : 'text-gray-300 group-hover:text-white'
+                                }`}
+                              >
+                                {post.title}
+                              </h4>
+                              <span className="text-xs text-gray-500 mt-1 block">
+                                {formatShortDate(post.created_at)}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </nav>
+              </div>
             </div>
-          </div>
-        </motion.article>
+          </aside>
 
-        {/* Related Posts */}
-        {relatedBlogs.length > 0 && (
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-16 pt-8 border-t border-neutral-800"
-          >
-            <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedBlogs.map((relatedBlog) => (
-                <Link key={relatedBlog.id} href={`/blog/${relatedBlog.slug}`}>
-                  <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-4 hover:border-blue-500 transition-all">
-                    <h3 className="font-semibold text-white mb-2 line-clamp-2">
-                      {relatedBlog.title}
-                    </h3>
-                    <p className="text-sm text-gray-400 line-clamp-2">{relatedBlog.description}</p>
+          {/* Main Content */}
+          <main className="flex-1 min-w-0">
+            {/* Mobile Back Button */}
+            <Link
+              href="/blog"
+              className="lg:hidden inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Back to Blog
+            </Link>
+
+            {/* Article */}
+            <motion.article
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="max-w-3xl"
+            >
+              {/* Featured Image */}
+              {blog.image_url && (
+                <div className="relative w-full h-80 md:h-96 mb-8 rounded-xl overflow-hidden">
+                  <Image
+                    src={blog.image_url}
+                    alt={blog.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 800px"
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              )}
+
+              {/* Title */}
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
+                {blog.title}
+              </h1>
+
+              {/* Meta Info */}
+              <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-gray-400 mb-8 pb-8 border-b border-neutral-800">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  {formatDate(blog.created_at)}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  {calculateReadingTime(blog.content)}
+                </div>
+                {blog.author && (
+                  <div className="flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    {blog.author}
                   </div>
-                </Link>
-              ))}
-            </div>
-          </motion.section>
-        )}
+                )}
+              </div>
 
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2 mb-8">
+                {blog.tags.split(',').map((tag, i) => (
+                  <Link
+                    key={i}
+                    href={`/blog?tag=${encodeURIComponent(tag.trim())}`}
+                    className="inline-flex items-center gap-1 px-3 py-1 bg-neutral-900 border border-neutral-800 text-gray-300 text-sm rounded-full hover:border-blue-500 transition-all"
+                  >
+                    <TagIcon className="w-3 h-3" />
+                    {tag.trim()}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Description */}
+              <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">{blog.description}</p>
+
+              {/* Content */}
+              <div
+                className="prose prose-invert max-w-none"
+                dangerouslySetInnerHTML={{ __html: renderMarkdown(blog.content) }}
+              />
+
+              {/* Social Sharing */}
+              <div className="mt-12 pt-8 border-t border-neutral-800">
+                <h3 className="text-lg font-semibold mb-4">Share this article</h3>
+                <div className="flex flex-wrap gap-3">
+                  <button
+                    onClick={shareOnLinkedIn}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-all text-sm"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                    LinkedIn
+                  </button>
+                  <button
+                    onClick={shareOnTwitter}
+                    className="flex items-center gap-2 px-4 py-2 bg-sky-500 hover:bg-sky-600 rounded-lg transition-all text-sm"
+                  >
+                    <Twitter className="w-4 h-4" />
+                    Twitter
+                  </button>
+                  <button
+                    onClick={copyToClipboard}
+                    className="flex items-center gap-2 px-4 py-2 bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 rounded-lg transition-all text-sm"
+                  >
+                    {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    {copied ? 'Copied!' : 'Copy Link'}
+                  </button>
+                </div>
+              </div>
+            </motion.article>
+
+            {/* Related Posts */}
+            {relatedBlogs.length > 0 && (
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="mt-16 pt-8 border-t border-neutral-800 max-w-3xl"
+              >
+                <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {relatedBlogs.map((relatedBlog) => (
+                    <Link key={relatedBlog.id} href={`/blog/${relatedBlog.slug}`}>
+                      <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-4 hover:border-blue-500 transition-all h-full">
+                        <h3 className="font-semibold text-white mb-2 line-clamp-2 text-sm">
+                          {relatedBlog.title}
+                        </h3>
+                        <p className="text-xs text-gray-400 line-clamp-2">{relatedBlog.description}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </motion.section>
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );

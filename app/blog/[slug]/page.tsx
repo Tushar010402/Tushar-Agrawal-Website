@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import BlogPostClient from './blog-post-client';
-import { getPostBySlug, getRelatedPosts, getAllSlugs } from '@/lib/blog';
+import { getPostBySlug, getRelatedPosts, getAllSlugs, getAllPosts } from '@/lib/blog';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
 
@@ -84,6 +84,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   }
 
   const relatedPosts = getRelatedPosts(slug, post.tags, 3);
+  const allPosts = getAllPosts();
   const blogUrl = `${siteUrl}/blog/${post.slug}`;
 
   // Generate JSON-LD structured data for BlogPosting
@@ -185,6 +186,22 @@ export default async function BlogPostPage({ params }: PageProps) {
     updated_at: p.updated || p.date,
   }));
 
+  // Transform all posts for sidebar
+  const allBlogs = allPosts.map((p, index) => ({
+    id: index + 100,
+    slug: p.slug,
+    title: p.title,
+    description: p.description,
+    content: '',
+    author: p.author,
+    tags: p.tags.join(', '),
+    image_url: p.image || '',
+    published: p.published,
+    views: 0,
+    created_at: p.date,
+    updated_at: p.updated || p.date,
+  }));
+
   return (
     <>
       {/* JSON-LD Structured Data */}
@@ -197,7 +214,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <BlogPostClient blog={blog} comments={[]} relatedBlogs={relatedBlogs} />
+      <BlogPostClient blog={blog} comments={[]} relatedBlogs={relatedBlogs} allBlogs={allBlogs} />
     </>
   );
 }
