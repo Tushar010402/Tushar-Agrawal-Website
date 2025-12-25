@@ -23,17 +23,17 @@ export const metadata: Metadata = {
   authors: [{ name: "Tushar Agrawal", url: "https://github.com/Tushar010402" }],
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico?v=2', sizes: 'any' },
+      { url: '/favicon-16x16.png?v=2', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png?v=2', sizes: '32x32', type: 'image/png' },
+      { url: '/icon.svg?v=2', type: 'image/svg+xml' },
     ],
-    shortcut: '/favicon.ico',
+    shortcut: '/favicon.ico?v=2',
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: '/apple-touch-icon.png?v=2', sizes: '180x180', type: 'image/png' },
     ],
     other: [
-      { rel: 'mask-icon', url: '/icon.svg', color: '#6366f1' },
+      { rel: 'mask-icon', url: '/icon.svg?v=2', color: '#6366f1' },
     ],
   },
   manifest: '/site.webmanifest',
@@ -170,12 +170,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Favicon - explicit link tags for Google crawling */}
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="32x32" />
-        <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
-        <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        {/* Favicons with cache-busting - explicit link tags for Google crawling */}
+        <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon" sizes="32x32" />
+        <link rel="icon" href="/favicon-16x16.png?v=2" type="image/png" sizes="16x16" />
+        <link rel="icon" href="/favicon-32x32.png?v=2" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/icon.svg?v=2" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" sizes="180x180" />
+        <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon" />
+        <link rel="mask-icon" href="/icon.svg?v=2" color="#6366f1" />
+        <meta name="theme-color" content="#6366f1" />
+        <meta name="msapplication-TileColor" content="#6366f1" />
 
         <script
           type="application/ld+json"
