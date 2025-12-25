@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/moving-border";
 import { motion } from "framer-motion";
 import { Spotlight } from "@/components/ui/spotlight";
 import { Navbar } from "@/components/ui/navbar";
-import { ContactForm } from "@/components/ui/contact-form";
 
 export default function Home() {
   return (
@@ -171,11 +170,6 @@ export default function Home() {
               I&apos;m always interested in hearing about new projects and opportunities.
               Whether you have a question or just want to say hi, feel free to reach out!
             </p>
-          </div>
-
-          {/* Contact Form */}
-          <div className="mb-12">
-            <ContactForm />
           </div>
 
           {/* Contact Cards */}
