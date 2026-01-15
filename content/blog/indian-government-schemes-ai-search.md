@@ -4,7 +4,7 @@ description: "India has 100+ central and 1000+ state schemes. FOMOA's entity sea
 date: "2026-01-14"
 author: "Tushar Agrawal"
 tags: ["Government Schemes India", "PM Schemes Search", "Yojana Finder", "FOMOA", "Sarkari Yojana", "Welfare Schemes", "Digital India"]
-image: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1200&h=630&fit=crop"
 published: true
 ---
 

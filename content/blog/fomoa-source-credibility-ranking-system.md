@@ -4,7 +4,7 @@ description: "Most AI treats Wikipedia same as random blogs. FOMOA's 4-signal ra
 date: "2026-01-13"
 author: "Tushar Agrawal"
 tags: ["AI Search Ranking", "Source Credibility", "Fact-Checking AI", "FOMOA", "Search Engine", "Information Retrieval", "Trust Scoring"]
-image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&h=630&fit=crop"
 published: true
 ---
 

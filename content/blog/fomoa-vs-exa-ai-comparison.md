@@ -4,7 +4,7 @@ description: "Exa.ai charges $5/1000 requests. FOMOA offers the same 5 features 
 date: "2026-01-13"
 author: "Tushar Agrawal"
 tags: ["Exa.ai Alternative", "Free AI Search API", "FOMOA", "AI Search Engine", "API Comparison", "Developer Tools", "India AI"]
-image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&h=630&fit=crop"
 published: true
 ---
 

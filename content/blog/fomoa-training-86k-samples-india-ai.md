@@ -4,7 +4,7 @@ description: "Inside FOMOA's training methodology - Qwen2.5-7B base, QLoRA fine-
 date: "2026-01-10"
 author: "Tushar Agrawal"
 tags: ["AI Training", "Fine-Tuning LLM", "Custom AI Model", "FOMOA", "QLoRA", "Qwen", "Machine Learning", "Hindi AI", "Deep Learning"]
-image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1555255707-c07966088b7b?w=1200&h=630&fit=crop"
 published: true
 ---
 

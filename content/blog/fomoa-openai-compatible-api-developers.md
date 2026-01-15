@@ -4,7 +4,7 @@ description: "Drop-in replacement for OpenAI API with India-optimized search. Ch
 date: "2026-01-15"
 author: "Tushar Agrawal"
 tags: ["OpenAI API Alternative", "AI API Developers", "Chat Completion API", "FOMOA", "LangChain", "LlamaIndex", "Python API", "Developer Tools"]
-image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&h=630&fit=crop"
 published: true
 ---
 

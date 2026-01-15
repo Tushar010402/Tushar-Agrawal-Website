@@ -4,7 +4,7 @@ description: "65% of FOMOA's training is Hindi/Hinglish - 56,000+ samples. Autom
 date: "2026-01-12"
 author: "Tushar Agrawal"
 tags: ["Hindi AI", "Hinglish Chatbot", "AI Assistant India", "FOMOA", "Multilingual AI", "Natural Language Processing", "Indian Languages"]
-image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=1200&h=630&fit=crop"
 published: true
 ---
 
