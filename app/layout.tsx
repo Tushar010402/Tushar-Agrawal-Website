@@ -22,21 +22,10 @@ export const metadata: Metadata = {
   keywords: ["Tushar Agrawal", "Backend Engineer", "Full Stack Developer", "Python Developer", "Go Developer", "TypeScript Developer", "React Developer", "Next.js", "Django", "FastAPI", "PostgreSQL", "Redis", "Docker", "Nginx", "Microservices", "Healthcare SaaS", "HIPAA Compliance", "Distributed Systems", "AI Automation"],
   authors: [{ name: "Tushar Agrawal", url: "https://github.com/Tushar010402" }],
   icons: {
-    icon: [
-      { url: '/favicon.ico?v=2', sizes: 'any' },
-      { url: '/favicon-16x16.png?v=2', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png?v=2', sizes: '32x32', type: 'image/png' },
-      { url: '/icon.svg?v=2', type: 'image/svg+xml' },
-    ],
-    shortcut: '/favicon.ico?v=2',
-    apple: [
-      { url: '/apple-touch-icon.png?v=2', sizes: '180x180', type: 'image/png' },
-    ],
-    other: [
-      { rel: 'mask-icon', url: '/icon.svg?v=2', color: '#6366f1' },
-    ],
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
-  manifest: '/site.webmanifest',
   openGraph: {
     title: "Tushar Agrawal - Backend Engineer | Full-Stack Developer",
     description: "Backend Engineer with 3 years building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, and modern web technologies.",
@@ -170,16 +159,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Favicons with cache-busting - explicit link tags for Google crawling */}
-        <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon" sizes="32x32" />
-        <link rel="icon" href="/favicon-16x16.png?v=2" type="image/png" sizes="16x16" />
-        <link rel="icon" href="/favicon-32x32.png?v=2" type="image/png" sizes="32x32" />
-        <link rel="icon" href="/icon.svg?v=2" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" sizes="180x180" />
-        <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon" />
-        <link rel="mask-icon" href="/icon.svg?v=2" color="#6366f1" />
+        {/* Simple favicon for Google crawling */}
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="theme-color" content="#6366f1" />
-        <meta name="msapplication-TileColor" content="#6366f1" />
 
         <script
           type="application/ld+json"
