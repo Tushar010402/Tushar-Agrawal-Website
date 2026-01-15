@@ -1,7 +1,7 @@
 ---
 title: "Ethical Web Crawling: How FOMOA Extracts Website Content Responsibly"
 description: "FOMOA's /api/crawl respects robots.txt, rate limits to 2 req/sec, and extracts clean text. Exa Crawl alternative with ethical principles built-in."
-date: "2025-01-24"
+date: "2026-01-24"
 author: "Tushar Agrawal"
 tags: ["Web Crawler API", "Website Scraper", "Content Extraction", "FOMOA", "Ethical Scraping", "Data Collection", "API", "SEO Audit"]
 image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
@@ -107,7 +107,7 @@ result = response.json()
   "links": {
     "internal": [
       {"href": "/income-tax", "text": "Income Tax Guide"},
-      {"href": "/tds-rules", "text": "TDS Rules 2025"}
+      {"href": "/tds-rules", "text": "TDS Rules 2026"}
     ],
     "external": [
       {"href": "https://gst.gov.in", "text": "Official GST Portal"},
@@ -123,14 +123,14 @@ result = response.json()
 {
   "url": "https://example.com/article",
   "meta": {
-    "title": "Complete Guide to Income Tax Filing 2025",
+    "title": "Complete Guide to Income Tax Filing 2026",
     "description": "Step-by-step guide to filing ITR for FY 2024-25",
     "og_title": "Income Tax Filing Guide | Example.com",
     "og_image": "https://example.com/images/itr-guide.jpg",
     "canonical": "https://example.com/article",
     "author": "Tax Expert",
-    "published_date": "2025-01-15",
-    "modified_date": "2025-01-20"
+    "published_date": "2026-01-15",
+    "modified_date": "2026-01-20"
   }
 }
 ```
@@ -194,8 +194,8 @@ response = requests.post(
 {
   "crawl_id": "crawl_abc123",
   "status": "completed",
-  "started_at": "2025-01-24T10:00:00Z",
-  "completed_at": "2025-01-24T10:00:45Z",
+  "started_at": "2026-01-24T10:00:00Z",
+  "completed_at": "2026-01-24T10:00:45Z",
   "duration_seconds": 45,
 
   "summary": {
@@ -215,7 +215,7 @@ response = requests.post(
     {
       "url": "https://example.com/",
       "status": 200,
-      "crawled_at": "2025-01-24T10:00:05Z",
+      "crawled_at": "2026-01-24T10:00:05Z",
       "title": "Example Company - Homepage",
       "meta": {
         "description": "Leading provider of...",

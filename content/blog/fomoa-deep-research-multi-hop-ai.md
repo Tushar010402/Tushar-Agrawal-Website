@@ -1,7 +1,7 @@
 ---
 title: "Deep Research Mode: Multi-Hop AI Research Explained with FOMOA"
 description: "FOMOA's deep research follows leads across 3 hops, detects conflicts between sources, and synthesizes comprehensive reports. Perfect for journalists and researchers."
-date: "2025-01-23"
+date: "2026-01-23"
 author: "Tushar Agrawal"
 tags: ["AI Research Tool", "Automated Research", "Deep Research AI", "FOMOA", "Multi-Hop Search", "Research Automation", "Information Synthesis"]
 image: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&h=630&fit=crop"
@@ -447,7 +447,7 @@ Comprehensive analysis:
 ## Comparison with Single-Search AI
 
 ```
-Query: "EV policy India 2025"
+Query: "EV policy India 2026"
 
 Single Search (ChatGPT/Perplexity):
 ==================================

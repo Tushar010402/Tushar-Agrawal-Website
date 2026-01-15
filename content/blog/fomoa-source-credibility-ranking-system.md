@@ -1,7 +1,7 @@
 ---
 title: "Understanding Source Credibility: How FOMOA Ranks AI Search Results"
 description: "Most AI treats Wikipedia same as random blogs. FOMOA's 4-signal ranking system uses semantic relevance, source credibility, content freshness, and domain expertise."
-date: "2025-01-22"
+date: "2026-01-22"
 author: "Tushar Agrawal"
 tags: ["AI Search Ranking", "Source Credibility", "Fact-Checking AI", "FOMOA", "Search Engine", "Information Retrieval", "Trust Scoring"]
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
@@ -64,7 +64,7 @@ class SemanticScorer:
         return float(score[0])
 
 # Example scores:
-# Query: "RBI repo rate January 2025"
+# Query: "RBI repo rate January 2026"
 # Passage: "RBI announced repo rate at 6.5%..." → 0.95
 # Passage: "Interest rates affect loans..." → 0.45
 # Passage: "Stock market trends..." → 0.15
@@ -139,7 +139,7 @@ class FreshnessScorer:
     def __init__(self):
         # Query types that require fresh content
         self.freshness_sensitive_patterns = [
-            r'\b(current|latest|today|2024|2025|new|recent)\b',
+            r'\b(current|latest|today|2024|2026|new|recent)\b',
             r'\b(rate|price|stock|weather|news|election)\b',
             r'\b(announcement|release|update|launched)\b'
         ]
@@ -165,7 +165,7 @@ class FreshnessScorer:
 
         return max(0.1, freshness)  # Minimum score of 0.1
 
-# Example freshness scores for "RBI repo rate 2025":
+# Example freshness scores for "RBI repo rate 2026":
 # Published today → 1.00
 # Published 7 days ago → 0.70
 # Published 30 days ago → 0.22
@@ -200,7 +200,7 @@ Search Results Before Ranking
 
 Result 1: "RBI keeps repo rate unchanged at 6.5% - PIB"
 ├── Source: pib.gov.in
-├── Published: January 2025
+├── Published: January 2026
 └── Content: Official press release
 
 Result 2: "Understanding Repo Rate and Its Impact"
@@ -218,9 +218,9 @@ Result 4: "RBI monetary policy - Wikipedia"
 ├── Published: Updated December 2024
 └── Content: Encyclopedia entry
 
-Result 5: "Interest rates in 2025 - Finance Blog"
+Result 5: "Interest rates in 2026 - Finance Blog"
 ├── Source: personalfinanceblog.xyz
-├── Published: January 2025
+├── Published: January 2026
 └── Content: Opinion piece
 ```
 
@@ -383,11 +383,11 @@ FOMOA can show you exactly why each result is ranked where it is:
 
 ```json
 {
-  "query": "income tax slab 2025-26",
+  "query": "income tax slab 2026-26",
   "results": [
     {
-      "title": "Income Tax Slabs FY 2025-26 - Income Tax Department",
-      "url": "https://incometax.gov.in/slabs-2025-26",
+      "title": "Income Tax Slabs FY 2026-26 - Income Tax Department",
+      "url": "https://incometax.gov.in/slabs-2026-26",
       "rank": 1,
       "scores": {
         "semantic_relevance": 0.96,
@@ -399,8 +399,8 @@ FOMOA can show you exactly why each result is ranked where it is:
       "explanation": "Official government source with exact match query terms, published this month"
     },
     {
-      "title": "New Tax Slabs 2025: Complete Guide",
-      "url": "https://cleartax.in/tax-slabs-2025",
+      "title": "New Tax Slabs 2026: Complete Guide",
+      "url": "https://cleartax.in/tax-slabs-2026",
       "rank": 2,
       "scores": {
         "semantic_relevance": 0.92,
@@ -472,7 +472,7 @@ def get_source_credibility(url: str) -> dict:
 #         "historical_accuracy": 1.00,
 #         "domain_trust": 1.00
 #     },
-#     "last_verified": "2025-01-22"
+#     "last_verified": "2026-01-22"
 # }
 ```
 

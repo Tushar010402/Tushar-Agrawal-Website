@@ -1,7 +1,7 @@
 ---
 title: "Building AI APIs: FOMOA's OpenAI-Compatible Endpoint for Developers"
 description: "Drop-in replacement for OpenAI API with India-optimized search. Change base_url, keep your code. Works with LangChain, LlamaIndex, and streaming responses."
-date: "2025-01-24"
+date: "2026-01-24"
 author: "Tushar Agrawal"
 tags: ["OpenAI API Alternative", "AI API Developers", "Chat Completion API", "FOMOA", "LangChain", "LlamaIndex", "Python API", "Developer Tools"]
 image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop"
@@ -27,7 +27,7 @@ client = OpenAI(
 # Same code, India-optimized results
 response = client.chat.completions.create(
     model="fomoa",
-    messages=[{"role": "user", "content": "Best UPI apps India 2025"}]
+    messages=[{"role": "user", "content": "Best UPI apps India 2026"}]
 )
 ```
 
@@ -287,7 +287,7 @@ agent = initialize_agent(
     verbose=True
 )
 
-agent.run("Find me the best mutual funds for tax saving in India 2025")
+agent.run("Find me the best mutual funds for tax saving in India 2026")
 ```
 
 ## LlamaIndex Integration

@@ -1,7 +1,7 @@
 ---
 title: "How We Trained FOMOA: 86,000 Samples for India-Centric AI"
 description: "Inside FOMOA's training methodology - Qwen2.5-7B base, QLoRA fine-tuning, 65% Hindi data, 113 hours of training. Technical deep-dive into building India-first AI."
-date: "2025-01-19"
+date: "2026-01-19"
 author: "Tushar Agrawal"
 tags: ["AI Training", "Fine-Tuning LLM", "Custom AI Model", "FOMOA", "QLoRA", "Qwen", "Machine Learning", "Hindi AI", "Deep Learning"]
 image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=630&fit=crop"

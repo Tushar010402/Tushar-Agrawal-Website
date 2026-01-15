@@ -1,14 +1,14 @@
 ---
-title: "FOMOA vs Exa.ai: Free India-Optimized AI Search Alternative in 2025"
+title: "FOMOA vs Exa.ai: Free India-Optimized AI Search Alternative in 2026"
 description: "Exa.ai charges $5/1000 requests. FOMOA offers the same 5 features completely free - plus native Hindi support and 150+ Indian sources. Complete feature comparison."
-date: "2025-01-22"
+date: "2026-01-22"
 author: "Tushar Agrawal"
 tags: ["Exa.ai Alternative", "Free AI Search API", "FOMOA", "AI Search Engine", "API Comparison", "Developer Tools", "India AI"]
 image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop"
 published: true
 ---
 
-## The AI Search API Landscape in 2025
+## The AI Search API Landscape in 2026
 
 If you're building AI applications that need web search capabilities, you've likely looked at Exa.ai. It's powerful, well-documented, and used by companies like Notion and Perplexity.
 
@@ -195,7 +195,7 @@ Create curated collections of web sources:
 response = requests.post(
     "https://fomoa.cloud/api/websets",
     json={
-        "name": "Indian Fintech 2025",
+        "name": "Indian Fintech 2026",
         "description": "Top fintech companies in India",
         "criteria": {
             "entity_type": "company",
@@ -474,7 +474,7 @@ from openai import OpenAI
 client = OpenAI(base_url="https://fomoa.cloud/v1", api_key="your_key")
 response = client.chat.completions.create(
     model="fomoa",
-    messages=[{"role": "user", "content": "Best mutual funds India 2025"}]
+    messages=[{"role": "user", "content": "Best mutual funds India 2026"}]
 )
 print(response.choices[0].message.content)
 ```
