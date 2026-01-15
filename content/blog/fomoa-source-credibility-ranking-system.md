@@ -1,7 +1,7 @@
 ---
 title: "Understanding Source Credibility: How FOMOA Ranks AI Search Results"
 description: "Most AI treats Wikipedia same as random blogs. FOMOA's 4-signal ranking system uses semantic relevance, source credibility, content freshness, and domain expertise."
-date: "2026-01-22"
+date: "2026-01-13"
 author: "Tushar Agrawal"
 tags: ["AI Search Ranking", "Source Credibility", "Fact-Checking AI", "FOMOA", "Search Engine", "Information Retrieval", "Trust Scoring"]
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"

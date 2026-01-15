@@ -1,7 +1,7 @@
 ---
 title: "Ethical Web Crawling: How FOMOA Extracts Website Content Responsibly"
 description: "FOMOA's /api/crawl respects robots.txt, rate limits to 2 req/sec, and extracts clean text. Exa Crawl alternative with ethical principles built-in."
-date: "2026-01-24"
+date: "2026-01-15"
 author: "Tushar Agrawal"
 tags: ["Web Crawler API", "Website Scraper", "Content Extraction", "FOMOA", "Ethical Scraping", "Data Collection", "API", "SEO Audit"]
 image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"

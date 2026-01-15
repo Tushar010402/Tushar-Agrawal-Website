@@ -1,7 +1,7 @@
 ---
 title: "Finding Indian Government Schemes with AI: Complete Guide to FOMOA Yojana Search"
 description: "India has 100+ central and 1000+ state schemes. FOMOA's entity search finds PM-KISAN, Ayushman Bharat, and more with eligibility, benefits, and official links."
-date: "2026-01-23"
+date: "2026-01-14"
 author: "Tushar Agrawal"
 tags: ["Government Schemes India", "PM Schemes Search", "Yojana Finder", "FOMOA", "Sarkari Yojana", "Welfare Schemes", "Digital India"]
 image: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=1200&h=630&fit=crop"

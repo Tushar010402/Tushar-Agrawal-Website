@@ -1,7 +1,7 @@
 ---
 title: "FOMOA for Startups: Finding Indian Companies, Funding, and Market Data"
 description: "Search 50,000+ Indian startups by industry, location, funding stage. Entity search API for investors, job seekers, and market researchers. Tracxn alternative."
-date: "2026-01-25"
+date: "2026-01-15"
 author: "Tushar Agrawal"
 tags: ["Startup Search India", "Company Database API", "Indian Startup Data", "FOMOA", "Funding Data", "Market Research", "Investor Tools", "Tracxn Alternative"]
 image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=1200&h=630&fit=crop"

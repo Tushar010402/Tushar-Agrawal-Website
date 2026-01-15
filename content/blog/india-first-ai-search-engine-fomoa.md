@@ -1,7 +1,7 @@
 ---
 title: "Why Indian Users Need an India-First AI Search Engine in 2026"
 description: "Generic AI models fail on Indian context - lakhs, crores, Hinglish, govt schemes. FOMOA is built from ground up for India with 150+ authoritative Indian sources."
-date: "2026-01-20"
+date: "2026-01-11"
 author: "Tushar Agrawal"
 tags: ["AI Search Engine", "FOMOA", "India AI", "Indian Technology", "Search Engine India", "AI Assistant", "Artificial Intelligence"]
 image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200&h=630&fit=crop"

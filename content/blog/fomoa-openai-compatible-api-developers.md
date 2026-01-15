@@ -1,7 +1,7 @@
 ---
 title: "Building AI APIs: FOMOA's OpenAI-Compatible Endpoint for Developers"
 description: "Drop-in replacement for OpenAI API with India-optimized search. Change base_url, keep your code. Works with LangChain, LlamaIndex, and streaming responses."
-date: "2026-01-24"
+date: "2026-01-15"
 author: "Tushar Agrawal"
 tags: ["OpenAI API Alternative", "AI API Developers", "Chat Completion API", "FOMOA", "LangChain", "LlamaIndex", "Python API", "Developer Tools"]
 image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop"
