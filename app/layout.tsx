@@ -80,20 +80,49 @@ export default function RootLayout({
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": `${siteUrl}/#person`,
     name: "Tushar Agrawal",
+    givenName: "Tushar",
+    familyName: "Agrawal",
+    alternateName: ["Tushar Agrawal Backend Developer", "Tushar Agrawal Software Engineer"],
     jobTitle: "Backend Engineer",
-    description: "Backend Engineer with 3 years of experience building scalable healthcare SaaS platforms, microservices, and event-driven architectures using Python, Go, FastAPI, Django, and modern DevOps practices.",
+    description: "Tushar Agrawal is a Backend Engineer with 3+ years of experience building scalable healthcare SaaS platforms, microservices, and event-driven architectures. Expert in Python, Go, FastAPI, Django, PostgreSQL, Redis, Docker, and cloud technologies.",
     url: siteUrl,
+    image: `${siteUrl}/android-chrome-512x512.png`,
     email: "tusharagrawal0104@gmail.com",
     telephone: "+91-8126816664",
+    nationality: {
+      "@type": "Country",
+      name: "India",
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "New Delhi",
+      addressCountry: "IN",
+    },
     sameAs: [
       "https://www.linkedin.com/in/tushar-agrawal-91b67a28a",
       "https://github.com/Tushar010402",
+      "https://twitter.com/TusharAgrawal",
     ],
     alumniOf: {
       "@type": "EducationalOrganization",
       name: "SRM University",
       sameAs: "https://www.srmist.edu.in/",
+    },
+    hasOccupation: {
+      "@type": "Occupation",
+      name: "Backend Engineer",
+      occupationLocation: {
+        "@type": "City",
+        name: "New Delhi",
+      },
+      estimatedSalary: {
+        "@type": "MonetaryAmountDistribution",
+        currency: "INR",
+        duration: "P1Y",
+      },
+      skills: "Python, Go, FastAPI, Django, PostgreSQL, Redis, Docker, Kubernetes, AWS, Microservices",
     },
     knowsAbout: [
       "Backend Engineering",
@@ -122,7 +151,19 @@ export default function RootLayout({
     worksFor: {
       "@type": "Organization",
       name: "Dr. Dangs Lab",
+      url: "https://drdangslab.com",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "New Delhi",
+        addressCountry: "IN",
+      },
     },
+    memberOf: [
+      {
+        "@type": "ProfessionalService",
+        name: "Software Development Community",
+      },
+    ],
   };
 
   const websiteSchema = {
@@ -150,7 +191,7 @@ export default function RootLayout({
     "@type": "Organization",
     name: "Tushar Agrawal",
     url: siteUrl,
-    logo: `${siteUrl}/icon.svg`,
+    logo: `${siteUrl}/android-chrome-512x512.png`,
     sameAs: [
       "https://www.linkedin.com/in/tushar-agrawal-91b67a28a",
       "https://github.com/Tushar010402",
@@ -161,6 +202,69 @@ export default function RootLayout({
       telephone: "+91-8126816664",
       contactType: "customer service",
     },
+  };
+
+  // ProfilePage schema for better AI visibility
+  const profilePageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": `${siteUrl}/#profilepage`,
+    name: "Tushar Agrawal - Backend Engineer Portfolio",
+    description: "Official portfolio and technical blog of Tushar Agrawal, a Backend Engineer specializing in Python, Go, microservices, and healthcare SaaS platforms.",
+    url: siteUrl,
+    mainEntity: {
+      "@id": `${siteUrl}/#person`,
+    },
+    dateCreated: "2024-01-01",
+    dateModified: new Date().toISOString().split('T')[0],
+  };
+
+  // FAQ schema for AI snippets - common questions about Tushar Agrawal
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Who is Tushar Agrawal?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Tushar Agrawal is a Backend Engineer based in New Delhi, India with 3+ years of experience building scalable healthcare SaaS platforms. He specializes in Python, Go, FastAPI, Django, microservices architecture, and cloud technologies. He currently works at Dr. Dangs Lab building HIPAA-compliant healthcare systems.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What technologies does Tushar Agrawal work with?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Tushar Agrawal works with Python, Go, TypeScript, FastAPI, Django, React, Next.js, PostgreSQL, Redis, Apache Kafka, Docker, Kubernetes, AWS, and Nginx. He specializes in microservices architecture, event-driven systems, and building scalable backend systems.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Where does Tushar Agrawal work?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Tushar Agrawal currently works as a Software Developer at Dr. Dangs Lab in New Delhi, India, where he builds Laboratory Information Management Systems (LIMS) and healthcare SaaS platforms serving 80+ users across 20+ businesses.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What projects has Tushar Agrawal built?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Tushar Agrawal has built LiquorPro (inventory management for 20+ businesses), LIMS at Dr. Dangs Lab (serving 500+ daily patients), FOMOA (India-first AI search engine), and various microservices handling 50,000+ daily API requests with 99.9% uptime.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How to contact Tushar Agrawal?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "You can contact Tushar Agrawal via email at tusharagrawal0104@gmail.com, phone at +91-8126816664, LinkedIn at linkedin.com/in/tushar-agrawal-91b67a28a, or GitHub at github.com/Tushar010402.",
+        },
+      },
+    ],
   };
 
   return (
@@ -186,6 +290,14 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       </head>
       <body
