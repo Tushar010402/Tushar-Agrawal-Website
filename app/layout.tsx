@@ -23,9 +23,10 @@ export const metadata: Metadata = {
   authors: [{ name: "Tushar Agrawal", url: "https://github.com/Tushar010402" }],
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.ico', sizes: '48x48' },
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
       { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
     ],
     shortcut: '/favicon.ico',
@@ -165,8 +166,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Favicon configuration for all browsers */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        {/* Favicon configuration - 48x48 required for Google Search results */}
+        <link rel="icon" href="/favicon.ico" sizes="48x48" />
+        <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" />
         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
         <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
