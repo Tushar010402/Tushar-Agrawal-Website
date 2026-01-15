@@ -213,6 +213,23 @@ export default function BlogPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <BlogListingClient initialBlogs={blogs} />
+
+      {/* Server-rendered links to ALL posts for SEO crawling */}
+      <nav className="max-w-7xl mx-auto px-4 py-8 border-t border-neutral-800" aria-label="All blog posts">
+        <h2 className="text-xl font-semibold text-white mb-4">All Articles</h2>
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-sm">
+          {posts.map((post) => (
+            <li key={post.slug}>
+              <a
+                href={`/blog/${post.slug}`}
+                className="text-neutral-400 hover:text-blue-400 transition-colors line-clamp-1"
+              >
+                {post.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </>
   );
 }
