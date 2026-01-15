@@ -8,7 +8,7 @@ export const Navbar = ({ className }: { className?: string }) => {
 
   const navItems = [
     { name: "Home", link: "#home" },
-    { name: "About", link: "#about" },
+    { name: "About", link: "/about" },
     { name: "Skills", link: "#skills" },
     { name: "Experience", link: "#experience" },
     { name: "Projects", link: "#projects" },

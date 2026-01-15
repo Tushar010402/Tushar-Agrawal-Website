@@ -107,8 +107,8 @@ export default function RootLayout({
     ],
     alumniOf: {
       "@type": "EducationalOrganization",
-      name: "SRM University",
-      sameAs: "https://www.srmist.edu.in/",
+      name: "GD Goenka University",
+      sameAs: "https://www.gdgoenkauniversity.com/",
     },
     hasOccupation: {
       "@type": "Occupation",
