@@ -4,7 +4,7 @@ description: "Search 50,000+ Indian startups by industry, location, funding stag
 date: "2026-01-15"
 author: "Tushar Agrawal"
 tags: ["Startup Search India", "Company Database API", "Indian Startup Data", "FOMOA", "Funding Data", "Market Research", "Investor Tools", "Tracxn Alternative"]
-image: "https://images.unsplash.com/photo-1553729459-uj9c1pzzqnpp?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=1200&h=630&fit=crop"
 published: true
 ---
 

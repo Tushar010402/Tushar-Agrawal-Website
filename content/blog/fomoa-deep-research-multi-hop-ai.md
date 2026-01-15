@@ -4,7 +4,7 @@ description: "FOMOA's deep research follows leads across 3 hops, detects conflic
 date: "2026-01-14"
 author: "Tushar Agrawal"
 tags: ["AI Research Tool", "Automated Research", "Deep Research AI", "FOMOA", "Multi-Hop Search", "Research Automation", "Information Synthesis"]
-image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1532619187608-e5375cab36aa?w=1200&h=630&fit=crop"
 published: true
 ---
 

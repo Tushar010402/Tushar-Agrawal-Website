@@ -4,7 +4,7 @@ description: "FOMOA's /api/crawl respects robots.txt, rate limits to 2 req/sec, 
 date: "2026-01-15"
 author: "Tushar Agrawal"
 tags: ["Web Crawler API", "Website Scraper", "Content Extraction", "FOMOA", "Ethical Scraping", "Data Collection", "API", "SEO Audit"]
-image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=630&fit=crop"
 published: true
 ---
 
