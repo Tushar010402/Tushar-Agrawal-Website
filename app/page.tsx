@@ -159,6 +159,47 @@ export default function Home() {
         <ProjectGrid items={projectsData} />
       </section>
 
+      {/* Blog Section - Internal links for SEO */}
+      <section id="blog" className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
+        <div className="mb-12">
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
+            Latest Articles
+          </h2>
+          <p className="text-neutral-400 text-lg max-w-3xl">
+            Technical deep-dives on backend engineering, system design, and modern development practices.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <a href="/blog/india-first-ai-search-engine-fomoa" className="group">
+            <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-blue-500/50 transition-all h-full">
+              <span className="text-xs text-blue-400 font-medium">AI SEARCH</span>
+              <h3 className="text-white font-semibold mt-2 mb-3 group-hover:text-blue-400 transition-colors">Why Indian Users Need an India-First AI Search Engine</h3>
+              <p className="text-neutral-400 text-sm">Generic AI models fail on Indian context - lakhs, crores, Hinglish, govt schemes. FOMOA is built for India.</p>
+            </div>
+          </a>
+          <a href="/blog/database-connection-pooling-performance-guide" className="group">
+            <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-green-500/50 transition-all h-full">
+              <span className="text-xs text-green-400 font-medium">DATABASE</span>
+              <h3 className="text-white font-semibold mt-2 mb-3 group-hover:text-green-400 transition-colors">Database Connection Pooling: The Performance Fix</h3>
+              <p className="text-neutral-400 text-sm">How I learned about connection pooling after our PostgreSQL database crashed under load.</p>
+            </div>
+          </a>
+          <a href="/blog/ai-native-backend-architecture-2026" className="group">
+            <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-purple-500/50 transition-all h-full">
+              <span className="text-xs text-purple-400 font-medium">ARCHITECTURE</span>
+              <h3 className="text-white font-semibold mt-2 mb-3 group-hover:text-purple-400 transition-colors">Building AI-Native Backends: Architecture for 2026</h3>
+              <p className="text-neutral-400 text-sm">Complete guide to designing backend systems for AI agents - MCP protocol, vector databases, governance.</p>
+            </div>
+          </a>
+        </div>
+        <div className="text-center">
+          <a href="/blog" className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-medium transition-colors">
+            View all articles
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section id="contact" className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
         <div className="bg-gradient-to-br from-neutral-900/50 to-neutral-800/30 border border-neutral-800 rounded-3xl p-12">
@@ -231,7 +272,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-neutral-800">
         <div className="max-w-7xl mx-auto text-center text-neutral-400">
-          <p>© 2025 Tushar Agrawal. Built with Next.js and Aceternity UI</p>
+          <p>© 2026 Tushar Agrawal. Built with Next.js and Aceternity UI</p>
           <p className="mt-2 text-sm">Backend Engineer | Full-Stack Developer | B.Tech Computer Science, GD Goenka University (2019-2023)</p>
         </div>
       </footer>
