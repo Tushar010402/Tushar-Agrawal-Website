@@ -18,6 +18,7 @@ import {
   BookOpen,
   ChevronRight,
 } from 'lucide-react';
+import { Navbar } from '@/components/ui/navbar';
 
 interface BlogPostClientProps {
   blog: Blog;
@@ -108,7 +109,8 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="max-w-[1400px] mx-auto px-4 py-20">
+      <Navbar />
+      <div className="max-w-[1400px] mx-auto px-4 pt-24 pb-20">
         <div className="flex gap-8">
           {/* Sidebar - Left Navigation */}
           <aside className="hidden lg:block w-72 flex-shrink-0">

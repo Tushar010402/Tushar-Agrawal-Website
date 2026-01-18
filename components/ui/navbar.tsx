@@ -1,10 +1,13 @@
 "use client";
 import React, { useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export const Navbar = ({ className }: { className?: string }) => {
   const [activeSection, setActiveSection] = useState("home");
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   const navItems = [
     { name: "Home", link: "#home" },
@@ -15,6 +18,13 @@ export const Navbar = ({ className }: { className?: string }) => {
     { name: "Blog", link: "/blog" },
     { name: "Contact", link: "#contact" },
   ];
+
+  const getHref = (link: string) => {
+    if (link.startsWith('#')) {
+      return isHomePage ? link : `/${link}`;
+    }
+    return link;
+  };
 
   return (
     <motion.div
@@ -30,19 +40,23 @@ export const Navbar = ({ className }: { className?: string }) => {
         {navItems.map((item) => {
           const isAnchorLink = item.link.startsWith('#');
           const sectionId = isAnchorLink ? item.link.substring(1) : item.link;
+          const href = getHref(item.link);
+          const isActive = isHomePage
+            ? (isAnchorLink && activeSection === sectionId)
+            : (item.link === pathname || (item.link === "/blog" && pathname.startsWith("/blog")));
 
           return (
             <a
               key={item.name}
-              href={item.link}
-              onClick={() => isAnchorLink && setActiveSection(sectionId)}
+              href={href}
+              onClick={() => isAnchorLink && isHomePage && setActiveSection(sectionId)}
               className={cn(
                 "relative text-neutral-400 hover:text-white transition-colors duration-200 text-sm",
-                activeSection === sectionId && "text-white"
+                isActive && "text-white"
               )}
             >
               {item.name}
-              {activeSection === sectionId && isAnchorLink && (
+              {isActive && (
                 <motion.div
                   layoutId="active-pill"
                   className="absolute inset-0 bg-white/10 rounded-full -z-10"

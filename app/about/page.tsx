@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { Navbar } from "@/components/ui/navbar";
 
 export const metadata: Metadata = {
   title: "About Tushar Agrawal - Backend Engineer | Software Developer India",
@@ -42,18 +43,13 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      <Navbar />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
       />
 
-      <div className="max-w-4xl mx-auto px-4 py-20">
-        <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Back to Home
-        </Link>
+      <div className="max-w-4xl mx-auto px-4 pt-24 pb-20">
 
         <article className="prose prose-invert prose-lg max-w-none">
           <h1 className="text-4xl md:text-5xl font-bold mb-8">

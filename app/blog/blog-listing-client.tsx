@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Blog } from '@/lib/types';
 import { Search, Calendar, Clock, ArrowRight, ChevronDown, X, Filter, Grid3X3, List } from 'lucide-react';
+import { Navbar } from '@/components/ui/navbar';
 
 interface BlogListingClientProps {
   initialBlogs: Blog[];
@@ -135,6 +136,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
 
   return (
     <div className="min-h-screen bg-black text-white">
+      <Navbar />
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-b from-blue-950/20 to-black pt-24 pb-16">
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10" />
