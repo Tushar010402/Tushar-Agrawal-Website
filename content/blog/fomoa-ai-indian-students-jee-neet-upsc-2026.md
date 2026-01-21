@@ -4,7 +4,7 @@ description: "How Indian students can use FOMOA AI for JEE Main, NEET, UPSC prep
 date: "2026-01-20"
 author: "Tushar Agrawal"
 tags: ["FOMOA AI", "Indian Students", "JEE Main 2026", "NEET 2026", "UPSC", "Scholarships India", "NTA Exams", "Education India", "AI for Students"]
-image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=1200&h=630&fit=crop"
 published: true
 ---
 
