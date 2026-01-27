@@ -38,12 +38,13 @@ Before we dive into basics, let's acknowledge what happened in 2025 - the year q
 2025 Quantum Milestones Timeline
 ================================
 
+December 2024: Google Willow chip - below-threshold error correction!
 February 2025: Microsoft unveils Majorana 1 (topological qubits)
 March 2025:    NIST selects HQC as 5th post-quantum algorithm
 April 2025:    India's QpiAI launches "Indus" - 25 qubit computer
 June 2025:     IonQ-AstraZeneca achieve 20x speedup in drug simulation
+October 2025:  Google achieves 13,000x speedup with Willow (Quantum Echoes)
 November 2025: IBM announces Quantum Loon processor
-December 2025: Google Willow achieves below-threshold error correction
 December 2025: Nobel Prize awarded for quantum circuit pioneers
 ```
 
@@ -987,16 +988,22 @@ IBM QUANTUM (Latest: November 2025)
 
 Source: IBM Newsroom, November 2025
 
-GOOGLE QUANTUM AI (Willow Chip - December 2024)
-───────────────────────────────────────────────
-• Qubits: 105 superconducting qubits
+GOOGLE QUANTUM AI (Willow Chip - December 9, 2024)
+───────────────────────────────────────────────────
+• Qubits: 105 superconducting transmon qubits
+• Architecture: Square grid, ~3.5 avg connectivity
+• Coherence time (T1): 100 microseconds (5x Sycamore)
 • BREAKTHROUGH: First "below threshold" error correction
 • Error rate: 0.143% per cycle (distance-7 code)
 • Logical qubit lifetime: 2.4x better than physical qubits
-• Benchmark: Completed task in 5 mins that would take
-  classical supercomputer 10^25 years
+• Benchmark: 5 min task = 10^25 years on supercomputer
+• October 2025: "Quantum Echoes" - 13,000x faster than
+  Frontier supercomputer using just 65 qubits
 
-Source: Google AI Blog, Nature publication
+Predecessor chips: Foxtail (2017) → Bristlecone (2018)
+                   → Sycamore (2019) → Willow (2024)
+
+Source: Google AI Blog, Nature, Willow Spec Sheet
 
 IONQ (Latest: Late 2025)
 ────────────────────────
@@ -1676,6 +1683,7 @@ This guide uses verified information from:
 - [IBM Quantum Roadmap](https://www.ibm.com/roadmaps/quantum/2026/)
 - [IBM Newsroom - November 2025 Announcements](https://newsroom.ibm.com/2025-11-12-ibm-delivers-new-quantum-processors,-software,-and-algorithm-breakthroughs-on-path-to-advantage-and-fault-tolerance)
 - [Google AI Blog - Willow Chip](https://blog.google/technology/research/google-willow-quantum-chip/)
+- [Google Willow Spec Sheet (PDF)](https://quantumai.google/static/site-assets/downloads/willow-spec-sheet.pdf)
 - [Microsoft Azure - Majorana 1](https://azure.microsoft.com/en-us/blog/quantum/2025/02/19/microsoft-unveils-majorana-1-the-worlds-first-quantum-processor-powered-by-topological-qubits/)
 - [IonQ Roadmap](https://www.ionq.com/roadmap)
 
