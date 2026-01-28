@@ -537,7 +537,7 @@ That's it! Save this as an HTML file, open it in a browser, and you have a VR sc
 <html>
 <head>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
@@ -1242,7 +1242,7 @@ Physical Card                    AR Experience
 <head>
     <title>AR Business Card - Tushar Agrawal</title>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js"></script>
     <style>
         .loading {
             position: fixed;
@@ -1270,8 +1270,7 @@ Physical Card                    AR Experience
         embedded
         arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
         vr-mode-ui="enabled: false"
-        renderer="logarithmicDepthBuffer: true;"
-        gesture-detector>
+        renderer="logarithmicDepthBuffer: true;">
 
         <!-- Assets -->
         <a-assets>
