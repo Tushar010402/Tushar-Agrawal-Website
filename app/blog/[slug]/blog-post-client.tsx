@@ -76,6 +76,32 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
   const renderMarkdown = (markdown: string) => {
     let html = markdown;
 
+    // Helper to escape HTML entities in code blocks
+    const escapeHtml = (text: string) => {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    };
+
+    // Phase 1: Extract code blocks and inline code, replace with placeholders
+    // This prevents HTML in code examples from being parsed as live DOM elements
+    const codeBlocks: string[] = [];
+    html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (_match, _lang, code) => {
+      const index = codeBlocks.length;
+      codeBlocks.push(`<pre class="bg-neutral-900 border border-neutral-800 rounded-lg p-4 my-4 overflow-x-auto"><code class="text-sm text-gray-300">${escapeHtml(code)}</code></pre>`);
+      return `%%CODEBLOCK_${index}%%`;
+    });
+
+    const inlineCodeBlocks: string[] = [];
+    html = html.replace(/`([^`]+)`/g, (_match, code) => {
+      const index = inlineCodeBlocks.length;
+      inlineCodeBlocks.push(`<code class="bg-neutral-900 text-blue-400 px-2 py-1 rounded text-sm">${escapeHtml(code)}</code>`);
+      return `%%INLINECODE_${index}%%`;
+    });
+
+    // Phase 2: Apply markdown transformations (code is safely extracted)
     // Headers
     html = html.replace(/^### (.*$)/gim, '<h3 class="text-2xl font-bold mt-8 mb-4 text-white">$1</h3>');
     html = html.replace(/^## (.*$)/gim, '<h2 class="text-3xl font-bold mt-10 mb-6 text-white">$1</h2>');
@@ -87,12 +113,6 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
     // Italic
     html = html.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
 
-    // Code blocks
-    html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="bg-neutral-900 border border-neutral-800 rounded-lg p-4 my-4 overflow-x-auto"><code class="text-sm text-gray-300">$2</code></pre>');
-
-    // Inline code
-    html = html.replace(/`([^`]+)`/g, '<code class="bg-neutral-900 text-blue-400 px-2 py-1 rounded text-sm">$1</code>');
-
     // Links
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">$1</a>');
 
@@ -103,6 +123,14 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
     // Paragraphs
     html = html.replace(/\n\n/g, '</p><p class="text-gray-300 leading-relaxed mb-4">');
     html = `<p class="text-gray-300 leading-relaxed mb-4">${html}</p>`;
+
+    // Phase 3: Restore code blocks from placeholders
+    codeBlocks.forEach((block, index) => {
+      html = html.replace(`%%CODEBLOCK_${index}%%`, block);
+    });
+    inlineCodeBlocks.forEach((block, index) => {
+      html = html.replace(`%%INLINECODE_${index}%%`, block);
+    });
 
     return html;
   };
