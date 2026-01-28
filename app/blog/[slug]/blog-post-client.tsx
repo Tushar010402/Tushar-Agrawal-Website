@@ -266,6 +266,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                   title={blog.title}
                   content={blog.content}
                   description={blog.description}
+                  author={blog.author || undefined}
                 />
               </div>
 
