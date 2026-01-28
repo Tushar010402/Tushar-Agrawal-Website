@@ -19,6 +19,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { Navbar } from '@/components/ui/navbar';
+import { BlogReader } from '@/components/ui/blog-reader';
 
 interface BlogPostClientProps {
   blog: Blog;
@@ -257,6 +258,15 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                     {blog.author}
                   </div>
                 )}
+              </div>
+
+              {/* Audio Reader */}
+              <div className="mb-8">
+                <BlogReader
+                  title={blog.title}
+                  content={blog.content}
+                  description={blog.description}
+                />
               </div>
 
               {/* Tags */}
