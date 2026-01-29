@@ -10,59 +10,8 @@ import { Spotlight } from "@/components/ui/spotlight";
 import { Navbar } from "@/components/ui/navbar";
 
 export default function Home() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Who is Tushar Agrawal?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Tushar Agrawal is a Backend Engineer based in New Delhi, India with 3+ years of experience building scalable healthcare SaaS platforms. He specializes in Python, Go, FastAPI, Django, microservices architecture, and cloud technologies. He currently works at Dr. Dangs Lab building HIPAA-compliant healthcare systems.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What technologies does Tushar Agrawal work with?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Tushar Agrawal works with Python, Go, TypeScript, FastAPI, Django, React, Next.js, PostgreSQL, Redis, Apache Kafka, Docker, Kubernetes, AWS, and Nginx. He specializes in microservices architecture, event-driven systems, and building scalable backend systems.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Where does Tushar Agrawal work?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Tushar Agrawal currently works as a Software Developer at Dr. Dangs Lab in New Delhi, India, where he builds Laboratory Information Management Systems (LIMS) and healthcare SaaS platforms serving 80+ users across 20+ businesses.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What projects has Tushar Agrawal built?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Tushar Agrawal has built LiquorPro (inventory management for 20+ businesses), LIMS at Dr. Dangs Lab (serving 500+ daily patients), FOMOA (India-first AI search engine), and various microservices handling 50,000+ daily API requests with 99.9% uptime.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How to contact Tushar Agrawal?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "You can contact Tushar Agrawal via email at tusharagrawal0104@gmail.com, phone at +91-8126816664, LinkedIn at linkedin.com/in/tushar-agrawal-91b67a28a, or GitHub at github.com/Tushar010402.",
-        },
-      },
-    ],
-  };
-
   return (
     <div className="w-full bg-black">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
       <Navbar />
 
       {/* Hero Section */}
