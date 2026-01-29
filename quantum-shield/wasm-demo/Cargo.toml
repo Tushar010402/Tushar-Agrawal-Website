@@ -1,0 +1,44 @@
+[package]
+name = "quantum-shield-demo"
+version = "0.1.0"
+edition = "2021"
+authors = ["Tushar Agrawal"]
+description = "QuantumShield WASM Demo - Cascading encryption demonstration"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies]
+# WASM bindings
+wasm-bindgen = "0.2"
+
+# Pure-Rust cryptography (WASM-compatible)
+aes-gcm = "0.10"
+chacha20poly1305 = "0.10"
+x25519-dalek = { version = "2.0", features = ["static_secrets"] }
+sha3 = "0.10"
+hkdf = "0.12"
+rand_core = "0.6"
+getrandom = { version = "0.2", features = ["js"] }
+
+# Memory safety
+zeroize = { version = "1.7", features = ["derive"] }
+
+# Error handling in WASM
+console_error_panic_hook = { version = "0.1", optional = true }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde-wasm-bindgen = "0.6"
+base64 = "0.22"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"
+
+[profile.release]
+opt-level = "s"
+lto = true

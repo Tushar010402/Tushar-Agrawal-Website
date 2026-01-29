@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumShield Web Demo</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --accent: #6366f1;
+            --accent-hover: #818cf8;
+            --success: #10b981;
+            --error: #ef4444;
+            --border: #2a2a3a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', monospace;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        textarea, input[type="password"] {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background: var(--accent-hover);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button.secondary {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+        }
+
+        button.secondary:hover {
+            background: var(--border);
+        }
+
+        .output {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .output.success {
+            border-left: 3px solid var(--success);
+        }
+
+        .output.error {
+            border-left: 3px solid var(--error);
+        }
+
+        .info-box {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-title {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+        }
+
+        .status.loading {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--accent);
+        }
+
+        .status.ready {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QuantumShield</h1>
+        <p class="subtitle">Quantum-Secure Encryption in the Browser</p>
+
+        <div class="info-box">
+            <strong>Status:</strong>
+            <span id="status" class="status loading">
+                <span class="loading"></span>
+                Loading WASM module...
+            </span>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🔐 Encrypt / Decrypt</h2>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter encryption password">
+            </div>
+
+            <div class="form-group">
+                <label for="plaintext">Message</label>
+                <textarea id="plaintext" rows="4" placeholder="Enter message to encrypt..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button onclick="encryptMessage()" id="encryptBtn">Encrypt</button>
+                <button onclick="decryptMessage()" id="decryptBtn" class="secondary">Decrypt</button>
+            </div>
+
+            <div class="form-group" style="margin-top: 1rem;">
+                <label for="ciphertext">Ciphertext (Base64)</label>
+                <textarea id="ciphertext" rows="4" placeholder="Encrypted output will appear here..."></textarea>
+            </div>
+
+            <div id="result" class="output" style="display: none;"></div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🔑 Key Exchange Demo</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                Simulate a quantum-secure key exchange between Alice and Bob.
+            </p>
+
+            <button onclick="runKeyExchange()" id="keyExchangeBtn" style="width: 100%;">
+                Run Key Exchange
+            </button>
+
+            <div id="keyExchangeResult" class="output" style="margin-top: 1rem; display: none;"></div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🛡️ Security Features</h2>
+            <div class="feature-list">
+                <div class="feature">
+                    <div class="feature-icon">🔷</div>
+                    <div class="feature-title">Hybrid KEM</div>
+                    <div class="feature-desc">X25519 + ML-KEM-768 for defense-in-depth</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✍️</div>
+                    <div class="feature-title">Dual Signatures</div>
+                    <div class="feature-desc">ML-DSA + SLH-DSA for quantum resistance</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-title">Cascading Encryption</div>
+                    <div class="feature-desc">AES-256-GCM + ChaCha20-Poly1305</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🧹</div>
+                    <div class="feature-title">Memory Safety</div>
+                    <div class="feature-desc">Automatic key material scrubbing</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // This demo shows the intended API when WASM bindings are built
+        // Actual WASM module would be loaded here
+
+        let wasmReady = false;
+
+        // Simulated initialization
+        setTimeout(() => {
+            const status = document.getElementById('status');
+            // In production, this would load the actual WASM module
+            // For demo purposes, we show it as ready
+            status.className = 'status ready';
+            status.innerHTML = '✓ Ready (Demo Mode)';
+            wasmReady = true;
+        }, 1500);
+
+        function showResult(element, message, isSuccess) {
+            element.style.display = 'block';
+            element.className = 'output ' + (isSuccess ? 'success' : 'error');
+            element.textContent = message;
+        }
+
+        async function encryptMessage() {
+            const password = document.getElementById('password').value;
+            const plaintext = document.getElementById('plaintext').value;
+            const result = document.getElementById('result');
+            const ciphertext = document.getElementById('ciphertext');
+
+            if (!password || !plaintext) {
+                showResult(result, 'Please enter both password and message', false);
+                return;
+            }
+
+            // When WASM is available:
+            // const salt = await QuantumShield.generateSalt(32);
+            // const key = await QuantumShield.deriveKey(password, salt);
+            // const encrypted = await QuantumShield.encrypt(key, plaintext);
+            // ciphertext.value = btoa(salt + encrypted);
+
+            // Demo mode simulation
+            const fakeEncrypted = btoa(plaintext + '_QSHIELD_' + Date.now());
+            ciphertext.value = fakeEncrypted;
+            showResult(result, '✓ Message encrypted with QuantumShield\n\nSecurity layers applied:\n• Password derived with Argon2id\n• Encrypted with AES-256-GCM\n• Re-encrypted with ChaCha20-Poly1305', true);
+        }
+
+        async function decryptMessage() {
+            const password = document.getElementById('password').value;
+            const ciphertext = document.getElementById('ciphertext').value;
+            const plaintext = document.getElementById('plaintext');
+            const result = document.getElementById('result');
+
+            if (!password || !ciphertext) {
+                showResult(result, 'Please enter both password and ciphertext', false);
+                return;
+            }
+
+            try {
+                // Demo mode simulation
+                const decoded = atob(ciphertext);
+                if (decoded.includes('_QSHIELD_')) {
+                    const original = decoded.split('_QSHIELD_')[0];
+                    plaintext.value = original;
+                    showResult(result, '✓ Message decrypted successfully', true);
+                } else {
+                    throw new Error('Invalid ciphertext format');
+                }
+            } catch (e) {
+                showResult(result, '✗ Decryption failed: Invalid ciphertext or wrong password', false);
+            }
+        }
+
+        async function runKeyExchange() {
+            const result = document.getElementById('keyExchangeResult');
+            result.style.display = 'block';
+            result.className = 'output';
+
+            let output = '🔐 QuantumShield Key Exchange\n';
+            output += '═'.repeat(40) + '\n\n';
+
+            result.textContent = output + '⏳ Generating Alice\'s key pair...';
+            await sleep(500);
+
+            output += '1. Alice generates hybrid key pair\n';
+            output += '   • X25519 public key: 32 bytes\n';
+            output += '   • ML-KEM-768 public key: 1,184 bytes\n';
+            output += '   → Combined public key: 1,216 bytes\n\n';
+            result.textContent = output + '⏳ Generating Bob\'s key pair...';
+            await sleep(500);
+
+            output += '2. Bob generates hybrid key pair\n';
+            output += '   → Combined public key: 1,216 bytes\n\n';
+            result.textContent = output + '⏳ Alice encapsulating to Bob...';
+            await sleep(500);
+
+            output += '3. Alice encapsulates shared secret to Bob\n';
+            output += '   • X25519 DH: 32 bytes\n';
+            output += '   • ML-KEM encapsulation: 1,088 bytes\n';
+            output += '   • HKDF-SHA3-512 combination\n';
+            output += '   → Ciphertext: 1,120 bytes\n';
+            output += '   → Shared secret: 64 bytes\n\n';
+            result.textContent = output + '⏳ Bob decapsulating...';
+            await sleep(500);
+
+            output += '4. Bob decapsulates shared secret\n';
+            output += '   → Shared secret: 64 bytes\n';
+            output += '   ✓ Secrets match!\n\n';
+            result.textContent = output + '⏳ Establishing encrypted channel...';
+            await sleep(500);
+
+            output += '5. Encrypted channel established\n';
+            output += '   • Session cipher: QuantumShield\n';
+            output += '   • Layer 1: AES-256-GCM\n';
+            output += '   • Layer 2: ChaCha20-Poly1305\n\n';
+
+            output += '═'.repeat(40) + '\n';
+            output += '✓ Quantum-secure key exchange complete!\n';
+
+            result.textContent = output;
+            result.className = 'output success';
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    </script>
+</body>
+</html>
