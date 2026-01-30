@@ -149,7 +149,7 @@ export default function QuantumShieldClient() {
               </div>
             </motion.div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
               Quantum-Secure Encryption
               <br />
               <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
@@ -207,13 +207,13 @@ export default function QuantumShieldClient() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-2xl p-8"
+            className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-2xl p-6 md:p-8"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
@@ -248,7 +248,7 @@ export default function QuantumShieldClient() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20 rounded-2xl p-8"
+            className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20 rounded-2xl p-6 md:p-8"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center">
@@ -266,22 +266,22 @@ export default function QuantumShieldClient() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-white">The Timeline</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-white">The Timeline</h3>
             </div>
             <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-neutral-400">2024</span>
-                <span className="text-neutral-300">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                <span className="text-neutral-400 font-medium">2024</span>
+                <span className="text-neutral-300 text-sm sm:text-base">
                   NIST finalizes PQC standards
                 </span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-neutral-400">2025-2030</span>
-                <span className="text-neutral-300">Migration window</span>
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                <span className="text-neutral-400 font-medium">2025-2030</span>
+                <span className="text-neutral-300 text-sm sm:text-base">Migration window</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-red-400">2030-2035</span>
-                <span className="text-red-300">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                <span className="text-red-400 font-medium">2030-2035</span>
+                <span className="text-red-300 text-sm sm:text-base">
                   Cryptographically relevant QC
                 </span>
               </div>
@@ -324,7 +324,7 @@ export default function QuantumShieldClient() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, idx) => (
             <FeatureCard key={feature.title} feature={feature} index={idx} />
           ))}
@@ -490,7 +490,7 @@ export default function QuantumShieldClient() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {useCases.map((useCase, idx) => (
             <motion.div
               key={useCase.title}
@@ -606,13 +606,13 @@ export default function QuantumShieldClient() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-2xl p-8"
+            className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-2xl p-6 md:p-8"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
@@ -661,7 +661,7 @@ export default function QuantumShieldClient() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-2xl p-8"
+            className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-2xl p-6 md:p-8"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-amber-500/20 rounded-full flex items-center justify-center">
@@ -727,9 +727,9 @@ export default function QuantumShieldClient() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 rounded-3xl p-12"
+          className="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-12"
         >
-          <div className="flex flex-col md:flex-row items-center gap-8">
+          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
             <div className="flex-shrink-0">
               <div className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/30 rounded-2xl flex items-center justify-center">
                 <svg
@@ -764,12 +764,12 @@ export default function QuantumShieldClient() {
                 dual signatures (Ed25519 + ML-DSA-65), encrypted payloads, mandatory proof-of-possession,
                 and built-in revocation. The authentication protocol for the quantum era.
               </p>
-              <div className="flex flex-wrap justify-center md:justify-start gap-3">
+              <div className="flex flex-col sm:flex-row flex-wrap justify-center md:justify-start gap-3">
                 <Button
                   borderRadius="1.75rem"
                   className="bg-gradient-to-r from-emerald-600 to-cyan-600 text-white border-emerald-500 px-6 py-3"
                 >
-                  <Link href="/qauth" className="flex items-center gap-2">
+                  <Link href="/qauth" className="flex items-center justify-center gap-2">
                     <svg
                       className="w-5 h-5"
                       fill="none"
@@ -790,7 +790,7 @@ export default function QuantumShieldClient() {
                   borderRadius="1.75rem"
                   className="bg-neutral-900 text-white border-neutral-800 px-6 py-3"
                 >
-                  <Link href="/qauth/demo" className="flex items-center gap-2">
+                  <Link href="/qauth/demo" className="flex items-center justify-center gap-2">
                     <svg
                       className="w-5 h-5"
                       fill="none"
@@ -826,9 +826,9 @@ export default function QuantumShieldClient() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="bg-gradient-to-br from-neutral-900/50 to-neutral-800/30 border border-neutral-800 rounded-3xl p-12 text-center"
+          className="bg-gradient-to-br from-neutral-900/50 to-neutral-800/30 border border-neutral-800 rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-12 text-center"
         >
-          <div className="w-16 h-16 mx-auto bg-neutral-800 rounded-2xl flex items-center justify-center mb-6">
+          <div className="w-14 h-14 md:w-16 md:h-16 mx-auto bg-neutral-800 rounded-2xl flex items-center justify-center mb-6">
             <svg
               className="w-8 h-8 text-white"
               fill="currentColor"
@@ -848,14 +848,14 @@ export default function QuantumShieldClient() {
             QuantumShield is fully open source. Audit the code, contribute
             improvements, report security issues, or learn from the implementation.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
             <Button
               borderRadius="1.75rem"
-              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-indigo-500 px-8 py-4"
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-indigo-500 px-6 sm:px-8 py-3 sm:py-4"
             >
               <Link
                 href="/quantum-shield/demo"
-                className="flex items-center gap-2"
+                className="flex items-center justify-center gap-2"
               >
                 <svg
                   className="w-5 h-5"
@@ -881,13 +881,13 @@ export default function QuantumShieldClient() {
             </Button>
             <Button
               borderRadius="1.75rem"
-              className="bg-neutral-900 text-white border-neutral-800 px-8 py-4"
+              className="bg-neutral-900 text-white border-neutral-800 px-6 sm:px-8 py-3 sm:py-4"
             >
               <a
                 href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2"
+                className="flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -901,11 +901,11 @@ export default function QuantumShieldClient() {
             </Button>
             <Button
               borderRadius="1.75rem"
-              className="bg-neutral-900 text-white border-neutral-800 px-8 py-4"
+              className="bg-neutral-900 text-white border-neutral-800 px-6 sm:px-8 py-3 sm:py-4"
             >
               <a
                 href="/blog/quantum-shield-post-quantum-cryptography"
-                className="flex items-center gap-2"
+                className="flex items-center justify-center gap-2"
               >
                 <svg
                   className="w-5 h-5"
@@ -934,7 +934,7 @@ export default function QuantumShieldClient() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="max-w-5xl mx-auto bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-3xl p-12 text-center"
+          className="max-w-5xl mx-auto bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-12 text-center"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Get Early Access

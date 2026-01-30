@@ -1,0 +1,78 @@
+[package]
+name = "quantum-shield"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.70"
+authors = ["Tushar Agrawal <tusharagrawal0104@gmail.com>"]
+description = "Post-quantum cryptographic library with ML-KEM-768, ML-DSA-65, and SLH-DSA signatures"
+license = "MIT"
+repository = "https://github.com/Tushar010402/Tushar-Agrawal-Website"
+homepage = "https://tusharagrawal.in/quantum-shield"
+documentation = "https://docs.rs/quantum-shield"
+readme = "README.md"
+keywords = ["cryptography", "post-quantum", "encryption", "ml-kem", "ml-dsa"]
+categories = ["cryptography", "no-std"]
+exclude = ["target/", "tests/"]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["std"]
+std = []
+wasm = ["wasm-bindgen", "getrandom/js"]
+python = ["pyo3"]
+
+[dependencies]
+# Post-quantum cryptography
+pqcrypto-mlkem = "0.1"
+pqcrypto-dilithium = "0.5"
+pqcrypto-sphincsplus = "0.7"
+pqcrypto-traits = "0.3"
+
+# Classical cryptography
+x25519-dalek = { version = "2.0", features = ["static_secrets"] }
+curve25519-dalek = "4.1"
+
+# Symmetric encryption
+aes-gcm = "0.10"
+chacha20poly1305 = "0.10"
+
+# Hashing and KDF
+sha3 = "0.10"
+hkdf = "0.12"
+argon2 = "0.5"
+
+# Random number generation
+rand = "0.8"
+rand_core = "0.6"
+getrandom = "0.2"
+
+# Memory safety
+zeroize = { version = "1.7", features = ["derive"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"], optional = true }
+
+# Error handling
+thiserror = "1.0"
+
+# WASM bindings (optional)
+wasm-bindgen = { version = "0.2", optional = true }
+
+# Python bindings (optional)
+pyo3 = { version = "0.20", features = ["extension-module"], optional = true }
+
+# Constant-time operations
+subtle = "2.5"
+
+[dev-dependencies]
+hex = "0.4"
+criterion = "0.5"
+proptest = "1.4"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
