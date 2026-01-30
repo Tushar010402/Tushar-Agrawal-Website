@@ -208,7 +208,7 @@ export default function QAuthDemo() {
   };
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black pt-20">
       {/* Header */}
       <div className="border-b border-neutral-800">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">

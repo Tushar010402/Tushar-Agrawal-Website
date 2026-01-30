@@ -14,7 +14,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <section id="home">
-        <HeroHighlight containerClassName="pt-20">
+        <HeroHighlight containerClassName="pt-24">
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
         <motion.div
           initial={{

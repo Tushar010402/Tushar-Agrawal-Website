@@ -208,7 +208,7 @@ export default function QAuthClient() {
     <div className="w-full bg-black min-h-screen">
       {/* Hero Section */}
       <section id="hero">
-        <HeroHighlight containerClassName="pt-20 min-h-[90vh]">
+        <HeroHighlight containerClassName="pt-24 min-h-[90vh]">
           <Spotlight
             className="-top-40 left-0 md:left-60 md:-top-20"
             fill="white"
