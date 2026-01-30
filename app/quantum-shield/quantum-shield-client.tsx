@@ -720,6 +720,105 @@ export default function QuantumShieldClient() {
         </motion.div>
       </section>
 
+      {/* QAuth Section */}
+      <section className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 rounded-3xl p-12"
+        >
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="flex-shrink-0">
+              <div className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/30 rounded-2xl flex items-center justify-center">
+                <svg
+                  className="w-10 h-10 text-emerald-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div className="flex-1 text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+                <span className="px-3 py-1 bg-emerald-500/20 border border-emerald-500/30 rounded-full text-emerald-400 text-xs font-medium">
+                  NEW
+                </span>
+                <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  QAuth
+                </h2>
+              </div>
+              <p className="text-lg text-emerald-400 mb-4">
+                Post-Quantum Authentication Protocol
+              </p>
+              <p className="text-neutral-300 mb-6 max-w-2xl">
+                Built on QuantumShield&apos;s crypto primitives, QAuth replaces OAuth 2.0 and JWT with
+                dual signatures (Ed25519 + ML-DSA-65), encrypted payloads, mandatory proof-of-possession,
+                and built-in revocation. The authentication protocol for the quantum era.
+              </p>
+              <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                <Button
+                  borderRadius="1.75rem"
+                  className="bg-gradient-to-r from-emerald-600 to-cyan-600 text-white border-emerald-500 px-6 py-3"
+                >
+                  <Link href="/qauth" className="flex items-center gap-2">
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                    Explore QAuth
+                  </Link>
+                </Button>
+                <Button
+                  borderRadius="1.75rem"
+                  className="bg-slate-900 text-white border-slate-800 px-6 py-3"
+                >
+                  <Link href="/qauth/demo" className="flex items-center gap-2">
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    Try Demo
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* Open Source Section */}
       <section className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
         <motion.div

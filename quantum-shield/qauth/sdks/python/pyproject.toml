@@ -1,0 +1,43 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "qauth"
+version = "0.1.0"
+description = "QuantumAuth - Next-generation authentication and authorization protocol with post-quantum security"
+readme = "README.md"
+authors = [{ name = "Tushar Agrawal" }]
+license = { text = "MIT" }
+keywords = ["authentication", "authorization", "post-quantum", "security", "oauth", "jwt"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Rust",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Internet :: WWW/HTTP :: Session",
+]
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "pytest-asyncio>=0.21", "mypy>=1.0"]
+
+[project.urls]
+Homepage = "https://tusharagrawal.in/quantum-auth"
+Repository = "https://github.com/tushar-agrawal/quantum-shield"
+Documentation = "https://tusharagrawal.in/quantum-auth/docs"
+
+[tool.maturin]
+features = ["python"]
+python-source = "python"
+
+[tool.mypy]
+python_version = "3.9"
+strict = true

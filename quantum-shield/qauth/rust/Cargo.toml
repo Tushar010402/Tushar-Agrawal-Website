@@ -1,0 +1,103 @@
+[package]
+name = "qauth"
+version = "0.1.0"
+edition = "2021"
+authors = ["Tushar Agrawal"]
+description = "QuantumAuth - Next-generation authentication and authorization protocol"
+license = "MIT"
+repository = "https://github.com/tushar-agrawal/quantum-shield"
+keywords = ["authentication", "authorization", "post-quantum", "security", "oauth"]
+categories = ["cryptography", "authentication", "web-programming"]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["std"]
+std = []
+wasm = ["wasm-bindgen", "js-sys", "console_error_panic_hook"]
+
+[dependencies]
+# QuantumShield crypto primitives (local path)
+quantum-shield = { path = "../../rust" }
+
+# Ed25519 for classical signatures
+ed25519-dalek = { version = "2.1", features = ["rand_core", "zeroize"] }
+
+# Post-quantum signatures (ML-DSA-65 / Dilithium3)
+pqcrypto-dilithium = "0.5"
+pqcrypto-traits = "0.3"
+
+# Symmetric encryption (XChaCha20-Poly1305)
+chacha20poly1305 = "0.10"
+
+# Hashing
+sha2 = "0.10"
+sha3 = "0.10"
+
+# CBOR encoding for payloads
+ciborium = "0.2"
+
+# JSON for policies
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# Random number generation
+rand = "0.8"
+rand_core = "0.6"
+getrandom = { version = "0.2", features = ["js"] }
+
+# Memory safety
+zeroize = { version = "1.7", features = ["derive"] }
+
+# Error handling
+thiserror = "1.0"
+
+# Base64 encoding
+base64 = "0.22"
+
+# Hex encoding
+hex = "0.4"
+
+# Serde bytes helper
+serde_bytes = "0.11"
+
+# Constant-time operations
+subtle = "2.5"
+
+# Regex for policy patterns
+regex = "1.10"
+
+# Glob pattern matching
+glob-match = "0.2"
+
+# WASM bindings (optional)
+wasm-bindgen = { version = "0.2", optional = true }
+js-sys = { version = "0.3", optional = true }
+console_error_panic_hook = { version = "0.1", optional = true }
+
+# Async runtime for revocation checks (optional)
+tokio = { version = "1.35", features = ["rt", "time"], optional = true }
+
+[dev-dependencies]
+hex = "0.4"
+criterion = "0.5"
+proptest = "1.4"
+tokio = { version = "1.35", features = ["rt-multi-thread", "macros"] }
+
+[[example]]
+name = "complete_flow"
+path = "examples/complete_flow.rs"
+
+[[bench]]
+name = "qauth_benchmarks"
+harness = false
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
