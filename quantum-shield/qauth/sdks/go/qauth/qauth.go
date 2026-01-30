@@ -5,7 +5,7 @@
 //
 // Example usage:
 //
-//	import "github.com/tushar-agrawal/quantum-shield/qauth/sdks/go/qauth"
+//	import "github.com/Tushar010402/qauth-go/qauth"
 //
 //	// Server-side: Generate issuer keys and create tokens
 //	server, err := qauth.NewServer(qauth.ServerConfig{

@@ -204,6 +204,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
+          cache: false  # No external dependencies, skip caching
 
       - name: Check formatting
         working-directory: quantum-shield/qauth/sdks/go
