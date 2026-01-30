@@ -59,7 +59,7 @@ export default function QuantumShieldPage() {
             description:
               'Post-quantum cryptography library implementing NIST FIPS 203/204/205 standards with hybrid encryption and defense-in-depth architecture.',
             programmingLanguage: 'Rust',
-            codeRepository: 'https://github.com/Tushar010402/QuantumShield',
+            codeRepository: 'https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield',
             license: 'https://opensource.org/licenses/MIT',
             author: {
               '@type': 'Person',

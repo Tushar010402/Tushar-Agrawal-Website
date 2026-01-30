@@ -785,7 +785,7 @@ export default function QAuthDemo() {
             </Link>
             <span className="text-neutral-700">|</span>
             <a
-              href="https://github.com/Tushar010402/QuantumShield/tree/master/qauth"
+              href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield/qauth"
               target="_blank"
               rel="noopener noreferrer"
               className="text-neutral-400 hover:text-white transition-colors"

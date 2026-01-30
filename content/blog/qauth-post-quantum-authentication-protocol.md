@@ -759,11 +759,11 @@ The quantum computing threat isn't hypothetical. Nation-states are harvesting en
 
 ## Resources
 
-- [QAuth Specification](https://github.com/Tushar010402/quantum-shield/tree/master/qauth/spec)
-- [Rust Implementation](https://github.com/Tushar010402/quantum-shield/tree/master/qauth/rust)
-- [TypeScript SDK](https://github.com/Tushar010402/quantum-shield/tree/master/qauth/sdks/typescript)
-- [Python SDK](https://github.com/Tushar010402/quantum-shield/tree/master/qauth/sdks/python)
-- [Go SDK](https://github.com/Tushar010402/quantum-shield/tree/master/qauth/sdks/go)
-- [QuantumShield Crypto Library](https://github.com/Tushar010402/quantum-shield)
+- [QAuth Specification](https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield/qauth/spec)
+- [Rust Implementation](https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield/qauth/rust)
+- [TypeScript SDK](https://www.npmjs.com/package/@quantumshield/qauth) - `npm install @quantumshield/qauth`
+- [Python SDK](https://pypi.org/project/qauth/) - `pip install qauth`
+- [Go SDK](https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield/qauth/sdks/go)
+- [QuantumShield Crypto Library](https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield)
 
 *QAuth is part of the QuantumShield project, bringing post-quantum cryptography to authentication.*

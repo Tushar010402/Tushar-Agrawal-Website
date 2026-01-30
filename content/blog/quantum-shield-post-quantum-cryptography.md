@@ -403,4 +403,4 @@ QuantumShield's value is in education and experimentation—demonstrating that t
 
 ---
 
-*QuantumShield is open source under the MIT license. [View on GitHub](https://github.com/Tushar010402/QuantumShield) or [try the live demo](/quantum-shield/demo) to see ML-KEM-768 running in your browser.*
+*QuantumShield is open source under the MIT license. [View on GitHub](https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield) or [try the live demo](/quantum-shield/demo) to see ML-KEM-768 running in your browser.*

@@ -59,7 +59,7 @@ export default function QAuthPage() {
             description:
               'Post-quantum authentication protocol with dual signatures (Ed25519 + ML-DSA-65), encrypted payloads, mandatory proof-of-possession, and built-in revocation.',
             programmingLanguage: ['Rust', 'TypeScript', 'Python', 'Go'],
-            codeRepository: 'https://github.com/Tushar010402/QuantumShield',
+            codeRepository: 'https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield/qauth',
             license: 'https://opensource.org/licenses/MIT',
             author: {
               '@type': 'Person',

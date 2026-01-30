@@ -119,74 +119,86 @@ const attacks = [
 ];
 
 const codeExamples = {
-  rust: `use qauth::{Issuer, Claims, Validator};
+  rust: `use qauth::{Issuer, Token, Validator, Policy, PolicyEngine};
 
 // Generate issuer with dual keys (Ed25519 + ML-DSA-65)
-let issuer = Issuer::generate();
+let issuer = Issuer::generate()?;
 
-// Create a QToken
-let claims = Claims::new()
+// Create a QToken with encrypted payload
+let token = Token::builder()
     .subject("user-12345")
     .audience("https://api.example.com")
     .policy_ref("urn:qauth:policy:standard")
-    .expires_in(Duration::from_secs(3600));
-
-let token = issuer.create_token(claims)?;
+    .expires_in(Duration::from_secs(3600))
+    .build(&issuer)?;
 
 // Validate with dual signature verification
 let validator = Validator::new(issuer.verifying_keys());
-let verified = validator.validate(&token.encode())?;`,
-  typescript: `import { QAuthIssuer, Claims, QAuthValidator } from 'qauth';
+let claims = validator.validate(&token)?;
 
-// Generate issuer with dual keys
-const issuer = await QAuthIssuer.generate();
+// Policy-based authorization
+let engine = PolicyEngine::new();
+let result = engine.evaluate(&policy, &context);`,
+  typescript: `import { QAuthServer, QAuthClient, PolicyEngine } from '@quantumshield/qauth';
 
-// Create a QToken
-const claims = new Claims()
-  .subject('user-12345')
-  .audience('https://api.example.com')
-  .policyRef('urn:qauth:policy:standard')
-  .expiresIn(3600);
+// Server-side: Create tokens
+const server = new QAuthServer({
+  issuer: 'https://auth.example.com',
+  audience: 'https://api.example.com',
+});
 
-const token = await issuer.createToken(claims);
+const token = server.createToken({
+  subject: 'user-12345',
+  policyRef: 'urn:qauth:policy:standard',
+  validitySeconds: 3600,
+});
 
-// Validate with proof of possession
-const validator = new QAuthValidator(issuer.verifyingKeys());
-const verified = await validator.validate(token);`,
-  python: `from qauth import QAuthIssuer, Claims, QAuthValidator
+// Client-side: Create proof of possession
+const client = new QAuthClient();
+const proof = client.createProof('GET', '/api/resource', token);
 
-# Generate issuer with dual keys
-issuer = QAuthIssuer.generate()
+// Validate tokens
+const payload = server.validateToken(token);`,
+  python: `from qauth import QAuthServer, QAuthClient, PolicyEngine
 
-# Create a QToken
-claims = Claims() \\
-    .subject("user-12345") \\
-    .audience("https://api.example.com") \\
-    .policy_ref("urn:qauth:policy:standard") \\
-    .expires_in(3600)
+# Server-side: Create tokens
+server = QAuthServer(
+    issuer="https://auth.example.com",
+    audience="https://api.example.com"
+)
 
-token = issuer.create_token(claims)
+token = server.create_token(
+    subject="user-12345",
+    policy_ref="urn:qauth:policy:standard",
+    validity_seconds=3600
+)
 
-# Validate with dual signature verification
-validator = QAuthValidator(issuer.verifying_keys())
-verified = validator.validate(token)`,
-  go: `import "github.com/tushar010402/qauth-go"
+# Client-side: Create proof of possession
+client = QAuthClient()
+proof = client.create_proof("GET", "/api/resource", token)
 
-// Generate issuer with dual keys
-issuer := qauth.GenerateIssuer()
+# Validate tokens
+payload = server.validate_token(token)`,
+  go: `import qauth "github.com/Tushar010402/Tushar-Agrawal-Website/quantum-shield/qauth/sdks/go"
 
-// Create a QToken
-claims := qauth.NewClaims().
-    Subject("user-12345").
-    Audience("https://api.example.com").
-    PolicyRef("urn:qauth:policy:standard").
-    ExpiresIn(3600)
+// Server-side: Create tokens
+server := qauth.NewServer(qauth.Config{
+    Issuer:   "https://auth.example.com",
+    Audience: "https://api.example.com",
+})
 
-token, _ := issuer.CreateToken(claims)
+token, _ := server.CreateToken(qauth.TokenOptions{
+    Subject:   "user-12345",
+    PolicyRef: "urn:qauth:policy:standard",
+    Validity:  3600,
+})
 
-// Validate with proof of possession
-validator := qauth.NewValidator(issuer.VerifyingKeys())
-verified, _ := validator.Validate(token)`,
+// Client-side: Create proof of possession
+client := qauth.NewClient()
+proof := client.CreateProof("GET", "/api/resource", token)
+
+// Validate tokens
+payload, _ := server.ValidateToken(token)`,
 };
 
 export default function QAuthClient() {
@@ -289,7 +301,7 @@ export default function QAuthClient() {
                 className="bg-slate-900 text-white border-slate-800 px-8 py-4"
               >
                 <a
-                  href="https://github.com/Tushar010402/QuantumShield/tree/master/qauth"
+                  href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield/qauth"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2"
@@ -673,21 +685,21 @@ export default function QAuthClient() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-8 grid md:grid-cols-4 gap-4"
         >
-          <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4">
-            <p className="text-neutral-400 text-xs mb-2">Rust</p>
-            <code className="text-emerald-400 text-sm">cargo add qauth</code>
-          </div>
-          <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4">
-            <p className="text-neutral-400 text-xs mb-2">TypeScript</p>
-            <code className="text-emerald-400 text-sm">npm install @quantumshield/qauth</code>
-          </div>
-          <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4">
-            <p className="text-neutral-400 text-xs mb-2">Python</p>
+          <a href="https://crates.io/crates/quantum-qauth" target="_blank" rel="noopener noreferrer" className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4 hover:border-emerald-500/30 transition-colors">
+            <p className="text-neutral-400 text-xs mb-2">Rust (crates.io)</p>
+            <code className="text-emerald-400 text-sm">cargo add quantum-qauth</code>
+          </a>
+          <a href="https://www.npmjs.com/package/@quantumshield/qauth" target="_blank" rel="noopener noreferrer" className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4 hover:border-emerald-500/30 transition-colors">
+            <p className="text-neutral-400 text-xs mb-2">TypeScript (npm)</p>
+            <code className="text-emerald-400 text-sm">npm i @quantumshield/qauth</code>
+          </a>
+          <a href="https://pypi.org/project/qauth/" target="_blank" rel="noopener noreferrer" className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4 hover:border-emerald-500/30 transition-colors">
+            <p className="text-neutral-400 text-xs mb-2">Python (PyPI)</p>
             <code className="text-emerald-400 text-sm">pip install qauth</code>
-          </div>
+          </a>
           <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4">
-            <p className="text-neutral-400 text-xs mb-2">Go</p>
-            <code className="text-emerald-400 text-sm">go get github.com/tushar010402/qauth-go</code>
+            <p className="text-neutral-400 text-xs mb-2">Go (module)</p>
+            <code className="text-emerald-400 text-xs">go get github.com/Tushar010402/...</code>
           </div>
         </motion.div>
       </section>
@@ -905,7 +917,7 @@ export default function QAuthClient() {
               </Link>
               <span className="text-neutral-700">|</span>
               <a
-                href="https://github.com/Tushar010402/QuantumShield/tree/master/qauth"
+                href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield/qauth"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-neutral-400 hover:text-white transition-colors"

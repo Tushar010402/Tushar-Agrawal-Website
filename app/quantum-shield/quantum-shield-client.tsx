@@ -884,7 +884,7 @@ export default function QuantumShieldClient() {
               className="bg-slate-900 text-white border-slate-800 px-8 py-4"
             >
               <a
-                href="https://github.com/Tushar010402/QuantumShield"
+                href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
@@ -965,7 +965,7 @@ export default function QuantumShieldClient() {
               </Link>
               <span className="text-neutral-700">|</span>
               <a
-                href="https://github.com/Tushar010402/QuantumShield"
+                href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-neutral-400 hover:text-white transition-colors"
