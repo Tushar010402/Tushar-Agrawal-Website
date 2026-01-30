@@ -235,19 +235,19 @@ export default function QuantumShieldDemo() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-500/30 rounded-full mb-4">
-            <svg className="w-4 h-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30 rounded-full mb-4">
+            <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
             </svg>
-            <span className="text-orange-300 text-sm font-medium">Lightning Fast Edition</span>
+            <span className="text-emerald-300 text-sm font-medium">Defense-in-Depth v3.0</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Live Encryption Demo
           </h1>
           <p className="text-neutral-400 max-w-2xl mx-auto">
-            Experience QuantumShield&apos;s cascading encryption in your browser.
-            Optimized with pre-expanded keys, zero-copy operations, and inline critical paths.
-            Your data never leaves your device.
+            Experience QuantumShield&apos;s unique defense-in-depth encryption.
+            Features Argon2id memory-hard KDF, dual-layer ciphers, length hiding,
+            and forward secrecy sessions. Your data never leaves your device.
           </p>
         </motion.div>
 
@@ -256,25 +256,43 @@ export default function QuantumShieldDemo() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
+          className="flex flex-wrap justify-center gap-2 mb-8"
         >
-          <span className="px-4 py-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-300 text-sm font-mono">
+          <span className="px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-300 text-xs font-mono">
             AES-256-GCM
           </span>
-          <span className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-full text-purple-300 text-sm font-mono">
+          <span className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/30 rounded-full text-purple-300 text-xs font-mono">
             ChaCha20-Poly1305
           </span>
-          <span className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-300 text-sm font-mono">
-            HKDF-SHA3-512
+          <span className="px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/30 rounded-full text-cyan-300 text-xs font-mono">
+            Argon2id
           </span>
-          <span className="px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-green-300 text-sm font-mono">
-            WebAssembly
+          <span className="px-3 py-1.5 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-300 text-xs font-mono">
+            X25519
           </span>
-          <span className="px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-full text-orange-300 text-sm">
-            Pre-expanded Keys
+        </motion.div>
+
+        {/* Unique Features */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="flex flex-wrap justify-center gap-2 mb-12"
+        >
+          <span className="px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-300 text-xs">
+            Dual-Layer Cipher
           </span>
-          <span className="px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-300 text-sm">
-            Zero-copy Ops
+          <span className="px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-300 text-xs">
+            19MB Memory-Hard KDF
+          </span>
+          <span className="px-3 py-1.5 bg-rose-500/10 border border-rose-500/30 rounded-full text-rose-300 text-xs">
+            Length Hiding
+          </span>
+          <span className="px-3 py-1.5 bg-violet-500/10 border border-violet-500/30 rounded-full text-violet-300 text-xs">
+            Forward Secrecy
+          </span>
+          <span className="px-3 py-1.5 bg-orange-500/10 border border-orange-500/30 rounded-full text-orange-300 text-xs">
+            AAD Context Binding
           </span>
         </motion.div>
 
@@ -302,7 +320,7 @@ export default function QuantumShieldDemo() {
                 placeholder="Enter a password"
               />
               <p className="text-xs text-neutral-500 mt-1">
-                Key derived using HKDF-SHA3-512
+                Key derived using Argon2id (19MB memory-hard, GPU resistant)
               </p>
             </div>
 
@@ -560,60 +578,92 @@ export default function QuantumShieldDemo() {
               </div>
             )}
 
-            {/* Encryption Process Visualization */}
+            {/* Defense-in-Depth Visualization */}
             <div className="border-t border-neutral-800 pt-6">
               <h3 className="text-sm font-medium text-neutral-400 mb-4">
-                Encryption Layers
+                Defense-in-Depth Architecture
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center text-indigo-400 font-mono text-sm">
+                  <div className="w-7 h-7 bg-cyan-500/20 rounded flex items-center justify-center text-cyan-400 font-mono text-xs">
+                    0
+                  </div>
+                  <div>
+                    <p className="text-white text-sm">Argon2id KDF</p>
+                    <p className="text-neutral-500 text-xs">19MB memory-hard, GPU resistant</p>
+                  </div>
+                </div>
+                <div className="ml-3.5 w-px h-3 bg-neutral-700" />
+                <div className="flex items-center gap-3">
+                  <div className="w-7 h-7 bg-rose-500/20 rounded flex items-center justify-center text-rose-400 font-mono text-xs">
                     1
                   </div>
                   <div>
-                    <p className="text-white text-sm">AES-256-GCM</p>
-                    <p className="text-neutral-500 text-xs">NIST-approved block cipher</p>
+                    <p className="text-white text-sm">Length Hiding</p>
+                    <p className="text-neutral-500 text-xs">Random padding, traffic analysis protection</p>
                   </div>
                 </div>
-                <div className="ml-4 w-px h-4 bg-neutral-700" />
+                <div className="ml-3.5 w-px h-3 bg-neutral-700" />
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center text-purple-400 font-mono text-sm">
+                  <div className="w-7 h-7 bg-indigo-500/20 rounded flex items-center justify-center text-indigo-400 font-mono text-xs">
                     2
                   </div>
                   <div>
+                    <p className="text-white text-sm">AES-256-GCM</p>
+                    <p className="text-neutral-500 text-xs">NIST block cipher + authentication</p>
+                  </div>
+                </div>
+                <div className="ml-3.5 w-px h-3 bg-neutral-700" />
+                <div className="flex items-center gap-3">
+                  <div className="w-7 h-7 bg-purple-500/20 rounded flex items-center justify-center text-purple-400 font-mono text-xs">
+                    3
+                  </div>
+                  <div>
                     <p className="text-white text-sm">ChaCha20-Poly1305</p>
-                    <p className="text-neutral-500 text-xs">IETF stream cipher</p>
+                    <p className="text-neutral-500 text-xs">IETF stream cipher + authentication</p>
                   </div>
                 </div>
               </div>
               <p className="text-xs text-neutral-500 mt-4">
-                Both ciphers must be broken to decrypt the data.
+                Four layers of protection. Both ciphers must be broken to decrypt.
               </p>
             </div>
           </div>
         </motion.div>
 
-        {/* Security Notice */}
+        {/* What Makes QuantumShield Different */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="mt-12 bg-blue-500/10 border border-blue-500/20 rounded-2xl p-6"
+          className="mt-12 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 border border-emerald-500/20 rounded-2xl p-6"
         >
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+          <h3 className="text-white font-medium mb-4 flex items-center gap-2">
+            <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            What Makes QuantumShield Different
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4 text-sm">
+            <div className="space-y-3">
+              <div>
+                <p className="text-emerald-300 font-medium">Dual-Layer Encryption</p>
+                <p className="text-neutral-400 text-xs">Unlike single-cipher libraries, QuantumShield uses TWO independent ciphers. Both must be broken.</p>
+              </div>
+              <div>
+                <p className="text-amber-300 font-medium">Argon2id (19MB Memory-Hard)</p>
+                <p className="text-neutral-400 text-xs">GPU/ASIC password cracking is extremely expensive. Web Crypto only offers PBKDF2.</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-white font-medium mb-1">About This Demo</h3>
-              <p className="text-neutral-300 text-sm">
-                This demo showcases QuantumShield&apos;s cascading encryption using classical algorithms
-                (AES-GCM + ChaCha20). The full QuantumShield library adds post-quantum key exchange
-                (X25519 + ML-KEM-768) for quantum-resistant security. All cryptographic operations
-                run locally in your browser using WebAssembly.
-              </p>
+            <div className="space-y-3">
+              <div>
+                <p className="text-rose-300 font-medium">Length Hiding</p>
+                <p className="text-neutral-400 text-xs">Random padding prevents traffic analysis. &quot;Hi&quot; and &quot;Hello World&quot; produce similar-sized ciphertext.</p>
+              </div>
+              <div>
+                <p className="text-violet-300 font-medium">Forward Secrecy Sessions</p>
+                <p className="text-neutral-400 text-xs">Each message uses a unique key. Compromising one doesn&apos;t reveal past messages (like Signal).</p>
+              </div>
             </div>
           </div>
         </motion.div>

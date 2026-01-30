@@ -1,7 +1,10 @@
 /* @ts-self-types="./quantum_shield_demo.d.ts" */
 
 /**
- * High-performance cipher with pre-expanded keys
+ * High-security cipher with dual-layer encryption
+ *
+ * UNIQUE: Uses cascading encryption where data passes through
+ * TWO independent ciphers. Both must be broken to decrypt.
  */
 export class QShieldCipher {
     static __wrap(ptr) {
@@ -22,7 +25,7 @@ export class QShieldCipher {
         wasm.__wbg_qshieldcipher_free(ptr, 0);
     }
     /**
-     * Decrypt data - optimized hot path
+     * Standard decrypt (no AAD)
      * @param {Uint8Array} ciphertext
      * @returns {Uint8Array}
      */
@@ -47,32 +50,7 @@ export class QShieldCipher {
         }
     }
     /**
-     * Decrypt chunked data
-     * @param {Uint8Array} data
-     * @returns {Uint8Array}
-     */
-    decrypt_chunks(data) {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passArray8ToWasm0(data, wasm.__wbindgen_export3);
-            const len0 = WASM_VECTOR_LEN;
-            wasm.qshieldcipher_decrypt_chunks(retptr, this.__wbg_ptr, ptr0, len0);
-            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
-            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
-            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
-            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
-            if (r3) {
-                throw takeObject(r2);
-            }
-            var v2 = getArrayU8FromWasm0(r0, r1).slice();
-            wasm.__wbindgen_export2(r0, r1 * 1, 1);
-            return v2;
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-        }
-    }
-    /**
-     * Decrypt base64 to string - convenience method
+     * Decrypt base64 to string
      * @param {string} ciphertext_b64
      * @returns {string}
      */
@@ -103,7 +81,69 @@ export class QShieldCipher {
         }
     }
     /**
-     * Encrypt data - optimized hot path
+     * Decrypt string with AAD
+     * @param {string} ciphertext_b64
+     * @param {string} context
+     * @returns {string}
+     */
+    decrypt_string_with_context(ciphertext_b64, context) {
+        let deferred4_0;
+        let deferred4_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(ciphertext_b64, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len0 = WASM_VECTOR_LEN;
+            const ptr1 = passStringToWasm0(context, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len1 = WASM_VECTOR_LEN;
+            wasm.qshieldcipher_decrypt_string_with_context(retptr, this.__wbg_ptr, ptr0, len0, ptr1, len1);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+            var ptr3 = r0;
+            var len3 = r1;
+            if (r3) {
+                ptr3 = 0; len3 = 0;
+                throw takeObject(r2);
+            }
+            deferred4_0 = ptr3;
+            deferred4_1 = len3;
+            return getStringFromWasm0(ptr3, len3);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred4_0, deferred4_1, 1);
+        }
+    }
+    /**
+     * Decrypt with AAD verification
+     * @param {Uint8Array} ciphertext
+     * @param {Uint8Array} aad
+     * @returns {Uint8Array}
+     */
+    decrypt_with_aad(ciphertext, aad) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(ciphertext, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            const ptr1 = passArray8ToWasm0(aad, wasm.__wbindgen_export3);
+            const len1 = WASM_VECTOR_LEN;
+            wasm.qshieldcipher_decrypt_with_aad(retptr, this.__wbg_ptr, ptr0, len0, ptr1, len1);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+            if (r3) {
+                throw takeObject(r2);
+            }
+            var v3 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v3;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Standard encrypt (no AAD)
      * @param {Uint8Array} plaintext
      * @returns {Uint8Array}
      */
@@ -128,33 +168,7 @@ export class QShieldCipher {
         }
     }
     /**
-     * Encrypt multiple chunks in sequence (for large data)
-     * @param {Uint8Array} data
-     * @param {number} chunk_size
-     * @returns {Uint8Array}
-     */
-    encrypt_chunks(data, chunk_size) {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passArray8ToWasm0(data, wasm.__wbindgen_export3);
-            const len0 = WASM_VECTOR_LEN;
-            wasm.qshieldcipher_encrypt_chunks(retptr, this.__wbg_ptr, ptr0, len0, chunk_size);
-            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
-            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
-            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
-            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
-            if (r3) {
-                throw takeObject(r2);
-            }
-            var v2 = getArrayU8FromWasm0(r0, r1).slice();
-            wasm.__wbindgen_export2(r0, r1 * 1, 1);
-            return v2;
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-        }
-    }
-    /**
-     * Encrypt string to base64 - convenience method
+     * Encrypt string to base64
      * @param {string} plaintext
      * @returns {string}
      */
@@ -185,7 +199,72 @@ export class QShieldCipher {
         }
     }
     /**
-     * Create cipher from raw bytes
+     * Encrypt string with AAD
+     * @param {string} plaintext
+     * @param {string} context
+     * @returns {string}
+     */
+    encrypt_string_with_context(plaintext, context) {
+        let deferred4_0;
+        let deferred4_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(plaintext, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len0 = WASM_VECTOR_LEN;
+            const ptr1 = passStringToWasm0(context, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len1 = WASM_VECTOR_LEN;
+            wasm.qshieldcipher_encrypt_string_with_context(retptr, this.__wbg_ptr, ptr0, len0, ptr1, len1);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+            var ptr3 = r0;
+            var len3 = r1;
+            if (r3) {
+                ptr3 = 0; len3 = 0;
+                throw takeObject(r2);
+            }
+            deferred4_0 = ptr3;
+            deferred4_1 = len3;
+            return getStringFromWasm0(ptr3, len3);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred4_0, deferred4_1, 1);
+        }
+    }
+    /**
+     * Encrypt with optional Associated Authenticated Data (AAD)
+     *
+     * UNIQUE: AAD binds ciphertext to a context (e.g., user ID, session).
+     * Ciphertext cannot be moved to different context without detection.
+     * @param {Uint8Array} plaintext
+     * @param {Uint8Array} aad
+     * @returns {Uint8Array}
+     */
+    encrypt_with_aad(plaintext, aad) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(plaintext, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            const ptr1 = passArray8ToWasm0(aad, wasm.__wbindgen_export3);
+            const len1 = WASM_VECTOR_LEN;
+            wasm.qshieldcipher_encrypt_with_aad(retptr, this.__wbg_ptr, ptr0, len0, ptr1, len1);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+            if (r3) {
+                throw takeObject(r2);
+            }
+            var v3 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v3;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Create cipher from raw key bytes (for key exchange scenarios)
      * @param {Uint8Array} secret
      * @returns {QShieldCipher}
      */
@@ -207,7 +286,41 @@ export class QShieldCipher {
         }
     }
     /**
-     * Create cipher from password - keys are pre-expanded for speed
+     * Create cipher with optional length hiding
+     * @param {string} password
+     * @param {boolean} enable_padding
+     * @returns {QShieldCipher}
+     */
+    static from_password_with_options(password, enable_padding) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(password, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldcipher_from_password_with_options(retptr, ptr0, len0, enable_padding);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return QShieldCipher.__wrap(r0);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Check if length hiding is enabled
+     * @returns {boolean}
+     */
+    has_length_hiding() {
+        const ret = wasm.qshieldcipher_has_length_hiding(this.__wbg_ptr);
+        return ret !== 0;
+    }
+    /**
+     * Create cipher from password using Argon2id (memory-hard)
+     *
+     * UNIQUE: Uses 64MB of memory during key derivation,
+     * making GPU/ASIC password cracking extremely expensive.
      * @param {string} password
      */
     constructor(password) {
@@ -215,7 +328,7 @@ export class QShieldCipher {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
             const ptr0 = passStringToWasm0(password, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
             const len0 = WASM_VECTOR_LEN;
-            wasm.qshieldcipher_from_bytes(retptr, ptr0, len0);
+            wasm.qshieldcipher_new(retptr, ptr0, len0);
             var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
             var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
             var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
@@ -230,7 +343,7 @@ export class QShieldCipher {
         }
     }
     /**
-     * Get overhead per encryption (for performance calculations)
+     * Get encryption overhead
      * @returns {number}
      */
     overhead() {
@@ -240,9 +353,6 @@ export class QShieldCipher {
 }
 if (Symbol.dispose) QShieldCipher.prototype[Symbol.dispose] = QShieldCipher.prototype.free;
 
-/**
- * X25519 Key Exchange for secure key establishment
- */
 export class QShieldKeyExchange {
     __destroy_into_raw() {
         const ptr = this.__wbg_ptr;
@@ -255,7 +365,7 @@ export class QShieldKeyExchange {
         wasm.__wbg_qshieldkeyexchange_free(ptr, 0);
     }
     /**
-     * Derive shared secret and create cipher
+     * Derive cipher from peer's public key
      * @param {Uint8Array} peer_public_key
      * @returns {QShieldCipher}
      */
@@ -272,6 +382,28 @@ export class QShieldKeyExchange {
                 throw takeObject(r1);
             }
             return QShieldCipher.__wrap(r0);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Derive forward secrecy session from peer's public key
+     * @param {Uint8Array} peer_public_key
+     * @returns {QShieldSession}
+     */
+    derive_session(peer_public_key) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(peer_public_key, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldkeyexchange_derive_session(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return QShieldSession.__wrap(r0);
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
@@ -298,11 +430,138 @@ export class QShieldKeyExchange {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
     }
+    /**
+     * @returns {string}
+     */
+    get public_key_base64() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.qshieldkeyexchange_public_key_base64(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred1_0 = r0;
+            deferred1_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred1_0, deferred1_1, 1);
+        }
+    }
 }
 if (Symbol.dispose) QShieldKeyExchange.prototype[Symbol.dispose] = QShieldKeyExchange.prototype.free;
 
 /**
- * Performance benchmark utility
+ * Forward secrecy session with automatic key ratcheting
+ *
+ * UNIQUE: Each message uses a different key derived from the previous.
+ * Compromising one key doesn't reveal past messages (like Signal Protocol).
+ */
+export class QShieldSession {
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(QShieldSession.prototype);
+        obj.__wbg_ptr = ptr;
+        QShieldSessionFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        QShieldSessionFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_qshieldsession_free(ptr, 0);
+    }
+    /**
+     * Decrypt message (must be decrypted in order for forward secrecy)
+     * @param {Uint8Array} ciphertext
+     * @returns {Uint8Array}
+     */
+    decrypt(ciphertext) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(ciphertext, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldsession_decrypt(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+            if (r3) {
+                throw takeObject(r2);
+            }
+            var v2 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v2;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Encrypt message with forward secrecy (key ratchets after each message)
+     * @param {Uint8Array} plaintext
+     * @returns {Uint8Array}
+     */
+    encrypt(plaintext) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(plaintext, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldsession_encrypt(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+            if (r3) {
+                throw takeObject(r2);
+            }
+            var v2 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v2;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Get current message count
+     * @returns {bigint}
+     */
+    message_count() {
+        const ret = wasm.qshieldsession_message_count(this.__wbg_ptr);
+        return BigInt.asUintN(64, ret);
+    }
+    /**
+     * Create new session from shared secret
+     * @param {Uint8Array} shared_secret
+     */
+    constructor(shared_secret) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(shared_secret, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldsession_new(retptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            this.__wbg_ptr = r0 >>> 0;
+            QShieldSessionFinalization.register(this, this.__wbg_ptr, this);
+            return this;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+}
+if (Symbol.dispose) QShieldSession.prototype[Symbol.dispose] = QShieldSession.prototype.free;
+
+/**
+ * Performance benchmark
  * @param {number} iterations
  * @param {number} data_size
  * @returns {any}
@@ -324,7 +583,7 @@ export function benchmark(iterations, data_size) {
 }
 
 /**
- * Quick demo function
+ * Quick demo
  * @param {string} message
  * @param {string} password
  * @returns {string}
@@ -359,7 +618,7 @@ export function demo(message, password) {
 }
 
 /**
- * Library info
+ * Library info with unique features
  * @returns {string}
  */
 export function info() {
@@ -379,11 +638,24 @@ export function info() {
     }
 }
 
-/**
- * Initialize panic hook for better error messages
- */
 export function init() {
     wasm.init();
+}
+
+/**
+ * Constant-time comparison of two byte arrays
+ * Prevents timing attacks when comparing secrets
+ * @param {Uint8Array} a
+ * @param {Uint8Array} b
+ * @returns {boolean}
+ */
+export function secure_compare(a, b) {
+    const ptr0 = passArray8ToWasm0(a, wasm.__wbindgen_export3);
+    const len0 = WASM_VECTOR_LEN;
+    const ptr1 = passArray8ToWasm0(b, wasm.__wbindgen_export3);
+    const len1 = WASM_VECTOR_LEN;
+    const ret = wasm.secure_compare(ptr0, len0, ptr1, len1);
+    return ret !== 0;
 }
 
 function __wbg_get_imports() {
@@ -552,6 +824,9 @@ const QShieldCipherFinalization = (typeof FinalizationRegistry === 'undefined')
 const QShieldKeyExchangeFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_qshieldkeyexchange_free(ptr >>> 0, 1));
+const QShieldSessionFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_qshieldsession_free(ptr >>> 0, 1));
 
 function addHeapObject(obj) {
     if (heap_next === heap.length) heap.push(heap.length + 1);
