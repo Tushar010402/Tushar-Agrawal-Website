@@ -15,6 +15,7 @@ categories = ["cryptography", "authentication", "web-programming"]
 exclude = ["target/", "fuzz/", "examples/"]
 
 [lib]
+name = "qauth"  # Keep library name as 'qauth' for backwards compatibility
 crate-type = ["cdylib", "rlib"]
 
 [features]
