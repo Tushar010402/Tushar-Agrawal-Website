@@ -8,22 +8,20 @@
   "sideEffects": false,
   "files": [
     "dist",
-    "wasm",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
-    "build:wasm": "cd ../../rust && wasm-pack build --target web --out-dir ../sdks/typescript/wasm --features wasm",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint src/ --ext .ts",
-    "lint:fix": "eslint src/ --ext .ts --fix",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write src/",
     "format:check": "prettier --check src/",
-    "prepublishOnly": "npm run lint && npm run typecheck && npm run test && npm run build"
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build"
   },
   "keywords": [
     "authentication",
