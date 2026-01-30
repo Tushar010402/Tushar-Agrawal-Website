@@ -1,25 +1,43 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
+interface QShieldCipherInstance {
+  encrypt_string: (plaintext: string) => string;
+  decrypt_string: (ciphertext: string) => string;
+  encrypt: (data: Uint8Array) => Uint8Array;
+  decrypt: (data: Uint8Array) => Uint8Array;
+  overhead: () => number;
+  free: () => void;
+}
+
+interface QShieldCipherConstructor {
+  new (password: string): QShieldCipherInstance;
+}
+
 interface WasmModule {
-  QShieldCipher: {
-    from_password: (password: string) => {
-      encrypt_string: (plaintext: string) => string;
-      decrypt_string: (ciphertext: string) => string;
-      free: () => void;
-    };
-  };
-  demo_encrypt_decrypt: (message: string, password: string) => string;
-  get_library_info: () => string;
+  QShieldCipher: QShieldCipherConstructor;
+  benchmark: (iterations: number, dataSize: number) => string;
+  demo: (message: string, password: string) => string;
+  info: () => string;
+}
+
+interface BenchmarkResult {
+  iterations: number;
+  dataSize: number;
+  encryptTime: number;
+  decryptTime: number;
+  encryptThroughput: number;
+  decryptThroughput: number;
 }
 
 export default function QuantumShieldDemo() {
   const [wasm, setWasm] = useState<WasmModule | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const cipherRef = useRef<QShieldCipherInstance | null>(null);
 
   // Demo state
   const [message, setMessage] = useState("Hello, Quantum World!");
@@ -28,7 +46,13 @@ export default function QuantumShieldDemo() {
   const [decrypted, setDecrypted] = useState("");
   const [encryptTime, setEncryptTime] = useState<number | null>(null);
   const [decryptTime, setDecryptTime] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState<"encrypt" | "decrypt">("encrypt");
+  const [activeTab, setActiveTab] = useState<"encrypt" | "decrypt" | "benchmark">("encrypt");
+
+  // Benchmark state
+  const [benchmarkResult, setBenchmarkResult] = useState<BenchmarkResult | null>(null);
+  const [benchmarkRunning, setBenchmarkRunning] = useState(false);
+  const [benchmarkDataSize, setBenchmarkDataSize] = useState(1024); // 1KB default
+  const [benchmarkIterations, setBenchmarkIterations] = useState(100);
 
   // Load WASM module
   useEffect(() => {
@@ -61,42 +85,90 @@ export default function QuantumShieldDemo() {
     loadWasm();
   }, []);
 
-  const handleEncrypt = useCallback(() => {
-    if (!wasm || !message || !password) return;
+  // Initialize cipher when password changes
+  useEffect(() => {
+    if (!wasm || !password) return;
+
+    // Free old cipher
+    if (cipherRef.current) {
+      try {
+        cipherRef.current.free();
+      } catch {
+        // Ignore
+      }
+    }
 
     try {
+      cipherRef.current = new wasm.QShieldCipher(password);
+    } catch (err) {
+      setError(`Failed to create cipher: ${err}`);
+    }
+
+    return () => {
+      if (cipherRef.current) {
+        try {
+          cipherRef.current.free();
+        } catch {
+          // Ignore cleanup errors
+        }
+      }
+    };
+  }, [wasm, password]);
+
+  const handleEncrypt = useCallback(() => {
+    if (!cipherRef.current || !message) return;
+
+    try {
+      setError(null);
       const start = performance.now();
-      const cipher = wasm.QShieldCipher.from_password(password);
-      const result = cipher.encrypt_string(message);
+      const result = cipherRef.current.encrypt_string(message);
       const end = performance.now();
 
       setEncrypted(result);
       setEncryptTime(end - start);
       setDecrypted("");
       setDecryptTime(null);
-      cipher.free();
     } catch (err) {
       setError(`Encryption failed: ${err}`);
     }
-  }, [wasm, message, password]);
+  }, [message]);
 
   const handleDecrypt = useCallback(() => {
-    if (!wasm || !encrypted || !password) return;
+    if (!cipherRef.current || !encrypted) return;
 
     try {
+      setError(null);
       const start = performance.now();
-      const cipher = wasm.QShieldCipher.from_password(password);
-      const result = cipher.decrypt_string(encrypted);
+      const result = cipherRef.current.decrypt_string(encrypted);
       const end = performance.now();
 
       setDecrypted(result);
       setDecryptTime(end - start);
-      cipher.free();
     } catch (err) {
       setError(`Decryption failed: ${err}`);
       setDecrypted("");
     }
-  }, [wasm, encrypted, password]);
+  }, [encrypted]);
+
+  const handleBenchmark = useCallback(async () => {
+    if (!wasm) return;
+
+    setBenchmarkRunning(true);
+    setError(null);
+
+    // Use setTimeout to allow UI to update
+    setTimeout(() => {
+      try {
+        const resultJson = wasm.benchmark(benchmarkIterations, benchmarkDataSize);
+        const result = JSON.parse(resultJson) as BenchmarkResult;
+        setBenchmarkResult(result);
+      } catch (err) {
+        setError(`Benchmark failed: ${err}`);
+      } finally {
+        setBenchmarkRunning(false);
+      }
+    }, 50);
+  }, [wasm, benchmarkIterations, benchmarkDataSize]);
 
   const copyToClipboard = async (text: string) => {
     await navigator.clipboard.writeText(text);
@@ -163,12 +235,19 @@ export default function QuantumShieldDemo() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-500/30 rounded-full mb-4">
+            <svg className="w-4 h-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <span className="text-orange-300 text-sm font-medium">Lightning Fast Edition</span>
+          </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Live Encryption Demo
           </h1>
           <p className="text-neutral-400 max-w-2xl mx-auto">
             Experience QuantumShield&apos;s cascading encryption in your browser.
-            This demo runs entirely in WebAssembly—your data never leaves your device.
+            Optimized with pre-expanded keys, zero-copy operations, and inline critical paths.
+            Your data never leaves your device.
           </p>
         </motion.div>
 
@@ -190,6 +269,12 @@ export default function QuantumShieldDemo() {
           </span>
           <span className="px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-green-300 text-sm font-mono">
             WebAssembly
+          </span>
+          <span className="px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-full text-orange-300 text-sm">
+            Pre-expanded Keys
+          </span>
+          <span className="px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-300 text-sm">
+            Zero-copy Ops
           </span>
         </motion.div>
 
@@ -243,9 +328,19 @@ export default function QuantumShieldDemo() {
               >
                 Decrypt
               </button>
+              <button
+                onClick={() => setActiveTab("benchmark")}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === "benchmark"
+                    ? "bg-orange-500 text-white"
+                    : "bg-neutral-800 text-neutral-400 hover:text-white"
+                }`}
+              >
+                Benchmark
+              </button>
             </div>
 
-            {activeTab === "encrypt" ? (
+            {activeTab === "encrypt" && (
               <>
                 <div className="mb-4">
                   <label className="block text-sm text-neutral-400 mb-2">
@@ -269,7 +364,9 @@ export default function QuantumShieldDemo() {
                   Encrypt with Cascading Cipher
                 </button>
               </>
-            ) : (
+            )}
+
+            {activeTab === "decrypt" && (
               <>
                 <div className="mb-4">
                   <label className="block text-sm text-neutral-400 mb-2">
@@ -291,6 +388,61 @@ export default function QuantumShieldDemo() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
                   </svg>
                   Decrypt
+                </button>
+              </>
+            )}
+
+            {activeTab === "benchmark" && (
+              <>
+                <div className="mb-4">
+                  <label className="block text-sm text-neutral-400 mb-2">
+                    Data Size
+                  </label>
+                  <select
+                    value={benchmarkDataSize}
+                    onChange={(e) => setBenchmarkDataSize(Number(e.target.value))}
+                    className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors"
+                  >
+                    <option value={64}>64 bytes (small message)</option>
+                    <option value={1024}>1 KB</option>
+                    <option value={10240}>10 KB</option>
+                    <option value={102400}>100 KB</option>
+                    <option value={1048576}>1 MB</option>
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm text-neutral-400 mb-2">
+                    Iterations
+                  </label>
+                  <select
+                    value={benchmarkIterations}
+                    onChange={(e) => setBenchmarkIterations(Number(e.target.value))}
+                    className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors"
+                  >
+                    <option value={10}>10 iterations</option>
+                    <option value={100}>100 iterations</option>
+                    <option value={500}>500 iterations</option>
+                    <option value={1000}>1000 iterations</option>
+                  </select>
+                </div>
+                <button
+                  onClick={handleBenchmark}
+                  disabled={benchmarkRunning}
+                  className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold px-6 py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {benchmarkRunning ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Running Benchmark...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      Run Performance Benchmark
+                    </>
+                  )}
                 </button>
               </>
             )}
@@ -354,6 +506,56 @@ export default function QuantumShieldDemo() {
                 </div>
                 <div className="bg-neutral-800 border border-green-500/30 rounded-lg px-4 py-3">
                   <p className="text-white">{decrypted}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Benchmark Results */}
+            {activeTab === "benchmark" && benchmarkResult && (
+              <div className="mb-6 space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/30 rounded-xl p-4">
+                    <p className="text-xs text-neutral-400 mb-1">Encrypt Throughput</p>
+                    <p className="text-2xl font-bold text-indigo-400">
+                      {benchmarkResult.encryptThroughput.toFixed(1)} <span className="text-sm">MB/s</span>
+                    </p>
+                  </div>
+                  <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-4">
+                    <p className="text-xs text-neutral-400 mb-1">Decrypt Throughput</p>
+                    <p className="text-2xl font-bold text-green-400">
+                      {benchmarkResult.decryptThroughput.toFixed(1)} <span className="text-sm">MB/s</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-neutral-800/50 rounded-lg p-4 space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-neutral-400">Total Data Processed</span>
+                    <span className="text-white font-mono">
+                      {((benchmarkResult.iterations * benchmarkResult.dataSize) / (1024 * 1024)).toFixed(2)} MB
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-neutral-400">Encrypt Time</span>
+                    <span className="text-indigo-400 font-mono">{benchmarkResult.encryptTime.toFixed(2)} ms</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-neutral-400">Decrypt Time</span>
+                    <span className="text-green-400 font-mono">{benchmarkResult.decryptTime.toFixed(2)} ms</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-neutral-400">Avg per Operation</span>
+                    <span className="text-amber-400 font-mono">
+                      {((benchmarkResult.encryptTime + benchmarkResult.decryptTime) / (benchmarkResult.iterations * 2)).toFixed(3)} ms
+                    </span>
+                  </div>
+                </div>
+
+                <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3">
+                  <p className="text-xs text-orange-300">
+                    Performance with dual-layer encryption (AES-256-GCM + ChaCha20-Poly1305).
+                    Running in WebAssembly with pre-expanded keys and zero-copy operations.
+                  </p>
                 </div>
               </div>
             )}
