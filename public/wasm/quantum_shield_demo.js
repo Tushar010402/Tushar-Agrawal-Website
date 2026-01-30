@@ -1,11 +1,196 @@
 /* @ts-self-types="./quantum_shield_demo.d.ts" */
 
 /**
- * High-security cipher with dual-layer encryption
- *
- * UNIQUE: Uses cascading encryption where data passes through
- * TWO independent ciphers. Both must be broken to decrypt.
+ * Result of deriving cipher from hybrid KEM
  */
+export class HybridCipherResult {
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(HybridCipherResult.prototype);
+        obj.__wbg_ptr = ptr;
+        HybridCipherResultFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        HybridCipherResultFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_hybridcipherresult_free(ptr, 0);
+    }
+    /**
+     * Get the ciphertext to send to peer
+     * @returns {Uint8Array}
+     */
+    get ciphertext() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.hybridcipherresult_ciphertext(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var v1 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * @returns {string}
+     */
+    get ciphertext_base64() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.hybridcipherresult_ciphertext_base64(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred1_0 = r0;
+            deferred1_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+     * Encrypt data using the derived cipher
+     * @param {Uint8Array} plaintext
+     * @returns {Uint8Array}
+     */
+    encrypt(plaintext) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(plaintext, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.hybridcipherresult_encrypt(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+            if (r3) {
+                throw takeObject(r2);
+            }
+            var v2 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v2;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Encrypt string using the derived cipher
+     * @param {string} plaintext
+     * @returns {string}
+     */
+    encrypt_string(plaintext) {
+        let deferred3_0;
+        let deferred3_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(plaintext, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.hybridcipherresult_encrypt_string(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+            var ptr2 = r0;
+            var len2 = r1;
+            if (r3) {
+                ptr2 = 0; len2 = 0;
+                throw takeObject(r2);
+            }
+            deferred3_0 = ptr2;
+            deferred3_1 = len2;
+            return getStringFromWasm0(ptr2, len2);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred3_0, deferred3_1, 1);
+        }
+    }
+}
+if (Symbol.dispose) HybridCipherResult.prototype[Symbol.dispose] = HybridCipherResult.prototype.free;
+
+/**
+ * Result of hybrid encapsulation
+ */
+export class HybridEncapsulation {
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(HybridEncapsulation.prototype);
+        obj.__wbg_ptr = ptr;
+        HybridEncapsulationFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        HybridEncapsulationFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_hybridencapsulation_free(ptr, 0);
+    }
+    /**
+     * @returns {Uint8Array}
+     */
+    get ciphertext() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.hybridencapsulation_ciphertext(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var v1 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * @returns {string}
+     */
+    get ciphertext_base64() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.hybridencapsulation_ciphertext_base64(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred1_0 = r0;
+            deferred1_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+     * @returns {Uint8Array}
+     */
+    get shared_secret() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.hybridencapsulation_shared_secret(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var v1 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+}
+if (Symbol.dispose) HybridEncapsulation.prototype[Symbol.dispose] = HybridEncapsulation.prototype.free;
+
 export class QShieldCipher {
     static __wrap(ptr) {
         ptr = ptr >>> 0;
@@ -25,7 +210,6 @@ export class QShieldCipher {
         wasm.__wbg_qshieldcipher_free(ptr, 0);
     }
     /**
-     * Standard decrypt (no AAD)
      * @param {Uint8Array} ciphertext
      * @returns {Uint8Array}
      */
@@ -50,7 +234,6 @@ export class QShieldCipher {
         }
     }
     /**
-     * Decrypt base64 to string
      * @param {string} ciphertext_b64
      * @returns {string}
      */
@@ -81,41 +264,6 @@ export class QShieldCipher {
         }
     }
     /**
-     * Decrypt string with AAD
-     * @param {string} ciphertext_b64
-     * @param {string} context
-     * @returns {string}
-     */
-    decrypt_string_with_context(ciphertext_b64, context) {
-        let deferred4_0;
-        let deferred4_1;
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passStringToWasm0(ciphertext_b64, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
-            const len0 = WASM_VECTOR_LEN;
-            const ptr1 = passStringToWasm0(context, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
-            const len1 = WASM_VECTOR_LEN;
-            wasm.qshieldcipher_decrypt_string_with_context(retptr, this.__wbg_ptr, ptr0, len0, ptr1, len1);
-            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
-            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
-            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
-            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
-            var ptr3 = r0;
-            var len3 = r1;
-            if (r3) {
-                ptr3 = 0; len3 = 0;
-                throw takeObject(r2);
-            }
-            deferred4_0 = ptr3;
-            deferred4_1 = len3;
-            return getStringFromWasm0(ptr3, len3);
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-            wasm.__wbindgen_export2(deferred4_0, deferred4_1, 1);
-        }
-    }
-    /**
-     * Decrypt with AAD verification
      * @param {Uint8Array} ciphertext
      * @param {Uint8Array} aad
      * @returns {Uint8Array}
@@ -143,7 +291,6 @@ export class QShieldCipher {
         }
     }
     /**
-     * Standard encrypt (no AAD)
      * @param {Uint8Array} plaintext
      * @returns {Uint8Array}
      */
@@ -168,7 +315,6 @@ export class QShieldCipher {
         }
     }
     /**
-     * Encrypt string to base64
      * @param {string} plaintext
      * @returns {string}
      */
@@ -199,44 +345,6 @@ export class QShieldCipher {
         }
     }
     /**
-     * Encrypt string with AAD
-     * @param {string} plaintext
-     * @param {string} context
-     * @returns {string}
-     */
-    encrypt_string_with_context(plaintext, context) {
-        let deferred4_0;
-        let deferred4_1;
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passStringToWasm0(plaintext, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
-            const len0 = WASM_VECTOR_LEN;
-            const ptr1 = passStringToWasm0(context, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
-            const len1 = WASM_VECTOR_LEN;
-            wasm.qshieldcipher_encrypt_string_with_context(retptr, this.__wbg_ptr, ptr0, len0, ptr1, len1);
-            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
-            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
-            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
-            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
-            var ptr3 = r0;
-            var len3 = r1;
-            if (r3) {
-                ptr3 = 0; len3 = 0;
-                throw takeObject(r2);
-            }
-            deferred4_0 = ptr3;
-            deferred4_1 = len3;
-            return getStringFromWasm0(ptr3, len3);
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-            wasm.__wbindgen_export2(deferred4_0, deferred4_1, 1);
-        }
-    }
-    /**
-     * Encrypt with optional Associated Authenticated Data (AAD)
-     *
-     * UNIQUE: AAD binds ciphertext to a context (e.g., user ID, session).
-     * Ciphertext cannot be moved to different context without detection.
      * @param {Uint8Array} plaintext
      * @param {Uint8Array} aad
      * @returns {Uint8Array}
@@ -264,7 +372,6 @@ export class QShieldCipher {
         }
     }
     /**
-     * Create cipher from raw key bytes (for key exchange scenarios)
      * @param {Uint8Array} secret
      * @returns {QShieldCipher}
      */
@@ -286,7 +393,6 @@ export class QShieldCipher {
         }
     }
     /**
-     * Create cipher with optional length hiding
      * @param {string} password
      * @param {boolean} enable_padding
      * @returns {QShieldCipher}
@@ -309,7 +415,6 @@ export class QShieldCipher {
         }
     }
     /**
-     * Check if length hiding is enabled
      * @returns {boolean}
      */
     has_length_hiding() {
@@ -317,10 +422,6 @@ export class QShieldCipher {
         return ret !== 0;
     }
     /**
-     * Create cipher from password using Argon2id (memory-hard)
-     *
-     * UNIQUE: Uses 64MB of memory during key derivation,
-     * making GPU/ASIC password cracking extremely expensive.
      * @param {string} password
      */
     constructor(password) {
@@ -343,7 +444,6 @@ export class QShieldCipher {
         }
     }
     /**
-     * Get encryption overhead
      * @returns {number}
      */
     overhead() {
@@ -352,6 +452,189 @@ export class QShieldCipher {
     }
 }
 if (Symbol.dispose) QShieldCipher.prototype[Symbol.dispose] = QShieldCipher.prototype.free;
+
+/**
+ * Post-Quantum Hybrid Key Encapsulation Mechanism
+ *
+ * Combines X25519 (classical ECDH) with ML-KEM-768 (NIST FIPS 203)
+ *
+ * SECURITY: If EITHER algorithm is secure, the combined system is secure.
+ * - X25519: Secure against classical computers
+ * - ML-KEM-768: Secure against quantum computers (NIST Level 3)
+ *
+ * This is the recommended approach for post-quantum migration.
+ */
+export class QShieldHybridKEM {
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        QShieldHybridKEMFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_qshieldhybridkem_free(ptr, 0);
+    }
+    /**
+     * Decapsulate: Recover shared secret from ciphertext
+     * @param {Uint8Array} ciphertext
+     * @returns {Uint8Array}
+     */
+    decapsulate(ciphertext) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(ciphertext, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldhybridkem_decapsulate(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+            if (r3) {
+                throw takeObject(r2);
+            }
+            var v2 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v2;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Derive a cipher directly from peer's public key (one-shot encryption)
+     * @param {Uint8Array} peer_public_key
+     * @returns {HybridCipherResult}
+     */
+    derive_cipher(peer_public_key) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(peer_public_key, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldhybridkem_derive_cipher(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return HybridCipherResult.__wrap(r0);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Derive a cipher from received ciphertext (for decryption)
+     * @param {Uint8Array} ciphertext
+     * @returns {QShieldCipher}
+     */
+    derive_cipher_from_ciphertext(ciphertext) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(ciphertext, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldhybridkem_derive_cipher_from_ciphertext(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return QShieldCipher.__wrap(r0);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Encapsulate: Generate shared secret and ciphertext for a peer's public key
+     * Returns: (ciphertext, shared_secret) where ciphertext should be sent to peer
+     * @param {Uint8Array} peer_public_key
+     * @returns {HybridEncapsulation}
+     */
+    encapsulate(peer_public_key) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(peer_public_key, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldhybridkem_encapsulate(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return HybridEncapsulation.__wrap(r0);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Generate new hybrid keypair (X25519 + ML-KEM-768)
+     */
+    constructor() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.qshieldhybridkem_new(retptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            this.__wbg_ptr = r0 >>> 0;
+            QShieldHybridKEMFinalization.register(this, this.__wbg_ptr, this);
+            return this;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Get the combined public key (X25519 || ML-KEM encapsulation key)
+     * X25519: 32 bytes, ML-KEM-768 ek: 1184 bytes = 1216 bytes total
+     * @returns {Uint8Array}
+     */
+    get public_key() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.qshieldhybridkem_public_key(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var v1 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Get public key as base64
+     * @returns {string}
+     */
+    get public_key_base64() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.qshieldhybridkem_public_key_base64(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred1_0 = r0;
+            deferred1_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+     * Get public key size info
+     * @returns {number}
+     */
+    static public_key_size() {
+        const ret = wasm.qshieldhybridkem_public_key_size();
+        return ret >>> 0;
+    }
+}
+if (Symbol.dispose) QShieldHybridKEM.prototype[Symbol.dispose] = QShieldHybridKEM.prototype.free;
 
 export class QShieldKeyExchange {
     __destroy_into_raw() {
@@ -365,7 +648,6 @@ export class QShieldKeyExchange {
         wasm.__wbg_qshieldkeyexchange_free(ptr, 0);
     }
     /**
-     * Derive cipher from peer's public key
      * @param {Uint8Array} peer_public_key
      * @returns {QShieldCipher}
      */
@@ -382,28 +664,6 @@ export class QShieldKeyExchange {
                 throw takeObject(r1);
             }
             return QShieldCipher.__wrap(r0);
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-        }
-    }
-    /**
-     * Derive forward secrecy session from peer's public key
-     * @param {Uint8Array} peer_public_key
-     * @returns {QShieldSession}
-     */
-    derive_session(peer_public_key) {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passArray8ToWasm0(peer_public_key, wasm.__wbindgen_export3);
-            const len0 = WASM_VECTOR_LEN;
-            wasm.qshieldkeyexchange_derive_session(retptr, this.__wbg_ptr, ptr0, len0);
-            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
-            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
-            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
-            if (r2) {
-                throw takeObject(r1);
-            }
-            return QShieldSession.__wrap(r0);
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
@@ -452,20 +712,7 @@ export class QShieldKeyExchange {
 }
 if (Symbol.dispose) QShieldKeyExchange.prototype[Symbol.dispose] = QShieldKeyExchange.prototype.free;
 
-/**
- * Forward secrecy session with automatic key ratcheting
- *
- * UNIQUE: Each message uses a different key derived from the previous.
- * Compromising one key doesn't reveal past messages (like Signal Protocol).
- */
 export class QShieldSession {
-    static __wrap(ptr) {
-        ptr = ptr >>> 0;
-        const obj = Object.create(QShieldSession.prototype);
-        obj.__wbg_ptr = ptr;
-        QShieldSessionFinalization.register(obj, obj.__wbg_ptr, obj);
-        return obj;
-    }
     __destroy_into_raw() {
         const ptr = this.__wbg_ptr;
         this.__wbg_ptr = 0;
@@ -477,7 +724,6 @@ export class QShieldSession {
         wasm.__wbg_qshieldsession_free(ptr, 0);
     }
     /**
-     * Decrypt message (must be decrypted in order for forward secrecy)
      * @param {Uint8Array} ciphertext
      * @returns {Uint8Array}
      */
@@ -502,7 +748,6 @@ export class QShieldSession {
         }
     }
     /**
-     * Encrypt message with forward secrecy (key ratchets after each message)
      * @param {Uint8Array} plaintext
      * @returns {Uint8Array}
      */
@@ -527,7 +772,6 @@ export class QShieldSession {
         }
     }
     /**
-     * Get current message count
      * @returns {bigint}
      */
     message_count() {
@@ -535,7 +779,6 @@ export class QShieldSession {
         return BigInt.asUintN(64, ret);
     }
     /**
-     * Create new session from shared secret
      * @param {Uint8Array} shared_secret
      */
     constructor(shared_secret) {
@@ -561,7 +804,6 @@ export class QShieldSession {
 if (Symbol.dispose) QShieldSession.prototype[Symbol.dispose] = QShieldSession.prototype.free;
 
 /**
- * Performance benchmark
  * @param {number} iterations
  * @param {number} data_size
  * @returns {any}
@@ -583,7 +825,27 @@ export function benchmark(iterations, data_size) {
 }
 
 /**
- * Quick demo
+ * Benchmark hybrid KEM operations
+ * @param {number} iterations
+ * @returns {any}
+ */
+export function benchmark_hybrid_kem(iterations) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.benchmark_hybrid_kem(retptr, iterations);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+        if (r2) {
+            throw takeObject(r1);
+        }
+        return takeObject(r0);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+}
+
+/**
  * @param {string} message
  * @param {string} password
  * @returns {string}
@@ -618,7 +880,6 @@ export function demo(message, password) {
 }
 
 /**
- * Library info with unique features
  * @returns {string}
  */
 export function info() {
@@ -643,8 +904,6 @@ export function init() {
 }
 
 /**
- * Constant-time comparison of two byte arrays
- * Prevents timing attacks when comparing secrets
  * @param {Uint8Array} a
  * @param {Uint8Array} b
  * @returns {boolean}
@@ -818,9 +1077,18 @@ function __wbg_get_imports() {
     };
 }
 
+const HybridCipherResultFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_hybridcipherresult_free(ptr >>> 0, 1));
+const HybridEncapsulationFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_hybridencapsulation_free(ptr >>> 0, 1));
 const QShieldCipherFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_qshieldcipher_free(ptr >>> 0, 1));
+const QShieldHybridKEMFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_qshieldhybridkem_free(ptr >>> 0, 1));
 const QShieldKeyExchangeFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_qshieldkeyexchange_free(ptr >>> 0, 1));

@@ -25,9 +25,9 @@ const features = [
     title: "Dual Signatures",
     subtitle: "ML-DSA-65 + SLH-DSA",
     description:
-      "Lattice-based ML-DSA paired with hash-based SLH-DSA provides cryptographic diversity. Two mathematically independent signature schemes for maximum assurance.",
+      "Planned: Lattice-based ML-DSA paired with hash-based SLH-DSA for cryptographic diversity. Two mathematically independent signature schemes.",
     icon: "signature",
-    badge: "FIPS 204/205",
+    badge: "Coming Soon",
   },
   {
     title: "Cascading Encryption",
@@ -589,6 +589,137 @@ export default function QuantumShieldClient() {
         </div>
       </section>
 
+      {/* Honest Assessment Section */}
+      <section className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-12"
+        >
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+            Honest Assessment
+          </h2>
+          <p className="text-neutral-400 text-lg max-w-3xl">
+            Transparency is essential in cryptography. Here&apos;s what QuantumShield is—and what it isn&apos;t.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-2xl p-8"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
+                <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-white">What It Is</h3>
+            </div>
+            <ul className="space-y-3 text-neutral-300">
+              <li className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong>NIST-approved algorithms</strong>: Uses fips203 (ML-KEM-768) pure-Rust implementation</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong>Hybrid approach</strong>: X25519 + ML-KEM-768 for defense-in-depth</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong>Battle-tested primitives</strong>: AES-GCM, ChaCha20-Poly1305, Argon2id from audited crates</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong>Educational &amp; experimental</strong>: Great for learning PQC concepts</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong>Open source</strong>: Fully auditable code under MIT license</span>
+              </li>
+            </ul>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-2xl p-8"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-amber-500/20 rounded-full flex items-center justify-center">
+                <svg className="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-white">Important Caveats</h3>
+            </div>
+            <ul className="space-y-3 text-neutral-300">
+              <li className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span><strong>Not professionally audited</strong>: Personal project without third-party security audit</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span><strong>Signatures not yet implemented</strong>: ML-DSA-65 and SLH-DSA are planned, not shipped</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span><strong>Not production-ready</strong>: Use established libraries like liboqs for critical systems</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span><strong>Integration is new</strong>: Algorithm composition hasn&apos;t been peer-reviewed</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span><strong>Early development</strong>: APIs may change as the library matures</span>
+              </li>
+            </ul>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-8 bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8"
+        >
+          <p className="text-neutral-300 text-center">
+            <strong className="text-white">Bottom line:</strong> QuantumShield demonstrates post-quantum cryptography concepts using real NIST-approved algorithms.
+            For production systems protecting sensitive data, wait for a professional audit or use established PQC libraries from organizations like Open Quantum Safe.
+          </p>
+        </motion.div>
+      </section>
+
       {/* Open Source Section */}
       <section className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
         <motion.div
@@ -616,7 +747,7 @@ export default function QuantumShieldClient() {
           </h2>
           <p className="text-neutral-300 text-lg max-w-2xl mx-auto mb-8">
             QuantumShield is fully open source. Audit the code, contribute
-            improvements, or use it freely in your commercial projects.
+            improvements, report security issues, or learn from the implementation.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button

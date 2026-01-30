@@ -235,19 +235,19 @@ export default function QuantumShieldDemo() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30 rounded-full mb-4">
-            <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 border border-violet-500/30 rounded-full mb-4">
+            <svg className="w-4 h-4 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
             </svg>
-            <span className="text-emerald-300 text-sm font-medium">Defense-in-Depth v3.0</span>
+            <span className="text-violet-300 text-sm font-medium">Post-Quantum Secure v4.0</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Live Encryption Demo
+            Post-Quantum Encryption Demo
           </h1>
           <p className="text-neutral-400 max-w-2xl mx-auto">
-            Experience QuantumShield&apos;s unique defense-in-depth encryption.
-            Features Argon2id memory-hard KDF, dual-layer ciphers, length hiding,
-            and forward secrecy sessions. Your data never leaves your device.
+            Experience QuantumShield&apos;s hybrid post-quantum encryption.
+            Features ML-KEM-768 (NIST FIPS 203), Argon2id KDF, dual-layer ciphers,
+            and forward secrecy. Secure against both classical and quantum computers.
           </p>
         </motion.div>
 
@@ -258,6 +258,9 @@ export default function QuantumShieldDemo() {
           transition={{ delay: 0.1 }}
           className="flex flex-wrap justify-center gap-2 mb-8"
         >
+          <span className="px-3 py-1.5 bg-violet-500/10 border border-violet-500/30 rounded-full text-violet-300 text-xs font-mono font-bold">
+            ML-KEM-768 (PQ)
+          </span>
           <span className="px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-300 text-xs font-mono">
             AES-256-GCM
           </span>
@@ -279,20 +282,20 @@ export default function QuantumShieldDemo() {
           transition={{ delay: 0.15 }}
           className="flex flex-wrap justify-center gap-2 mb-12"
         >
+          <span className="px-3 py-1.5 bg-fuchsia-500/10 border border-fuchsia-500/30 rounded-full text-fuchsia-300 text-xs font-bold">
+            NIST FIPS 203
+          </span>
           <span className="px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-300 text-xs">
-            Dual-Layer Cipher
+            Hybrid KEM
           </span>
           <span className="px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-300 text-xs">
-            19MB Memory-Hard KDF
+            Dual-Layer Cipher
           </span>
           <span className="px-3 py-1.5 bg-rose-500/10 border border-rose-500/30 rounded-full text-rose-300 text-xs">
             Length Hiding
           </span>
-          <span className="px-3 py-1.5 bg-violet-500/10 border border-violet-500/30 rounded-full text-violet-300 text-xs">
-            Forward Secrecy
-          </span>
           <span className="px-3 py-1.5 bg-orange-500/10 border border-orange-500/30 rounded-full text-orange-300 text-xs">
-            AAD Context Binding
+            Forward Secrecy
           </span>
         </motion.div>
 
@@ -668,12 +671,37 @@ export default function QuantumShieldDemo() {
           </div>
         </motion.div>
 
+        {/* Security Notice */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="mt-12 bg-amber-500/5 border border-amber-500/20 rounded-2xl p-6"
+        >
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 bg-amber-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div>
+              <h4 className="text-amber-300 font-medium mb-2">Educational Demo</h4>
+              <p className="text-neutral-400 text-sm">
+                This demo uses real NIST-approved algorithms (ML-KEM-768 from the fips203 crate, AES-GCM, ChaCha20-Poly1305)
+                from reputable Rust cryptographic libraries. However, QuantumShield is a <strong className="text-amber-300">personal project
+                without professional security audit</strong>. The underlying primitives are battle-tested, but the integration has not been
+                peer-reviewed. For production systems, use established PQC libraries from organizations like Open Quantum Safe.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mt-12 text-center"
+          className="mt-8 text-center"
         >
           <Link
             href="/quantum-shield"

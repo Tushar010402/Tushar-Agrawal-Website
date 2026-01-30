@@ -26,6 +26,9 @@ hkdf = "0.12"
 rand_core = "0.6"
 getrandom = { version = "0.2", features = ["js"] }
 
+# POST-QUANTUM: NIST FIPS 203 ML-KEM (pure Rust, WASM compatible)
+fips203 = { version = "0.4", default-features = false, features = ["ml-kem-768"] }
+
 # Memory-hard password hashing (UNIQUE: Argon2id)
 argon2 = "0.5"
 

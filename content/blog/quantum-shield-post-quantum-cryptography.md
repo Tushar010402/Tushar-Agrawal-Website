@@ -300,9 +300,50 @@ Classified information often remains sensitive for 25-75 years. The "harvest now
 
 Legal documents, intellectual property, research data, and personal records that must remain confidential for 50+ years need quantum-safe encryption from day one.
 
+## Honest Assessment: What QuantumShield Is (and Isn't)
+
+Transparency is essential in cryptography. Let me be upfront about QuantumShield's current state:
+
+### What It Does Well
+
+1. **Real NIST algorithms**: The hybrid KEM uses ML-KEM-768 from the `fips203` crate—a pure Rust implementation of FIPS 203. This isn't a toy implementation; it's the actual standardized algorithm.
+
+2. **Battle-tested primitives**: The underlying cryptographic primitives (AES-GCM, ChaCha20-Poly1305, X25519, Argon2id) come from well-audited Rust crates maintained by the RustCrypto team.
+
+3. **Defense-in-depth architecture**: The hybrid approach (combining classical + post-quantum) follows NIST's own recommendations for migration strategies.
+
+4. **Memory safety**: Rust's ownership model and automatic zeroization provide real security benefits that are hard to achieve in C/C++.
+
+### Important Caveats
+
+1. **Not professionally audited**: This is a personal project. While the underlying algorithm implementations are from reputable sources, the *integration* hasn't been reviewed by professional cryptographers.
+
+2. **Signatures not yet implemented**: The ML-DSA-65 and SLH-DSA dual signature system described in this post is planned architecture, not currently shipped code. The WASM demo implements only the hybrid KEM.
+
+3. **Not production-ready**: For systems protecting sensitive data in production, use established libraries like [liboqs](https://github.com/open-quantum-safe/liboqs) from Open Quantum Safe, or wait for major libraries like OpenSSL/BoringSSL to integrate PQC.
+
+4. **Algorithm composition is new**: While individual algorithms are NIST-approved, combining them in novel ways creates new attack surfaces that haven't been formally analyzed.
+
+5. **Performance vs. security tradeoffs**: The cascading encryption approach adds overhead. For most applications, a single well-implemented cipher is sufficient.
+
+### When to Use QuantumShield
+
+- **Learning**: Excellent for understanding how PQC works in practice
+- **Prototyping**: Testing PQC integration in non-critical systems
+- **Research**: Exploring hybrid cryptography approaches
+- **Personal projects**: Where you understand and accept the risks
+
+### When NOT to Use QuantumShield
+
+- **Production systems** handling sensitive user data
+- **Healthcare/financial** applications with regulatory requirements
+- **Any system** where cryptographic failure has serious consequences
+
+The goal of this project is to demonstrate that post-quantum cryptography is accessible and practical—not to replace battle-hardened production libraries. Consider it a learning tool and a proof-of-concept, not a drop-in security solution.
+
 ## Getting Started
 
-QuantumShield is open source and MIT licensed. To start using it:
+QuantumShield is open source and MIT licensed. To explore the implementation:
 
 ```rust
 use quantum_shield::{QShieldKEM, QuantumShield};
@@ -350,12 +391,16 @@ Want early access to Python, WebAssembly, and Node.js SDKs? [Join the QuantumShi
 
 ## Conclusion
 
-The quantum computing threat isn't science fiction—it's an engineering timeline. NIST has finalized the standards. The algorithms are ready. The only question is whether your systems will be prepared when cryptographically relevant quantum computers arrive.
+The quantum computing threat isn't science fiction—it's an engineering timeline. NIST has finalized the standards (FIPS 203/204/205). The algorithms are ready. Organizations should begin planning their migration strategies now.
 
-QuantumShield provides a production-ready, defense-in-depth approach to post-quantum cryptography. By layering hybrid key exchange, dual signatures, and cascading encryption, it ensures your data remains secure against both classical and quantum attacks.
+QuantumShield demonstrates one approach: defense-in-depth architecture combining hybrid key exchange, cascading encryption, and (soon) dual signatures. It's built to show that post-quantum cryptography is accessible to Rust developers today.
 
-The time to migrate is now. Your data from today will thank you in 2035.
+**My honest take**: Building this taught me that PQC is more approachable than I expected. The algorithms work, the performance is acceptable, and the tooling is maturing. But cryptography is hard, and getting it right in production requires more than just calling the right APIs—it requires professional review, formal verification, and continuous security monitoring.
+
+If you're building systems today that need long-term confidentiality (10+ years), start evaluating PQC options now. But use established, audited implementations from organizations like Open Quantum Safe, not personal projects like this one.
+
+QuantumShield's value is in education and experimentation—demonstrating that the post-quantum future is buildable today, one hybrid key exchange at a time.
 
 ---
 
-*QuantumShield is open source under the MIT license. [View on GitHub](https://github.com/Tushar010402/QuantumShield) or [join the waitlist](/quantum-shield) for early access to language SDKs.*
+*QuantumShield is open source under the MIT license. [View on GitHub](https://github.com/Tushar010402/QuantumShield) or [try the live demo](/quantum-shield/demo) to see ML-KEM-768 running in your browser.*
