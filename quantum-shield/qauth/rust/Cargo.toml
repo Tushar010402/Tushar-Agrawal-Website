@@ -2,12 +2,17 @@
 name = "qauth"
 version = "0.1.0"
 edition = "2021"
-authors = ["Tushar Agrawal"]
-description = "QuantumAuth - Next-generation authentication and authorization protocol"
+rust-version = "1.70"
+authors = ["Tushar Agrawal <tusharagrawal0104@gmail.com>"]
+description = "Post-quantum authentication protocol replacing OAuth 2.0 and JWT with ML-DSA signatures"
 license = "MIT"
-repository = "https://github.com/tushar-agrawal/quantum-shield"
-keywords = ["authentication", "authorization", "post-quantum", "security", "oauth"]
+repository = "https://github.com/Tushar010402/Tushar-Agrawal-Website"
+homepage = "https://tusharagrawal.in/quantum-shield"
+documentation = "https://docs.rs/qauth"
+readme = "README.md"
+keywords = ["authentication", "authorization", "post-quantum", "jwt", "oauth"]
 categories = ["cryptography", "authentication", "web-programming"]
+exclude = ["target/", "fuzz/", "examples/"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -18,8 +23,8 @@ std = []
 wasm = ["wasm-bindgen", "js-sys", "console_error_panic_hook"]
 
 [dependencies]
-# QuantumShield crypto primitives (local path)
-quantum-shield = { path = "../../rust" }
+# QuantumShield crypto primitives
+quantum-shield = "0.1"
 
 # Ed25519 for classical signatures
 ed25519-dalek = { version = "2.1", features = ["rand_core", "zeroize"] }

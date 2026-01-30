@@ -1,11 +1,31 @@
-# qauth
+# QAuth - Post-Quantum Authentication for Python
 
-Python SDK for QuantumAuth - next-generation authentication with post-quantum security.
+[![PyPI version](https://badge.fury.io/py/qauth.svg)](https://badge.fury.io/py/qauth)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Next-generation authentication protocol designed to replace OAuth 2.0 and JWT with post-quantum security.
 
 ## Installation
 
 ```bash
+# Using pip
 pip install qauth
+
+# Using pip3
+pip3 install qauth
+
+# Using pipx (for CLI tools)
+pipx install qauth
+
+# Using poetry
+poetry add qauth
+
+# Using pdm
+pdm add qauth
+
+# Using uv
+uv pip install qauth
 ```
 
 ## Quick Start
@@ -277,8 +297,36 @@ class Effect(Enum):
 ## Requirements
 
 - Python 3.9+
-- Rust toolchain (for building)
+- cryptography >= 41.0.0
+- pynacl >= 1.5.0
+
+## Why QAuth over JWT?
+
+| JWT/OAuth Problem | QAuth Solution |
+|-------------------|----------------|
+| Algorithm confusion attacks | Server-enforced, no client selection |
+| Bearer tokens can be stolen | Proof-of-possession mandatory |
+| No built-in revocation | Instant revocation system |
+| Payload visible (base64) | Encrypted with XChaCha20-Poly1305 |
+| Single signature | Dual: Ed25519 + ML-DSA-65 |
+| No post-quantum security | ML-DSA-65 (NIST FIPS 204) |
+
+## Related Packages
+
+- **Rust**: `cargo add qauth`
+- **TypeScript/Node.js**: `npm install @qauth/sdk`
+- **Go**: `go get github.com/tushar-agrawal/qauth`
 
 ## License
 
-MIT
+MIT License - [LICENSE](LICENSE)
+
+## Author
+
+Tushar Agrawal - [tusharagrawal.in](https://tusharagrawal.in)
+
+## Links
+
+- [Documentation](https://tusharagrawal.in/qauth)
+- [GitHub Repository](https://github.com/Tushar010402/Tushar-Agrawal-Website)
+- [Changelog](https://github.com/Tushar010402/Tushar-Agrawal-Website/blob/master/quantum-shield/qauth/CHANGELOG.md)

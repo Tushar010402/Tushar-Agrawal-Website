@@ -2,12 +2,17 @@
 name = "quantum-shield"
 version = "0.1.0"
 edition = "2021"
-authors = ["Tushar Agrawal"]
-description = "A quantum-secure cryptographic system with hybrid encryption"
+rust-version = "1.70"
+authors = ["Tushar Agrawal <tusharagrawal0104@gmail.com>"]
+description = "Post-quantum cryptographic library with ML-KEM-768, ML-DSA-65, and SLH-DSA signatures"
 license = "MIT"
-repository = "https://github.com/tushar-agrawal/quantum-shield"
-keywords = ["cryptography", "post-quantum", "encryption", "security"]
+repository = "https://github.com/Tushar010402/Tushar-Agrawal-Website"
+homepage = "https://tusharagrawal.in/quantum-shield"
+documentation = "https://docs.rs/quantum-shield"
+readme = "README.md"
+keywords = ["cryptography", "post-quantum", "encryption", "ml-kem", "ml-dsa"]
 categories = ["cryptography", "no-std"]
+exclude = ["target/", "tests/"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]

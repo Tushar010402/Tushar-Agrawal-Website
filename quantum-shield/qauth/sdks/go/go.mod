@@ -1,3 +1,3 @@
-module github.com/tushar-agrawal/quantum-shield/qauth/sdks/go
+module github.com/Tushar010402/qauth-go
 
 go 1.21

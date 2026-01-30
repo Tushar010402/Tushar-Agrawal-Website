@@ -1,15 +1,28 @@
 # @quantumshield/qauth
 
+[![npm version](https://badge.fury.io/js/%40quantumshield%2Fqauth.svg)](https://badge.fury.io/js/%40quantumshield%2Fqauth)
+[![Node.js 18+](https://img.shields.io/badge/node-18+-green.svg)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 TypeScript/JavaScript SDK for QuantumAuth - next-generation authentication with post-quantum security.
 
 ## Installation
 
 ```bash
+# npm
 npm install @quantumshield/qauth
-# or
+
+# yarn
 yarn add @quantumshield/qauth
-# or
+
+# pnpm
 pnpm add @quantumshield/qauth
+
+# bun
+bun add @quantumshield/qauth
+
+# deno (via npm specifier)
+import { QAuthServer } from "npm:@quantumshield/qauth";
 ```
 
 ## Quick Start
@@ -303,6 +316,33 @@ This package uses WebAssembly and requires a modern browser with WASM support:
 
 Node.js 18+ with WASM support.
 
+## Why QAuth over JWT?
+
+| JWT/OAuth Problem | QAuth Solution |
+|-------------------|----------------|
+| Algorithm confusion attacks | Server-enforced, no client selection |
+| Bearer tokens can be stolen | Proof-of-possession mandatory |
+| No built-in revocation | Instant revocation system |
+| Payload visible (base64) | Encrypted with XChaCha20-Poly1305 |
+| Single signature | Dual: Ed25519 + ML-DSA-65 |
+| No post-quantum security | ML-DSA-65 (NIST FIPS 204) |
+
+## Related Packages
+
+- **Rust**: `cargo add qauth`
+- **Python**: `pip install qauth`
+- **Go**: `go get github.com/tushar-agrawal/qauth`
+
 ## License
 
-MIT
+MIT License - [LICENSE](LICENSE)
+
+## Author
+
+Tushar Agrawal - [tusharagrawal.in](https://tusharagrawal.in)
+
+## Links
+
+- [Documentation](https://tusharagrawal.in/qauth)
+- [GitHub Repository](https://github.com/Tushar010402/Tushar-Agrawal-Website)
+- [Changelog](https://github.com/Tushar010402/Tushar-Agrawal-Website/blob/master/quantum-shield/qauth/CHANGELOG.md)
