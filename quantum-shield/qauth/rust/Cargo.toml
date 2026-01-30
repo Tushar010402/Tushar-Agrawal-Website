@@ -23,8 +23,8 @@ std = []
 wasm = ["wasm-bindgen", "js-sys", "console_error_panic_hook"]
 
 [dependencies]
-# QuantumShield crypto primitives (use path for development, change to version for publishing)
-quantum-shield = { path = "../../rust" }
+# QuantumShield crypto primitives
+quantum-shield = { version = "0.1", path = "../../rust" }
 
 # Ed25519 for classical signatures
 ed25519-dalek = { version = "2.1", features = ["rand_core", "zeroize"] }
