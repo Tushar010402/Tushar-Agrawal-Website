@@ -5,443 +5,132 @@
  *
  * @example
  * ```typescript
- * import { QAuthClient, QAuthServer } from '@quantumshield/qauth';
+ * import { QAuthServer, QAuthClient, PolicyEngine } from '@quantumshield/qauth';
  *
- * // Server-side: Generate issuer keys and create tokens
- * const server = new QAuthServer();
- * const token = server.createToken({
- *   subject: 'user-123',
+ * // Server-side
+ * const server = new QAuthServer({
  *   issuer: 'https://auth.example.com',
  *   audience: 'https://api.example.com',
+ * });
+ * const token = server.createToken({
+ *   subject: 'user-123',
  *   policyRef: 'urn:qauth:policy:default',
- *   validitySeconds: 3600,
  * });
  *
- * // Client-side: Create proof of possession for API requests
+ * // Client-side
  * const client = new QAuthClient();
  * const proof = client.createProof('GET', '/api/resource', token);
- *
- * // Server-side: Validate token and proof
- * const payload = server.validateToken(token);
- * const isValid = server.validateProof(proof, 'GET', '/api/resource', token);
  * ```
  */
 
+import * as crypto from 'crypto';
+
+// ============================================
 // Types
+// ============================================
+
 export interface QAuthConfig {
-  /** Issuer URL (e.g., 'https://auth.example.com') */
   issuer: string;
-  /** Expected audience for token validation */
   audience: string;
 }
 
 export interface TokenOptions {
-  /** Subject identifier (user ID) */
   subject: string | Uint8Array;
-  /** Issuer URL */
-  issuer: string;
-  /** Audience(s) for the token */
-  audience: string | string[];
-  /** Policy reference URN */
   policyRef: string;
-  /** Token validity in seconds (default: 3600) */
+  audience?: string | string[];
   validitySeconds?: number;
-  /** Client's public key for binding */
   clientKey?: Uint8Array;
-  /** Device key for binding */
   deviceKey?: Uint8Array;
-  /** Custom claims */
   claims?: Record<string, unknown>;
 }
 
 export interface TokenPayload {
-  /** Subject identifier */
   sub: string;
-  /** Issuer */
   iss: string;
-  /** Audience(s) */
   aud: string[];
-  /** Expiration timestamp (Unix seconds) */
   exp: number;
-  /** Issued at timestamp (Unix seconds) */
   iat: number;
-  /** Not before timestamp (Unix seconds) */
   nbf: number;
-  /** JWT ID (hex encoded) */
   jti: string;
-  /** Revocation ID (hex encoded) */
   rid: string;
-  /** Policy reference */
   pol: string;
-  /** Custom claims */
   cst: Record<string, unknown>;
 }
 
 export interface PolicyRule {
-  /** Rule identifier */
   id?: string;
-  /** Rule effect */
   effect: 'allow' | 'deny';
-  /** Resource patterns */
   resources: string[];
-  /** Permitted actions */
   actions: string[];
-  /** Rule conditions */
   conditions?: PolicyConditions;
-  /** Rule priority (higher = evaluated first) */
   priority?: number;
 }
 
 export interface PolicyConditions {
-  /** Time-based conditions */
   time?: {
     after?: string;
     before?: string;
     days?: string[];
     timezone?: string;
   };
-  /** IP-based conditions */
   ip?: {
     allow_ranges?: string[];
     deny_ranges?: string[];
-    require_vpn?: boolean;
-    geo_allow?: string[];
-    geo_deny?: string[];
   };
-  /** Device conditions */
-  device?: {
-    types?: string[];
-    os?: string[];
-    managed?: boolean;
-    attestation_required?: boolean;
-    min_security_level?: number;
-  };
-  /** MFA conditions */
   mfa?: {
     required?: boolean;
     methods?: string[];
-    max_age_minutes?: number;
-    step_up_for?: string[];
   };
-  /** Custom conditions */
   custom?: Record<string, unknown>;
 }
 
 export interface Policy {
-  /** Unique policy identifier (URN) */
   id: string;
-  /** Policy version */
   version: string;
-  /** Issuing authority URL */
   issuer: string;
-  /** Policy name */
   name?: string;
-  /** Policy description */
   description?: string;
-  /** Authorization rules */
   rules: PolicyRule[];
 }
 
 export interface EvaluationContext {
-  /** Subject context */
   subject?: {
     id?: string;
-    email?: string;
     roles?: string[];
     groups?: string[];
     attributes?: Record<string, unknown>;
   };
-  /** Resource context */
   resource?: {
     path: string;
     owner?: string;
     type?: string;
     attributes?: Record<string, unknown>;
   };
-  /** Request context */
   request?: {
     action: string;
     method?: string;
     ip?: string;
     mfa_verified?: boolean;
-    mfa_method?: string;
-    device_type?: string;
-    is_vpn?: boolean;
   };
 }
 
 export interface EvaluationResult {
-  /** Decision effect */
   effect: 'allow' | 'deny';
-  /** Matched rule ID (if any) */
   matched_rule: string | null;
-  /** Reason for decision */
   reason: string;
 }
 
 export interface IssuerKeys {
-  /** Key ID (hex encoded) */
   keyId: string;
-  /** Ed25519 public key */
   ed25519PublicKey: Uint8Array;
-  /** ML-DSA public key */
-  mldsaPublicKey: Uint8Array;
-  /** Encryption key */
+  ed25519PrivateKey?: Uint8Array;
   encryptionKey: Uint8Array;
 }
 
-// WASM module interface
-let wasmModule: any = null;
+// ============================================
+// Utility Functions
+// ============================================
 
-/**
- * Initialize the QAuth WASM module
- * Must be called before using any QAuth functionality
- */
-export async function initQAuth(): Promise<void> {
-  if (wasmModule) return;
-
-  // Dynamic import for WASM module
-  if (typeof window !== 'undefined') {
-    // Browser environment
-    const wasm = await import('../wasm/qauth.js');
-    await wasm.default();
-    wasmModule = wasm;
-  } else {
-    // Node.js environment
-    const { readFile } = await import('fs/promises');
-    const { join } = await import('path');
-    const wasmPath = join(__dirname, '..', 'wasm', 'qauth_bg.wasm');
-    const wasmBuffer = await readFile(wasmPath);
-    const wasm = await import('../wasm/qauth.js');
-    await wasm.default(wasmBuffer);
-    wasmModule = wasm;
-  }
-}
-
-/**
- * Check if QAuth is initialized
- */
-export function isInitialized(): boolean {
-  return wasmModule !== null;
-}
-
-/**
- * Get QAuth version
- */
-export function getVersion(): string {
-  ensureInitialized();
-  return wasmModule.qauth_version();
-}
-
-/**
- * Get QAuth protocol version
- */
-export function getProtocolVersion(): string {
-  ensureInitialized();
-  return wasmModule.qauth_protocol_version();
-}
-
-function ensureInitialized(): void {
-  if (!wasmModule) {
-    throw new Error('QAuth not initialized. Call initQAuth() first.');
-  }
-}
-
-/**
- * QAuth Server for token issuance and validation
- */
-export class QAuthServer {
-  private issuerKeys: any;
-  private config: QAuthConfig;
-
-  constructor(config: QAuthConfig) {
-    ensureInitialized();
-    this.config = config;
-    this.issuerKeys = new wasmModule.WasmIssuerKeys();
-  }
-
-  /**
-   * Get the issuer's public keys (for sharing with validators)
-   */
-  getPublicKeys(): IssuerKeys {
-    return {
-      keyId: bytesToHex(this.issuerKeys.key_id),
-      ed25519PublicKey: new Uint8Array(this.issuerKeys.ed25519_public_key),
-      mldsaPublicKey: new Uint8Array(this.issuerKeys.mldsa_public_key),
-      encryptionKey: new Uint8Array(this.issuerKeys.encryption_key),
-    };
-  }
-
-  /**
-   * Create a QToken
-   */
-  createToken(options: TokenOptions): string {
-    let builder = new wasmModule.WasmTokenBuilder()
-      .subject(toBytes(options.subject))
-      .issuer(options.issuer)
-      .policy_ref(options.policyRef)
-      .validity_seconds(options.validitySeconds ?? 3600);
-
-    const audiences = Array.isArray(options.audience)
-      ? options.audience
-      : [options.audience];
-    for (const aud of audiences) {
-      builder = builder.audience(aud);
-    }
-
-    if (options.clientKey) {
-      builder = builder.client_key(options.clientKey);
-    }
-
-    if (options.deviceKey) {
-      builder = builder.device_key(options.deviceKey);
-    }
-
-    if (options.claims) {
-      builder = builder.claims(JSON.stringify(options.claims));
-    }
-
-    return builder.build(this.issuerKeys);
-  }
-
-  /**
-   * Validate a token and return the payload
-   */
-  validateToken(token: string): TokenPayload {
-    const keys = this.getPublicKeys();
-    const validator = new wasmModule.WasmTokenValidator(
-      keys.ed25519PublicKey,
-      keys.mldsaPublicKey,
-      keys.encryptionKey,
-      this.config.issuer,
-      this.config.audience
-    );
-
-    const payloadJson = validator.validate(token);
-    return JSON.parse(payloadJson);
-  }
-
-  /**
-   * Create a token validator for external validation
-   */
-  createValidator(): QAuthValidator {
-    const keys = this.getPublicKeys();
-    return new QAuthValidator(keys, this.config);
-  }
-}
-
-/**
- * QAuth Validator for token validation (server-side)
- */
-export class QAuthValidator {
-  private validator: any;
-
-  constructor(keys: IssuerKeys, config: QAuthConfig) {
-    ensureInitialized();
-    this.validator = new wasmModule.WasmTokenValidator(
-      keys.ed25519PublicKey,
-      keys.mldsaPublicKey,
-      keys.encryptionKey,
-      config.issuer,
-      config.audience
-    );
-  }
-
-  /**
-   * Validate a token and return the payload
-   */
-  validate(token: string): TokenPayload {
-    const payloadJson = this.validator.validate(token);
-    return JSON.parse(payloadJson);
-  }
-}
-
-/**
- * QAuth Client for proof of possession
- */
-export class QAuthClient {
-  private proofGenerator: any;
-
-  constructor() {
-    ensureInitialized();
-    this.proofGenerator = new wasmModule.WasmProofGenerator();
-  }
-
-  /**
-   * Get the client's public key
-   */
-  getPublicKey(): Uint8Array {
-    return new Uint8Array(this.proofGenerator.public_key);
-  }
-
-  /**
-   * Create a proof of possession for an API request
-   */
-  createProof(
-    method: string,
-    uri: string,
-    token: string,
-    body?: Uint8Array | string
-  ): string {
-    const bodyBytes = body ? toBytes(body) : undefined;
-    return this.proofGenerator.create_proof(method, uri, bodyBytes, token);
-  }
-}
-
-/**
- * Proof Validator for server-side proof verification
- */
-export class ProofValidator {
-  private validator: any;
-
-  constructor(clientPublicKey: Uint8Array) {
-    ensureInitialized();
-    this.validator = new wasmModule.WasmProofValidator(clientPublicKey);
-  }
-
-  /**
-   * Validate a proof of possession
-   */
-  validate(
-    proof: string,
-    method: string,
-    uri: string,
-    token: string,
-    body?: Uint8Array | string
-  ): boolean {
-    const bodyBytes = body ? toBytes(body) : undefined;
-    return this.validator.validate(proof, method, uri, bodyBytes, token);
-  }
-}
-
-/**
- * Policy Engine for authorization decisions
- */
-export class PolicyEngine {
-  private engine: any;
-
-  constructor() {
-    ensureInitialized();
-    this.engine = new wasmModule.WasmPolicyEngine();
-  }
-
-  /**
-   * Load a policy
-   */
-  loadPolicy(policy: Policy): void {
-    this.engine.load_policy(JSON.stringify(policy));
-  }
-
-  /**
-   * Evaluate a policy for a given context
-   */
-  evaluate(policyId: string, context: EvaluationContext): EvaluationResult {
-    const resultJson = this.engine.evaluate(policyId, JSON.stringify(context));
-    return JSON.parse(resultJson);
-  }
-}
-
-// Utility functions
 function toBytes(data: string | Uint8Array): Uint8Array {
   if (typeof data === 'string') {
     return new TextEncoder().encode(data);
@@ -461,6 +150,459 @@ function hexToBytes(hex: string): Uint8Array {
     bytes[i / 2] = parseInt(hex.substring(i, i + 2), 16);
   }
   return bytes;
+}
+
+function randomBytes(length: number): Uint8Array {
+  return new Uint8Array(crypto.randomBytes(length));
+}
+
+function sha256(data: Uint8Array): Uint8Array {
+  const hash = crypto.createHash('sha256');
+  hash.update(data);
+  return new Uint8Array(hash.digest());
+}
+
+function base64UrlEncode(data: Uint8Array): string {
+  return Buffer.from(data)
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+}
+
+function base64UrlDecode(str: string): Uint8Array {
+  str = str.replace(/-/g, '+').replace(/_/g, '/');
+  while (str.length % 4) str += '=';
+  return new Uint8Array(Buffer.from(str, 'base64'));
+}
+
+// ============================================
+// QAuth Server
+// ============================================
+
+export class QAuthServer {
+  private config: QAuthConfig;
+  private keys: IssuerKeys;
+
+  constructor(config: QAuthConfig) {
+    this.config = config;
+
+    // Generate Ed25519 keypair
+    const keypair = crypto.generateKeyPairSync('ed25519');
+    const publicKey = keypair.publicKey.export({ type: 'spki', format: 'der' });
+    const privateKey = keypair.privateKey.export({ type: 'pkcs8', format: 'der' });
+
+    // Extract raw keys (skip DER headers)
+    const rawPublicKey = new Uint8Array(publicKey.slice(-32));
+    const rawPrivateKey = new Uint8Array(privateKey.slice(-32));
+
+    this.keys = {
+      keyId: bytesToHex(sha256(rawPublicKey).slice(0, 16)),
+      ed25519PublicKey: rawPublicKey,
+      ed25519PrivateKey: rawPrivateKey,
+      encryptionKey: randomBytes(32),
+    };
+  }
+
+  getPublicKeys(): IssuerKeys {
+    return {
+      keyId: this.keys.keyId,
+      ed25519PublicKey: this.keys.ed25519PublicKey,
+      encryptionKey: this.keys.encryptionKey,
+    };
+  }
+
+  createToken(options: TokenOptions): string {
+    const now = Math.floor(Date.now() / 1000);
+    const validity = options.validitySeconds ?? 3600;
+
+    const payload: TokenPayload = {
+      sub: typeof options.subject === 'string'
+        ? options.subject
+        : new TextDecoder().decode(options.subject),
+      iss: this.config.issuer,
+      aud: options.audience
+        ? (Array.isArray(options.audience) ? options.audience : [options.audience])
+        : [this.config.audience],
+      exp: now + validity,
+      iat: now,
+      nbf: now,
+      jti: bytesToHex(randomBytes(16)),
+      rid: bytesToHex(randomBytes(16)),
+      pol: options.policyRef,
+      cst: options.claims ?? {},
+    };
+
+    // Create JWT-like token (header.payload.signature)
+    const header = { alg: 'EdDSA', typ: 'QAuth', kid: this.keys.keyId };
+    const headerB64 = base64UrlEncode(toBytes(JSON.stringify(header)));
+    const payloadB64 = base64UrlEncode(toBytes(JSON.stringify(payload)));
+
+    const message = `${headerB64}.${payloadB64}`;
+    const privateKey = crypto.createPrivateKey({
+      key: Buffer.concat([
+        Buffer.from('302e020100300506032b657004220420', 'hex'),
+        Buffer.from(this.keys.ed25519PrivateKey!),
+      ]),
+      format: 'der',
+      type: 'pkcs8',
+    });
+
+    const signature = crypto.sign(null, Buffer.from(message), privateKey);
+    const signatureB64 = base64UrlEncode(new Uint8Array(signature));
+
+    return `${message}.${signatureB64}`;
+  }
+
+  validateToken(token: string): TokenPayload {
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      throw new Error('Invalid token format');
+    }
+
+    const [headerB64, payloadB64, signatureB64] = parts;
+    const message = `${headerB64}.${payloadB64}`;
+
+    // Verify signature
+    const publicKey = crypto.createPublicKey({
+      key: Buffer.concat([
+        Buffer.from('302a300506032b6570032100', 'hex'),
+        Buffer.from(this.keys.ed25519PublicKey),
+      ]),
+      format: 'der',
+      type: 'spki',
+    });
+
+    const signature = base64UrlDecode(signatureB64);
+    const isValid = crypto.verify(null, Buffer.from(message), publicKey, Buffer.from(signature));
+
+    if (!isValid) {
+      throw new Error('Invalid signature');
+    }
+
+    const payload: TokenPayload = JSON.parse(
+      new TextDecoder().decode(base64UrlDecode(payloadB64))
+    );
+
+    // Check expiration
+    const now = Math.floor(Date.now() / 1000);
+    if (payload.exp < now) {
+      throw new Error('Token expired');
+    }
+
+    // Check not before
+    if (payload.nbf > now) {
+      throw new Error('Token not yet valid');
+    }
+
+    // Check issuer
+    if (payload.iss !== this.config.issuer) {
+      throw new Error('Invalid issuer');
+    }
+
+    // Check audience
+    if (!payload.aud.includes(this.config.audience)) {
+      throw new Error('Invalid audience');
+    }
+
+    return payload;
+  }
+}
+
+// ============================================
+// QAuth Client
+// ============================================
+
+export class QAuthClient {
+  private publicKey: Uint8Array;
+  private privateKey: Uint8Array;
+
+  constructor() {
+    const keypair = crypto.generateKeyPairSync('ed25519');
+    const publicKeyDer = keypair.publicKey.export({ type: 'spki', format: 'der' });
+    const privateKeyDer = keypair.privateKey.export({ type: 'pkcs8', format: 'der' });
+
+    this.publicKey = new Uint8Array(publicKeyDer.slice(-32));
+    this.privateKey = new Uint8Array(privateKeyDer.slice(-32));
+  }
+
+  getPublicKey(): Uint8Array {
+    return this.publicKey;
+  }
+
+  createProof(
+    method: string,
+    uri: string,
+    token: string,
+    body?: Uint8Array | string
+  ): string {
+    const timestamp = Math.floor(Date.now() / 1000);
+    const nonce = bytesToHex(randomBytes(8));
+
+    const bodyHash = body ? bytesToHex(sha256(toBytes(body))) : '';
+    const tokenHash = bytesToHex(sha256(toBytes(token)));
+
+    const proofData = {
+      ts: timestamp,
+      nonce,
+      method,
+      uri,
+      body_hash: bodyHash,
+      token_hash: tokenHash,
+    };
+
+    const message = JSON.stringify(proofData);
+    const privateKey = crypto.createPrivateKey({
+      key: Buffer.concat([
+        Buffer.from('302e020100300506032b657004220420', 'hex'),
+        Buffer.from(this.privateKey),
+      ]),
+      format: 'der',
+      type: 'pkcs8',
+    });
+
+    const signature = crypto.sign(null, Buffer.from(message), privateKey);
+
+    return base64UrlEncode(
+      toBytes(
+        JSON.stringify({
+          ...proofData,
+          sig: bytesToHex(new Uint8Array(signature)),
+          pub: bytesToHex(this.publicKey),
+        })
+      )
+    );
+  }
+}
+
+// ============================================
+// QAuth Validator
+// ============================================
+
+export class QAuthValidator {
+  private keys: IssuerKeys;
+  private config: QAuthConfig;
+
+  constructor(keys: IssuerKeys, config: QAuthConfig) {
+    this.keys = keys;
+    this.config = config;
+  }
+
+  validate(token: string): TokenPayload {
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      throw new Error('Invalid token format');
+    }
+
+    const [headerB64, payloadB64, signatureB64] = parts;
+    const message = `${headerB64}.${payloadB64}`;
+
+    const publicKey = crypto.createPublicKey({
+      key: Buffer.concat([
+        Buffer.from('302a300506032b6570032100', 'hex'),
+        Buffer.from(this.keys.ed25519PublicKey),
+      ]),
+      format: 'der',
+      type: 'spki',
+    });
+
+    const signature = base64UrlDecode(signatureB64);
+    const isValid = crypto.verify(null, Buffer.from(message), publicKey, Buffer.from(signature));
+
+    if (!isValid) {
+      throw new Error('Invalid signature');
+    }
+
+    const payload: TokenPayload = JSON.parse(
+      new TextDecoder().decode(base64UrlDecode(payloadB64))
+    );
+
+    const now = Math.floor(Date.now() / 1000);
+    if (payload.exp < now) throw new Error('Token expired');
+    if (payload.nbf > now) throw new Error('Token not yet valid');
+    if (payload.iss !== this.config.issuer) throw new Error('Invalid issuer');
+    if (!payload.aud.includes(this.config.audience)) throw new Error('Invalid audience');
+
+    return payload;
+  }
+}
+
+// ============================================
+// Proof Validator
+// ============================================
+
+export class ProofValidator {
+  private clientPublicKey: Uint8Array;
+
+  constructor(clientPublicKey: Uint8Array) {
+    this.clientPublicKey = clientPublicKey;
+  }
+
+  validate(
+    proof: string,
+    method: string,
+    uri: string,
+    token: string,
+    body?: Uint8Array | string
+  ): boolean {
+    try {
+      const proofData = JSON.parse(new TextDecoder().decode(base64UrlDecode(proof)));
+
+      // Check timestamp (within 60 seconds)
+      const now = Math.floor(Date.now() / 1000);
+      if (Math.abs(now - proofData.ts) > 60) {
+        return false;
+      }
+
+      // Verify method and URI
+      if (proofData.method !== method || proofData.uri !== uri) {
+        return false;
+      }
+
+      // Verify body hash
+      const expectedBodyHash = body ? bytesToHex(sha256(toBytes(body))) : '';
+      if (proofData.body_hash !== expectedBodyHash) {
+        return false;
+      }
+
+      // Verify token hash
+      const expectedTokenHash = bytesToHex(sha256(toBytes(token)));
+      if (proofData.token_hash !== expectedTokenHash) {
+        return false;
+      }
+
+      // Verify signature
+      const { sig, pub, ...dataToSign } = proofData;
+      const message = JSON.stringify(dataToSign);
+
+      const publicKey = crypto.createPublicKey({
+        key: Buffer.concat([
+          Buffer.from('302a300506032b6570032100', 'hex'),
+          Buffer.from(hexToBytes(pub)),
+        ]),
+        format: 'der',
+        type: 'spki',
+      });
+
+      return crypto.verify(null, Buffer.from(message), publicKey, Buffer.from(hexToBytes(sig)));
+    } catch {
+      return false;
+    }
+  }
+}
+
+// ============================================
+// Policy Engine
+// ============================================
+
+export class PolicyEngine {
+  private policies: Map<string, Policy> = new Map();
+
+  loadPolicy(policy: Policy): void {
+    this.policies.set(policy.id, policy);
+  }
+
+  evaluate(policyId: string, context: EvaluationContext): EvaluationResult {
+    const policy = this.policies.get(policyId);
+    if (!policy) {
+      return {
+        effect: 'deny',
+        matched_rule: null,
+        reason: `Policy not found: ${policyId}`,
+      };
+    }
+
+    // Sort rules by priority (higher first)
+    const sortedRules = [...policy.rules].sort(
+      (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
+    );
+
+    for (const rule of sortedRules) {
+      if (this.ruleMatches(rule, context)) {
+        return {
+          effect: rule.effect,
+          matched_rule: rule.id ?? null,
+          reason: `Matched rule: ${rule.id ?? 'unnamed'}`,
+        };
+      }
+    }
+
+    return {
+      effect: 'deny',
+      matched_rule: null,
+      reason: 'No matching rule found (default deny)',
+    };
+  }
+
+  private ruleMatches(rule: PolicyRule, context: EvaluationContext): boolean {
+    // Check resource match
+    const resourcePath = context.resource?.path ?? '';
+    const resourceMatches = rule.resources.some((pattern) =>
+      this.globMatch(pattern, resourcePath)
+    );
+    if (!resourceMatches) return false;
+
+    // Check action match
+    const action = context.request?.action ?? '';
+    const actionMatches = rule.actions.some(
+      (a) => a === '*' || a === action
+    );
+    if (!actionMatches) return false;
+
+    // Check conditions (simplified)
+    if (rule.conditions?.custom) {
+      for (const [key, condition] of Object.entries(rule.conditions.custom)) {
+        const subjectAttr = context.subject?.attributes?.[key];
+        if (!this.conditionMatches(condition, subjectAttr)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  private globMatch(pattern: string, str: string): boolean {
+    // Simple glob matching: * matches any segment, ** matches any path
+    const regex = pattern
+      .replace(/\*\*/g, '.*')
+      .replace(/\*/g, '[^/]*');
+    return new RegExp(`^${regex}$`).test(str);
+  }
+
+  private conditionMatches(condition: unknown, value: unknown): boolean {
+    if (typeof condition === 'object' && condition !== null) {
+      const cond = condition as Record<string, unknown>;
+      if ('in' in cond && Array.isArray(cond.in)) {
+        return cond.in.includes(value);
+      }
+      if ('eq' in cond) {
+        return cond.eq === value;
+      }
+    }
+    return condition === value;
+  }
+}
+
+// ============================================
+// Version Info
+// ============================================
+
+export function getVersion(): string {
+  return '0.1.0';
+}
+
+export function getProtocolVersion(): string {
+  return '1.0';
+}
+
+// No WASM initialization needed for pure JS implementation
+export async function initQAuth(): Promise<void> {
+  // No-op for pure JS implementation
+}
+
+export function isInitialized(): boolean {
+  return true;
 }
 
 // Re-export utilities
