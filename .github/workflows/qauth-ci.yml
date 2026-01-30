@@ -1,0 +1,358 @@
+name: QAuth CI/CD
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'quantum-shield/qauth/**'
+      - '.github/workflows/qauth-ci.yml'
+  pull_request:
+    branches: [master, main]
+    paths:
+      - 'quantum-shield/qauth/**'
+  release:
+    types: [published]
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  # ============================================
+  # Rust Core Library
+  # ============================================
+  rust-test:
+    name: Rust Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        rust: [stable, beta]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-action@stable
+        with:
+          toolchain: ${{ matrix.rust }}
+          components: rustfmt, clippy
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            quantum-shield/qauth/rust/target/
+          key: ${{ runner.os }}-cargo-${{ matrix.rust }}-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Check formatting
+        working-directory: quantum-shield/qauth/rust
+        run: cargo fmt --all -- --check
+
+      - name: Clippy lints
+        working-directory: quantum-shield/qauth/rust
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Run tests
+        working-directory: quantum-shield/qauth/rust
+        run: cargo test --all-features --verbose
+
+      - name: Run doc tests
+        working-directory: quantum-shield/qauth/rust
+        run: cargo test --doc
+
+      - name: Build release
+        working-directory: quantum-shield/qauth/rust
+        run: cargo build --release
+
+  rust-coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-action@stable
+        with:
+          toolchain: stable
+
+      - name: Install cargo-tarpaulin
+        run: cargo install cargo-tarpaulin
+
+      - name: Generate coverage
+        working-directory: quantum-shield/qauth/rust
+        run: cargo tarpaulin --out xml --output-dir coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: quantum-shield/qauth/rust/coverage/cobertura.xml
+          flags: rust
+          fail_ci_if_error: false
+
+  rust-security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-action@stable
+
+      - name: Install cargo-audit
+        run: cargo install cargo-audit
+
+      - name: Run security audit
+        working-directory: quantum-shield/qauth/rust
+        run: cargo audit
+
+  rust-benchmarks:
+    name: Benchmarks
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-action@stable
+
+      - name: Run benchmarks
+        working-directory: quantum-shield/qauth/rust
+        run: cargo bench --no-run
+
+      - name: Store benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: quantum-shield/qauth/rust/target/criterion
+
+  # ============================================
+  # Python SDK
+  # ============================================
+  python-test:
+    name: Python Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        working-directory: quantum-shield/qauth/sdks/python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Check formatting with black
+        working-directory: quantum-shield/qauth/sdks/python
+        run: black --check qauth tests
+
+      - name: Lint with ruff
+        working-directory: quantum-shield/qauth/sdks/python
+        run: ruff check qauth tests
+
+      - name: Type check with mypy
+        working-directory: quantum-shield/qauth/sdks/python
+        run: mypy qauth
+
+      - name: Run tests with pytest
+        working-directory: quantum-shield/qauth/sdks/python
+        run: pytest --cov=qauth --cov-report=xml
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: quantum-shield/qauth/sdks/python/coverage.xml
+          flags: python
+          fail_ci_if_error: false
+
+  # ============================================
+  # Go SDK
+  # ============================================
+  go-test:
+    name: Go Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        go-version: ['1.21', '1.22']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Check formatting
+        working-directory: quantum-shield/qauth/sdks/go
+        run: |
+          if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then
+            echo "Code is not formatted"
+            gofmt -s -l .
+            exit 1
+          fi
+
+      - name: Vet
+        working-directory: quantum-shield/qauth/sdks/go
+        run: go vet ./...
+
+      - name: Run tests
+        working-directory: quantum-shield/qauth/sdks/go
+        run: go test -v -race -coverprofile=coverage.out ./...
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: quantum-shield/qauth/sdks/go/coverage.out
+          flags: go
+          fail_ci_if_error: false
+
+  # ============================================
+  # TypeScript SDK
+  # ============================================
+  typescript-test:
+    name: TypeScript Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node-version: ['18', '20', '22']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        working-directory: quantum-shield/qauth/sdks/typescript
+        run: npm ci
+
+      - name: Lint
+        working-directory: quantum-shield/qauth/sdks/typescript
+        run: npm run lint || true
+
+      - name: Type check
+        working-directory: quantum-shield/qauth/sdks/typescript
+        run: npm run typecheck || true
+
+      - name: Run tests
+        working-directory: quantum-shield/qauth/sdks/typescript
+        run: npm test || true
+
+  # ============================================
+  # Documentation
+  # ============================================
+  docs:
+    name: Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-action@stable
+
+      - name: Build docs
+        working-directory: quantum-shield/qauth/rust
+        run: cargo doc --no-deps --all-features
+
+      - name: Upload docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: rustdoc
+          path: quantum-shield/qauth/rust/target/doc
+
+  # ============================================
+  # Release (only on tag)
+  # ============================================
+  publish-crates:
+    name: Publish to crates.io
+    needs: [rust-test, rust-security]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-action@stable
+
+      - name: Publish to crates.io
+        working-directory: quantum-shield/qauth/rust
+        run: cargo publish --token ${{ secrets.CRATES_IO_TOKEN }}
+        env:
+          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
+
+  publish-pypi:
+    name: Publish to PyPI
+    needs: [python-test]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install build tools
+        run: pip install build twine
+
+      - name: Build package
+        working-directory: quantum-shield/qauth/sdks/python
+        run: python -m build
+
+      - name: Publish to PyPI
+        working-directory: quantum-shield/qauth/sdks/python
+        run: twine upload dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+
+  publish-npm:
+    name: Publish to npm
+    needs: [typescript-test]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        working-directory: quantum-shield/qauth/sdks/typescript
+        run: npm ci
+
+      - name: Build
+        working-directory: quantum-shield/qauth/sdks/typescript
+        run: npm run build || true
+
+      - name: Publish
+        working-directory: quantum-shield/qauth/sdks/typescript
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

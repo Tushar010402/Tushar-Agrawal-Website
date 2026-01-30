@@ -1,0 +1,50 @@
+[package]
+name = "qauth-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+arbitrary = { version = "1", features = ["derive"] }
+
+[dependencies.qauth]
+path = ".."
+
+[[bin]]
+name = "fuzz_token_parsing"
+path = "fuzz_targets/fuzz_token_parsing.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_signature_verification"
+path = "fuzz_targets/fuzz_signature_verification.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_proof_validation"
+path = "fuzz_targets/fuzz_proof_validation.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_policy_evaluation"
+path = "fuzz_targets/fuzz_policy_evaluation.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_encryption"
+path = "fuzz_targets/fuzz_encryption.rs"
+test = false
+doc = false
+bench = false

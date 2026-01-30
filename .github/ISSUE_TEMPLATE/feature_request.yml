@@ -1,0 +1,90 @@
+name: Feature Request
+description: Suggest a new feature for QAuth
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature! Please describe your idea in detail.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which component would this feature affect?
+      options:
+        - Rust Core Library
+        - Python SDK
+        - TypeScript SDK
+        - Go SDK
+        - CLI Tool
+        - Documentation
+        - New Component
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? Is your feature request related to a problem?
+      placeholder: "I'm always frustrated when..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like
+      placeholder: "I would like QAuth to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or features you've considered
+
+  - type: textarea
+    id: api
+    attributes:
+      label: Proposed API
+      description: If applicable, show how the API would look
+      render: rust
+      placeholder: |
+        // Example API usage
+        let result = qauth.new_feature(options)?;
+
+  - type: dropdown
+    id: breaking
+    attributes:
+      label: Breaking Change
+      description: Would this feature require breaking changes?
+      options:
+        - "No"
+        - "Yes - minor"
+        - "Yes - major"
+        - "Not sure"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or examples
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I would be willing to help implement this feature
+          required: false
+        - label: I have read the CONTRIBUTING.md guidelines
+          required: false
