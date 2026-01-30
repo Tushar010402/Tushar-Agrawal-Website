@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
-import React from "react";
+import React, { useCallback, useRef } from "react";
 
 export const HeroHighlight = ({
   children,
@@ -12,20 +12,26 @@ export const HeroHighlight = ({
   className?: string;
   containerClassName?: string;
 }) => {
-  let mouseX = useMotionValue(0);
-  let mouseY = useMotionValue(0);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const lastCallRef = useRef(0);
 
-  function handleMouseMove({
-    currentTarget,
-    clientX,
-    clientY,
-  }: React.MouseEvent<HTMLDivElement>) {
-    if (!currentTarget) return;
-    let { left, top } = currentTarget.getBoundingClientRect();
+  // Throttled mouse move handler (16ms = ~60fps)
+  const handleMouseMove = useCallback(
+    ({ currentTarget, clientX, clientY }: React.MouseEvent<HTMLDivElement>) => {
+      const now = Date.now();
+      if (now - lastCallRef.current < 16) return;
+      lastCallRef.current = now;
 
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
+      if (!currentTarget) return;
+      const { left, top } = currentTarget.getBoundingClientRect();
+
+      mouseX.set(clientX - left);
+      mouseY.set(clientY - top);
+    },
+    [mouseX, mouseY]
+  );
+
   return (
     <div
       className={cn(

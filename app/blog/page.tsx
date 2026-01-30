@@ -127,11 +127,11 @@ export default function BlogPage() {
   if (posts.length === 0) {
     return (
       <div className="min-h-screen bg-black text-white py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
             Technical Blog
           </h1>
-          <p className="text-gray-400 text-lg mb-8">
+          <p className="text-neutral-400 text-lg mb-8">
             In-depth articles on microservices, backend engineering, Python, Go, FastAPI, and real-world system design
           </p>
           <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-8 md:p-12">
@@ -139,7 +139,7 @@ export default function BlogPage() {
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
               Coming Soon
             </h2>
-            <p className="text-gray-400 text-lg mb-6">
+            <p className="text-neutral-400 text-lg mb-6">
               I&apos;m working on some exciting technical content about backend engineering,
               system design, and building scalable applications. Stay tuned!
             </p>
@@ -162,21 +162,21 @@ export default function BlogPage() {
               </a>
             </div>
           </div>
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
             <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
               <div className="text-2xl mb-3">⚡</div>
               <h3 className="text-lg font-semibold text-white mb-2">Backend Engineering</h3>
-              <p className="text-gray-400 text-sm">Deep dives into Python, Go, FastAPI, Django, and microservices architecture.</p>
+              <p className="text-neutral-400 text-sm">Deep dives into Python, Go, FastAPI, Django, and microservices architecture.</p>
             </div>
             <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
               <div className="text-2xl mb-3">🏗️</div>
               <h3 className="text-lg font-semibold text-white mb-2">System Design</h3>
-              <p className="text-gray-400 text-sm">Real-world patterns for building scalable, distributed systems.</p>
+              <p className="text-neutral-400 text-sm">Real-world patterns for building scalable, distributed systems.</p>
             </div>
             <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
               <div className="text-2xl mb-3">🏥</div>
               <h3 className="text-lg font-semibold text-white mb-2">Healthcare SaaS</h3>
-              <p className="text-gray-400 text-sm">HIPAA compliance, medical data handling, and healthcare tech.</p>
+              <p className="text-neutral-400 text-sm">HIPAA compliance, medical data handling, and healthcare tech.</p>
             </div>
           </div>
         </div>

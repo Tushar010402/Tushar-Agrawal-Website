@@ -64,7 +64,7 @@ export const ProjectGrid = ({
 
 const ProjectCard = ({ item }: { item: ProjectItem }) => {
   return (
-    <div className="rounded-2xl h-full w-full p-6 overflow-hidden bg-black border border-neutral-800 group-hover:border-slate-600 relative z-20 transition-all duration-300">
+    <div className="rounded-2xl h-full w-full p-6 overflow-hidden bg-black border border-neutral-800 group-hover:border-neutral-600 relative z-20 transition-all duration-300">
       <div className="relative z-50">
         {/* Status Badge */}
         <div className="flex items-center justify-between mb-4">

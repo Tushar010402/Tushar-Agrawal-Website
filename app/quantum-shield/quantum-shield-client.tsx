@@ -788,7 +788,7 @@ export default function QuantumShieldClient() {
                 </Button>
                 <Button
                   borderRadius="1.75rem"
-                  className="bg-slate-900 text-white border-slate-800 px-6 py-3"
+                  className="bg-neutral-900 text-white border-neutral-800 px-6 py-3"
                 >
                   <Link href="/qauth/demo" className="flex items-center gap-2">
                     <svg
@@ -881,7 +881,7 @@ export default function QuantumShieldClient() {
             </Button>
             <Button
               borderRadius="1.75rem"
-              className="bg-slate-900 text-white border-slate-800 px-8 py-4"
+              className="bg-neutral-900 text-white border-neutral-800 px-8 py-4"
             >
               <a
                 href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield"
@@ -901,7 +901,7 @@ export default function QuantumShieldClient() {
             </Button>
             <Button
               borderRadius="1.75rem"
-              className="bg-slate-900 text-white border-slate-800 px-8 py-4"
+              className="bg-neutral-900 text-white border-neutral-800 px-8 py-4"
             >
               <a
                 href="/blog/quantum-shield-post-quantum-cryptography"
@@ -934,7 +934,7 @@ export default function QuantumShieldClient() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-3xl p-12 text-center"
+          className="max-w-5xl mx-auto bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-3xl p-12 text-center"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Get Early Access
@@ -952,40 +952,6 @@ export default function QuantumShieldClient() {
         </motion.div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-4 border-t border-neutral-800">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/"
-                className="text-neutral-400 hover:text-white transition-colors"
-              >
-                Back to Portfolio
-              </Link>
-              <span className="text-neutral-700">|</span>
-              <a
-                href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-400 hover:text-white transition-colors"
-              >
-                GitHub
-              </a>
-              <span className="text-neutral-700">|</span>
-              <a
-                href="mailto:tusharagrawal0104@gmail.com"
-                className="text-neutral-400 hover:text-white transition-colors"
-              >
-                Contact
-              </a>
-            </div>
-            <p className="text-neutral-500 text-sm">
-              © 2026 QuantumShield. MIT Licensed. Built by Tushar Agrawal.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

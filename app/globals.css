@@ -3,6 +3,37 @@
 :root {
   --background: #0a0a0a;
   --foreground: #ededed;
+
+  /* Design System Colors */
+  --color-primary: #6366f1; /* indigo-500 */
+  --color-secondary: #a3a3a3; /* neutral-400 */
+  --color-accent: #a855f7; /* purple-500 */
+  --color-success: #22c55e; /* green-500 */
+  --color-warning: #f59e0b; /* amber-500 */
+  --color-error: #ef4444; /* red-500 */
+
+  /* Spacing */
+  --spacing-section: 5rem; /* py-20 */
+  --spacing-container-x: 1rem; /* px-4 */
+
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-full: 9999px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --spacing-container-x: 2rem; /* md:px-8 */
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --spacing-container-x: 4rem; /* lg:px-16 */
+  }
 }
 
 @theme inline {
@@ -18,9 +49,48 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus Visible Styles */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Smooth Scroll (respects reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Container utility with design system spacing */
+  .container-section {
+    max-width: 80rem; /* max-w-7xl */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-container-x);
+    padding-right: var(--spacing-container-x);
+  }
+
+  /* Focus ring utility */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black;
   }
 }
 
@@ -47,4 +117,29 @@ body {
 .bg-dot-thick-indigo-500 {
   background-image: radial-gradient(circle, rgba(99, 102, 241, 0.5) 1px, transparent 1px);
   background-size: 20px 20px;
+}
+
+/* Selection colors */
+::selection {
+  background-color: rgba(99, 102, 241, 0.3);
+  color: #ffffff;
+}
+
+/* Scrollbar styling for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #171717;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #404040;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #525252;
 }

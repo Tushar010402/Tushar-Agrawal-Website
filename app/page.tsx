@@ -7,12 +7,10 @@ import { Timeline } from "@/components/ui/timeline";
 import { Button } from "@/components/ui/moving-border";
 import { motion } from "framer-motion";
 import { Spotlight } from "@/components/ui/spotlight";
-import { Navbar } from "@/components/ui/navbar";
 
 export default function Home() {
   return (
     <div className="w-full bg-black">
-      <Navbar />
 
       {/* Hero Section */}
       <section id="home">
@@ -93,7 +91,7 @@ export default function Home() {
         <div className="flex gap-4 flex-wrap">
           <Button
             borderRadius="1.75rem"
-            className="bg-slate-900 text-white border-slate-800 px-8 py-4"
+            className="bg-neutral-900 text-white border-neutral-800 px-8 py-4"
           >
             <a href="/Tushar_Agrawal_Resume.pdf" download="Tushar_Agrawal_Resume.pdf" className="flex items-center gap-2">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -104,7 +102,7 @@ export default function Home() {
           </Button>
           <Button
             borderRadius="1.75rem"
-            className="bg-slate-900 text-white border-slate-800 px-8 py-4"
+            className="bg-neutral-900 text-white border-neutral-800 px-8 py-4"
           >
             <a href="tel:+918126816664" className="flex items-center gap-2">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -115,7 +113,7 @@ export default function Home() {
           </Button>
           <Button
             borderRadius="1.75rem"
-            className="bg-slate-900 text-white border-slate-800 px-8 py-4"
+            className="bg-neutral-900 text-white border-neutral-800 px-8 py-4"
           >
             <a href="mailto:tusharagrawal0104@gmail.com" className="flex items-center gap-2">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -169,7 +167,7 @@ export default function Home() {
             Technical deep-dives on backend engineering, system design, and modern development practices.
           </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <a href="/blog/india-first-ai-search-engine-fomoa" className="group">
             <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-blue-500/50 transition-all h-full">
               <span className="text-xs text-blue-400 font-medium">AI SEARCH</span>
@@ -214,7 +212,7 @@ export default function Home() {
           </div>
 
           {/* Contact Cards */}
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <a href="mailto:tusharagrawal0104@gmail.com" className="group">
               <div className="bg-neutral-900/80 border border-neutral-700 rounded-2xl p-6 hover:border-blue-500/50 transition-all hover:scale-105">
                 <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-500/20 transition-all">
@@ -256,7 +254,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-4 justify-center">
             <Button
               borderRadius="1.75rem"
-              className="bg-slate-900 text-white border-slate-700 px-10 py-4"
+              className="bg-neutral-900 text-white border-neutral-700 px-10 py-4"
             >
               <a href="/Tushar_Agrawal_Resume.pdf" download="Tushar_Agrawal_Resume.pdf" className="flex items-center gap-2 font-semibold">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -269,13 +267,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 px-4 border-t border-neutral-800">
-        <div className="max-w-7xl mx-auto text-center text-neutral-400">
-          <p>© 2026 Tushar Agrawal. Built with Next.js and Aceternity UI</p>
-          <p className="mt-2 text-sm">Backend Engineer | Full-Stack Developer | B.Tech Computer Science, GD Goenka University (2019-2023)</p>
-        </div>
-      </footer>
     </div>
   );
 }

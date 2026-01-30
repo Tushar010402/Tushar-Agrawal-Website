@@ -243,12 +243,12 @@ export default function QAuthClient() {
               </div>
             </motion.div>
 
-            <div className="mb-4 flex justify-center gap-2">
-              <span className="px-3 py-1 bg-red-500/20 border border-red-500/30 rounded-full text-red-400 text-sm font-medium">
-                OAuth 2.0 is broken
+            <div className="mb-4 flex justify-center gap-2 flex-wrap">
+              <span className="px-3 py-1 bg-amber-500/20 border border-amber-500/30 rounded-full text-amber-400 text-sm font-medium">
+                OAuth 2.0 has limitations
               </span>
-              <span className="px-3 py-1 bg-red-500/20 border border-red-500/30 rounded-full text-red-400 text-sm font-medium">
-                JWT is vulnerable
+              <span className="px-3 py-1 bg-amber-500/20 border border-amber-500/30 rounded-full text-amber-400 text-sm font-medium">
+                JWT needs improvement
               </span>
             </div>
 
@@ -298,7 +298,7 @@ export default function QAuthClient() {
               </Button>
               <Button
                 borderRadius="1.75rem"
-                className="bg-slate-900 text-white border-slate-800 px-8 py-4"
+                className="bg-neutral-900 text-white border-neutral-800 px-8 py-4"
               >
                 <a
                   href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield/qauth"
@@ -318,7 +318,7 @@ export default function QAuthClient() {
               </Button>
               <Button
                 borderRadius="1.75rem"
-                className="bg-slate-900 text-white border-slate-800 px-8 py-4"
+                className="bg-neutral-900 text-white border-neutral-800 px-8 py-4"
               >
                 <Link
                   href="/blog/qauth-post-quantum-authentication-protocol"
@@ -500,12 +500,62 @@ export default function QAuthClient() {
           </p>
         </motion.div>
 
+        {/* Mobile Card Layout */}
+        <div className="md:hidden space-y-4">
+          {attacks.map((attack, idx) => (
+            <motion.div
+              key={attack.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: idx * 0.05 }}
+              className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-4"
+            >
+              <h3 className="text-white font-medium mb-3">{attack.name}</h3>
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                <div className="text-center">
+                  <p className="text-xs text-neutral-500 mb-1">JWT</p>
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                    attack.jwt === "Vulnerable" || attack.jwt === "Exposed" || attack.jwt === "Future Risk" || attack.jwt === "Hours/Days"
+                      ? "bg-red-500/20 text-red-400"
+                      : "bg-neutral-800 text-neutral-400"
+                  }`}>
+                    {attack.jwt}
+                  </span>
+                </div>
+                <div className="text-center">
+                  <p className="text-xs text-neutral-500 mb-1">OAuth</p>
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                    attack.oauth === "Vulnerable" || attack.oauth === "Future Risk" || attack.oauth === "Hours"
+                      ? "bg-red-500/20 text-red-400"
+                      : "bg-neutral-800 text-neutral-400"
+                  }`}>
+                    {attack.oauth}
+                  </span>
+                </div>
+                <div className="text-center">
+                  <p className="text-xs text-neutral-500 mb-1">QAuth</p>
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                    attack.qauth === "Protected" || attack.qauth === "Impossible" || attack.qauth === "Encrypted" || attack.qauth === "5 Minutes"
+                      ? "bg-emerald-500/20 text-emerald-400"
+                      : "bg-neutral-800 text-neutral-400"
+                  }`}>
+                    {attack.qauth}
+                  </span>
+                </div>
+              </div>
+              <p className="text-neutral-400 text-sm">{attack.description}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Desktop Table Layout */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="overflow-x-auto"
+          className="hidden md:block overflow-x-auto"
         >
           <table className="w-full border-collapse">
             <thead>
@@ -699,7 +749,7 @@ export default function QAuthClient() {
           </a>
           <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4">
             <p className="text-neutral-400 text-xs mb-2">Go (module)</p>
-            <code className="text-emerald-400 text-xs">go get github.com/Tushar010402/...</code>
+            <code className="text-emerald-400 text-xs break-all">go get github.com/Tushar010402/qauth-go</code>
           </div>
         </motion.div>
       </section>
@@ -897,40 +947,6 @@ export default function QAuthClient() {
         </motion.div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-4 border-t border-neutral-800">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/"
-                className="text-neutral-400 hover:text-white transition-colors"
-              >
-                Back to Portfolio
-              </Link>
-              <span className="text-neutral-700">|</span>
-              <Link
-                href="/quantum-shield"
-                className="text-neutral-400 hover:text-white transition-colors"
-              >
-                QuantumShield
-              </Link>
-              <span className="text-neutral-700">|</span>
-              <a
-                href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield/qauth"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-400 hover:text-white transition-colors"
-              >
-                GitHub
-              </a>
-            </div>
-            <p className="text-neutral-500 text-sm">
-              2026 QAuth. MIT Licensed. Built by Tushar Agrawal.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

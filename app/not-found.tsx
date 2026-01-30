@@ -27,7 +27,7 @@ export default function NotFound() {
         </h1>
 
         {/* Description */}
-        <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto">
+        <p className="text-neutral-400 text-lg mb-8 max-w-md mx-auto">
           Oops! The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
 
@@ -77,7 +77,7 @@ export default function NotFound() {
 
         {/* Popular Links */}
         <div className="border-t border-neutral-800 pt-8">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+          <h2 className="text-sm font-semibold text-neutral-500 uppercase tracking-wider mb-4">
             Popular Pages
           </h2>
           <div className="flex flex-wrap gap-3 justify-center">

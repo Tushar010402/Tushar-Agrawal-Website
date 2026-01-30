@@ -18,7 +18,6 @@ import {
   BookOpen,
   ChevronRight,
 } from 'lucide-react';
-import { Navbar } from '@/components/ui/navbar';
 import { BlogReader } from '@/components/ui/blog-reader';
 
 interface BlogPostClientProps {
@@ -91,7 +90,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
     const codeBlocks: string[] = [];
     html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (_match, _lang, code) => {
       const index = codeBlocks.length;
-      codeBlocks.push(`<pre class="bg-neutral-900 border border-neutral-800 rounded-lg p-4 my-4 overflow-x-auto"><code class="text-sm text-gray-300">${escapeHtml(code)}</code></pre>`);
+      codeBlocks.push(`<pre class="bg-neutral-900 border border-neutral-800 rounded-lg p-4 my-4 overflow-x-auto"><code class="text-sm text-neutral-300">${escapeHtml(code)}</code></pre>`);
       return `%%CODEBLOCK_${index}%%`;
     });
 
@@ -118,12 +117,12 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">$1</a>');
 
     // Bullet lists
-    html = html.replace(/^\- (.*$)/gim, '<li class="ml-6 mb-2 list-disc text-gray-300">$1</li>');
-    html = html.replace(/(<li class="ml-6 mb-2 list-disc text-gray-300">.*<\/li>\n?)+/g, '<ul class="my-4">$&</ul>');
+    html = html.replace(/^\- (.*$)/gim, '<li class="ml-6 mb-2 list-disc text-neutral-300">$1</li>');
+    html = html.replace(/(<li class="ml-6 mb-2 list-disc text-neutral-300">.*<\/li>\n?)+/g, '<ul class="my-4">$&</ul>');
 
     // Paragraphs
-    html = html.replace(/\n\n/g, '</p><p class="text-gray-300 leading-relaxed mb-4">');
-    html = `<p class="text-gray-300 leading-relaxed mb-4">${html}</p>`;
+    html = html.replace(/\n\n/g, '</p><p class="text-neutral-300 leading-relaxed mb-4">');
+    html = `<p class="text-neutral-300 leading-relaxed mb-4">${html}</p>`;
 
     // Phase 3: Restore code blocks from placeholders
     codeBlocks.forEach((block, index) => {
@@ -138,7 +137,6 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navbar />
       <div className="max-w-[1400px] mx-auto px-4 pt-24 pb-20">
         <div className="flex gap-8">
           {/* Sidebar - Left Navigation */}
@@ -147,7 +145,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
               {/* Back to Blog */}
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6"
+                className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors mb-6"
               >
                 <ArrowLeft className="w-4 h-4" />
                 All Articles
@@ -158,7 +156,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                 <div className="flex items-center gap-2 mb-4 pb-3 border-b border-neutral-800">
                   <BookOpen className="w-4 h-4 text-blue-400" />
                   <span className="font-semibold text-sm text-white">All Articles</span>
-                  <span className="ml-auto text-xs text-gray-500 bg-neutral-800 px-2 py-0.5 rounded-full">
+                  <span className="ml-auto text-xs text-neutral-500 bg-neutral-800 px-2 py-0.5 rounded-full">
                     {allBlogs.length}
                   </span>
                 </div>
@@ -186,12 +184,12 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                             <div className={isCurrentPost ? '' : 'pl-6'}>
                               <h4
                                 className={`text-sm font-medium line-clamp-2 ${
-                                  isCurrentPost ? 'text-blue-400' : 'text-gray-300 group-hover:text-white'
+                                  isCurrentPost ? 'text-blue-400' : 'text-neutral-300 group-hover:text-white'
                                 }`}
                               >
                                 {post.title}
                               </h4>
-                              <span className="text-xs text-gray-500 mt-1 block">
+                              <span className="text-xs text-neutral-500 mt-1 block">
                                 {formatShortDate(post.created_at)}
                               </span>
                             </div>
@@ -210,7 +208,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
             {/* Mobile Back Button */}
             <Link
               href="/blog"
-              className="lg:hidden inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8"
+              className="lg:hidden inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors mb-8"
             >
               <ArrowLeft className="w-5 h-5" />
               Back to Blog
@@ -243,7 +241,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
               </h1>
 
               {/* Meta Info */}
-              <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-gray-400 mb-8 pb-8 border-b border-neutral-800">
+              <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-neutral-400 mb-8 pb-8 border-b border-neutral-800">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   {formatDate(blog.created_at)}
@@ -276,7 +274,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                   <Link
                     key={i}
                     href={`/blog?tag=${encodeURIComponent(tag.trim())}`}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-neutral-900 border border-neutral-800 text-gray-300 text-sm rounded-full hover:border-blue-500 transition-all"
+                    className="inline-flex items-center gap-1 px-3 py-1 bg-neutral-900 border border-neutral-800 text-neutral-300 text-sm rounded-full hover:border-blue-500 transition-all"
                   >
                     <TagIcon className="w-3 h-3" />
                     {tag.trim()}
@@ -285,7 +283,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
               </div>
 
               {/* Description */}
-              <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">{blog.description}</p>
+              <p className="text-lg md:text-xl text-neutral-300 mb-8 leading-relaxed">{blog.description}</p>
 
               {/* Content */}
               <div
@@ -331,14 +329,14 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                 className="mt-16 pt-8 border-t border-neutral-800 max-w-3xl"
               >
                 <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {relatedBlogs.map((relatedBlog) => (
                     <Link key={relatedBlog.id} href={`/blog/${relatedBlog.slug}`}>
                       <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-4 hover:border-blue-500 transition-all h-full">
                         <h3 className="font-semibold text-white mb-2 line-clamp-2 text-sm">
                           {relatedBlog.title}
                         </h3>
-                        <p className="text-xs text-gray-400 line-clamp-2">{relatedBlog.description}</p>
+                        <p className="text-xs text-neutral-400 line-clamp-2">{relatedBlog.description}</p>
                       </div>
                     </Link>
                   ))}

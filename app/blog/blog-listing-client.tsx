@@ -6,8 +6,6 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Blog } from '@/lib/types';
 import { Search, Calendar, Clock, ArrowRight, ChevronDown, X, Filter, Grid3X3, List } from 'lucide-react';
-import { Navbar } from '@/components/ui/navbar';
-
 interface BlogListingClientProps {
   initialBlogs: Blog[];
 }
@@ -136,7 +134,6 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navbar />
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-b from-blue-950/20 to-black pt-24 pb-16">
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10" />
@@ -154,19 +151,19 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                 Technical Blog
               </span>
             </h1>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
+            <p className="text-neutral-400 text-lg max-w-2xl mx-auto mb-8">
               Deep dives into backend engineering, system design, and modern development practices
             </p>
 
             {/* Search Bar */}
             <div className="relative max-w-2xl mx-auto">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Search articles by title, topic, or technology..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-neutral-900/80 backdrop-blur-sm border border-neutral-700 rounded-xl pl-12 pr-4 py-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full bg-neutral-900/80 backdrop-blur-sm border border-neutral-700 rounded-xl pl-12 pr-4 py-4 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
           </motion.div>
@@ -186,7 +183,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
                   selectedTags.length > 0
                     ? 'bg-blue-600/20 border-blue-500/50 text-blue-400'
-                    : 'bg-neutral-900 border-neutral-700 text-gray-300 hover:border-neutral-600'
+                    : 'bg-neutral-900 border-neutral-700 text-neutral-300 hover:border-neutral-600'
                 }`}
               >
                 <Filter className="w-4 h-4" />
@@ -229,7 +226,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
 
                         return (
                           <div key={category}>
-                            <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                            <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
                               {category}
                             </h4>
                             <div className="flex flex-wrap gap-2">
@@ -243,7 +240,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                                     className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
                                       isSelected
                                         ? 'bg-blue-600 text-white'
-                                        : 'bg-neutral-800 text-gray-300 hover:bg-neutral-700'
+                                        : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'
                                     }`}
                                   >
                                     {actualTag}
@@ -269,7 +266,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                   className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
                     selectedTags.includes(tag)
                       ? 'bg-blue-600 text-white'
-                      : 'bg-neutral-800/50 text-gray-400 hover:bg-neutral-800 hover:text-gray-300'
+                      : 'bg-neutral-800/50 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-300'
                   }`}
                 >
                   {tag}
@@ -280,7 +277,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             {/* Active Filters */}
             {selectedTags.length > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-gray-500 text-sm">|</span>
+                <span className="text-neutral-500 text-sm">|</span>
                 {selectedTags.map((tag) => (
                   <span
                     key={tag}
@@ -298,14 +295,14 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
 
           {/* Right: View Toggle & Results Count */}
           <div className="flex items-center gap-4">
-            <span className="text-gray-500 text-sm">
+            <span className="text-neutral-500 text-sm">
               {filteredBlogs.length} {filteredBlogs.length === 1 ? 'article' : 'articles'}
             </span>
             <div className="flex items-center bg-neutral-900 border border-neutral-700 rounded-lg p-1">
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-1.5 rounded transition-all ${
-                  viewMode === 'grid' ? 'bg-neutral-700 text-white' : 'text-gray-500 hover:text-gray-300'
+                  viewMode === 'grid' ? 'bg-neutral-700 text-white' : 'text-neutral-500 hover:text-neutral-300'
                 }`}
               >
                 <Grid3X3 className="w-4 h-4" />
@@ -313,7 +310,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-1.5 rounded transition-all ${
-                  viewMode === 'list' ? 'bg-neutral-700 text-white' : 'text-gray-500 hover:text-gray-300'
+                  viewMode === 'list' ? 'bg-neutral-700 text-white' : 'text-neutral-500 hover:text-neutral-300'
                 }`}
               >
                 <List className="w-4 h-4" />
@@ -357,10 +354,10 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                     <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">
                       {featuredPost.title}
                     </h2>
-                    <p className="text-gray-400 mb-6 line-clamp-3">
+                    <p className="text-neutral-400 mb-6 line-clamp-3">
                       {featuredPost.description}
                     </p>
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <div className="flex items-center gap-4 text-sm text-neutral-500">
                       <span className="flex items-center gap-1.5">
                         <Calendar className="w-4 h-4" />
                         {formatDate(featuredPost.created_at)}
@@ -389,7 +386,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
           >
             <div className="text-6xl mb-4">🔍</div>
             <h3 className="text-xl font-semibold text-white mb-2">No articles found</h3>
-            <p className="text-gray-400 mb-6">Try adjusting your search or filters</p>
+            <p className="text-neutral-400 mb-6">Try adjusting your search or filters</p>
             <button
               onClick={clearFilters}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -443,12 +440,12 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                       </h2>
 
                       {/* Description */}
-                      <p className="text-gray-500 text-sm mb-4 line-clamp-2 flex-1">
+                      <p className="text-neutral-500 text-sm mb-4 line-clamp-2 flex-1">
                         {blog.description}
                       </p>
 
                       {/* Meta */}
-                      <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-neutral-800">
+                      <div className="flex items-center justify-between text-xs text-neutral-500 pt-3 border-t border-neutral-800">
                         <span className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5" />
                           {formatDate(blog.created_at)}
@@ -505,10 +502,10 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                       <h2 className="text-lg font-semibold text-white mb-1 group-hover:text-blue-400 transition-colors line-clamp-1">
                         {blog.title}
                       </h2>
-                      <p className="text-gray-500 text-sm mb-2 line-clamp-2">
+                      <p className="text-neutral-500 text-sm mb-2 line-clamp-2">
                         {blog.description}
                       </p>
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                      <div className="flex items-center gap-4 text-xs text-neutral-500">
                         <span className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5" />
                           {formatDate(blog.created_at)}
@@ -522,7 +519,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
 
                     {/* Arrow */}
                     <div className="hidden md:flex items-center">
-                      <ArrowRight className="w-5 h-5 text-gray-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" />
+                      <ArrowRight className="w-5 h-5 text-neutral-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" />
                     </div>
                   </article>
                 </Link>
@@ -569,7 +566,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                     </button>
                   );
                 } else if (page === currentPage - 2 || page === currentPage + 2) {
-                  return <span key={page} className="px-2 text-gray-500">...</span>;
+                  return <span key={page} className="px-2 text-neutral-500">...</span>;
                 }
                 return null;
               })}

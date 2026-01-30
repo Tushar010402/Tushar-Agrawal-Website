@@ -42,7 +42,7 @@ export default function Error({ error, reset }: ErrorProps) {
         </h1>
 
         {/* Description */}
-        <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto">
+        <p className="text-neutral-400 text-lg mb-8 max-w-md mx-auto">
           We apologize for the inconvenience. An unexpected error has occurred.
         </p>
 
@@ -53,7 +53,7 @@ export default function Error({ error, reset }: ErrorProps) {
               {error.message}
             </p>
             {error.digest && (
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-neutral-500 mt-2">
                 Error ID: {error.digest}
               </p>
             )}
@@ -105,7 +105,7 @@ export default function Error({ error, reset }: ErrorProps) {
         </div>
 
         {/* Help Text */}
-        <p className="text-sm text-gray-500 mt-8">
+        <p className="text-sm text-neutral-500 mt-8">
           If this problem persists, please{' '}
           <a
             href="mailto:tusharagrawal0104@gmail.com"
