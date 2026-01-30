@@ -22,6 +22,14 @@ use chacha20poly1305::{ChaCha20Poly1305, Nonce as ChaChaNonce};
 use x25519_dalek::{StaticSecret, PublicKey as X25519PublicKey};
 use fips203::ml_kem_768;
 use fips203::traits::{Decaps, Encaps, KeyGen, SerDes};
+use fips204::ml_dsa_65;
+use fips204::traits::{Signer as DsaSigner, Verifier as DsaVerifier, SerDes as DsaSerDes};
+use fips205::slh_dsa_shake_128f;
+use fips205::traits::{Signer as SlhSigner, Verifier as SlhVerifier, SerDes as SlhSerDes};
+
+// Type aliases for signature types
+type MlDsaSignature = <ml_dsa_65::PrivateKey as DsaSigner>::Signature;
+type SlhDsaSignature = <slh_dsa_shake_128f::PrivateKey as SlhSigner>::Signature;
 use hkdf::Hkdf;
 use sha3::{Sha3_256, Sha3_512};
 use hmac::{Hmac, Mac};
@@ -37,7 +45,7 @@ use base64::{Engine as _, engine::general_purpose::STANDARD as BASE64};
 const AES_KEY_SIZE: usize = 32;
 const CHACHA_KEY_SIZE: usize = 32;
 const NONCE_SIZE: usize = 12;
-const VERSION_BYTE: u8 = 0x04; // Version 4 - Post-Quantum
+const VERSION_BYTE: u8 = 0x05; // Version 5 - Post-Quantum with Dual Signatures
 const HEADER_SIZE: usize = 1 + NONCE_SIZE + NONCE_SIZE; // version + 2 nonces
 
 // Argon2id parameters (memory-hard, GPU resistant)
@@ -167,7 +175,7 @@ impl QShieldCipher {
         }
 
         let version = ciphertext[0];
-        if version != VERSION_BYTE && version != 0x03 && version != 0x02 && version != 0x01 {
+        if version != VERSION_BYTE && version != 0x04 && version != 0x03 && version != 0x02 && version != 0x01 {
             return Err(JsValue::from_str("Unsupported version"));
         }
 
@@ -185,7 +193,7 @@ impl QShieldCipher {
             .decrypt(AesNonce::from_slice(aes_nonce), aes_payload)
             .map_err(|_| JsValue::from_str("Decryption failed"))?;
 
-        if self.enable_padding && (version == VERSION_BYTE || version == 0x03) {
+        if self.enable_padding && (version == VERSION_BYTE || version == 0x04 || version == 0x03) {
             self.remove_padding(&padded)
         } else {
             Ok(padded)
@@ -646,6 +654,352 @@ impl HybridCipherResult {
 }
 
 // ============================================================================
+// POST-QUANTUM DUAL SIGNATURES - ML-DSA-65 + SLH-DSA-SHAKE-128f (FIPS 204/205)
+// ============================================================================
+
+/// Post-Quantum Dual Digital Signature Scheme
+///
+/// Combines ML-DSA-65 (NIST FIPS 204) with SLH-DSA-SHAKE-128f (NIST FIPS 205)
+///
+/// WHY DUAL SIGNATURES?
+/// - ML-DSA: Based on lattice cryptography (Module-LWE problem)
+/// - SLH-DSA: Based purely on hash functions (no lattice math)
+///
+/// DEFENSE-IN-DEPTH: If a mathematical breakthrough breaks lattice cryptography,
+/// hash-based signatures remain secure (and vice versa). An attacker must break
+/// BOTH to forge a signature.
+///
+/// USE CASES:
+/// - Long-term document signing (50+ year validity)
+/// - Code signing for software releases
+/// - Certificate authorities / root certificates
+/// - Financial transactions requiring non-repudiation
+/// - Government/defense classified communications
+#[wasm_bindgen]
+pub struct QShieldSign {
+    // ML-DSA-65 (Lattice-based, FIPS 204)
+    mldsa_sk: ml_dsa_65::PrivateKey,
+    mldsa_pk: ml_dsa_65::PublicKey,
+    // SLH-DSA-SHAKE-128f (Hash-based, FIPS 205)
+    slhdsa_sk: slh_dsa_shake_128f::PrivateKey,
+    slhdsa_pk: slh_dsa_shake_128f::PublicKey,
+}
+
+#[wasm_bindgen]
+impl QShieldSign {
+    /// Generate new dual signature keypair (ML-DSA-65 + SLH-DSA-SHAKE-128f)
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> Result<QShieldSign, JsValue> {
+        // Generate ML-DSA-65 keypair
+        let (mldsa_pk, mldsa_sk) = ml_dsa_65::try_keygen()
+            .map_err(|_| JsValue::from_str("ML-DSA key generation failed"))?;
+
+        // Generate SLH-DSA-SHAKE-128f keypair
+        let (slhdsa_pk, slhdsa_sk) = slh_dsa_shake_128f::try_keygen()
+            .map_err(|_| JsValue::from_str("SLH-DSA key generation failed"))?;
+
+        Ok(QShieldSign {
+            mldsa_sk,
+            mldsa_pk,
+            slhdsa_sk,
+            slhdsa_pk,
+        })
+    }
+
+    /// Get the combined public key for verification
+    /// ML-DSA-65 pk: 1952 bytes, SLH-DSA-SHAKE-128f pk: 32 bytes = 1984 bytes total
+    #[wasm_bindgen(getter)]
+    pub fn public_key(&self) -> Vec<u8> {
+        let mldsa_bytes = self.mldsa_pk.clone().into_bytes();
+        let slhdsa_bytes = self.slhdsa_pk.clone().into_bytes();
+
+        let mut combined = Vec::with_capacity(mldsa_bytes.len() + slhdsa_bytes.len());
+        combined.extend_from_slice(&mldsa_bytes);
+        combined.extend_from_slice(&slhdsa_bytes);
+        combined
+    }
+
+    /// Get public key as base64
+    #[wasm_bindgen(getter)]
+    pub fn public_key_base64(&self) -> String {
+        BASE64.encode(&self.public_key())
+    }
+
+    /// Get public key sizes info
+    #[wasm_bindgen]
+    pub fn public_key_info() -> String {
+        format!(
+            r#"{{"mldsa65_pk":1952,"slhdsa_pk":32,"total":1984}}"#
+        )
+    }
+
+    /// Sign a message with dual signatures (ML-DSA-65 + SLH-DSA-SHAKE-128f)
+    /// Returns combined signature that can only be verified if BOTH signatures are valid
+    #[wasm_bindgen]
+    pub fn sign(&self, message: &[u8]) -> Result<DualSignature, JsValue> {
+        // Context for domain separation
+        let context = b"QShield-DualSign-v1";
+
+        // ML-DSA-65 signature (using Signer trait) - returns [u8; 3309]
+        let mldsa_sig: MlDsaSignature = DsaSigner::try_sign(&self.mldsa_sk, message, context)
+            .map_err(|e| JsValue::from_str(&format!("ML-DSA signing failed: {}", e)))?;
+
+        // SLH-DSA-SHAKE-128f signature (hedged mode for extra security) - returns [u8; 17088]
+        let slhdsa_sig: SlhDsaSignature = SlhSigner::try_sign(&self.slhdsa_sk, message, context, true)
+            .map_err(|e| JsValue::from_str(&format!("SLH-DSA signing failed: {}", e)))?;
+
+        Ok(DualSignature {
+            mldsa_signature: mldsa_sig.to_vec(),
+            slhdsa_signature: slhdsa_sig.to_vec(),
+        })
+    }
+
+    /// Sign a string message
+    #[wasm_bindgen]
+    pub fn sign_string(&self, message: &str) -> Result<DualSignature, JsValue> {
+        self.sign(message.as_bytes())
+    }
+
+    /// Verify a dual signature (BOTH signatures must be valid)
+    #[wasm_bindgen]
+    pub fn verify(&self, message: &[u8], signature: &DualSignature) -> Result<bool, JsValue> {
+        let context = b"QShield-DualSign-v1";
+
+        // Verify ML-DSA-65 signature (signature is [u8; 3309])
+        let mldsa_sig: MlDsaSignature = signature.mldsa_signature.clone()
+            .try_into()
+            .map_err(|_| JsValue::from_str("Invalid ML-DSA signature length (expected 3309 bytes)"))?;
+
+        let mldsa_valid = DsaVerifier::verify(&self.mldsa_pk, message, &mldsa_sig, context);
+
+        // Verify SLH-DSA-SHAKE-128f signature (signature is [u8; 17088])
+        let slhdsa_sig: SlhDsaSignature = signature.slhdsa_signature.clone()
+            .try_into()
+            .map_err(|_| JsValue::from_str("Invalid SLH-DSA signature length (expected 17088 bytes)"))?;
+
+        let slhdsa_valid = SlhVerifier::verify(&self.slhdsa_pk, message, &slhdsa_sig, context);
+
+        // BOTH must be valid for the signature to be considered valid
+        Ok(mldsa_valid && slhdsa_valid)
+    }
+
+    /// Verify a string message
+    #[wasm_bindgen]
+    pub fn verify_string(&self, message: &str, signature: &DualSignature) -> Result<bool, JsValue> {
+        self.verify(message.as_bytes(), signature)
+    }
+}
+
+impl Default for QShieldSign {
+    fn default() -> Self {
+        Self::new().expect("Failed to create QShieldSign")
+    }
+}
+
+/// Dual signature containing both ML-DSA and SLH-DSA signatures
+#[wasm_bindgen]
+pub struct DualSignature {
+    mldsa_signature: Vec<u8>,   // ML-DSA-65: 3309 bytes
+    slhdsa_signature: Vec<u8>,  // SLH-DSA-SHAKE-128f: 17088 bytes
+}
+
+#[wasm_bindgen]
+impl DualSignature {
+    /// Get the combined signature bytes
+    #[wasm_bindgen(getter)]
+    pub fn bytes(&self) -> Vec<u8> {
+        let mut combined = Vec::with_capacity(self.mldsa_signature.len() + self.slhdsa_signature.len() + 4);
+        // Length prefix for ML-DSA signature (for parsing)
+        combined.extend_from_slice(&(self.mldsa_signature.len() as u32).to_le_bytes());
+        combined.extend_from_slice(&self.mldsa_signature);
+        combined.extend_from_slice(&self.slhdsa_signature);
+        combined
+    }
+
+    /// Get signature as base64
+    #[wasm_bindgen(getter)]
+    pub fn base64(&self) -> String {
+        BASE64.encode(&self.bytes())
+    }
+
+    /// Get ML-DSA-65 signature only
+    #[wasm_bindgen(getter)]
+    pub fn mldsa_signature(&self) -> Vec<u8> {
+        self.mldsa_signature.clone()
+    }
+
+    /// Get SLH-DSA-SHAKE-128f signature only
+    #[wasm_bindgen(getter)]
+    pub fn slhdsa_signature(&self) -> Vec<u8> {
+        self.slhdsa_signature.clone()
+    }
+
+    /// Get signature sizes info
+    #[wasm_bindgen]
+    pub fn size_info() -> String {
+        format!(
+            r#"{{"mldsa65_sig":3309,"slhdsa_sig":17088,"total":20397}}"#
+        )
+    }
+
+    /// Parse a combined signature from bytes
+    #[wasm_bindgen]
+    pub fn from_bytes(data: &[u8]) -> Result<DualSignature, JsValue> {
+        if data.len() < 4 {
+            return Err(JsValue::from_str("Signature too short"));
+        }
+
+        let mldsa_len = u32::from_le_bytes([data[0], data[1], data[2], data[3]]) as usize;
+
+        if data.len() < 4 + mldsa_len {
+            return Err(JsValue::from_str("Invalid signature format"));
+        }
+
+        let mldsa_signature = data[4..4 + mldsa_len].to_vec();
+        let slhdsa_signature = data[4 + mldsa_len..].to_vec();
+
+        Ok(DualSignature {
+            mldsa_signature,
+            slhdsa_signature,
+        })
+    }
+
+    /// Parse a combined signature from base64
+    #[wasm_bindgen]
+    pub fn from_base64(b64: &str) -> Result<DualSignature, JsValue> {
+        let data = BASE64.decode(b64)
+            .map_err(|_| JsValue::from_str("Invalid base64"))?;
+        Self::from_bytes(&data)
+    }
+}
+
+/// Verify a signature using only a public key (for verification without private key)
+#[wasm_bindgen]
+pub struct QShieldVerifier {
+    mldsa_pk: ml_dsa_65::PublicKey,
+    slhdsa_pk: slh_dsa_shake_128f::PublicKey,
+}
+
+#[wasm_bindgen]
+impl QShieldVerifier {
+    /// Create a verifier from a combined public key
+    #[wasm_bindgen(constructor)]
+    pub fn new(public_key: &[u8]) -> Result<QShieldVerifier, JsValue> {
+        // ML-DSA-65 pk: 1952 bytes, SLH-DSA pk: 32 bytes
+        if public_key.len() != 1952 + 32 {
+            return Err(JsValue::from_str(&format!(
+                "Invalid public key length: expected {}, got {}",
+                1952 + 32,
+                public_key.len()
+            )));
+        }
+
+        let mldsa_pk_bytes: [u8; 1952] = public_key[..1952]
+            .try_into()
+            .map_err(|_| JsValue::from_str("Invalid ML-DSA public key"))?;
+        let mldsa_pk: ml_dsa_65::PublicKey = DsaSerDes::try_from_bytes(mldsa_pk_bytes)
+            .map_err(|e| JsValue::from_str(&format!("Invalid ML-DSA public key: {}", e)))?;
+
+        let slhdsa_pk_bytes: [u8; 32] = public_key[1952..]
+            .try_into()
+            .map_err(|_| JsValue::from_str("Invalid SLH-DSA public key"))?;
+        let slhdsa_pk: slh_dsa_shake_128f::PublicKey = SlhSerDes::try_from_bytes(&slhdsa_pk_bytes)
+            .map_err(|e| JsValue::from_str(&format!("Invalid SLH-DSA public key: {}", e)))?;
+
+        Ok(QShieldVerifier { mldsa_pk, slhdsa_pk })
+    }
+
+    /// Create a verifier from base64-encoded public key
+    #[wasm_bindgen]
+    pub fn from_base64(pk_base64: &str) -> Result<QShieldVerifier, JsValue> {
+        let pk_bytes = BASE64.decode(pk_base64)
+            .map_err(|_| JsValue::from_str("Invalid base64"))?;
+        Self::new(&pk_bytes)
+    }
+
+    /// Verify a dual signature (BOTH signatures must be valid)
+    #[wasm_bindgen]
+    pub fn verify(&self, message: &[u8], signature: &DualSignature) -> Result<bool, JsValue> {
+        let context = b"QShield-DualSign-v1";
+
+        // Verify ML-DSA-65 signature (signature is [u8; 3309])
+        let mldsa_sig: MlDsaSignature = signature.mldsa_signature.clone()
+            .try_into()
+            .map_err(|_| JsValue::from_str("Invalid ML-DSA signature length (expected 3309 bytes)"))?;
+
+        let mldsa_valid = DsaVerifier::verify(&self.mldsa_pk, message, &mldsa_sig, context);
+
+        // Verify SLH-DSA-SHAKE-128f signature (signature is [u8; 17088])
+        let slhdsa_sig: SlhDsaSignature = signature.slhdsa_signature.clone()
+            .try_into()
+            .map_err(|_| JsValue::from_str("Invalid SLH-DSA signature length (expected 17088 bytes)"))?;
+
+        let slhdsa_valid = SlhVerifier::verify(&self.slhdsa_pk, message, &slhdsa_sig, context);
+
+        // BOTH must be valid
+        Ok(mldsa_valid && slhdsa_valid)
+    }
+
+    /// Verify a string message
+    #[wasm_bindgen]
+    pub fn verify_string(&self, message: &str, signature: &DualSignature) -> Result<bool, JsValue> {
+        self.verify(message.as_bytes(), signature)
+    }
+
+    /// Verify using base64-encoded signature
+    #[wasm_bindgen]
+    pub fn verify_base64(&self, message: &[u8], signature_b64: &str) -> Result<bool, JsValue> {
+        let signature = DualSignature::from_base64(signature_b64)?;
+        self.verify(message, &signature)
+    }
+}
+
+/// Benchmark dual signature operations
+#[wasm_bindgen]
+pub fn benchmark_dual_signatures(iterations: u32) -> Result<JsValue, JsValue> {
+    let window = web_sys::window().ok_or_else(|| JsValue::from_str("No window"))?;
+    let performance = window.performance().ok_or_else(|| JsValue::from_str("No performance API"))?;
+
+    let message = b"This is a test message for benchmarking dual signatures.";
+
+    // Key generation benchmark
+    let start = performance.now();
+    let mut last_signer = None;
+    for _ in 0..iterations {
+        last_signer = Some(QShieldSign::new()?);
+    }
+    let keygen_time = performance.now() - start;
+    let signer = last_signer.unwrap();
+
+    // Signing benchmark
+    let start = performance.now();
+    let mut last_sig = None;
+    for _ in 0..iterations {
+        last_sig = Some(signer.sign(message)?);
+    }
+    let sign_time = performance.now() - start;
+    let sig = last_sig.unwrap();
+
+    // Verification benchmark
+    let start = performance.now();
+    for _ in 0..iterations {
+        let _ = signer.verify(message, &sig)?;
+    }
+    let verify_time = performance.now() - start;
+
+    Ok(JsValue::from_str(&format!(
+        r#"{{"iterations":{},"keygenTimeMs":{:.2},"signTimeMs":{:.2},"verifyTimeMs":{:.2},"avgKeygenMs":{:.3},"avgSignMs":{:.3},"avgVerifyMs":{:.3},"publicKeySize":{},"signatureSize":{}}}"#,
+        iterations,
+        keygen_time, sign_time, verify_time,
+        keygen_time / iterations as f64,
+        sign_time / iterations as f64,
+        verify_time / iterations as f64,
+        1952 + 32,   // ML-DSA-65 pk + SLH-DSA pk
+        3309 + 17088 // ML-DSA-65 sig + SLH-DSA sig
+    )))
+}
+
+// ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
 
@@ -738,7 +1092,7 @@ pub fn benchmark_hybrid_kem(iterations: u32) -> Result<JsValue, JsValue> {
 
 #[wasm_bindgen]
 pub fn info() -> String {
-    r#"{"name":"QuantumShield","version":"4.0.0-pq","postQuantum":true,"algorithms":{"symmetric":["AES-256-GCM","ChaCha20-Poly1305"],"kdf":["Argon2id-19MB","HKDF-SHA3-512"],"kem":["X25519","ML-KEM-768"],"hybrid":"X25519+ML-KEM-768"},"nistLevel":3,"uniqueFeatures":["cascading-dual-cipher","argon2id-19mb","length-hiding","aad-context-binding","forward-secrecy","hybrid-pq-kem"]}"#.to_string()
+    r#"{"name":"QuantumShield","version":"5.0.0-pq","postQuantum":true,"algorithms":{"symmetric":["AES-256-GCM","ChaCha20-Poly1305"],"kdf":["Argon2id-19MB","HKDF-SHA3-512"],"kem":["X25519","ML-KEM-768"],"signatures":["ML-DSA-65","SLH-DSA-SHAKE-128f"],"hybrid":"X25519+ML-KEM-768"},"nistStandards":{"fips203":"ML-KEM-768","fips204":"ML-DSA-65","fips205":"SLH-DSA-SHAKE-128f"},"nistLevel":3,"uniqueFeatures":["cascading-dual-cipher","argon2id-19mb","length-hiding","aad-context-binding","forward-secrecy","hybrid-pq-kem","dual-pq-signatures"]}"#.to_string()
 }
 
 #[wasm_bindgen]
@@ -748,7 +1102,7 @@ pub fn demo(message: &str, password: &str) -> Result<String, JsValue> {
     let decrypted = cipher.decrypt_string(&encrypted)?;
 
     Ok(format!(
-        "Original: {}\nEncrypted: {}...\nDecrypted: {}\nFeatures: Argon2id KDF, Dual-cipher, Length hiding, Post-Quantum KEM available",
+        "Original: {}\nEncrypted: {}...\nDecrypted: {}\nFeatures: Argon2id KDF, Dual-cipher, Length hiding, PQ-KEM (ML-KEM-768), Dual-signatures (ML-DSA-65 + SLH-DSA)",
         message,
         &encrypted[..encrypted.len().min(50)],
         decrypted
@@ -791,5 +1145,50 @@ mod tests {
     fn test_secure_compare() {
         assert!(secure_compare(b"hello", b"hello"));
         assert!(!secure_compare(b"hello", b"world"));
+    }
+
+    #[test]
+    fn test_dual_signatures() {
+        let signer = QShieldSign::new().unwrap();
+        let message = b"Test message for dual signatures";
+
+        // Sign the message
+        let signature = signer.sign(message).unwrap();
+
+        // Verify - should pass
+        assert!(signer.verify(message, &signature).unwrap());
+
+        // Verify with wrong message - should fail
+        assert!(!signer.verify(b"Wrong message", &signature).unwrap());
+    }
+
+    #[test]
+    fn test_dual_signature_serialization() {
+        let signer = QShieldSign::new().unwrap();
+        let message = b"Serialization test";
+
+        let signature = signer.sign(message).unwrap();
+        let sig_bytes = signature.bytes();
+
+        // Parse back
+        let parsed = DualSignature::from_bytes(&sig_bytes).unwrap();
+
+        // Should still verify
+        assert!(signer.verify(message, &parsed).unwrap());
+    }
+
+    #[test]
+    fn test_verifier_from_public_key() {
+        let signer = QShieldSign::new().unwrap();
+        let message = b"Verifier test";
+
+        let signature = signer.sign(message).unwrap();
+        let public_key = signer.public_key();
+
+        // Create verifier from public key only
+        let verifier = QShieldVerifier::new(&public_key).unwrap();
+
+        // Should verify
+        assert!(verifier.verify(message, &signature).unwrap());
     }
 }

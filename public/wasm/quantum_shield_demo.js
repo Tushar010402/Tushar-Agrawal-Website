@@ -1,6 +1,165 @@
 /* @ts-self-types="./quantum_shield_demo.d.ts" */
 
 /**
+ * Dual signature containing both ML-DSA and SLH-DSA signatures
+ */
+export class DualSignature {
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(DualSignature.prototype);
+        obj.__wbg_ptr = ptr;
+        DualSignatureFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        DualSignatureFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_dualsignature_free(ptr, 0);
+    }
+    /**
+     * Get signature as base64
+     * @returns {string}
+     */
+    get base64() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.dualsignature_base64(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred1_0 = r0;
+            deferred1_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+     * Get the combined signature bytes
+     * @returns {Uint8Array}
+     */
+    get bytes() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.dualsignature_bytes(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var v1 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Parse a combined signature from base64
+     * @param {string} b64
+     * @returns {DualSignature}
+     */
+    static from_base64(b64) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(b64, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.dualsignature_from_base64(retptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return DualSignature.__wrap(r0);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Parse a combined signature from bytes
+     * @param {Uint8Array} data
+     * @returns {DualSignature}
+     */
+    static from_bytes(data) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(data, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.dualsignature_from_bytes(retptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return DualSignature.__wrap(r0);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Get ML-DSA-65 signature only
+     * @returns {Uint8Array}
+     */
+    get mldsa_signature() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.dualsignature_mldsa_signature(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var v1 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Get signature sizes info
+     * @returns {string}
+     */
+    static size_info() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.dualsignature_size_info(retptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred1_0 = r0;
+            deferred1_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+     * Get SLH-DSA-SHAKE-128f signature only
+     * @returns {Uint8Array}
+     */
+    get slhdsa_signature() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.dualsignature_slhdsa_signature(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var v1 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+}
+if (Symbol.dispose) DualSignature.prototype[Symbol.dispose] = DualSignature.prototype.free;
+
+/**
  * Result of deriving cipher from hybrid KEM
  */
 export class HybridCipherResult {
@@ -143,7 +302,7 @@ export class HybridEncapsulation {
     get ciphertext() {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.hybridencapsulation_ciphertext(retptr, this.__wbg_ptr);
+            wasm.dualsignature_mldsa_signature(retptr, this.__wbg_ptr);
             var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
             var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
             var v1 = getArrayU8FromWasm0(r0, r1).slice();
@@ -178,7 +337,7 @@ export class HybridEncapsulation {
     get shared_secret() {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.hybridencapsulation_shared_secret(retptr, this.__wbg_ptr);
+            wasm.dualsignature_slhdsa_signature(retptr, this.__wbg_ptr);
             var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
             var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
             var v1 = getArrayU8FromWasm0(r0, r1).slice();
@@ -804,6 +963,353 @@ export class QShieldSession {
 if (Symbol.dispose) QShieldSession.prototype[Symbol.dispose] = QShieldSession.prototype.free;
 
 /**
+ * Post-Quantum Dual Digital Signature Scheme
+ *
+ * Combines ML-DSA-65 (NIST FIPS 204) with SLH-DSA-SHAKE-128f (NIST FIPS 205)
+ *
+ * WHY DUAL SIGNATURES?
+ * - ML-DSA: Based on lattice cryptography (Module-LWE problem)
+ * - SLH-DSA: Based purely on hash functions (no lattice math)
+ *
+ * DEFENSE-IN-DEPTH: If a mathematical breakthrough breaks lattice cryptography,
+ * hash-based signatures remain secure (and vice versa). An attacker must break
+ * BOTH to forge a signature.
+ *
+ * USE CASES:
+ * - Long-term document signing (50+ year validity)
+ * - Code signing for software releases
+ * - Certificate authorities / root certificates
+ * - Financial transactions requiring non-repudiation
+ * - Government/defense classified communications
+ */
+export class QShieldSign {
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        QShieldSignFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_qshieldsign_free(ptr, 0);
+    }
+    /**
+     * Generate new dual signature keypair (ML-DSA-65 + SLH-DSA-SHAKE-128f)
+     */
+    constructor() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.qshieldsign_new(retptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            this.__wbg_ptr = r0 >>> 0;
+            QShieldSignFinalization.register(this, this.__wbg_ptr, this);
+            return this;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Get the combined public key for verification
+     * ML-DSA-65 pk: 1952 bytes, SLH-DSA-SHAKE-128f pk: 32 bytes = 1984 bytes total
+     * @returns {Uint8Array}
+     */
+    get public_key() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.qshieldsign_public_key(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var v1 = getArrayU8FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export2(r0, r1 * 1, 1);
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Get public key as base64
+     * @returns {string}
+     */
+    get public_key_base64() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.qshieldsign_public_key_base64(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred1_0 = r0;
+            deferred1_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+     * Get public key sizes info
+     * @returns {string}
+     */
+    static public_key_info() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.qshieldsign_public_key_info(retptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred1_0 = r0;
+            deferred1_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export2(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+     * Sign a message with dual signatures (ML-DSA-65 + SLH-DSA-SHAKE-128f)
+     * Returns combined signature that can only be verified if BOTH signatures are valid
+     * @param {Uint8Array} message
+     * @returns {DualSignature}
+     */
+    sign(message) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(message, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldsign_sign(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return DualSignature.__wrap(r0);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Sign a string message
+     * @param {string} message
+     * @returns {DualSignature}
+     */
+    sign_string(message) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(message, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldsign_sign(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return DualSignature.__wrap(r0);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Verify a dual signature (BOTH signatures must be valid)
+     * @param {Uint8Array} message
+     * @param {DualSignature} signature
+     * @returns {boolean}
+     */
+    verify(message, signature) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(message, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            _assertClass(signature, DualSignature);
+            wasm.qshieldsign_verify(retptr, this.__wbg_ptr, ptr0, len0, signature.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return r0 !== 0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Verify a string message
+     * @param {string} message
+     * @param {DualSignature} signature
+     * @returns {boolean}
+     */
+    verify_string(message, signature) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(message, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len0 = WASM_VECTOR_LEN;
+            _assertClass(signature, DualSignature);
+            wasm.qshieldsign_verify(retptr, this.__wbg_ptr, ptr0, len0, signature.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return r0 !== 0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+}
+if (Symbol.dispose) QShieldSign.prototype[Symbol.dispose] = QShieldSign.prototype.free;
+
+/**
+ * Verify a signature using only a public key (for verification without private key)
+ */
+export class QShieldVerifier {
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(QShieldVerifier.prototype);
+        obj.__wbg_ptr = ptr;
+        QShieldVerifierFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        QShieldVerifierFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_qshieldverifier_free(ptr, 0);
+    }
+    /**
+     * Create a verifier from base64-encoded public key
+     * @param {string} pk_base64
+     * @returns {QShieldVerifier}
+     */
+    static from_base64(pk_base64) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(pk_base64, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldverifier_from_base64(retptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return QShieldVerifier.__wrap(r0);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Create a verifier from a combined public key
+     * @param {Uint8Array} public_key
+     */
+    constructor(public_key) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(public_key, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.qshieldverifier_new(retptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            this.__wbg_ptr = r0 >>> 0;
+            QShieldVerifierFinalization.register(this, this.__wbg_ptr, this);
+            return this;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Verify a dual signature (BOTH signatures must be valid)
+     * @param {Uint8Array} message
+     * @param {DualSignature} signature
+     * @returns {boolean}
+     */
+    verify(message, signature) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(message, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            _assertClass(signature, DualSignature);
+            wasm.qshieldverifier_verify(retptr, this.__wbg_ptr, ptr0, len0, signature.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return r0 !== 0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Verify using base64-encoded signature
+     * @param {Uint8Array} message
+     * @param {string} signature_b64
+     * @returns {boolean}
+     */
+    verify_base64(message, signature_b64) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(message, wasm.__wbindgen_export3);
+            const len0 = WASM_VECTOR_LEN;
+            const ptr1 = passStringToWasm0(signature_b64, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len1 = WASM_VECTOR_LEN;
+            wasm.qshieldverifier_verify_base64(retptr, this.__wbg_ptr, ptr0, len0, ptr1, len1);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return r0 !== 0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Verify a string message
+     * @param {string} message
+     * @param {DualSignature} signature
+     * @returns {boolean}
+     */
+    verify_string(message, signature) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(message, wasm.__wbindgen_export3, wasm.__wbindgen_export4);
+            const len0 = WASM_VECTOR_LEN;
+            _assertClass(signature, DualSignature);
+            wasm.qshieldverifier_verify(retptr, this.__wbg_ptr, ptr0, len0, signature.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            return r0 !== 0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+}
+if (Symbol.dispose) QShieldVerifier.prototype[Symbol.dispose] = QShieldVerifier.prototype.free;
+
+/**
  * @param {number} iterations
  * @param {number} data_size
  * @returns {any}
@@ -812,6 +1318,27 @@ export function benchmark(iterations, data_size) {
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
         wasm.benchmark(retptr, iterations, data_size);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+        if (r2) {
+            throw takeObject(r1);
+        }
+        return takeObject(r0);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+}
+
+/**
+ * Benchmark dual signature operations
+ * @param {number} iterations
+ * @returns {any}
+ */
+export function benchmark_dual_signatures(iterations) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.benchmark_dual_signatures(retptr, iterations);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
         var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
         var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
@@ -1077,6 +1604,9 @@ function __wbg_get_imports() {
     };
 }
 
+const DualSignatureFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_dualsignature_free(ptr >>> 0, 1));
 const HybridCipherResultFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_hybridcipherresult_free(ptr >>> 0, 1));
@@ -1095,6 +1625,12 @@ const QShieldKeyExchangeFinalization = (typeof FinalizationRegistry === 'undefin
 const QShieldSessionFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_qshieldsession_free(ptr >>> 0, 1));
+const QShieldSignFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_qshieldsign_free(ptr >>> 0, 1));
+const QShieldVerifierFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_qshieldverifier_free(ptr >>> 0, 1));
 
 function addHeapObject(obj) {
     if (heap_next === heap.length) heap.push(heap.length + 1);
@@ -1103,6 +1639,12 @@ function addHeapObject(obj) {
 
     heap[idx] = obj;
     return idx;
+}
+
+function _assertClass(instance, klass) {
+    if (!(instance instanceof klass)) {
+        throw new Error(`expected instance of ${klass.name}`);
+    }
 }
 
 function dropObject(idx) {

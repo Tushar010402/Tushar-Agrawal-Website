@@ -318,7 +318,7 @@ Transparency is essential in cryptography. Let me be upfront about QuantumShield
 
 1. **Not professionally audited**: This is a personal project. While the underlying algorithm implementations are from reputable sources, the *integration* hasn't been reviewed by professional cryptographers.
 
-2. **Signatures not yet implemented**: The ML-DSA-65 and SLH-DSA dual signature system described in this post is planned architecture, not currently shipped code. The WASM demo implements only the hybrid KEM.
+2. **Large signature sizes**: The dual signature system (ML-DSA-65 + SLH-DSA-SHAKE-128f) produces ~20KB signatures. This is a tradeoff for defense-in-depth security.
 
 3. **Not production-ready**: For systems protecting sensitive data in production, use established libraries like [liboqs](https://github.com/open-quantum-safe/liboqs) from Open Quantum Safe, or wait for major libraries like OpenSSL/BoringSSL to integrate PQC.
 

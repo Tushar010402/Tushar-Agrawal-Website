@@ -239,7 +239,7 @@ export default function QuantumShieldDemo() {
             <svg className="w-4 h-4 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
             </svg>
-            <span className="text-violet-300 text-sm font-medium">Post-Quantum Secure v4.0</span>
+            <span className="text-violet-300 text-sm font-medium">Post-Quantum Secure v5.0</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Post-Quantum Encryption Demo
@@ -261,6 +261,12 @@ export default function QuantumShieldDemo() {
           <span className="px-3 py-1.5 bg-violet-500/10 border border-violet-500/30 rounded-full text-violet-300 text-xs font-mono font-bold">
             ML-KEM-768 (PQ)
           </span>
+          <span className="px-3 py-1.5 bg-pink-500/10 border border-pink-500/30 rounded-full text-pink-300 text-xs font-mono font-bold">
+            ML-DSA-65 (PQ)
+          </span>
+          <span className="px-3 py-1.5 bg-rose-500/10 border border-rose-500/30 rounded-full text-rose-300 text-xs font-mono font-bold">
+            SLH-DSA (PQ)
+          </span>
           <span className="px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-300 text-xs font-mono">
             AES-256-GCM
           </span>
@@ -269,9 +275,6 @@ export default function QuantumShieldDemo() {
           </span>
           <span className="px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/30 rounded-full text-cyan-300 text-xs font-mono">
             Argon2id
-          </span>
-          <span className="px-3 py-1.5 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-300 text-xs font-mono">
-            X25519
           </span>
         </motion.div>
 
@@ -283,19 +286,19 @@ export default function QuantumShieldDemo() {
           className="flex flex-wrap justify-center gap-2 mb-12"
         >
           <span className="px-3 py-1.5 bg-fuchsia-500/10 border border-fuchsia-500/30 rounded-full text-fuchsia-300 text-xs font-bold">
-            NIST FIPS 203
+            NIST FIPS 203/204/205
           </span>
           <span className="px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-300 text-xs">
             Hybrid KEM
+          </span>
+          <span className="px-3 py-1.5 bg-pink-500/10 border border-pink-500/30 rounded-full text-pink-300 text-xs">
+            Dual Signatures
           </span>
           <span className="px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-300 text-xs">
             Dual-Layer Cipher
           </span>
           <span className="px-3 py-1.5 bg-rose-500/10 border border-rose-500/30 rounded-full text-rose-300 text-xs">
             Length Hiding
-          </span>
-          <span className="px-3 py-1.5 bg-orange-500/10 border border-orange-500/30 rounded-full text-orange-300 text-xs">
-            Forward Secrecy
           </span>
         </motion.div>
 

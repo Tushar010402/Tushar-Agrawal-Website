@@ -25,9 +25,9 @@ const features = [
     title: "Dual Signatures",
     subtitle: "ML-DSA-65 + SLH-DSA",
     description:
-      "Planned: Lattice-based ML-DSA paired with hash-based SLH-DSA for cryptographic diversity. Two mathematically independent signature schemes.",
+      "Lattice-based ML-DSA paired with hash-based SLH-DSA provides cryptographic diversity. Two mathematically independent signature schemes for maximum assurance.",
     icon: "signature",
-    badge: "Coming Soon",
+    badge: "FIPS 204/205",
   },
   {
     title: "Cascading Encryption",
@@ -682,7 +682,7 @@ export default function QuantumShieldClient() {
                 <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <span><strong>Signatures not yet implemented</strong>: ML-DSA-65 and SLH-DSA are planned, not shipped</span>
+                <span><strong>Large signature sizes</strong>: Dual signatures total ~20KB (ML-DSA: 3.3KB + SLH-DSA: 17KB)</span>
               </li>
               <li className="flex items-start gap-2">
                 <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
