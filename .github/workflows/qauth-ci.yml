@@ -323,6 +323,8 @@ jobs:
     needs: [python-test]
     runs-on: ubuntu-latest
     if: github.event_name == 'release'
+    permissions:
+      id-token: write  # Required for PyPI trusted publishing
     steps:
       - uses: actions/checkout@v4
 
@@ -332,18 +334,16 @@ jobs:
           python-version: '3.11'
 
       - name: Install build tools
-        run: pip install build twine
+        run: pip install build
 
       - name: Build package
         working-directory: quantum-shield/qauth/sdks/python
         run: python -m build
 
       - name: Publish to PyPI
-        working-directory: quantum-shield/qauth/sdks/python
-        run: twine upload dist/*
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: quantum-shield/qauth/sdks/python/dist/
 
   publish-npm:
     name: Publish to npm
