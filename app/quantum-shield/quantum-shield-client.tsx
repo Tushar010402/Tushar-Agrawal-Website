@@ -111,7 +111,7 @@ let decrypted = cipher.decrypt(&encrypted)?;`;
 
 export default function QuantumShieldClient() {
   return (
-    <div className="w-full bg-black min-h-screen">
+    <div className="w-full bg-black min-h-screen overflow-x-hidden">
       {/* Hero Section */}
       <section id="hero">
         <HeroHighlight containerClassName="pt-28 pb-12 min-h-[90vh] !items-start !justify-start">
@@ -332,7 +332,7 @@ export default function QuantumShieldClient() {
       </section>
 
       {/* Architecture & Code Section */}
-      <section className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
+      <section className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto overflow-x-hidden">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -355,6 +355,7 @@ export default function QuantumShieldClient() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            className="min-w-0"
           >
             <CodePreview code={codeExample} language="rust" />
           </motion.div>
