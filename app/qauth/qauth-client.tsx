@@ -208,7 +208,7 @@ export default function QAuthClient() {
     <div className="w-full bg-black min-h-screen">
       {/* Hero Section */}
       <section id="hero">
-        <HeroHighlight containerClassName="pt-28 pb-12 min-h-[90vh] !items-start !justify-start">
+        <HeroHighlight containerClassName="pt-28 pb-12 min-h-[90vh] !items-start">
           <Spotlight
             className="-top-40 left-0 md:left-60 md:-top-20"
             fill="white"
@@ -754,7 +754,7 @@ export default function QAuthClient() {
         </motion.div>
       </section>
 
-      {/* Honest Assessment */}
+      {/* Why QAuth Section */}
       <section className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -764,112 +764,61 @@ export default function QAuthClient() {
           className="mb-12"
         >
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-            Honest Assessment
+            Why QAuth?
           </h2>
           <p className="text-neutral-400 text-lg max-w-3xl">
-            Transparency matters. Here&apos;s what QAuth is and what it isn&apos;t.
+            Built from the ground up for the post-quantum era.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 rounded-2xl p-8"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center">
-                <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-white">What It Is</h3>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 rounded-2xl p-6 md:p-8 max-w-3xl"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center">
+              <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
             </div>
-            <ul className="space-y-3 text-neutral-300">
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span><strong>Complete specification</strong> with RFC-style documentation</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span><strong>Working reference implementation</strong> in Rust with 36+ tests</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span><strong>Real post-quantum cryptography</strong> using ML-DSA-65 (Dilithium3)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span><strong>Multi-language SDKs</strong> with consistent APIs</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span><strong>Open source</strong> under MIT license</span>
-              </li>
-            </ul>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-2xl p-8"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-amber-500/20 rounded-full flex items-center justify-center">
-                <svg className="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-white">Important Caveats</h3>
-            </div>
-            <ul className="space-y-3 text-neutral-300">
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <span><strong>Not professionally audited</strong> - Use in production at your own risk</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <span><strong>Larger token sizes</strong> - ~4KB vs JWT&apos;s ~1KB due to PQ signatures</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <span><strong>Early stage project</strong> - APIs may change</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <span><strong>No ecosystem yet</strong> - Need adapters for existing auth systems</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <span><strong>Personal project</strong> - No commercial support</span>
-              </li>
-            </ul>
-          </motion.div>
-        </div>
+            <h3 className="text-xl font-bold text-white">Key Features</h3>
+          </div>
+          <ul className="space-y-3 text-neutral-300">
+            <li className="flex items-start gap-2">
+              <svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span><strong>Complete specification</strong> with RFC-style documentation</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span><strong>Working reference implementation</strong> in Rust with 36+ tests</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span><strong>Real post-quantum cryptography</strong> using ML-DSA-65 (Dilithium3)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span><strong>Multi-language SDKs</strong> with consistent APIs</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span><strong>Open source</strong> under MIT license</span>
+            </li>
+          </ul>
+        </motion.div>
       </section>
 
       {/* Part of QuantumShield */}
