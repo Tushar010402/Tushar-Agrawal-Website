@@ -349,13 +349,13 @@ export default function QuantumShieldClient() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 items-start overflow-hidden">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="min-w-0"
+            className="min-w-0 overflow-hidden w-full"
           >
             <CodePreview code={codeExample} language="rust" />
           </motion.div>

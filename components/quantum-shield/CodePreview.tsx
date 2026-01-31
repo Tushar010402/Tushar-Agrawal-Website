@@ -106,7 +106,7 @@ export function CodePreview({ code, language }: CodePreviewProps) {
   };
 
   return (
-    <div className="bg-neutral-900/80 border border-neutral-800 rounded-2xl overflow-hidden max-w-full">
+    <div className="bg-neutral-900/80 border border-neutral-800 rounded-2xl overflow-hidden w-full max-w-full" style={{ maxWidth: '100%' }}>
       {/* Header */}
       <div className="flex items-center justify-between px-3 md:px-4 py-2 md:py-3 bg-neutral-800/50 border-b border-neutral-800">
         <div className="flex items-center gap-2">
@@ -143,8 +143,10 @@ export function CodePreview({ code, language }: CodePreviewProps) {
       </div>
 
       {/* Code */}
-      <div className="p-3 md:p-4 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed text-neutral-300">
-        {renderCode()}
+      <div className="p-3 md:p-4 overflow-x-auto overflow-y-hidden text-xs md:text-sm font-mono leading-relaxed text-neutral-300 max-w-full">
+        <div className="min-w-0">
+          {renderCode()}
+        </div>
       </div>
     </div>
   );
