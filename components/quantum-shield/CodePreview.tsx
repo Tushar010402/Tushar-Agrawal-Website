@@ -21,12 +21,12 @@ export function CodePreview({ code, language }: CodePreviewProps) {
     return code
       .split("\n")
       .map((line, i) => {
-        let highlighted = line
-          // Comments
-          .replace(
-            /(\/\/.*)$/gm,
-            '<span class="text-neutral-500">$1</span>'
-          )
+        // First, handle comments separately to avoid highlighting inside them
+        const commentMatch = line.match(/^(.*?)(\/\/.*)$/);
+        let codePart = commentMatch ? commentMatch[1] : line;
+        const commentPart = commentMatch ? commentMatch[2] : "";
+
+        let highlighted = codePart
           // Strings
           .replace(
             /(".*?")/g,
@@ -42,21 +42,22 @@ export function CodePreview({ code, language }: CodePreviewProps) {
             /\b(QShieldKEM|QuantumShield|String|Vec|Option|Result|Ok|Err|Some|None|i8|i16|i32|i64|i128|isize|u8|u16|u32|u64|u128|usize|f32|f64|bool|char|str)\b/g,
             '<span class="text-yellow-400">$1</span>'
           )
-          // Functions/Methods
+          // Functions/Methods - be more specific to avoid matching inside spans
           .replace(
-            /(\w+)(\s*)\(/g,
-            '<span class="text-blue-400">$1</span>$2('
+            /\b(\w+)\(/g,
+            '<span class="text-blue-400">$1</span>('
           )
           // Macros
           .replace(
-            /(\w+)!/g,
+            /\b(\w+)!/g,
             '<span class="text-orange-400">$1!</span>'
-          )
-          // Numbers
-          .replace(
-            /\b(\d+)\b/g,
-            '<span class="text-orange-300">$1</span>'
           );
+
+        // Add comment with its own styling
+        if (commentPart) {
+          highlighted += `<span class="text-neutral-500">${commentPart}</span>`;
+        }
+
         return `<span class="text-neutral-600 select-none mr-4">${String(i + 1).padStart(2, " ")}</span>${highlighted}`;
       })
       .join("\n");
@@ -100,10 +101,10 @@ export function CodePreview({ code, language }: CodePreviewProps) {
       </div>
 
       {/* Code */}
-      <pre className="p-4 overflow-x-auto text-sm font-mono leading-relaxed">
+      <pre className="p-3 md:p-4 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed scrollbar-thin scrollbar-thumb-neutral-700 scrollbar-track-transparent">
         <code
           dangerouslySetInnerHTML={{ __html: highlightCode(code) }}
-          className="text-neutral-300"
+          className="text-neutral-300 whitespace-pre"
         />
       </pre>
     </div>
