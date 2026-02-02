@@ -4,7 +4,7 @@ description: "Deep dive into nitrogen-vacancy center physics. Understand electro
 date: "2026-02-02"
 author: "Tushar Agrawal"
 tags: ["Quantum Computing", "NV Center", "Diamond Quantum", "Quantum Physics", "Electron Spin", "Room Temperature Quantum", "Physics", "Technology 2026"]
-image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200&h=630&fit=crop"
 published: true
 ---
 

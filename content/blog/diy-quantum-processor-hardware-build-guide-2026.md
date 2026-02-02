@@ -4,7 +4,7 @@ description: "Step-by-step guide to building a room-temperature NV-center quantu
 date: "2026-02-02"
 author: "Tushar Agrawal"
 tags: ["Quantum Computing", "NV Center", "Diamond Quantum", "DIY Quantum", "Quantum Hardware", "Room Temperature Quantum", "Hardware Build", "Technology 2026"]
-image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=630&fit=crop"
 published: true
 ---
 

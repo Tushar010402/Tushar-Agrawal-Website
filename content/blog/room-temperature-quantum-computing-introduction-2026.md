@@ -4,7 +4,7 @@ description: "Challenge the cryogenic-only paradigm. Learn how NV-center diamond
 date: "2026-02-02"
 author: "Tushar Agrawal"
 tags: ["Quantum Computing", "NV Center", "Diamond Quantum", "DIY Quantum", "Room Temperature Quantum", "Quantum Hardware", "Physics", "Technology 2026"]
-image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=630&fit=crop"
 published: true
 ---
 

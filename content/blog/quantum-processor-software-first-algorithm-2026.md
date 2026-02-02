@@ -4,7 +4,7 @@ description: "Complete software guide for your NV-center quantum processor. Pyth
 date: "2026-02-02"
 author: "Tushar Agrawal"
 tags: ["Quantum Computing", "NV Center", "Quantum Software", "Python", "Qiskit", "Quantum Algorithms", "Room Temperature Quantum", "Technology 2026"]
-image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=630&fit=crop"
+image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop"
 published: true
 ---
 
