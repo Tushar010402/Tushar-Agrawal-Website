@@ -47,15 +47,24 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className="border-t border-neutral-800 bg-black">
+    <footer
+      className="border-t transition-theme"
+      style={{
+        borderColor: "var(--border)",
+        background: "var(--background-secondary)",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link href="/" className="text-xl font-bold text-white hover:text-neutral-300 transition-colors">
+            <Link
+              href="/"
+              className="text-xl font-bold text-theme hover:text-theme-accent transition-colors"
+            >
               Tushar Agrawal
             </Link>
-            <p className="mt-3 text-neutral-400 text-sm max-w-md">
+            <p className="mt-3 text-theme-secondary text-sm max-w-md">
               Backend Engineer specializing in Python, Go, distributed systems, and healthcare SaaS platforms.
               Building secure, scalable solutions for the modern web.
             </p>
@@ -67,7 +76,7 @@ export const Footer = () => {
                   href={link.href}
                   target={link.href.startsWith("http") ? "_blank" : undefined}
                   rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="text-neutral-400 hover:text-white transition-colors"
+                  className="text-theme-secondary hover:text-theme transition-colors"
                   aria-label={link.name}
                 >
                   {link.icon}
@@ -78,7 +87,7 @@ export const Footer = () => {
 
           {/* Navigation */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-theme uppercase tracking-wider mb-4">
               Navigation
             </h3>
             <ul className="space-y-3">
@@ -86,7 +95,7 @@ export const Footer = () => {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-neutral-400 hover:text-white transition-colors text-sm"
+                    className="text-theme-secondary hover:text-theme transition-colors text-sm"
                   >
                     {link.name}
                   </Link>
@@ -97,7 +106,7 @@ export const Footer = () => {
 
           {/* Products */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-theme uppercase tracking-wider mb-4">
               Products
             </h3>
             <ul className="space-y-3">
@@ -105,7 +114,7 @@ export const Footer = () => {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-neutral-400 hover:text-white transition-colors text-sm"
+                    className="text-theme-secondary hover:text-theme transition-colors text-sm"
                   >
                     {link.name}
                   </Link>
@@ -116,12 +125,15 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-neutral-800">
+        <div
+          className="mt-12 pt-8 border-t"
+          style={{ borderColor: "var(--border)" }}
+        >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-neutral-500 text-sm">
+            <p className="text-theme-muted text-sm">
               © {currentYear} Tushar Agrawal. All rights reserved.
             </p>
-            <p className="text-neutral-500 text-sm">
+            <p className="text-theme-muted text-sm">
               Built with Next.js and Aceternity UI
             </p>
           </div>

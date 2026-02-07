@@ -12,22 +12,22 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--background)", color: "var(--text-primary)" }}>
       <div className="max-w-2xl mx-auto text-center">
         {/* 404 Number */}
         <div className="mb-8">
-          <span className="text-9xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
+          <span className="text-9xl font-bold gradient-text">
             404
           </span>
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+        <h1 className="text-3xl md:text-4xl font-bold text-theme mb-4">
           Page Not Found
         </h1>
 
         {/* Description */}
-        <p className="text-neutral-400 text-lg mb-8 max-w-md mx-auto">
+        <p className="text-theme-secondary text-lg mb-8 max-w-md mx-auto">
           Oops! The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
 
@@ -35,7 +35,8 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-all text-white font-medium"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg transition-all text-white font-medium"
+            style={{ background: "var(--accent)" }}
           >
             <svg
               className="w-5 h-5"
@@ -55,7 +56,8 @@ export default function NotFound() {
           </Link>
           <Link
             href="/blog"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-all text-white font-medium"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg transition-all text-theme font-medium"
+            style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}
           >
             <svg
               className="w-5 h-5"
@@ -76,32 +78,36 @@ export default function NotFound() {
         </div>
 
         {/* Popular Links */}
-        <div className="border-t border-neutral-800 pt-8">
-          <h2 className="text-sm font-semibold text-neutral-500 uppercase tracking-wider mb-4">
+        <div className="pt-8" style={{ borderTop: "1px solid var(--border)" }}>
+          <h2 className="text-sm font-semibold text-theme-muted uppercase tracking-wider mb-4">
             Popular Pages
           </h2>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link
               href="/#about"
-              className="px-4 py-2 text-sm bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 rounded-full transition-colors"
+              className="px-4 py-2 text-sm text-theme-secondary rounded-full transition-colors"
+              style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
             >
               About Me
             </Link>
             <Link
               href="/#projects"
-              className="px-4 py-2 text-sm bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 rounded-full transition-colors"
+              className="px-4 py-2 text-sm text-theme-secondary rounded-full transition-colors"
+              style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
             >
               Projects
             </Link>
             <Link
               href="/#experience"
-              className="px-4 py-2 text-sm bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 rounded-full transition-colors"
+              className="px-4 py-2 text-sm text-theme-secondary rounded-full transition-colors"
+              style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
             >
               Experience
             </Link>
             <Link
               href="/#contact"
-              className="px-4 py-2 text-sm bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 rounded-full transition-colors"
+              className="px-4 py-2 text-sm text-theme-secondary rounded-full transition-colors"
+              style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
             >
               Contact
             </Link>

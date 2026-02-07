@@ -87,22 +87,43 @@ export function FeatureCard({ feature, index }: FeatureCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group relative"
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl" />
-      <div className="relative bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-indigo-500/30 transition-colors h-full">
+      <div
+        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"
+        style={{ background: "linear-gradient(to right, var(--accent-subtle), color-mix(in srgb, var(--accent) 10%, transparent))" }}
+      />
+      <div
+        className="relative rounded-2xl p-6 transition-colors h-full"
+        style={{
+          background: "color-mix(in srgb, var(--surface) 50%, transparent)",
+          border: "1px solid var(--border)",
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--accent-muted)"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
+      >
         {/* Badge */}
         <div className="flex items-center justify-between mb-4">
-          <div className="w-12 h-12 bg-indigo-500/10 border border-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-400">
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center"
+            style={{
+              background: "var(--accent-subtle)",
+              border: "1px solid var(--accent-muted)",
+              color: "var(--accent)",
+            }}
+          >
             {icons[feature.icon]}
           </div>
-          <span className="text-xs font-mono text-neutral-500 bg-neutral-800/50 px-2 py-1 rounded">
+          <span
+            className="text-xs font-mono px-2 py-1 rounded text-theme-tertiary"
+            style={{ background: "var(--surface)" }}
+          >
             {feature.badge}
           </span>
         </div>
 
         {/* Content */}
-        <h3 className="text-xl font-bold text-white mb-1">{feature.title}</h3>
-        <p className="text-sm text-indigo-400 font-mono mb-3">{feature.subtitle}</p>
-        <p className="text-neutral-400 text-sm leading-relaxed">
+        <h3 className="text-xl font-bold text-theme mb-1">{feature.title}</h3>
+        <p className="text-sm font-mono mb-3" style={{ color: "var(--accent)" }}>{feature.subtitle}</p>
+        <p className="text-theme-secondary text-sm leading-relaxed">
           {feature.description}
         </p>
       </div>

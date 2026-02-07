@@ -34,7 +34,6 @@ export function CodePreview({ code, language }: CodePreviewProps) {
     const commentPart = commentIndex >= 0 ? line.slice(commentIndex) : "";
 
     // Simple word-by-word tokenization for the code part
-    let remaining = codePart;
     const keywords = new Set(["use", "let", "fn", "pub", "struct", "impl", "const", "mut", "async", "await", "return", "if", "else", "match", "for", "while", "loop", "break", "continue", "in", "as", "ref", "move", "self", "Self", "super", "crate", "mod", "trait", "where", "type", "enum", "unsafe", "extern", "dyn", "static", "true", "false"]);
     const types = new Set(["QShieldKEM", "QuantumShield", "String", "Vec", "Option", "Result", "Ok", "Err", "Some", "None"]);
 
@@ -42,7 +41,7 @@ export function CodePreview({ code, language }: CodePreviewProps) {
     const tokenRegex = /(".*?"|\/\/.*$|\b\w+\b!?|[^\s\w]+|\s+)/g;
     let match;
 
-    while ((match = tokenRegex.exec(remaining)) !== null) {
+    while ((match = tokenRegex.exec(codePart)) !== null) {
       const value = match[0];
 
       if (value.startsWith('"') && value.endsWith('"')) {
@@ -53,7 +52,7 @@ export function CodePreview({ code, language }: CodePreviewProps) {
         tokens.push({ type: "keyword", value });
       } else if (types.has(value)) {
         tokens.push({ type: "type", value });
-      } else if (/^\w+$/.test(value) && remaining.slice(match.index + value.length).trimStart().startsWith("(")) {
+      } else if (/^\w+$/.test(value) && codePart.slice(match.index + value.length).trimStart().startsWith("(")) {
         tokens.push({ type: "function", value });
       } else {
         tokens.push({ type: "normal", value });
@@ -74,7 +73,7 @@ export function CodePreview({ code, language }: CodePreviewProps) {
       case "keyword": return "text-purple-400";
       case "type": return "text-yellow-400";
       case "string": return "text-green-400";
-      case "comment": return "text-neutral-500";
+      case "comment": return "text-theme-muted";
       case "function": return "text-blue-400";
       case "macro": return "text-orange-400";
       default: return "";
@@ -87,7 +86,7 @@ export function CodePreview({ code, language }: CodePreviewProps) {
       const tokens = tokenizeLine(line);
       return (
         <div key={i} className="flex">
-          <span className="text-neutral-600 select-none w-6 md:w-8 flex-shrink-0 text-right pr-3 md:pr-4">
+          <span className="text-theme-muted select-none w-6 md:w-8 flex-shrink-0 text-right pr-3 md:pr-4">
             {i + 1}
           </span>
           <span className="flex-1 min-w-0">
@@ -106,22 +105,35 @@ export function CodePreview({ code, language }: CodePreviewProps) {
   };
 
   return (
-    <div className="bg-neutral-900/80 border border-neutral-800 rounded-2xl overflow-hidden w-full max-w-full" style={{ maxWidth: '100%' }}>
+    <div
+      className="rounded-2xl overflow-hidden w-full max-w-full"
+      style={{
+        background: "var(--surface)",
+        border: "1px solid var(--border)",
+        maxWidth: '100%',
+      }}
+    >
       {/* Header */}
-      <div className="flex items-center justify-between px-3 md:px-4 py-2 md:py-3 bg-neutral-800/50 border-b border-neutral-800">
+      <div
+        className="flex items-center justify-between px-3 md:px-4 py-2 md:py-3"
+        style={{
+          background: "var(--surface-hover)",
+          borderBottom: "1px solid var(--border)",
+        }}
+      >
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
             <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500/80" />
             <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500/80" />
             <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500/80" />
           </div>
-          <span className="text-neutral-500 text-xs md:text-sm ml-2">main.rs</span>
+          <span className="text-theme-tertiary text-xs md:text-sm ml-2">main.rs</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-600 font-mono hidden sm:inline">{language}</span>
+          <span className="text-xs text-theme-muted font-mono hidden sm:inline">{language}</span>
           <button
             onClick={handleCopy}
-            className="text-neutral-500 hover:text-white transition-colors p-1"
+            className="text-theme-tertiary hover:text-theme transition-colors p-1"
             title="Copy code"
           >
             {copied ? (
@@ -143,7 +155,7 @@ export function CodePreview({ code, language }: CodePreviewProps) {
       </div>
 
       {/* Code */}
-      <div className="p-3 md:p-4 overflow-x-auto overflow-y-hidden text-xs md:text-sm font-mono leading-relaxed text-neutral-300 max-w-full">
+      <div className="p-3 md:p-4 overflow-x-auto overflow-y-hidden text-xs md:text-sm font-mono leading-relaxed text-theme-secondary max-w-full">
         <div className="min-w-0">
           {renderCode()}
         </div>

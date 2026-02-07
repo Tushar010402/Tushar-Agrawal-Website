@@ -133,11 +133,11 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
   const remainingPosts = paginatedBlogs.slice(currentPage === 1 ? 1 : 0);
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-theme" style={{ background: "var(--background)" }}>
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-blue-950/20 to-black pt-24 pb-16">
+      <div className="relative overflow-hidden pt-24 pb-16" style={{ background: "linear-gradient(to bottom, color-mix(in srgb, var(--accent) 10%, var(--background)), var(--background))" }}>
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-500/10 blur-[120px] rounded-full" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full" style={{ background: "color-mix(in srgb, var(--accent) 10%, transparent)", filter: "blur(120px)" }} />
 
         <div className="relative max-w-6xl mx-auto px-4">
           <motion.div
@@ -147,23 +147,24 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             className="text-center"
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400">
+              <span className="gradient-text">
                 Technical Blog
               </span>
             </h1>
-            <p className="text-neutral-400 text-lg max-w-2xl mx-auto mb-8">
+            <p className="text-theme-secondary text-lg max-w-2xl mx-auto mb-8">
               Deep dives into backend engineering, system design, and modern development practices
             </p>
 
             {/* Search Bar */}
             <div className="relative max-w-2xl mx-auto">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-theme-secondary w-5 h-5" />
               <input
                 type="text"
                 placeholder="Search articles by title, topic, or technology..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-neutral-900/80 backdrop-blur-sm border border-neutral-700 rounded-xl pl-12 pr-4 py-4 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full backdrop-blur-sm rounded-xl pl-12 pr-4 py-4 text-theme placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-[--accent-muted] transition-all"
+                style={{ background: "color-mix(in srgb, var(--surface) 80%, transparent)", border: "1px solid var(--border)" }}
               />
             </div>
           </motion.div>
@@ -180,16 +181,17 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             <div className="relative" ref={filterRef}>
               <button
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
                   selectedTags.length > 0
-                    ? 'bg-blue-600/20 border-blue-500/50 text-blue-400'
-                    : 'bg-neutral-900 border-neutral-700 text-neutral-300 hover:border-neutral-600'
+                    ? 'border text-theme-accent'
+                    : 'text-theme-secondary hover:text-theme'
                 }`}
+                style={selectedTags.length === 0 ? { background: "var(--surface)", border: "1px solid var(--border)" } : { border: "1px solid" }}
               >
                 <Filter className="w-4 h-4" />
                 <span>Filters</span>
                 {selectedTags.length > 0 && (
-                  <span className="bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+                  <span className="bg-[--accent] text-white text-xs px-1.5 py-0.5 rounded-full">
                     {selectedTags.length}
                   </span>
                 )}
@@ -204,14 +206,15 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute top-full left-0 mt-2 w-[320px] md:w-[480px] bg-neutral-900 border border-neutral-700 rounded-xl shadow-2xl z-50 overflow-hidden"
+                    className="absolute top-full left-0 mt-2 w-[320px] md:w-[480px] rounded-xl shadow-2xl z-50 overflow-hidden"
+                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
                   >
-                    <div className="p-4 border-b border-neutral-700 flex items-center justify-between">
-                      <span className="font-semibold text-white">Filter by Topic</span>
+                    <div className="p-4 flex items-center justify-between" style={{ borderBottom: "1px solid var(--border)" }}>
+                      <span className="font-semibold text-theme">Filter by Topic</span>
                       {selectedTags.length > 0 && (
                         <button
                           onClick={clearFilters}
-                          className="text-sm text-blue-400 hover:text-blue-300"
+                          className="text-sm text-theme-accent hover:opacity-80"
                         >
                           Clear all
                         </button>
@@ -226,7 +229,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
 
                         return (
                           <div key={category}>
-                            <h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
+                            <h4 className="text-xs font-semibold text-theme-secondary uppercase tracking-wider mb-2">
                               {category}
                             </h4>
                             <div className="flex flex-wrap gap-2">
@@ -239,9 +242,10 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                                     onClick={() => toggleTag(actualTag)}
                                     className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
                                       isSelected
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'
+                                        ? 'bg-[--accent] text-white'
+                                        : 'text-theme-secondary hover:text-theme'
                                     }`}
+                                    style={!isSelected ? { background: "color-mix(in srgb, var(--surface) 80%, transparent)" } : {}}
                                   >
                                     {actualTag}
                                   </button>
@@ -265,9 +269,10 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                   onClick={() => toggleTag(tag)}
                   className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
                     selectedTags.includes(tag)
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-neutral-800/50 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-300'
+                      ? 'bg-[--accent] text-white'
+                      : 'text-theme-secondary hover:text-theme'
                   }`}
+                  style={!selectedTags.includes(tag) ? { background: "color-mix(in srgb, var(--surface) 50%, transparent)" } : {}}
                 >
                   {tag}
                 </button>
@@ -277,14 +282,14 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             {/* Active Filters */}
             {selectedTags.length > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-neutral-500 text-sm">|</span>
+                <span className="text-theme-secondary text-sm">|</span>
                 {selectedTags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-600/20 text-blue-400 text-sm rounded-lg"
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-[--accent-subtle] text-theme-accent text-sm rounded-lg"
                   >
                     {tag}
-                    <button onClick={() => toggleTag(tag)} className="hover:text-white">
+                    <button onClick={() => toggleTag(tag)} className="hover:text-theme">
                       <X className="w-3 h-3" />
                     </button>
                   </span>
@@ -295,23 +300,25 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
 
           {/* Right: View Toggle & Results Count */}
           <div className="flex items-center gap-4">
-            <span className="text-neutral-500 text-sm">
+            <span className="text-theme-secondary text-sm">
               {filteredBlogs.length} {filteredBlogs.length === 1 ? 'article' : 'articles'}
             </span>
-            <div className="flex items-center bg-neutral-900 border border-neutral-700 rounded-lg p-1">
+            <div className="flex items-center rounded-lg p-1" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-1.5 rounded transition-all ${
-                  viewMode === 'grid' ? 'bg-neutral-700 text-white' : 'text-neutral-500 hover:text-neutral-300'
+                  viewMode === 'grid' ? 'text-theme' : 'text-theme-secondary hover:text-theme'
                 }`}
+                style={viewMode === 'grid' ? { background: "color-mix(in srgb, var(--surface) 150%, var(--background))" } : {}}
               >
                 <Grid3X3 className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-1.5 rounded transition-all ${
-                  viewMode === 'list' ? 'bg-neutral-700 text-white' : 'text-neutral-500 hover:text-neutral-300'
+                  viewMode === 'list' ? 'text-theme' : 'text-theme-secondary hover:text-theme'
                 }`}
+                style={viewMode === 'list' ? { background: "color-mix(in srgb, var(--surface) 150%, var(--background))" } : {}}
               >
                 <List className="w-4 h-4" />
               </button>
@@ -328,7 +335,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             className="mb-12"
           >
             <Link href={`/blog/${featuredPost.slug}`}>
-              <div className="group relative bg-gradient-to-br from-neutral-900 to-neutral-900/50 border border-neutral-800 rounded-2xl overflow-hidden hover:border-blue-500/50 transition-all duration-300">
+              <div className="group relative rounded-2xl overflow-hidden hover:border-[--accent-muted] transition-all duration-300" style={{ background: "linear-gradient(to bottom right, var(--surface), color-mix(in srgb, var(--surface) 50%, transparent))", border: "1px solid var(--border)" }}>
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Image */}
                   {featuredPost.image_url && (
@@ -341,23 +348,23 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                         priority
                       />
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-neutral-900/80 md:block hidden" />
+                      <div className="absolute inset-0 md:block hidden" style={{ background: "linear-gradient(to right, transparent, color-mix(in srgb, var(--surface) 80%, transparent))" }} />
                     </div>
                   )}
 
                   {/* Content */}
                   <div className="p-6 md:p-8 flex flex-col justify-center">
-                    <span className="inline-flex items-center gap-2 text-blue-400 text-sm font-medium mb-3">
-                      <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+                    <span className="inline-flex items-center gap-2 text-theme-accent text-sm font-medium mb-3">
+                      <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--accent)" }} />
                       Latest Article
                     </span>
-                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">
+                    <h2 className="text-2xl md:text-3xl font-bold text-theme mb-4 group-hover:text-theme-accent transition-colors">
                       {featuredPost.title}
                     </h2>
-                    <p className="text-neutral-400 mb-6 line-clamp-3">
+                    <p className="text-theme-secondary mb-6 line-clamp-3">
                       {featuredPost.description}
                     </p>
-                    <div className="flex items-center gap-4 text-sm text-neutral-500">
+                    <div className="flex items-center gap-4 text-sm text-theme-secondary">
                       <span className="flex items-center gap-1.5">
                         <Calendar className="w-4 h-4" />
                         {formatDate(featuredPost.created_at)}
@@ -367,7 +374,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                         {featuredPost.readingTime || '5 min read'}
                       </span>
                     </div>
-                    <div className="mt-6 flex items-center gap-2 text-blue-400 font-medium group-hover:gap-3 transition-all">
+                    <div className="mt-6 flex items-center gap-2 text-theme-accent font-medium group-hover:gap-3 transition-all">
                       Read Article <ArrowRight className="w-4 h-4" />
                     </div>
                   </div>
@@ -385,11 +392,11 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             className="text-center py-20"
           >
             <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold text-white mb-2">No articles found</h3>
-            <p className="text-neutral-400 mb-6">Try adjusting your search or filters</p>
+            <h3 className="text-xl font-semibold text-theme mb-2">No articles found</h3>
+            <p className="text-theme-secondary mb-6">Try adjusting your search or filters</p>
             <button
               onClick={clearFilters}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 bg-[--accent] text-white rounded-lg hover:opacity-90 transition-colors"
             >
               Clear Filters
             </button>
@@ -404,7 +411,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
                 <Link href={`/blog/${blog.slug}`}>
-                  <article className="group bg-neutral-900/50 border border-neutral-800 rounded-xl overflow-hidden hover:border-blue-500/50 hover:bg-neutral-900 transition-all duration-300 h-full flex flex-col">
+                  <article className="group rounded-xl overflow-hidden hover:border-[--accent-muted] transition-all duration-300 h-full flex flex-col" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
                     {/* Image */}
                     {blog.image_url && (
                       <div className="relative h-44 overflow-hidden">
@@ -416,7 +423,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent" />
+                        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--surface), transparent, transparent)" }} />
                       </div>
                     )}
 
@@ -427,7 +434,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                         {blog.tags.split(',').slice(0, 2).map((tag, i) => (
                           <span
                             key={i}
-                            className="px-2 py-0.5 bg-blue-500/10 text-blue-400 text-xs rounded-md"
+                            className="px-2 py-0.5 bg-[--accent-subtle] text-theme-accent text-xs rounded-md"
                           >
                             {tag.trim()}
                           </span>
@@ -435,17 +442,17 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                       </div>
 
                       {/* Title */}
-                      <h2 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
+                      <h2 className="text-lg font-semibold text-theme mb-2 group-hover:text-theme-accent transition-colors line-clamp-2">
                         {blog.title}
                       </h2>
 
                       {/* Description */}
-                      <p className="text-neutral-500 text-sm mb-4 line-clamp-2 flex-1">
+                      <p className="text-theme-secondary text-sm mb-4 line-clamp-2 flex-1">
                         {blog.description}
                       </p>
 
                       {/* Meta */}
-                      <div className="flex items-center justify-between text-xs text-neutral-500 pt-3 border-t border-neutral-800">
+                      <div className="flex items-center justify-between text-xs text-theme-secondary pt-3" style={{ borderTop: "1px solid var(--border)" }}>
                         <span className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5" />
                           {formatDate(blog.created_at)}
@@ -472,7 +479,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
                 <Link href={`/blog/${blog.slug}`}>
-                  <article className="group flex gap-4 bg-neutral-900/50 border border-neutral-800 rounded-xl p-4 hover:border-blue-500/50 hover:bg-neutral-900 transition-all duration-300">
+                  <article className="group flex gap-4 rounded-xl p-4 hover:border-[--accent-muted] transition-all duration-300" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
                     {/* Image */}
                     {blog.image_url && (
                       <div className="relative w-32 h-24 md:w-48 md:h-32 flex-shrink-0 rounded-lg overflow-hidden">
@@ -493,19 +500,19 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                         {blog.tags.split(',').slice(0, 3).map((tag, i) => (
                           <span
                             key={i}
-                            className="px-2 py-0.5 bg-blue-500/10 text-blue-400 text-xs rounded-md"
+                            className="px-2 py-0.5 bg-[--accent-subtle] text-theme-accent text-xs rounded-md"
                           >
                             {tag.trim()}
                           </span>
                         ))}
                       </div>
-                      <h2 className="text-lg font-semibold text-white mb-1 group-hover:text-blue-400 transition-colors line-clamp-1">
+                      <h2 className="text-lg font-semibold text-theme mb-1 group-hover:text-theme-accent transition-colors line-clamp-1">
                         {blog.title}
                       </h2>
-                      <p className="text-neutral-500 text-sm mb-2 line-clamp-2">
+                      <p className="text-theme-secondary text-sm mb-2 line-clamp-2">
                         {blog.description}
                       </p>
-                      <div className="flex items-center gap-4 text-xs text-neutral-500">
+                      <div className="flex items-center gap-4 text-xs text-theme-secondary">
                         <span className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5" />
                           {formatDate(blog.created_at)}
@@ -519,7 +526,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
 
                     {/* Arrow */}
                     <div className="hidden md:flex items-center">
-                      <ArrowRight className="w-5 h-5 text-neutral-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" />
+                      <ArrowRight className="w-5 h-5 text-theme-secondary group-hover:text-theme-accent group-hover:translate-x-1 transition-all" />
                     </div>
                   </article>
                 </Link>
@@ -539,7 +546,8 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-neutral-900 border border-neutral-700 rounded-lg hover:bg-neutral-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+              className="px-4 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm text-theme"
+              style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
             >
               Previous
             </button>
@@ -558,15 +566,16 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                       onClick={() => setCurrentPage(page)}
                       className={`w-10 h-10 rounded-lg transition-all text-sm ${
                         currentPage === page
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-neutral-900 border border-neutral-700 hover:bg-neutral-800'
+                          ? 'bg-[--accent] text-white'
+                          : 'text-theme'
                       }`}
+                      style={currentPage !== page ? { background: "var(--surface)", border: "1px solid var(--border)" } : {}}
                     >
                       {page}
                     </button>
                   );
                 } else if (page === currentPage - 2 || page === currentPage + 2) {
-                  return <span key={page} className="px-2 text-neutral-500">...</span>;
+                  return <span key={page} className="px-2 text-theme-secondary">...</span>;
                 }
                 return null;
               })}
@@ -575,7 +584,8 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-neutral-900 border border-neutral-700 rounded-lg hover:bg-neutral-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+              className="px-4 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm text-theme"
+              style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
             >
               Next
             </button>

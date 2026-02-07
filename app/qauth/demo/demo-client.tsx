@@ -208,19 +208,19 @@ export default function QAuthDemo() {
   };
 
   return (
-    <div className="min-h-screen bg-black pt-20">
+    <div className="min-h-screen pt-20 transition-theme" style={{ background: "var(--background)" }}>
       {/* Header */}
-      <div className="border-b border-neutral-800">
+      <div style={{ borderBottom: "1px solid var(--border)" }}>
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/qauth" className="text-neutral-400 hover:text-white transition-colors">
+            <Link href="/qauth" className="text-theme-secondary hover:text-theme transition-colors">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
             </Link>
             <div>
-              <h1 className="text-xl font-bold text-white">QAuth Demo</h1>
-              <p className="text-sm text-neutral-400">Interactive Token Demonstration</p>
+              <h1 className="text-xl font-bold text-theme">QAuth Demo</h1>
+              <p className="text-sm text-theme-secondary">Interactive Token Demonstration</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -233,37 +233,21 @@ export default function QAuthDemo() {
 
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Tabs */}
-        <div className="flex gap-2 mb-8">
-          <button
-            onClick={() => setActiveTab("create")}
-            className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-              activeTab === "create"
-                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                : "bg-neutral-900 text-neutral-400 border border-neutral-800 hover:text-white"
-            }`}
-          >
-            Create Token
-          </button>
-          <button
-            onClick={() => setActiveTab("proof")}
-            className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-              activeTab === "proof"
-                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                : "bg-neutral-900 text-neutral-400 border border-neutral-800 hover:text-white"
-            }`}
-          >
-            Proof of Possession
-          </button>
-          <button
-            onClick={() => setActiveTab("policy")}
-            className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-              activeTab === "policy"
-                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                : "bg-neutral-900 text-neutral-400 border border-neutral-800 hover:text-white"
-            }`}
-          >
-            Policy Evaluation
-          </button>
+        <div className="flex gap-2 mb-8 flex-wrap">
+          {(["create", "proof", "policy"] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className="px-6 py-3 rounded-lg font-medium transition-colors"
+              style={{
+                background: activeTab === tab ? "var(--accent-subtle)" : "var(--surface)",
+                color: activeTab === tab ? "var(--accent)" : "var(--text-secondary)",
+                border: activeTab === tab ? "1px solid var(--accent-muted)" : "1px solid var(--border)",
+              }}
+            >
+              {tab === "create" ? "Create Token" : tab === "proof" ? "Proof of Possession" : "Policy Evaluation"}
+            </button>
+          ))}
         </div>
 
         {/* Token Creation Tab */}
@@ -273,69 +257,56 @@ export default function QAuthDemo() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6"
+              className="card p-6"
             >
-              <h2 className="text-xl font-bold text-white mb-6">Token Claims</h2>
+              <h2 className="text-xl font-bold text-theme mb-6">Token Claims</h2>
 
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm text-neutral-400 mb-2">Subject (sub)</label>
-                  <input
-                    type="text"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
-                    placeholder="user-12345"
-                  />
-                </div>
+                {[
+                  { label: "Subject (sub)", value: subject, setter: setSubject, placeholder: "user-12345" },
+                  { label: "Issuer (iss)", value: issuer, setter: setIssuer, placeholder: "https://auth.example.com" },
+                  { label: "Audience (aud)", value: audience, setter: setAudience, placeholder: "https://api.example.com" },
+                  { label: "Policy Reference", value: policyRef, setter: setPolicyRef, placeholder: "urn:qauth:policy:standard-user" },
+                ].map((field) => (
+                  <div key={field.label}>
+                    <label className="block text-sm text-theme-secondary mb-2">{field.label}</label>
+                    <input
+                      type="text"
+                      value={field.value}
+                      onChange={(e) => field.setter(e.target.value)}
+                      className="w-full px-4 py-3 rounded-lg text-theme focus:outline-none transition-colors"
+                      style={{
+                        background: "var(--surface)",
+                        border: "1px solid var(--border)",
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
+                      placeholder={field.placeholder}
+                    />
+                  </div>
+                ))}
 
                 <div>
-                  <label className="block text-sm text-neutral-400 mb-2">Issuer (iss)</label>
-                  <input
-                    type="text"
-                    value={issuer}
-                    onChange={(e) => setIssuer(e.target.value)}
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
-                    placeholder="https://auth.example.com"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm text-neutral-400 mb-2">Audience (aud)</label>
-                  <input
-                    type="text"
-                    value={audience}
-                    onChange={(e) => setAudience(e.target.value)}
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
-                    placeholder="https://api.example.com"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm text-neutral-400 mb-2">Expires In (seconds)</label>
+                  <label className="block text-sm text-theme-secondary mb-2">Expires In (seconds)</label>
                   <input
                     type="number"
                     value={expiresIn}
                     onChange={(e) => setExpiresIn(parseInt(e.target.value) || 3600)}
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm text-neutral-400 mb-2">Policy Reference</label>
-                  <input
-                    type="text"
-                    value={policyRef}
-                    onChange={(e) => setPolicyRef(e.target.value)}
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
-                    placeholder="urn:qauth:policy:standard-user"
+                    className="w-full px-4 py-3 rounded-lg text-theme focus:outline-none transition-colors"
+                    style={{
+                      background: "var(--surface)",
+                      border: "1px solid var(--border)",
+                    }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
                   />
                 </div>
 
                 <button
                   onClick={generateToken}
                   disabled={isGenerating}
-                  className="w-full py-4 bg-gradient-to-r from-emerald-600 to-cyan-600 text-white rounded-lg font-medium hover:from-emerald-500 hover:to-cyan-500 transition-colors disabled:opacity-50"
+                  className="w-full py-4 rounded-lg font-medium transition-colors disabled:opacity-50"
+                  style={{ background: "var(--accent)", color: "#fff" }}
                 >
                   {isGenerating ? (
                     <span className="flex items-center justify-center gap-2">
@@ -361,41 +332,45 @@ export default function QAuthDemo() {
               {token ? (
                 <>
                   {/* Encoded Token */}
-                  <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
+                  <div className="card p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-bold text-white">Encoded QToken</h3>
+                      <h3 className="text-lg font-bold text-theme">Encoded QToken</h3>
                       <button
                         onClick={() => copyToClipboard(encodedToken)}
-                        className="px-3 py-1 bg-neutral-800 text-neutral-400 rounded hover:text-white transition-colors text-sm"
+                        className="px-3 py-1 rounded text-sm transition-colors text-theme-secondary"
+                        style={{ background: "var(--surface-hover)" }}
                       >
                         Copy
                       </button>
                     </div>
-                    <code className="block text-sm text-emerald-400 break-all bg-neutral-800 p-4 rounded-lg">
+                    <code
+                      className="block text-sm break-all p-4 rounded-lg"
+                      style={{ background: "var(--surface)", color: "var(--accent)" }}
+                    >
                       {encodedToken}
                     </code>
-                    <p className="text-xs text-neutral-500 mt-2">
+                    <p className="text-xs text-theme-tertiary mt-2">
                       Total size: ~4KB (vs ~1KB for JWT) - includes post-quantum signature
                     </p>
                   </div>
 
                   {/* Token Structure */}
-                  <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
-                    <h3 className="text-lg font-bold text-white mb-4">Token Structure</h3>
+                  <div className="card p-6">
+                    <h3 className="text-lg font-bold text-theme mb-4">Token Structure</h3>
 
                     {/* Header */}
                     <div className="mb-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs font-medium">Header (42 bytes)</span>
+                        <span className="px-2 py-1 rounded text-xs font-medium text-theme-accent" style={{ background: "color-mix(in srgb, var(--accent) 20%, transparent)" }}>Header (42 bytes)</span>
                       </div>
-                      <div className="bg-neutral-800 p-3 rounded-lg text-sm">
-                        <div className="grid grid-cols-2 gap-2 text-neutral-300">
-                          <span className="text-neutral-500">Version:</span>
-                          <span>{token.header.version}</span>
-                          <span className="text-neutral-500">Token Type:</span>
-                          <span>{token.header.tokenType}</span>
-                          <span className="text-neutral-500">Key ID:</span>
-                          <span className="truncate">{token.header.keyId.slice(0, 16)}...</span>
+                      <div className="p-3 rounded-lg text-sm" style={{ background: "var(--surface)" }}>
+                        <div className="grid grid-cols-2 gap-2">
+                          <span className="text-theme-tertiary">Version:</span>
+                          <span className="text-theme-secondary">{token.header.version}</span>
+                          <span className="text-theme-tertiary">Token Type:</span>
+                          <span className="text-theme-secondary">{token.header.tokenType}</span>
+                          <span className="text-theme-tertiary">Key ID:</span>
+                          <span className="text-theme-secondary truncate">{token.header.keyId.slice(0, 16)}...</span>
                         </div>
                       </div>
                     </div>
@@ -406,20 +381,20 @@ export default function QAuthDemo() {
                         <span className="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs font-medium">Encrypted Payload</span>
                         <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-medium">XChaCha20-Poly1305</span>
                       </div>
-                      <div className="bg-neutral-800 p-3 rounded-lg text-sm">
-                        <div className="grid grid-cols-2 gap-2 text-neutral-300">
-                          <span className="text-neutral-500">Subject:</span>
-                          <span>{token.payload.sub}</span>
-                          <span className="text-neutral-500">Issuer:</span>
-                          <span className="truncate">{token.payload.iss}</span>
-                          <span className="text-neutral-500">Audience:</span>
-                          <span className="truncate">{token.payload.aud}</span>
-                          <span className="text-neutral-500">Expires:</span>
-                          <span>{new Date(token.payload.exp).toLocaleString()}</span>
-                          <span className="text-neutral-500">Policy:</span>
-                          <span className="truncate">{token.payload.policyRef}</span>
-                          <span className="text-neutral-500">Revocation ID:</span>
-                          <span className="truncate">{token.payload.revocationId.slice(0, 16)}...</span>
+                      <div className="p-3 rounded-lg text-sm" style={{ background: "var(--surface)" }}>
+                        <div className="grid grid-cols-2 gap-2">
+                          <span className="text-theme-tertiary">Subject:</span>
+                          <span className="text-theme-secondary">{token.payload.sub}</span>
+                          <span className="text-theme-tertiary">Issuer:</span>
+                          <span className="text-theme-secondary truncate">{token.payload.iss}</span>
+                          <span className="text-theme-tertiary">Audience:</span>
+                          <span className="text-theme-secondary truncate">{token.payload.aud}</span>
+                          <span className="text-theme-tertiary">Expires:</span>
+                          <span className="text-theme-secondary">{new Date(token.payload.exp).toLocaleString()}</span>
+                          <span className="text-theme-tertiary">Policy:</span>
+                          <span className="text-theme-secondary truncate">{token.payload.policyRef}</span>
+                          <span className="text-theme-tertiary">Revocation ID:</span>
+                          <span className="text-theme-secondary truncate">{token.payload.revocationId.slice(0, 16)}...</span>
                         </div>
                       </div>
                     </div>
@@ -429,13 +404,13 @@ export default function QAuthDemo() {
                       <div className="flex items-center gap-2 mb-2">
                         <span className="px-2 py-1 bg-orange-500/20 text-orange-400 rounded text-xs font-medium">Dual Signature (3373 bytes)</span>
                       </div>
-                      <div className="bg-neutral-800 p-3 rounded-lg text-sm space-y-2">
+                      <div className="p-3 rounded-lg text-sm space-y-2" style={{ background: "var(--surface)" }}>
                         <div>
-                          <span className="text-neutral-500">Ed25519 (64 bytes):</span>
-                          <code className="block text-emerald-400 text-xs mt-1 truncate">{token.signature.ed25519.slice(0, 64)}...</code>
+                          <span className="text-theme-tertiary">Ed25519 (64 bytes):</span>
+                          <code className="block text-theme-accent text-xs mt-1 truncate">{token.signature.ed25519.slice(0, 64)}...</code>
                         </div>
                         <div>
-                          <span className="text-neutral-500">ML-DSA-65 (3309 bytes):</span>
+                          <span className="text-theme-tertiary">ML-DSA-65 (3309 bytes):</span>
                           <code className="block text-cyan-400 text-xs mt-1 truncate">{token.signature.mlDsa65}</code>
                         </div>
                       </div>
@@ -446,58 +421,50 @@ export default function QAuthDemo() {
                       <div className="flex items-center gap-2 mb-2">
                         <span className="px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs font-medium">Proof Binding (96 bytes)</span>
                       </div>
-                      <div className="bg-neutral-800 p-3 rounded-lg text-sm">
-                        <div className="grid grid-cols-2 gap-2 text-neutral-300">
-                          <span className="text-neutral-500">Device Key:</span>
-                          <span className="truncate">{token.proofBinding.deviceKey.slice(0, 16)}...</span>
-                          <span className="text-neutral-500">Client Key:</span>
-                          <span className="truncate">{token.proofBinding.clientKey.slice(0, 16)}...</span>
-                          <span className="text-neutral-500">IP Hash:</span>
-                          <span className="truncate">{token.proofBinding.ipHash.slice(0, 16)}...</span>
+                      <div className="p-3 rounded-lg text-sm" style={{ background: "var(--surface)" }}>
+                        <div className="grid grid-cols-2 gap-2">
+                          <span className="text-theme-tertiary">Device Key:</span>
+                          <span className="text-theme-secondary truncate">{token.proofBinding.deviceKey.slice(0, 16)}...</span>
+                          <span className="text-theme-tertiary">Client Key:</span>
+                          <span className="text-theme-secondary truncate">{token.proofBinding.clientKey.slice(0, 16)}...</span>
+                          <span className="text-theme-tertiary">IP Hash:</span>
+                          <span className="text-theme-secondary truncate">{token.proofBinding.ipHash.slice(0, 16)}...</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Security Features */}
-                  <div className="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 rounded-2xl p-6">
-                    <h3 className="text-lg font-bold text-white mb-4">Security Features</h3>
-                    <ul className="space-y-2 text-sm text-neutral-300">
-                      <li className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        Dual signatures: Ed25519 (classical) + ML-DSA-65 (post-quantum)
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        Encrypted payload - claims are private, not visible
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        Bound to device and client keys - stolen token is useless
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        Built-in revocation ID for instant invalidation
-                      </li>
+                  <div className="rounded-2xl p-6" style={{ background: "linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), color-mix(in srgb, var(--accent) 5%, transparent))", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)" }}>
+                    <h3 className="text-lg font-bold text-theme mb-4">Security Features</h3>
+                    <ul className="space-y-2 text-sm text-theme-secondary">
+                      {[
+                        "Dual signatures: Ed25519 (classical) + ML-DSA-65 (post-quantum)",
+                        "Encrypted payload - claims are private, not visible",
+                        "Bound to device and client keys - stolen token is useless",
+                        "Built-in revocation ID for instant invalidation",
+                      ].map((item) => (
+                        <li key={item} className="flex items-center gap-2">
+                          <svg className="w-4 h-4 text-theme-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          {item}
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </>
               ) : (
-                <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-12 text-center">
-                  <div className="w-16 h-16 bg-neutral-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="card p-12 text-center">
+                  <div
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+                    style={{ background: "var(--surface)" }}
+                  >
+                    <svg className="w-8 h-8 text-theme-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                     </svg>
                   </div>
-                  <p className="text-neutral-400">Configure claims and generate a token to see the structure</p>
+                  <p className="text-theme-secondary">Configure claims and generate a token to see the structure</p>
                 </div>
               )}
             </motion.div>
@@ -510,16 +477,17 @@ export default function QAuthDemo() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6"
+              className="card p-6"
             >
-              <h2 className="text-xl font-bold text-white mb-6">Request Details</h2>
+              <h2 className="text-xl font-bold text-theme mb-6">Request Details</h2>
 
               {!token ? (
                 <div className="text-center py-8">
-                  <p className="text-neutral-400 mb-4">Generate a token first to create proofs</p>
+                  <p className="text-theme-secondary mb-4">Generate a token first to create proofs</p>
                   <button
                     onClick={() => setActiveTab("create")}
-                    className="px-6 py-2 bg-emerald-500/20 text-emerald-400 rounded-lg hover:bg-emerald-500/30 transition-colors"
+                    className="px-6 py-2 rounded-lg transition-colors"
+                    style={{ background: "var(--accent-subtle)", color: "var(--accent)" }}
                   >
                     Go to Create Token
                   </button>
@@ -527,11 +495,12 @@ export default function QAuthDemo() {
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm text-neutral-400 mb-2">HTTP Method</label>
+                    <label className="block text-sm text-theme-secondary mb-2">HTTP Method</label>
                     <select
                       value={requestMethod}
                       onChange={(e) => setRequestMethod(e.target.value)}
-                      className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                      className="w-full px-4 py-3 rounded-lg text-theme focus:outline-none transition-colors"
+                      style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
                     >
                       <option value="GET">GET</option>
                       <option value="POST">POST</option>
@@ -542,19 +511,23 @@ export default function QAuthDemo() {
                   </div>
 
                   <div>
-                    <label className="block text-sm text-neutral-400 mb-2">Request URI</label>
+                    <label className="block text-sm text-theme-secondary mb-2">Request URI</label>
                     <input
                       type="text"
                       value={requestUri}
                       onChange={(e) => setRequestUri(e.target.value)}
-                      className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                      className="w-full px-4 py-3 rounded-lg text-theme focus:outline-none transition-colors"
+                      style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
                       placeholder="/api/users/me"
                     />
                   </div>
 
                   <button
                     onClick={generateProof}
-                    className="w-full py-4 bg-gradient-to-r from-emerald-600 to-cyan-600 text-white rounded-lg font-medium hover:from-emerald-500 hover:to-cyan-500 transition-colors"
+                    className="w-full py-4 rounded-lg font-medium transition-colors"
+                    style={{ background: "var(--accent)", color: "#fff" }}
                   >
                     Generate Proof
                   </button>
@@ -568,46 +541,50 @@ export default function QAuthDemo() {
               className="space-y-6"
             >
               {/* How it works */}
-              <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
-                <h3 className="text-lg font-bold text-white mb-4">How Proof of Possession Works</h3>
-                <div className="space-y-3 text-sm text-neutral-300">
-                  <div className="flex items-start gap-3">
-                    <span className="w-6 h-6 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold">1</span>
-                    <p>Client signs: timestamp + method + URI + body_hash + token_hash</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="w-6 h-6 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold">2</span>
-                    <p>Proof is included in X-QAuth-Proof header</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="w-6 h-6 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold">3</span>
-                    <p>Server verifies proof matches token&apos;s ProofBinding</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="w-6 h-6 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold">4</span>
-                    <p>Proof valid for 60 seconds, can&apos;t be replayed</p>
-                  </div>
+              <div className="card p-6">
+                <h3 className="text-lg font-bold text-theme mb-4">How Proof of Possession Works</h3>
+                <div className="space-y-3 text-sm text-theme-secondary">
+                  {[
+                    "Client signs: timestamp + method + URI + body_hash + token_hash",
+                    "Proof is included in X-QAuth-Proof header",
+                    "Server verifies proof matches token\u2019s ProofBinding",
+                    "Proof valid for 60 seconds, can\u2019t be replayed",
+                  ].map((step, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <span
+                        className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold"
+                        style={{ background: "var(--accent-subtle)", color: "var(--accent)" }}
+                      >
+                        {i + 1}
+                      </span>
+                      <p>{step}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
 
               {proof && (
-                <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
+                <div className="card p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-bold text-white">Generated Proof</h3>
+                    <h3 className="text-lg font-bold text-theme">Generated Proof</h3>
                     <button
                       onClick={() => copyToClipboard(proof)}
-                      className="px-3 py-1 bg-neutral-800 text-neutral-400 rounded hover:text-white transition-colors text-sm"
+                      className="px-3 py-1 rounded text-sm transition-colors text-theme-secondary"
+                      style={{ background: "var(--surface-hover)" }}
                     >
                       Copy
                     </button>
                   </div>
-                  <code className="block text-sm text-emerald-400 break-all bg-neutral-800 p-4 rounded-lg">
+                  <code
+                    className="block text-sm break-all p-4 rounded-lg"
+                    style={{ background: "var(--surface)", color: "var(--accent)" }}
+                  >
                     {proof}
                   </code>
 
-                  <div className="mt-4 p-4 bg-neutral-800 rounded-lg">
-                    <p className="text-xs text-neutral-400 mb-2">Example HTTP Request:</p>
-                    <code className="text-xs text-neutral-300 block">
+                  <div className="mt-4 p-4 rounded-lg" style={{ background: "var(--surface)" }}>
+                    <p className="text-xs text-theme-tertiary mb-2">Example HTTP Request:</p>
+                    <code className="text-xs text-theme-secondary block">
                       {requestMethod} {requestUri} HTTP/1.1<br />
                       Authorization: QAuth {encodedToken.slice(0, 30)}...<br />
                       X-QAuth-Proof: {proof.slice(0, 40)}...
@@ -617,8 +594,8 @@ export default function QAuthDemo() {
               )}
 
               <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-2xl p-6">
-                <h3 className="text-lg font-bold text-white mb-2">Why This Matters</h3>
-                <p className="text-sm text-neutral-300">
+                <h3 className="text-lg font-bold text-theme mb-2">Why This Matters</h3>
+                <p className="text-sm text-theme-secondary">
                   Unlike OAuth bearer tokens, a stolen QAuth token is <strong>useless</strong> without the client&apos;s private key.
                   Each request requires a fresh proof that can only be generated by the legitimate client.
                 </p>
@@ -635,34 +612,41 @@ export default function QAuthDemo() {
               animate={{ opacity: 1, x: 0 }}
               className="space-y-6"
             >
-              <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-white mb-6">Policy Document</h2>
-                <pre className="text-sm text-neutral-300 bg-neutral-800 p-4 rounded-lg overflow-x-auto">
+              <div className="card p-6">
+                <h2 className="text-xl font-bold text-theme mb-6">Policy Document</h2>
+                <pre
+                  className="text-sm p-4 rounded-lg overflow-x-auto text-theme-secondary"
+                  style={{ background: "var(--surface)" }}
+                >
 {JSON.stringify(samplePolicy, null, 2)}
                 </pre>
               </div>
 
-              <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-white mb-6">Evaluate Access</h2>
+              <div className="card p-6">
+                <h2 className="text-xl font-bold text-theme mb-6">Evaluate Access</h2>
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm text-neutral-400 mb-2">Resource Path</label>
+                    <label className="block text-sm text-theme-secondary mb-2">Resource Path</label>
                     <input
                       type="text"
                       value={evalResource}
                       onChange={(e) => setEvalResource(e.target.value)}
-                      className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                      className="w-full px-4 py-3 rounded-lg text-theme focus:outline-none transition-colors"
+                      style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
                       placeholder="users/123"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm text-neutral-400 mb-2">Action</label>
+                    <label className="block text-sm text-theme-secondary mb-2">Action</label>
                     <select
                       value={evalAction}
                       onChange={(e) => setEvalAction(e.target.value)}
-                      className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                      className="w-full px-4 py-3 rounded-lg text-theme focus:outline-none transition-colors"
+                      style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
                     >
                       <option value="read">read</option>
                       <option value="write">write</option>
@@ -673,7 +657,8 @@ export default function QAuthDemo() {
 
                   <button
                     onClick={evaluatePolicy}
-                    className="w-full py-4 bg-gradient-to-r from-emerald-600 to-cyan-600 text-white rounded-lg font-medium hover:from-emerald-500 hover:to-cyan-500 transition-colors"
+                    className="w-full py-4 rounded-lg font-medium transition-colors"
+                    style={{ background: "var(--accent)", color: "#fff" }}
                   >
                     Evaluate
                   </button>
@@ -687,17 +672,17 @@ export default function QAuthDemo() {
               className="space-y-6"
             >
               {evalResult && (
-                <div className={`rounded-2xl p-6 ${
-                  evalResult.allowed
-                    ? "bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20"
-                    : "bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/20"
-                }`}>
+                <div
+                  className="rounded-2xl p-6"
+                  style={evalResult.allowed
+                    ? { background: "linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), color-mix(in srgb, var(--accent) 5%, transparent))", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)" }
+                    : { background: "linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(249, 115, 22, 0.1))", border: "1px solid rgba(239, 68, 68, 0.2)" }
+                  }
+                >
                   <div className="flex items-center gap-3 mb-4">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                      evalResult.allowed ? "bg-emerald-500/20" : "bg-red-500/20"
-                    }`}>
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: evalResult.allowed ? "color-mix(in srgb, var(--accent) 20%, transparent)" : "rgba(239, 68, 68, 0.2)" }}>
                       {evalResult.allowed ? (
-                        <svg className="w-6 h-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-6 h-6 text-theme-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                       ) : (
@@ -707,60 +692,50 @@ export default function QAuthDemo() {
                       )}
                     </div>
                     <div>
-                      <h3 className={`text-xl font-bold ${evalResult.allowed ? "text-emerald-400" : "text-red-400"}`}>
+                      <h3 className={`text-xl font-bold ${evalResult.allowed ? "text-theme-accent" : "text-red-400"}`}>
                         {evalResult.allowed ? "Access Granted" : "Access Denied"}
                       </h3>
-                      <p className="text-sm text-neutral-400">
+                      <p className="text-sm text-theme-secondary">
                         {evalAction} on {evalResource}
                       </p>
                     </div>
                   </div>
-                  <p className="text-neutral-300 text-sm">{evalResult.reason}</p>
+                  <p className="text-theme-secondary text-sm">{evalResult.reason}</p>
                 </div>
               )}
 
-              <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
-                <h3 className="text-lg font-bold text-white mb-4">Try These Examples</h3>
+              <div className="card p-6">
+                <h3 className="text-lg font-bold text-theme mb-4">Try These Examples</h3>
                 <div className="space-y-2">
-                  <button
-                    onClick={() => { setEvalResource("users/456"); setEvalAction("read"); }}
-                    className="w-full text-left px-4 py-3 bg-neutral-800 rounded-lg hover:bg-neutral-700 transition-colors"
-                  >
-                    <span className="text-emerald-400">users/456</span> + <span className="text-cyan-400">read</span>
-                    <span className="text-neutral-500 text-sm ml-2">- Should be allowed (wildcard match)</span>
-                  </button>
-                  <button
-                    onClick={() => { setEvalResource("users/123"); setEvalAction("write"); }}
-                    className="w-full text-left px-4 py-3 bg-neutral-800 rounded-lg hover:bg-neutral-700 transition-colors"
-                  >
-                    <span className="text-emerald-400">users/123</span> + <span className="text-cyan-400">write</span>
-                    <span className="text-neutral-500 text-sm ml-2">- Allowed with MFA condition</span>
-                  </button>
-                  <button
-                    onClick={() => { setEvalResource("admin/settings"); setEvalAction("read"); }}
-                    className="w-full text-left px-4 py-3 bg-neutral-800 rounded-lg hover:bg-neutral-700 transition-colors"
-                  >
-                    <span className="text-emerald-400">admin/settings</span> + <span className="text-cyan-400">read</span>
-                    <span className="text-neutral-500 text-sm ml-2">- Should be denied (admin rule)</span>
-                  </button>
-                  <button
-                    onClick={() => { setEvalResource("users/123"); setEvalAction("delete"); }}
-                    className="w-full text-left px-4 py-3 bg-neutral-800 rounded-lg hover:bg-neutral-700 transition-colors"
-                  >
-                    <span className="text-emerald-400">users/123</span> + <span className="text-cyan-400">delete</span>
-                    <span className="text-neutral-500 text-sm ml-2">- Should be denied (no delete permission)</span>
-                  </button>
+                  {[
+                    { resource: "users/456", action: "read", desc: "Should be allowed (wildcard match)" },
+                    { resource: "users/123", action: "write", desc: "Allowed with MFA condition" },
+                    { resource: "admin/settings", action: "read", desc: "Should be denied (admin rule)" },
+                    { resource: "users/123", action: "delete", desc: "Should be denied (no delete permission)" },
+                  ].map((example) => (
+                    <button
+                      key={`${example.resource}-${example.action}`}
+                      onClick={() => { setEvalResource(example.resource); setEvalAction(example.action); }}
+                      className="w-full text-left px-4 py-3 rounded-lg transition-colors"
+                      style={{ background: "var(--surface)" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "var(--surface-hover)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "var(--surface)"; }}
+                    >
+                      <span className="text-theme-accent">{example.resource}</span> + <span className="text-theme-secondary">{example.action}</span>
+                      <span className="text-theme-tertiary text-sm ml-2">- {example.desc}</span>
+                    </button>
+                  ))}
                 </div>
               </div>
 
               <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-2xl p-6">
-                <h3 className="text-lg font-bold text-white mb-2">Policy vs Scopes</h3>
-                <p className="text-sm text-neutral-300 mb-4">
+                <h3 className="text-lg font-bold text-theme mb-2">Policy vs Scopes</h3>
+                <p className="text-sm text-theme-secondary mb-4">
                   Unlike OAuth&apos;s scope strings that explode as permissions grow, QAuth uses policy references.
                   The token contains just a reference like <code className="text-purple-400">urn:qauth:policy:xyz</code>,
                   while the full policy is fetched and cached separately.
                 </p>
-                <ul className="space-y-1 text-sm text-neutral-400">
+                <ul className="space-y-1 text-sm text-theme-tertiary">
                   <li>+ Tokens stay small</li>
                   <li>+ Policies can be updated without re-issuing tokens</li>
                   <li>+ Supports RBAC, ABAC, and ReBAC patterns</li>
@@ -773,27 +748,27 @@ export default function QAuthDemo() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-800 py-8 px-4 mt-12">
+      <footer className="py-8 px-4 mt-12" style={{ borderTop: "1px solid var(--border)" }}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4">
-            <Link href="/qauth" className="text-neutral-400 hover:text-white transition-colors">
+            <Link href="/qauth" className="text-theme-secondary hover:text-theme transition-colors">
               QAuth Home
             </Link>
-            <span className="text-neutral-700">|</span>
-            <Link href="/blog/qauth-post-quantum-authentication-protocol" className="text-neutral-400 hover:text-white transition-colors">
+            <span className="text-theme-muted">|</span>
+            <Link href="/blog/qauth-post-quantum-authentication-protocol" className="text-theme-secondary hover:text-theme transition-colors">
               Read the Deep Dive
             </Link>
-            <span className="text-neutral-700">|</span>
+            <span className="text-theme-muted">|</span>
             <a
               href="https://github.com/Tushar010402/Tushar-Agrawal-Website/tree/master/quantum-shield/qauth"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-neutral-400 hover:text-white transition-colors"
+              className="text-theme-secondary hover:text-theme transition-colors"
             >
               View Source
             </a>
           </div>
-          <p className="text-neutral-500 text-sm">
+          <p className="text-theme-tertiary text-sm">
             Educational demo - simulated cryptographic operations
           </p>
         </div>

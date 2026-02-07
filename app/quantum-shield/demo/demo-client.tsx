@@ -176,10 +176,16 @@ export default function QuantumShieldDemo() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center pt-20">
+      <div
+        className="min-h-screen flex items-center justify-center pt-20 transition-theme"
+        style={{ background: "var(--background)" }}
+      >
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-neutral-400">Loading cryptography module...</p>
+          <div
+            className="w-16 h-16 rounded-full animate-spin mx-auto mb-4"
+            style={{ border: "4px solid var(--border)", borderTopColor: "var(--accent)" }}
+          />
+          <p className="text-theme-secondary">Loading cryptography module...</p>
         </div>
       </div>
     );
@@ -187,7 +193,10 @@ export default function QuantumShieldDemo() {
 
   if (error && !wasm) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center pt-20">
+      <div
+        className="min-h-screen flex items-center justify-center pt-20 transition-theme"
+        style={{ background: "var(--background)" }}
+      >
         <div className="text-center max-w-md p-8">
           <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -197,7 +206,8 @@ export default function QuantumShieldDemo() {
           <p className="text-red-400 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
+            className="px-6 py-2 rounded-lg transition-colors"
+            style={{ background: "var(--accent)", color: "#fff" }}
           >
             Reload Page
           </button>
@@ -207,21 +217,27 @@ export default function QuantumShieldDemo() {
   }
 
   return (
-    <div className="min-h-screen bg-black pt-20">
+    <div className="min-h-screen pt-20 transition-theme" style={{ background: "var(--background)" }}>
       {/* Header */}
-      <header className="border-b border-neutral-800">
+      <header style={{ borderBottom: "1px solid var(--border)" }}>
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/quantum-shield" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 rounded-xl flex items-center justify-center">
-              <svg className="w-5 h-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center"
+              style={{
+                background: "var(--accent-subtle)",
+                border: "1px solid var(--accent-muted)",
+              }}
+            >
+              <svg className="w-5 h-5" style={{ color: "var(--accent)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
               </svg>
             </div>
-            <span className="text-white font-semibold">QuantumShield Demo</span>
+            <span className="text-theme font-semibold">QuantumShield Demo</span>
           </Link>
           <Link
             href="/quantum-shield"
-            className="text-neutral-400 hover:text-white transition-colors text-sm"
+            className="text-theme-secondary hover:text-theme transition-colors text-sm"
           >
             Back to Overview
           </Link>
@@ -235,16 +251,16 @@ export default function QuantumShieldDemo() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 border border-violet-500/30 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-violet-500/10 border border-violet-500/30 rounded-full mb-4">
             <svg className="w-4 h-4 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
             </svg>
             <span className="text-violet-300 text-sm font-medium">Post-Quantum Secure v5.0</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-theme mb-4">
             Post-Quantum Encryption Demo
           </h1>
-          <p className="text-neutral-400 max-w-2xl mx-auto">
+          <p className="text-theme-secondary max-w-2xl mx-auto">
             Experience QuantumShield&apos;s hybrid post-quantum encryption.
             Features ML-KEM-768 (NIST FIPS 203), Argon2id KDF, dual-layer ciphers,
             and forward secrecy. Secure against both classical and quantum computers.
@@ -310,77 +326,70 @@ export default function QuantumShieldDemo() {
           className="grid lg:grid-cols-2 gap-8"
         >
           {/* Input Panel */}
-          <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
-            <h2 className="text-xl font-bold text-white mb-6">Input</h2>
+          <div className="card p-6">
+            <h2 className="text-xl font-bold text-theme mb-6">Input</h2>
 
             {/* Password */}
             <div className="mb-6">
-              <label className="block text-sm text-neutral-400 mb-2">
+              <label className="block text-sm text-theme-secondary mb-2">
                 Encryption Password
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors font-mono"
+                className="w-full rounded-lg px-4 py-3 text-theme focus:outline-none transition-colors font-mono"
+                style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
                 placeholder="Enter a password"
               />
-              <p className="text-xs text-neutral-500 mt-1">
+              <p className="text-xs text-theme-tertiary mt-1">
                 Key derived using Argon2id (19MB memory-hard, GPU resistant)
               </p>
             </div>
 
             {/* Tabs */}
             <div className="flex gap-2 mb-4">
-              <button
-                onClick={() => setActiveTab("encrypt")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === "encrypt"
-                    ? "bg-indigo-500 text-white"
-                    : "bg-neutral-800 text-neutral-400 hover:text-white"
-                }`}
-              >
-                Encrypt
-              </button>
-              <button
-                onClick={() => setActiveTab("decrypt")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === "decrypt"
-                    ? "bg-indigo-500 text-white"
-                    : "bg-neutral-800 text-neutral-400 hover:text-white"
-                }`}
-              >
-                Decrypt
-              </button>
-              <button
-                onClick={() => setActiveTab("benchmark")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === "benchmark"
-                    ? "bg-orange-500 text-white"
-                    : "bg-neutral-800 text-neutral-400 hover:text-white"
-                }`}
-              >
-                Benchmark
-              </button>
+              {(["encrypt", "decrypt", "benchmark"] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  style={{
+                    background: activeTab === tab
+                      ? (tab === "benchmark" ? "var(--accent)" : "var(--accent)")
+                      : "var(--surface)",
+                    color: activeTab === tab ? "#fff" : "var(--text-secondary)",
+                    border: activeTab === tab ? "1px solid transparent" : "1px solid var(--border)",
+                  }}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
             </div>
 
             {activeTab === "encrypt" && (
               <>
                 <div className="mb-4">
-                  <label className="block text-sm text-neutral-400 mb-2">
+                  <label className="block text-sm text-theme-secondary mb-2">
                     Message to Encrypt
                   </label>
                   <textarea
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full h-32 bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                    className="w-full h-32 rounded-lg px-4 py-3 text-theme focus:outline-none transition-colors resize-none"
+                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
                     placeholder="Enter your secret message"
                   />
                 </div>
                 <button
                   onClick={handleEncrypt}
                   disabled={!message || !password}
-                  className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold px-6 py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full font-semibold px-6 py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  style={{ background: "var(--accent)", color: "#fff" }}
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -393,20 +402,24 @@ export default function QuantumShieldDemo() {
             {activeTab === "decrypt" && (
               <>
                 <div className="mb-4">
-                  <label className="block text-sm text-neutral-400 mb-2">
+                  <label className="block text-sm text-theme-secondary mb-2">
                     Ciphertext (Base64)
                   </label>
                   <textarea
                     value={encrypted}
                     onChange={(e) => setEncrypted(e.target.value)}
-                    className="w-full h-32 bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors resize-none font-mono text-sm"
+                    className="w-full h-32 rounded-lg px-4 py-3 text-theme focus:outline-none transition-colors resize-none font-mono text-sm"
+                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
                     placeholder="Paste encrypted ciphertext here"
                   />
                 </div>
                 <button
                   onClick={handleDecrypt}
                   disabled={!encrypted || !password}
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold px-6 py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full font-semibold px-6 py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  style={{ background: "var(--accent)", color: "#fff" }}
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
@@ -419,13 +432,14 @@ export default function QuantumShieldDemo() {
             {activeTab === "benchmark" && (
               <>
                 <div className="mb-4">
-                  <label className="block text-sm text-neutral-400 mb-2">
+                  <label className="block text-sm text-theme-secondary mb-2">
                     Data Size
                   </label>
                   <select
                     value={benchmarkDataSize}
                     onChange={(e) => setBenchmarkDataSize(Number(e.target.value))}
-                    className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors"
+                    className="w-full rounded-lg px-4 py-3 text-theme focus:outline-none transition-colors"
+                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
                   >
                     <option value={64}>64 bytes (small message)</option>
                     <option value={1024}>1 KB</option>
@@ -435,13 +449,14 @@ export default function QuantumShieldDemo() {
                   </select>
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm text-neutral-400 mb-2">
+                  <label className="block text-sm text-theme-secondary mb-2">
                     Iterations
                   </label>
                   <select
                     value={benchmarkIterations}
                     onChange={(e) => setBenchmarkIterations(Number(e.target.value))}
-                    className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors"
+                    className="w-full rounded-lg px-4 py-3 text-theme focus:outline-none transition-colors"
+                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
                   >
                     <option value={10}>10 iterations</option>
                     <option value={100}>100 iterations</option>
@@ -452,11 +467,15 @@ export default function QuantumShieldDemo() {
                 <button
                   onClick={handleBenchmark}
                   disabled={benchmarkRunning}
-                  className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold px-6 py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full font-semibold px-6 py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  style={{ background: "var(--accent)", color: "#fff" }}
                 >
                   {benchmarkRunning ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <div
+                        className="w-5 h-5 rounded-full animate-spin"
+                        style={{ border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff" }}
+                      />
                       Running Benchmark...
                     </>
                   ) : (
@@ -477,14 +496,14 @@ export default function QuantumShieldDemo() {
           </div>
 
           {/* Output Panel */}
-          <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
-            <h2 className="text-xl font-bold text-white mb-6">Output</h2>
+          <div className="card p-6">
+            <h2 className="text-xl font-bold text-theme mb-6">Output</h2>
 
             {/* Encrypted Output */}
             {encrypted && activeTab === "encrypt" && (
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm text-neutral-400">
+                  <label className="text-sm text-theme-secondary">
                     Encrypted (Base64)
                   </label>
                   {encryptTime !== null && (
@@ -497,19 +516,21 @@ export default function QuantumShieldDemo() {
                   <textarea
                     readOnly
                     value={encrypted}
-                    className="w-full h-32 bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-green-400 font-mono text-sm resize-none"
+                    className="w-full h-32 rounded-lg px-4 py-3 text-green-400 font-mono text-sm resize-none"
+                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
                   />
                   <button
                     onClick={() => copyToClipboard(encrypted)}
-                    className="absolute top-2 right-2 p-2 bg-neutral-700 hover:bg-neutral-600 rounded transition-colors"
+                    className="absolute top-2 right-2 p-2 rounded transition-colors"
+                    style={{ background: "var(--surface-hover)" }}
                     title="Copy to clipboard"
                   >
-                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 text-theme" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
                   </button>
                 </div>
-                <p className="text-xs text-neutral-500 mt-2">
+                <p className="text-xs text-theme-tertiary mt-2">
                   Size: {encrypted.length} characters ({Math.ceil(encrypted.length * 0.75)} bytes)
                 </p>
               </div>
@@ -519,7 +540,7 @@ export default function QuantumShieldDemo() {
             {decrypted && activeTab === "decrypt" && (
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm text-neutral-400">
+                  <label className="text-sm text-theme-secondary">
                     Decrypted Message
                   </label>
                   {decryptTime !== null && (
@@ -528,8 +549,11 @@ export default function QuantumShieldDemo() {
                     </span>
                   )}
                 </div>
-                <div className="bg-neutral-800 border border-green-500/30 rounded-lg px-4 py-3">
-                  <p className="text-white">{decrypted}</p>
+                <div
+                  className="rounded-lg px-4 py-3"
+                  style={{ background: "var(--surface)", border: "1px solid color-mix(in srgb, var(--accent) 30%, transparent)" }}
+                >
+                  <p className="text-theme">{decrypted}</p>
                 </div>
               </div>
             )}
@@ -539,36 +563,36 @@ export default function QuantumShieldDemo() {
               <div className="mb-6 space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/30 rounded-xl p-4">
-                    <p className="text-xs text-neutral-400 mb-1">Encrypt Throughput</p>
+                    <p className="text-xs text-theme-tertiary mb-1">Encrypt Throughput</p>
                     <p className="text-2xl font-bold text-indigo-400">
                       {benchmarkResult.encryptThroughput.toFixed(1)} <span className="text-sm">MB/s</span>
                     </p>
                   </div>
                   <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-4">
-                    <p className="text-xs text-neutral-400 mb-1">Decrypt Throughput</p>
+                    <p className="text-xs text-theme-tertiary mb-1">Decrypt Throughput</p>
                     <p className="text-2xl font-bold text-green-400">
                       {benchmarkResult.decryptThroughput.toFixed(1)} <span className="text-sm">MB/s</span>
                     </p>
                   </div>
                 </div>
 
-                <div className="bg-neutral-800/50 rounded-lg p-4 space-y-2">
+                <div className="rounded-lg p-4 space-y-2" style={{ background: "var(--surface)" }}>
                   <div className="flex justify-between text-sm">
-                    <span className="text-neutral-400">Total Data Processed</span>
-                    <span className="text-white font-mono">
+                    <span className="text-theme-secondary">Total Data Processed</span>
+                    <span className="text-theme font-mono">
                       {((benchmarkResult.iterations * benchmarkResult.dataSize) / (1024 * 1024)).toFixed(2)} MB
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-neutral-400">Encrypt Time</span>
+                    <span className="text-theme-secondary">Encrypt Time</span>
                     <span className="text-indigo-400 font-mono">{benchmarkResult.encryptTime.toFixed(2)} ms</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-neutral-400">Decrypt Time</span>
+                    <span className="text-theme-secondary">Decrypt Time</span>
                     <span className="text-green-400 font-mono">{benchmarkResult.decryptTime.toFixed(2)} ms</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-neutral-400">Avg per Operation</span>
+                    <span className="text-theme-secondary">Avg per Operation</span>
                     <span className="text-amber-400 font-mono">
                       {((benchmarkResult.encryptTime + benchmarkResult.decryptTime) / (benchmarkResult.iterations * 2)).toFixed(3)} ms
                     </span>
@@ -585,8 +609,8 @@ export default function QuantumShieldDemo() {
             )}
 
             {/* Defense-in-Depth Visualization */}
-            <div className="border-t border-neutral-800 pt-6">
-              <h3 className="text-sm font-medium text-neutral-400 mb-4">
+            <div style={{ borderTop: "1px solid var(--border)" }} className="pt-6">
+              <h3 className="text-sm font-medium text-theme-secondary mb-4">
                 Defense-in-Depth Architecture
               </h3>
               <div className="space-y-2">
@@ -595,42 +619,42 @@ export default function QuantumShieldDemo() {
                     0
                   </div>
                   <div>
-                    <p className="text-white text-sm">Argon2id KDF</p>
-                    <p className="text-neutral-500 text-xs">19MB memory-hard, GPU resistant</p>
+                    <p className="text-theme text-sm">Argon2id KDF</p>
+                    <p className="text-theme-tertiary text-xs">19MB memory-hard, GPU resistant</p>
                   </div>
                 </div>
-                <div className="ml-3.5 w-px h-3 bg-neutral-700" />
+                <div className="ml-3.5 w-px h-3" style={{ background: "var(--border)" }} />
                 <div className="flex items-center gap-3">
                   <div className="w-7 h-7 bg-rose-500/20 rounded flex items-center justify-center text-rose-400 font-mono text-xs">
                     1
                   </div>
                   <div>
-                    <p className="text-white text-sm">Length Hiding</p>
-                    <p className="text-neutral-500 text-xs">Random padding, traffic analysis protection</p>
+                    <p className="text-theme text-sm">Length Hiding</p>
+                    <p className="text-theme-tertiary text-xs">Random padding, traffic analysis protection</p>
                   </div>
                 </div>
-                <div className="ml-3.5 w-px h-3 bg-neutral-700" />
+                <div className="ml-3.5 w-px h-3" style={{ background: "var(--border)" }} />
                 <div className="flex items-center gap-3">
                   <div className="w-7 h-7 bg-indigo-500/20 rounded flex items-center justify-center text-indigo-400 font-mono text-xs">
                     2
                   </div>
                   <div>
-                    <p className="text-white text-sm">AES-256-GCM</p>
-                    <p className="text-neutral-500 text-xs">NIST block cipher + authentication</p>
+                    <p className="text-theme text-sm">AES-256-GCM</p>
+                    <p className="text-theme-tertiary text-xs">NIST block cipher + authentication</p>
                   </div>
                 </div>
-                <div className="ml-3.5 w-px h-3 bg-neutral-700" />
+                <div className="ml-3.5 w-px h-3" style={{ background: "var(--border)" }} />
                 <div className="flex items-center gap-3">
                   <div className="w-7 h-7 bg-purple-500/20 rounded flex items-center justify-center text-purple-400 font-mono text-xs">
                     3
                   </div>
                   <div>
-                    <p className="text-white text-sm">ChaCha20-Poly1305</p>
-                    <p className="text-neutral-500 text-xs">IETF stream cipher + authentication</p>
+                    <p className="text-theme text-sm">ChaCha20-Poly1305</p>
+                    <p className="text-theme-tertiary text-xs">IETF stream cipher + authentication</p>
                   </div>
                 </div>
               </div>
-              <p className="text-xs text-neutral-500 mt-4">
+              <p className="text-xs text-theme-tertiary mt-4">
                 Four layers of protection. Both ciphers must be broken to decrypt.
               </p>
             </div>
@@ -644,7 +668,7 @@ export default function QuantumShieldDemo() {
           transition={{ delay: 0.3 }}
           className="mt-12 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 border border-emerald-500/20 rounded-2xl p-6"
         >
-          <h3 className="text-white font-medium mb-4 flex items-center gap-2">
+          <h3 className="text-theme font-medium mb-4 flex items-center gap-2">
             <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -654,21 +678,21 @@ export default function QuantumShieldDemo() {
             <div className="space-y-3">
               <div>
                 <p className="text-emerald-300 font-medium">Dual-Layer Encryption</p>
-                <p className="text-neutral-400 text-xs">Unlike single-cipher libraries, QuantumShield uses TWO independent ciphers. Both must be broken.</p>
+                <p className="text-theme-secondary text-xs">Unlike single-cipher libraries, QuantumShield uses TWO independent ciphers. Both must be broken.</p>
               </div>
               <div>
                 <p className="text-amber-300 font-medium">Argon2id (19MB Memory-Hard)</p>
-                <p className="text-neutral-400 text-xs">GPU/ASIC password cracking is extremely expensive. Web Crypto only offers PBKDF2.</p>
+                <p className="text-theme-secondary text-xs">GPU/ASIC password cracking is extremely expensive. Web Crypto only offers PBKDF2.</p>
               </div>
             </div>
             <div className="space-y-3">
               <div>
                 <p className="text-rose-300 font-medium">Length Hiding</p>
-                <p className="text-neutral-400 text-xs">Random padding prevents traffic analysis. &quot;Hi&quot; and &quot;Hello World&quot; produce similar-sized ciphertext.</p>
+                <p className="text-theme-secondary text-xs">Random padding prevents traffic analysis. &quot;Hi&quot; and &quot;Hello World&quot; produce similar-sized ciphertext.</p>
               </div>
               <div>
                 <p className="text-violet-300 font-medium">Forward Secrecy Sessions</p>
-                <p className="text-neutral-400 text-xs">Each message uses a unique key. Compromising one doesn&apos;t reveal past messages (like Signal).</p>
+                <p className="text-theme-secondary text-xs">Each message uses a unique key. Compromising one doesn&apos;t reveal past messages (like Signal).</p>
               </div>
             </div>
           </div>
@@ -689,7 +713,7 @@ export default function QuantumShieldDemo() {
             </div>
             <div>
               <h4 className="text-amber-300 font-medium mb-2">Educational Demo</h4>
-              <p className="text-neutral-400 text-sm">
+              <p className="text-theme-secondary text-sm">
                 This demo uses real NIST-approved algorithms (ML-KEM-768 from the fips203 crate, AES-GCM, ChaCha20-Poly1305)
                 from reputable Rust cryptographic libraries. However, QuantumShield is a <strong className="text-amber-300">personal project
                 without professional security audit</strong>. The underlying primitives are battle-tested, but the integration has not been
@@ -708,7 +732,8 @@ export default function QuantumShieldDemo() {
         >
           <Link
             href="/quantum-shield"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold px-8 py-3 rounded-full transition-all"
+            className="inline-flex items-center gap-2 font-semibold px-8 py-3 rounded-full transition-all"
+            style={{ background: "var(--accent)", color: "#fff" }}
           >
             Learn More About QuantumShield
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

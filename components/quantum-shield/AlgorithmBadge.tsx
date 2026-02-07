@@ -7,9 +7,15 @@ interface AlgorithmBadgeProps {
 
 export function AlgorithmBadge({ name, standard }: AlgorithmBadgeProps) {
   return (
-    <span className="inline-flex items-center gap-2 bg-neutral-800/50 border border-neutral-700 rounded-lg px-3 py-2">
-      <span className="text-white font-mono text-sm">{name}</span>
-      <span className="text-xs text-neutral-500">{standard}</span>
+    <span
+      className="inline-flex items-center gap-2 rounded-lg px-3 py-2"
+      style={{
+        background: "var(--surface)",
+        border: "1px solid var(--border)",
+      }}
+    >
+      <span className="text-theme font-mono text-sm">{name}</span>
+      <span className="text-xs text-theme-tertiary">{standard}</span>
     </span>
   );
 }

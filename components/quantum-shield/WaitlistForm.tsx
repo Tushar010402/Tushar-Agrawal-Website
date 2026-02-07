@@ -107,9 +107,13 @@ export function WaitlistForm({ variant = "inline" }: WaitlistFormProps) {
               if (status === "error") setStatus("idle");
             }}
             placeholder="Enter your email"
-            className={`w-full bg-neutral-900/80 border ${
-              status === "error" ? "border-red-500/50" : "border-neutral-700"
-            } rounded-full px-6 py-3 text-white placeholder-neutral-500 focus:outline-none focus:border-indigo-500 transition-colors`}
+            className="w-full rounded-full px-6 py-3 text-theme focus:outline-none transition-colors"
+            style={{
+              background: "var(--surface)",
+              border: status === "error" ? "1px solid rgba(239, 68, 68, 0.5)" : "1px solid var(--border)",
+            }}
+            onFocus={(e) => { if (status !== "error") e.currentTarget.style.borderColor = "var(--accent)"; }}
+            onBlur={(e) => { if (status !== "error") e.currentTarget.style.borderColor = "var(--border)"; }}
             disabled={status === "loading"}
           />
         </div>
@@ -118,7 +122,8 @@ export function WaitlistForm({ variant = "inline" }: WaitlistFormProps) {
           disabled={status === "loading" || !email}
           className={`${
             variant === "full" ? "w-full sm:w-auto" : ""
-          } bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold px-8 py-3 rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2`}
+          } font-semibold px-8 py-3 rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2`}
+          style={{ background: "var(--accent)", color: "#fff" }}
         >
           {status === "loading" ? (
             <>

@@ -14,7 +14,7 @@ export default function Error({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--background)", color: "var(--text-primary)" }}>
       <div className="max-w-2xl mx-auto text-center">
         {/* Error Icon */}
         <div className="mb-8">
@@ -37,23 +37,23 @@ export default function Error({ error, reset }: ErrorProps) {
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+        <h1 className="text-3xl md:text-4xl font-bold text-theme mb-4">
           Something went wrong
         </h1>
 
         {/* Description */}
-        <p className="text-neutral-400 text-lg mb-8 max-w-md mx-auto">
+        <p className="text-theme-secondary text-lg mb-8 max-w-md mx-auto">
           We apologize for the inconvenience. An unexpected error has occurred.
         </p>
 
         {/* Error Details (Development only) */}
         {process.env.NODE_ENV === 'development' && (
-          <div className="mb-8 p-4 bg-neutral-900 border border-neutral-800 rounded-lg text-left">
+          <div className="mb-8 p-4 rounded-lg text-left" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
             <p className="text-sm text-red-400 font-mono break-all">
               {error.message}
             </p>
             {error.digest && (
-              <p className="text-xs text-neutral-500 mt-2">
+              <p className="text-xs text-theme-muted mt-2">
                 Error ID: {error.digest}
               </p>
             )}
@@ -64,7 +64,8 @@ export default function Error({ error, reset }: ErrorProps) {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={reset}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-all text-white font-medium"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg transition-all text-white font-medium"
+            style={{ background: "var(--accent)" }}
           >
             <svg
               className="w-5 h-5"
@@ -84,7 +85,8 @@ export default function Error({ error, reset }: ErrorProps) {
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-all text-white font-medium"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg transition-all text-theme font-medium"
+            style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}
           >
             <svg
               className="w-5 h-5"
@@ -105,11 +107,11 @@ export default function Error({ error, reset }: ErrorProps) {
         </div>
 
         {/* Help Text */}
-        <p className="text-sm text-neutral-500 mt-8">
+        <p className="text-sm text-theme-muted mt-8">
           If this problem persists, please{' '}
           <a
             href="mailto:tusharagrawal0104@gmail.com"
-            className="text-blue-400 hover:text-blue-300 underline"
+            className="text-theme-accent hover:opacity-80 underline"
           >
             contact me
           </a>

@@ -90,39 +90,39 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
     const codeBlocks: string[] = [];
     html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (_match, _lang, code) => {
       const index = codeBlocks.length;
-      codeBlocks.push(`<pre class="bg-neutral-900 border border-neutral-800 rounded-lg p-4 my-4 overflow-x-auto"><code class="text-sm text-neutral-300">${escapeHtml(code)}</code></pre>`);
+      codeBlocks.push(`<pre style="background: var(--surface); border: 1px solid var(--border);" class="rounded-lg p-4 my-4 overflow-x-auto"><code class="text-sm" style="color: var(--text-secondary);">${escapeHtml(code)}</code></pre>`);
       return `%%CODEBLOCK_${index}%%`;
     });
 
     const inlineCodeBlocks: string[] = [];
     html = html.replace(/`([^`]+)`/g, (_match, code) => {
       const index = inlineCodeBlocks.length;
-      inlineCodeBlocks.push(`<code class="bg-neutral-900 text-blue-400 px-2 py-1 rounded text-sm">${escapeHtml(code)}</code>`);
+      inlineCodeBlocks.push(`<code style="background: var(--surface);" class="text-theme-accent px-2 py-1 rounded text-sm">${escapeHtml(code)}</code>`);
       return `%%INLINECODE_${index}%%`;
     });
 
     // Phase 2: Apply markdown transformations (code is safely extracted)
     // Headers
-    html = html.replace(/^### (.*$)/gim, '<h3 class="text-2xl font-bold mt-8 mb-4 text-white">$1</h3>');
-    html = html.replace(/^## (.*$)/gim, '<h2 class="text-3xl font-bold mt-10 mb-6 text-white">$1</h2>');
-    html = html.replace(/^# (.*$)/gim, '<h1 class="text-4xl font-bold mt-12 mb-8 text-white">$1</h1>');
+    html = html.replace(/^### (.*$)/gim, '<h3 class="text-2xl font-bold mt-8 mb-4 text-theme">$1</h3>');
+    html = html.replace(/^## (.*$)/gim, '<h2 class="text-3xl font-bold mt-10 mb-6 text-theme">$1</h2>');
+    html = html.replace(/^# (.*$)/gim, '<h1 class="text-4xl font-bold mt-12 mb-8 text-theme">$1</h1>');
 
     // Bold
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-white">$1</strong>');
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-theme">$1</strong>');
 
     // Italic
     html = html.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
 
     // Links
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">$1</a>');
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-theme-accent hover:opacity-80 underline" target="_blank" rel="noopener noreferrer">$1</a>');
 
     // Bullet lists
-    html = html.replace(/^\- (.*$)/gim, '<li class="ml-6 mb-2 list-disc text-neutral-300">$1</li>');
-    html = html.replace(/(<li class="ml-6 mb-2 list-disc text-neutral-300">.*<\/li>\n?)+/g, '<ul class="my-4">$&</ul>');
+    html = html.replace(/^\- (.*$)/gim, '<li class="ml-6 mb-2 list-disc text-theme-secondary">$1</li>');
+    html = html.replace(/(<li class="ml-6 mb-2 list-disc text-theme-secondary">.*<\/li>\n?)+/g, '<ul class="my-4">$&</ul>');
 
     // Paragraphs
-    html = html.replace(/\n\n/g, '</p><p class="text-neutral-300 leading-relaxed mb-4">');
-    html = `<p class="text-neutral-300 leading-relaxed mb-4">${html}</p>`;
+    html = html.replace(/\n\n/g, '</p><p class="text-theme-secondary leading-relaxed mb-4">');
+    html = `<p class="text-theme-secondary leading-relaxed mb-4">${html}</p>`;
 
     // Phase 3: Restore code blocks from placeholders
     codeBlocks.forEach((block, index) => {
@@ -136,7 +136,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-theme" style={{ background: "var(--background)" }}>
       <div className="max-w-[1400px] mx-auto px-4 pt-24 pb-20">
         <div className="flex gap-8">
           {/* Sidebar - Left Navigation */}
@@ -145,18 +145,18 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
               {/* Back to Blog */}
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors mb-6"
+                className="inline-flex items-center gap-2 text-theme-secondary hover:text-theme transition-colors mb-6"
               >
                 <ArrowLeft className="w-4 h-4" />
                 All Articles
               </Link>
 
               {/* All Blogs List */}
-              <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-neutral-800">
-                  <BookOpen className="w-4 h-4 text-blue-400" />
-                  <span className="font-semibold text-sm text-white">All Articles</span>
-                  <span className="ml-auto text-xs text-neutral-500 bg-neutral-800 px-2 py-0.5 rounded-full">
+              <div className="rounded-xl p-4" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+                <div className="flex items-center gap-2 mb-4 pb-3" style={{ borderBottom: "1px solid var(--border)" }}>
+                  <BookOpen className="w-4 h-4 text-theme-accent" />
+                  <span className="font-semibold text-sm text-theme">All Articles</span>
+                  <span className="ml-auto text-xs text-theme-secondary px-2 py-0.5 rounded-full" style={{ background: "var(--surface)" }}>
                     {allBlogs.length}
                   </span>
                 </div>
@@ -173,23 +173,26 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                         <div
                           className={`p-2 rounded-lg transition-all ${
                             isCurrentPost
-                              ? 'bg-blue-600/20 border border-blue-500/50'
-                              : 'hover:bg-neutral-800/50'
+                              ? 'border'
+                              : 'hover:bg-opacity-50'
                           }`}
+                          style={!isCurrentPost ? { background: "transparent" } : {}}
+                          onMouseEnter={(e) => !isCurrentPost && (e.currentTarget.style.background = "color-mix(in srgb, var(--surface) 50%, transparent)")}
+                          onMouseLeave={(e) => !isCurrentPost && (e.currentTarget.style.background = "transparent")}
                         >
                           <div className="flex items-start gap-2">
                             {isCurrentPost && (
-                              <ChevronRight className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                              <ChevronRight className="w-4 h-4 text-theme-accent flex-shrink-0 mt-0.5" />
                             )}
                             <div className={isCurrentPost ? '' : 'pl-6'}>
                               <h4
                                 className={`text-sm font-medium line-clamp-2 ${
-                                  isCurrentPost ? 'text-blue-400' : 'text-neutral-300 group-hover:text-white'
+                                  isCurrentPost ? 'text-theme-accent' : 'text-theme-secondary group-hover:text-theme'
                                 }`}
                               >
                                 {post.title}
                               </h4>
-                              <span className="text-xs text-neutral-500 mt-1 block">
+                              <span className="text-xs text-theme-secondary mt-1 block">
                                 {formatShortDate(post.created_at)}
                               </span>
                             </div>
@@ -208,7 +211,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
             {/* Mobile Back Button */}
             <Link
               href="/blog"
-              className="lg:hidden inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors mb-8"
+              className="lg:hidden inline-flex items-center gap-2 text-theme-secondary hover:text-theme transition-colors mb-8"
             >
               <ArrowLeft className="w-5 h-5" />
               Back to Blog
@@ -236,12 +239,12 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
               )}
 
               {/* Title */}
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 gradient-text">
                 {blog.title}
               </h1>
 
               {/* Meta Info */}
-              <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-neutral-400 mb-8 pb-8 border-b border-neutral-800">
+              <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-theme-secondary mb-8 pb-8" style={{ borderBottom: "1px solid var(--border)" }}>
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   {formatDate(blog.created_at)}
@@ -274,7 +277,8 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                   <Link
                     key={i}
                     href={`/blog?tag=${encodeURIComponent(tag.trim())}`}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-neutral-900 border border-neutral-800 text-neutral-300 text-sm rounded-full hover:border-blue-500 transition-all"
+                    className="inline-flex items-center gap-1 px-3 py-1 text-theme-secondary text-sm rounded-full hover:border-[--accent-muted] transition-all"
+                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
                   >
                     <TagIcon className="w-3 h-3" />
                     {tag.trim()}
@@ -283,35 +287,37 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
               </div>
 
               {/* Description */}
-              <p className="text-lg md:text-xl text-neutral-300 mb-8 leading-relaxed">{blog.description}</p>
+              <p className="text-lg md:text-xl text-theme-secondary mb-8 leading-relaxed">{blog.description}</p>
 
               {/* Content */}
               <div
-                className="prose prose-invert max-w-none"
+                className="prose max-w-none"
+                style={{ color: "var(--text-secondary)" }}
                 dangerouslySetInnerHTML={{ __html: renderMarkdown(blog.content) }}
               />
 
               {/* Social Sharing */}
-              <div className="mt-12 pt-8 border-t border-neutral-800">
-                <h3 className="text-lg font-semibold mb-4">Share this article</h3>
+              <div className="mt-12 pt-8" style={{ borderTop: "1px solid var(--border)" }}>
+                <h3 className="text-lg font-semibold mb-4 text-theme">Share this article</h3>
                 <div className="flex flex-wrap gap-3">
                   <button
                     onClick={shareOnLinkedIn}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-all text-sm"
+                    className="flex items-center gap-2 px-4 py-2 bg-[--accent] hover:opacity-90 rounded-lg transition-all text-sm text-white"
                   >
                     <Linkedin className="w-4 h-4" />
                     LinkedIn
                   </button>
                   <button
                     onClick={shareOnTwitter}
-                    className="flex items-center gap-2 px-4 py-2 bg-sky-500 hover:bg-sky-600 rounded-lg transition-all text-sm"
+                    className="flex items-center gap-2 px-4 py-2 bg-sky-500 hover:bg-sky-600 rounded-lg transition-all text-sm text-white"
                   >
                     <Twitter className="w-4 h-4" />
                     Twitter
                   </button>
                   <button
                     onClick={copyToClipboard}
-                    className="flex items-center gap-2 px-4 py-2 bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 rounded-lg transition-all text-sm"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm text-theme"
+                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
                   >
                     {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
                     {copied ? 'Copied!' : 'Copy Link'}
@@ -326,17 +332,18 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="mt-16 pt-8 border-t border-neutral-800 max-w-3xl"
+                className="mt-16 pt-8 max-w-3xl"
+                style={{ borderTop: "1px solid var(--border)" }}
               >
-                <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
+                <h2 className="text-2xl font-bold mb-6 text-theme">Related Articles</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {relatedBlogs.map((relatedBlog) => (
                     <Link key={relatedBlog.id} href={`/blog/${relatedBlog.slug}`}>
-                      <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-4 hover:border-blue-500 transition-all h-full">
-                        <h3 className="font-semibold text-white mb-2 line-clamp-2 text-sm">
+                      <div className="rounded-lg p-4 hover:border-[--accent-muted] transition-all h-full" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
+                        <h3 className="font-semibold text-theme mb-2 line-clamp-2 text-sm">
                           {relatedBlog.title}
                         </h3>
-                        <p className="text-xs text-neutral-400 line-clamp-2">{relatedBlog.description}</p>
+                        <p className="text-xs text-theme-secondary line-clamp-2">{relatedBlog.description}</p>
                       </div>
                     </Link>
                   ))}

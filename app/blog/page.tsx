@@ -126,20 +126,20 @@ export default function BlogPage() {
 
   if (posts.length === 0) {
     return (
-      <div className="min-h-screen bg-black text-white py-20 px-4">
+      <div className="min-h-screen py-20 px-4" style={{ background: "var(--background)", color: "var(--text-primary)" }}>
         <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 gradient-text">
             Technical Blog
           </h1>
-          <p className="text-neutral-400 text-lg mb-8">
+          <p className="text-theme-secondary text-lg mb-8">
             In-depth articles on microservices, backend engineering, Python, Go, FastAPI, and real-world system design
           </p>
-          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-8 md:p-12">
+          <div className="rounded-xl p-8 md:p-12" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
             <div className="text-6xl mb-6">🚀</div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-theme mb-4">
               Coming Soon
             </h2>
-            <p className="text-neutral-400 text-lg mb-6">
+            <p className="text-theme-secondary text-lg mb-6">
               I&apos;m working on some exciting technical content about backend engineering,
               system design, and building scalable applications. Stay tuned!
             </p>
@@ -148,7 +148,8 @@ export default function BlogPage() {
                 href="https://www.linkedin.com/in/tushar-agrawal-91b67a28a"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-all text-white font-medium"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg transition-all text-white font-medium"
+                style={{ background: "var(--accent)" }}
               >
                 Follow on LinkedIn
               </a>
@@ -156,27 +157,28 @@ export default function BlogPage() {
                 href="https://github.com/Tushar010402"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-all text-white font-medium"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg transition-all text-theme font-medium"
+                style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}
               >
                 View GitHub
               </a>
             </div>
           </div>
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
+            <div className="rounded-lg p-6" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
               <div className="text-2xl mb-3">⚡</div>
-              <h3 className="text-lg font-semibold text-white mb-2">Backend Engineering</h3>
-              <p className="text-neutral-400 text-sm">Deep dives into Python, Go, FastAPI, Django, and microservices architecture.</p>
+              <h3 className="text-lg font-semibold text-theme mb-2">Backend Engineering</h3>
+              <p className="text-theme-secondary text-sm">Deep dives into Python, Go, FastAPI, Django, and microservices architecture.</p>
             </div>
-            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
+            <div className="rounded-lg p-6" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
               <div className="text-2xl mb-3">🏗️</div>
-              <h3 className="text-lg font-semibold text-white mb-2">System Design</h3>
-              <p className="text-neutral-400 text-sm">Real-world patterns for building scalable, distributed systems.</p>
+              <h3 className="text-lg font-semibold text-theme mb-2">System Design</h3>
+              <p className="text-theme-secondary text-sm">Real-world patterns for building scalable, distributed systems.</p>
             </div>
-            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
+            <div className="rounded-lg p-6" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
               <div className="text-2xl mb-3">🏥</div>
-              <h3 className="text-lg font-semibold text-white mb-2">Healthcare SaaS</h3>
-              <p className="text-neutral-400 text-sm">HIPAA compliance, medical data handling, and healthcare tech.</p>
+              <h3 className="text-lg font-semibold text-theme mb-2">Healthcare SaaS</h3>
+              <p className="text-theme-secondary text-sm">HIPAA compliance, medical data handling, and healthcare tech.</p>
             </div>
           </div>
         </div>
@@ -215,14 +217,14 @@ export default function BlogPage() {
       <BlogListingClient initialBlogs={blogs} />
 
       {/* Server-rendered links to ALL posts for SEO crawling */}
-      <nav className="max-w-7xl mx-auto px-4 py-8 border-t border-neutral-800" aria-label="All blog posts">
-        <h2 className="text-xl font-semibold text-white mb-4">All Articles</h2>
+      <nav className="max-w-7xl mx-auto px-4 py-8" style={{ borderTop: "1px solid var(--border)" }} aria-label="All blog posts">
+        <h2 className="text-xl font-semibold text-theme mb-4">All Articles</h2>
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-sm">
           {posts.map((post) => (
             <li key={post.slug}>
               <a
                 href={`/blog/${post.slug}`}
-                className="text-neutral-400 hover:text-blue-400 transition-colors line-clamp-1"
+                className="text-theme-secondary hover:text-theme-accent transition-colors line-clamp-1"
               >
                 {post.title}
               </a>

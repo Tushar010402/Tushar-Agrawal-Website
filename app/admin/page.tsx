@@ -38,13 +38,13 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--background)" }}>
       <div className="max-w-md w-full">
-        <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 shadow-2xl">
+        <div className="rounded-2xl p-8 shadow-2xl" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
           {/* Logo/Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Admin Login</h1>
-            <p className="text-neutral-400">Blog Management Portal</p>
+            <h1 className="text-3xl font-bold text-theme mb-2">Admin Login</h1>
+            <p className="text-theme-secondary">Blog Management Portal</p>
           </div>
 
           {/* Error Message */}
@@ -57,33 +57,39 @@ export default function AdminLogin() {
           {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-2">
+              <label className="block text-sm font-medium text-theme-secondary mb-2">
                 Phone Number
               </label>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full px-4 py-3 rounded-lg text-theme transition-colors focus:outline-none"
+                style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
                 placeholder="Enter phone number"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-2">
+              <label className="block text-sm font-medium text-theme-secondary mb-2">
                 OTP
               </label>
               <input
                 type="text"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full px-4 py-3 rounded-lg text-theme transition-colors focus:outline-none"
+                style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
                 placeholder="Enter OTP"
                 required
                 maxLength={6}
               />
-              <p className="mt-2 text-xs text-neutral-500">
+              <p className="mt-2 text-xs text-theme-muted">
                 Enter the 6-digit OTP
               </p>
             </div>
@@ -91,7 +97,8 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-lg hover:from-blue-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full py-3 text-white font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              style={{ background: "var(--accent)" }}
             >
               {loading ? "Logging in..." : "Login"}
             </button>
@@ -101,7 +108,7 @@ export default function AdminLogin() {
           <div className="mt-8 text-center">
             <a
               href="/"
-              className="text-sm text-neutral-400 hover:text-white transition-colors"
+              className="text-sm text-theme-secondary hover:text-theme transition-colors"
             >
               ← Back to Portfolio
             </a>
@@ -110,7 +117,7 @@ export default function AdminLogin() {
 
         {/* Helper Text */}
         <div className="mt-6 text-center">
-          <p className="text-xs text-neutral-600">
+          <p className="text-xs text-theme-muted">
             Admin access only. Unauthorized access is prohibited.
           </p>
         </div>
