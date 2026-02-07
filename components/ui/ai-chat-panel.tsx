@@ -350,11 +350,12 @@ export function AIChatPanel({ isOpen, onClose, topic }: AIChatPanelProps) {
                 <textarea
                   ref={inputRef}
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => setInput(e.target.value.slice(0, 1000))}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask about tech topics..."
                   className="chat-input"
                   rows={1}
+                  maxLength={1000}
                   style={{
                     resize: "none",
                     minHeight: "40px",

@@ -9,7 +9,47 @@ interface ChatMessage {
   content: string;
 }
 
+// --- Rate Limiting (in-memory, per-IP) ---
+const MAX_REQUESTS_PER_MINUTE = 10;
+const MAX_MESSAGE_LENGTH = 1000;
+const MAX_TOPIC_LENGTH = 100;
+
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + 60_000 });
+    return false;
+  }
+
+  entry.count++;
+  return entry.count > MAX_REQUESTS_PER_MINUTE;
+}
+
+// Periodically clean stale entries to prevent memory leaks
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of rateLimitMap) {
+    if (now > entry.resetAt) rateLimitMap.delete(ip);
+  }
+}, 60_000);
+
 export async function POST(request: NextRequest) {
+  // Rate limit by IP
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+    || request.headers.get('x-real-ip')
+    || 'unknown';
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please wait a moment.' },
+      { status: 429 }
+    );
+  }
+
   const apiKey = process.env.GEMINI_CHAT_API_KEY || process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
@@ -28,6 +68,27 @@ export async function POST(request: NextRequest) {
   const { messages, topic } = body;
   if (!messages || !Array.isArray(messages) || messages.length === 0) {
     return NextResponse.json({ error: 'messages array is required' }, { status: 400 });
+  }
+
+  // Validate topic length
+  if (topic && (typeof topic !== 'string' || topic.length > MAX_TOPIC_LENGTH)) {
+    return NextResponse.json({ error: 'Invalid topic' }, { status: 400 });
+  }
+
+  // Validate and sanitize messages
+  for (const msg of messages) {
+    if (!msg.role || !['user', 'assistant'].includes(msg.role)) {
+      return NextResponse.json({ error: 'Invalid message role' }, { status: 400 });
+    }
+    if (typeof msg.content !== 'string') {
+      return NextResponse.json({ error: 'Message content must be a string' }, { status: 400 });
+    }
+    if (msg.content.length > MAX_MESSAGE_LENGTH) {
+      return NextResponse.json(
+        { error: `Message too long. Maximum ${MAX_MESSAGE_LENGTH} characters.` },
+        { status: 400 }
+      );
+    }
   }
 
   // Truncate to last 10 messages
