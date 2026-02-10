@@ -343,6 +343,8 @@ Tushar Agrawal - [tusharagrawal.in](https://tusharagrawal.in)
 
 ## Links
 
-- [Documentation](https://tusharagrawal.in/qauth)
+- [Documentation](https://tusharagrawal.in/qauth/docs) - Getting started, API reference, and guides
+- [Landing Page](https://tusharagrawal.in/qauth)
+- [Interactive Demo](https://tusharagrawal.in/qauth/demo)
 - [GitHub Repository](https://github.com/Tushar010402/Tushar-Agrawal-Website)
 - [Changelog](https://github.com/Tushar010402/Tushar-Agrawal-Website/blob/master/quantum-shield/qauth/CHANGELOG.md)

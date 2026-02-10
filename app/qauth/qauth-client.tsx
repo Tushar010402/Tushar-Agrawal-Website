@@ -268,15 +268,51 @@ export default function QAuthClient() {
               </span>
             </h1>
 
-            <div className="mb-8">
+            <div className="mb-6">
               <TextGenerateEffect
                 words="Post-quantum dual signatures. Encrypted payloads. Mandatory proof-of-possession. Built-in revocation. The OAuth 2.0 and JWT replacement you've been waiting for."
                 className="text-lg md:text-xl text-theme-secondary"
               />
             </div>
 
+            {/* npm Install Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+              className="flex justify-center mb-8"
+            >
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText("npm i @quantumshield/qauth");
+                }}
+                className="flex items-center gap-3 px-5 py-3 rounded-xl font-mono text-sm transition-all hover:scale-[1.02] active:scale-[0.98] group"
+                style={{
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
+                }}
+                title="Click to copy"
+              >
+                <span className="text-theme-muted">$</span>
+                <span className="text-theme-accent">npm i @quantumshield/qauth</span>
+                <svg className="w-4 h-4 text-theme-muted group-hover:text-theme transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </motion.div>
+
             {/* CTA Buttons */}
             <div className="flex flex-wrap justify-center gap-4 mb-8">
+              <Link
+                href="/qauth/docs"
+                className="flex items-center gap-2 px-8 py-4 rounded-full text-white font-semibold text-sm transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
+                style={{ background: "var(--accent)" }}
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Read the Docs
+              </Link>
               <Link
                 href="/qauth/demo"
                 className="flex items-center gap-2 px-8 py-4 rounded-full text-white font-semibold text-sm transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
@@ -823,6 +859,93 @@ export default function QAuthClient() {
             </li>
           </ul>
         </motion.div>
+      </section>
+
+      {/* Developer Resources */}
+      <section className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-12"
+        >
+          <h2 className="text-3xl md:text-5xl font-bold text-theme mb-4">
+            Developer Resources
+          </h2>
+          <p className="text-theme-secondary text-lg max-w-3xl">
+            Everything you need to integrate QAuth into your application.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            {
+              title: "Getting Started",
+              desc: "Install the SDK and create your first token in 5 minutes.",
+              href: "/qauth/docs",
+              icon: "rocket",
+            },
+            {
+              title: "Full Auth Guide",
+              desc: "Build signup, login, sessions, and protected routes.",
+              href: "/qauth/docs/full-auth",
+              icon: "book",
+            },
+            {
+              title: "API Reference",
+              desc: "Every class, method, parameter, and type documented.",
+              href: "/qauth/docs/api",
+              icon: "code",
+            },
+            {
+              title: "Interactive Demo",
+              desc: "See token creation, validation, and proofs in action.",
+              href: "/qauth/demo",
+              icon: "play",
+            },
+          ].map((item, idx) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+            >
+              <Link
+                href={item.href}
+                className="block rounded-2xl p-6 h-full transition-all hover:scale-[1.02]"
+                style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}
+              >
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style={{ background: "color-mix(in srgb, var(--accent) 20%, transparent)" }}>
+                  {item.icon === "rocket" && (
+                    <svg className="w-5 h-5 text-theme-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  )}
+                  {item.icon === "book" && (
+                    <svg className="w-5 h-5 text-theme-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  )}
+                  {item.icon === "code" && (
+                    <svg className="w-5 h-5 text-theme-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                  )}
+                  {item.icon === "play" && (
+                    <svg className="w-5 h-5 text-theme-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  )}
+                </div>
+                <h3 className="text-lg font-bold text-theme mb-2">{item.title}</h3>
+                <p className="text-theme-secondary text-sm">{item.desc}</p>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
       </section>
 
       {/* Part of QuantumShield */}
