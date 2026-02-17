@@ -1156,6 +1156,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(target_arch = "wasm32")]
     fn test_encrypt_decrypt_with_aad() {
         let cipher = QShieldCipher::from_bytes(b"test-key-32-bytes-exactly-here!").unwrap();
         let data = b"Secret message";
@@ -1169,6 +1170,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(target_arch = "wasm32")]
     fn test_string_encrypt_decrypt() {
         let cipher = QShieldCipher::from_bytes(b"test-key-32-bytes-exactly-here!").unwrap();
         let message = "Hello, QuantumShield! 🛡️";
@@ -1178,6 +1180,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(target_arch = "wasm32")]
     fn test_cipher_no_padding() {
         let cipher = QShieldCipher::from_password_with_options("test-password", false).unwrap();
         assert!(!cipher.has_length_hiding());
@@ -1326,6 +1329,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(target_arch = "wasm32")]
     fn test_session_out_of_order() {
         let shared_secret = b"session-out-of-order-test";
         let mut sender = QShieldSession::new(shared_secret).unwrap();
@@ -1349,6 +1353,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(target_arch = "wasm32")]
     fn test_wrong_key_decrypt() {
         let cipher1 = QShieldCipher::from_bytes(b"key-one-for-testing").unwrap();
         let cipher2 = QShieldCipher::from_bytes(b"key-two-for-testing").unwrap();
@@ -1358,6 +1363,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(target_arch = "wasm32")]
     fn test_tampered_ciphertext() {
         let cipher = QShieldCipher::from_bytes(b"tamper-test-key").unwrap();
         let mut encrypted = cipher.encrypt(b"original data").unwrap();

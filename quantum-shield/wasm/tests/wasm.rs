@@ -1,11 +1,9 @@
 //! WASM integration tests for the QuantumShield SDK.
 //!
-//! Run with: `wasm-pack test --headless --firefox`
+//! Run with: `wasm-pack test --node` or `wasm-pack test --headless --firefox`
 
 use wasm_bindgen_test::*;
 use quantum_shield::*;
-
-wasm_bindgen_test_configure!(run_in_browser);
 
 // ============================================================================
 // CIPHER TESTS

@@ -823,7 +823,7 @@ export default function QuantumShieldClient() {
                 />
               </div>
               <div className="flex flex-wrap gap-2 pt-2">
-                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>~2MB WASM</span>
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>~420KB WASM</span>
                 <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>TypeScript types</span>
                 <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>All browsers</span>
               </div>

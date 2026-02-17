@@ -232,7 +232,7 @@ async function main() {
 
 | Metric | Value |
 |--------|-------|
-| WASM binary | ~1.5 MB (gzipped ~500 KB) |
+| WASM binary | ~420 KB (gzipped ~150 KB) |
 | Argon2id memory | 19 MB (safe for browsers) |
 | Hybrid KEM keygen | ~5–15 ms |
 | Encapsulate/Decapsulate | ~2–5 ms |
