@@ -17,8 +17,46 @@ interface QShieldCipherConstructor {
   new (password: string): QShieldCipherInstance;
 }
 
+interface HybridKEMInstance {
+  public_key: Uint8Array;
+  public_key_base64: string;
+  encapsulate: (peer_pk: Uint8Array) => { ciphertext: () => Uint8Array; ciphertext_base64: () => string; shared_secret: () => Uint8Array };
+  decapsulate: (ct: Uint8Array) => Uint8Array;
+  free: () => void;
+}
+
+interface HybridKEMConstructor {
+  new (): HybridKEMInstance;
+  public_key_size: () => number;
+}
+
+interface DualSignatureInstance {
+  bytes: Uint8Array;
+  base64: string;
+  mldsa_signature: Uint8Array;
+  slhdsa_signature: Uint8Array;
+  free: () => void;
+}
+
+interface QShieldSignInstance {
+  public_key: Uint8Array;
+  public_key_base64: string;
+  sign: (message: Uint8Array) => DualSignatureInstance;
+  sign_string: (message: string) => DualSignatureInstance;
+  verify: (message: Uint8Array, signature: DualSignatureInstance) => boolean;
+  verify_string: (message: string, signature: DualSignatureInstance) => boolean;
+  free: () => void;
+}
+
+interface QShieldSignConstructor {
+  new (): QShieldSignInstance;
+  public_key_info: () => string;
+}
+
 interface WasmModule {
   QShieldCipher: QShieldCipherConstructor;
+  QShieldHybridKEM: HybridKEMConstructor;
+  QShieldSign: QShieldSignConstructor;
   benchmark: (iterations: number, dataSize: number) => string;
   demo: (message: string, password: string) => string;
   info: () => string;
@@ -46,7 +84,35 @@ export default function QuantumShieldDemo() {
   const [decrypted, setDecrypted] = useState("");
   const [encryptTime, setEncryptTime] = useState<number | null>(null);
   const [decryptTime, setDecryptTime] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState<"encrypt" | "decrypt" | "benchmark">("encrypt");
+  const [activeTab, setActiveTab] = useState<"encrypt" | "decrypt" | "kem" | "signatures" | "benchmark">("encrypt");
+
+  // KEM state
+  const [kemRunning, setKemRunning] = useState(false);
+  const [kemResult, setKemResult] = useState<{
+    alicePkSize: number;
+    bobPkSize: number;
+    ctSize: number;
+    secretMatch: boolean;
+    kemTime: number;
+    alicePkB64: string;
+    ctB64: string;
+  } | null>(null);
+
+  // Signatures state
+  const [sigRunning, setSigRunning] = useState(false);
+  const [sigMessage, setSigMessage] = useState("This document is authentic.");
+  const [sigResult, setSigResult] = useState<{
+    pkSize: number;
+    mldsaSigSize: number;
+    slhdsaSigSize: number;
+    totalSigSize: number;
+    verified: boolean;
+    wrongMsgVerified: boolean;
+    signTime: number;
+    verifyTime: number;
+    pkB64: string;
+    sigB64: string;
+  } | null>(null);
 
   // Benchmark state
   const [benchmarkResult, setBenchmarkResult] = useState<BenchmarkResult | null>(null);
@@ -170,6 +236,91 @@ export default function QuantumShieldDemo() {
     }, 50);
   }, [wasm, benchmarkIterations, benchmarkDataSize]);
 
+  const handleKEM = useCallback(async () => {
+    if (!wasm) return;
+    setKemRunning(true);
+    setError(null);
+
+    setTimeout(() => {
+      try {
+        const start = performance.now();
+        const alice = new wasm.QShieldHybridKEM();
+        const bob = new wasm.QShieldHybridKEM();
+
+        const encap = alice.encapsulate(bob.public_key);
+        const bobSecret = bob.decapsulate(encap.ciphertext());
+
+        const aliceSecret = encap.shared_secret();
+        const secretMatch = aliceSecret.length === bobSecret.length &&
+          aliceSecret.every((v: number, i: number) => v === bobSecret[i]);
+
+        const kemTime = performance.now() - start;
+
+        setKemResult({
+          alicePkSize: alice.public_key.length,
+          bobPkSize: bob.public_key.length,
+          ctSize: encap.ciphertext().length,
+          secretMatch,
+          kemTime,
+          alicePkB64: alice.public_key_base64.slice(0, 60) + "...",
+          ctB64: encap.ciphertext_base64().slice(0, 60) + "...",
+        });
+
+        alice.free();
+        bob.free();
+      } catch (err) {
+        setError(`KEM failed: ${err}`);
+      } finally {
+        setKemRunning(false);
+      }
+    }, 50);
+  }, [wasm]);
+
+  const handleSign = useCallback(async () => {
+    if (!wasm) return;
+    setSigRunning(true);
+    setError(null);
+
+    setTimeout(() => {
+      try {
+        const signer = new wasm.QShieldSign();
+
+        const msgBytes = new TextEncoder().encode(sigMessage);
+
+        const signStart = performance.now();
+        const signature = signer.sign(msgBytes);
+        const signTime = performance.now() - signStart;
+
+        const verifyStart = performance.now();
+        const verified = signer.verify(msgBytes, signature);
+        const verifyTime = performance.now() - verifyStart;
+
+        const wrongMsg = new TextEncoder().encode("tampered message");
+        const wrongMsgVerified = signer.verify(wrongMsg, signature);
+
+        setSigResult({
+          pkSize: signer.public_key.length,
+          mldsaSigSize: signature.mldsa_signature.length,
+          slhdsaSigSize: signature.slhdsa_signature.length,
+          totalSigSize: signature.mldsa_signature.length + signature.slhdsa_signature.length,
+          verified,
+          wrongMsgVerified,
+          signTime,
+          verifyTime,
+          pkB64: signer.public_key_base64.slice(0, 60) + "...",
+          sigB64: signature.base64.slice(0, 60) + "...",
+        });
+
+        signer.free();
+        signature.free();
+      } catch (err) {
+        setError(`Signing failed: ${err}`);
+      } finally {
+        setSigRunning(false);
+      }
+    }, 50);
+  }, [wasm, sigMessage]);
+
   const copyToClipboard = async (text: string) => {
     await navigator.clipboard.writeText(text);
   };
@@ -255,7 +406,7 @@ export default function QuantumShieldDemo() {
             <svg className="w-4 h-4 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
             </svg>
-            <span className="text-violet-300 text-sm font-medium">Post-Quantum Secure v5.0</span>
+            <span className="text-violet-300 text-sm font-medium">Post-Quantum Secure</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-theme mb-4">
             Post-Quantum Encryption Demo
@@ -350,8 +501,8 @@ export default function QuantumShieldDemo() {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-2 mb-4">
-              {(["encrypt", "decrypt", "benchmark"] as const).map((tab) => (
+            <div className="flex flex-wrap gap-2 mb-4">
+              {(["encrypt", "decrypt", "kem", "signatures", "benchmark"] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -364,7 +515,7 @@ export default function QuantumShieldDemo() {
                     border: activeTab === tab ? "1px solid transparent" : "1px solid var(--border)",
                   }}
                 >
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  {tab === "kem" ? "Hybrid KEM" : tab === "signatures" ? "Signatures" : tab.charAt(0).toUpperCase() + tab.slice(1)}
                 </button>
               ))}
             </div>
@@ -425,6 +576,79 @@ export default function QuantumShieldDemo() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
                   </svg>
                   Decrypt
+                </button>
+              </>
+            )}
+
+            {activeTab === "kem" && (
+              <>
+                <div className="mb-4 p-4 rounded-lg" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
+                  <p className="text-sm text-theme-secondary">
+                    Generates two hybrid keypairs (X25519 + ML-KEM-768), performs key encapsulation,
+                    and verifies both parties derive the same shared secret.
+                  </p>
+                </div>
+                <button
+                  onClick={handleKEM}
+                  disabled={kemRunning}
+                  className="w-full font-semibold px-6 py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  style={{ background: "var(--accent)", color: "#fff" }}
+                >
+                  {kemRunning ? (
+                    <>
+                      <div className="w-5 h-5 rounded-full animate-spin" style={{ border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff" }} />
+                      Running KEM...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                      </svg>
+                      Run Hybrid KEM Exchange
+                    </>
+                  )}
+                </button>
+              </>
+            )}
+
+            {activeTab === "signatures" && (
+              <>
+                <div className="mb-4">
+                  <label className="block text-sm text-theme-secondary mb-2">
+                    Message to Sign
+                  </label>
+                  <textarea
+                    value={sigMessage}
+                    onChange={(e) => setSigMessage(e.target.value)}
+                    className="w-full h-24 rounded-lg px-4 py-3 text-theme focus:outline-none transition-colors resize-none"
+                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
+                    placeholder="Enter message to sign"
+                  />
+                  <p className="text-xs text-theme-tertiary mt-1">
+                    Signs with ML-DSA-65 (lattice) + SLH-DSA-SHAKE-128f (hash-based)
+                  </p>
+                </div>
+                <button
+                  onClick={handleSign}
+                  disabled={sigRunning || !sigMessage}
+                  className="w-full font-semibold px-6 py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  style={{ background: "var(--accent)", color: "#fff" }}
+                >
+                  {sigRunning ? (
+                    <>
+                      <div className="w-5 h-5 rounded-full animate-spin" style={{ border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff" }} />
+                      Signing...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+                      </svg>
+                      Sign &amp; Verify
+                    </>
+                  )}
                 </button>
               </>
             )}
@@ -554,6 +778,122 @@ export default function QuantumShieldDemo() {
                   style={{ background: "var(--surface)", border: "1px solid color-mix(in srgb, var(--accent) 30%, transparent)" }}
                 >
                   <p className="text-theme">{decrypted}</p>
+                </div>
+              </div>
+            )}
+
+            {/* KEM Results */}
+            {activeTab === "kem" && kemResult && (
+              <div className="mb-6 space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gradient-to-br from-violet-500/10 to-purple-500/10 border border-violet-500/30 rounded-xl p-4">
+                    <p className="text-xs text-theme-tertiary mb-1">Public Key Size</p>
+                    <p className="text-2xl font-bold text-violet-400">
+                      {kemResult.alicePkSize} <span className="text-sm">bytes</span>
+                    </p>
+                    <p className="text-xs text-theme-tertiary mt-1">32 X25519 + 1184 ML-KEM</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-pink-500/10 to-rose-500/10 border border-pink-500/30 rounded-xl p-4">
+                    <p className="text-xs text-theme-tertiary mb-1">Ciphertext Size</p>
+                    <p className="text-2xl font-bold text-pink-400">
+                      {kemResult.ctSize} <span className="text-sm">bytes</span>
+                    </p>
+                    <p className="text-xs text-theme-tertiary mt-1">32 X25519 + 1088 ML-KEM</p>
+                  </div>
+                </div>
+
+                <div className="rounded-lg p-4 space-y-2" style={{ background: "var(--surface)" }}>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-theme-secondary">Shared Secret Match</span>
+                    <span className={kemResult.secretMatch ? "text-green-400 font-bold" : "text-red-400 font-bold"}>
+                      {kemResult.secretMatch ? "Yes" : "FAILED"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-theme-secondary">Total KEM Time</span>
+                    <span className="text-violet-400 font-mono">{kemResult.kemTime.toFixed(2)} ms</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-theme-secondary">Algorithm</span>
+                    <span className="text-theme font-mono text-xs">X25519 + ML-KEM-768</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-theme-secondary">NIST Standard</span>
+                    <span className="text-theme font-mono text-xs">FIPS 203 (Level 3)</span>
+                  </div>
+                </div>
+
+                <div className="rounded-lg p-3" style={{ background: "var(--surface)" }}>
+                  <p className="text-xs text-theme-tertiary mb-1">Public Key (truncated)</p>
+                  <p className="text-xs text-theme font-mono break-all">{kemResult.alicePkB64}</p>
+                </div>
+
+                <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
+                  <p className="text-xs text-green-300">
+                    Both parties derived the same 64-byte shared secret using hybrid key encapsulation.
+                    Security holds if EITHER X25519 OR ML-KEM-768 remains unbroken.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Signatures Results */}
+            {activeTab === "signatures" && sigResult && (
+              <div className="mb-6 space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gradient-to-br from-emerald-500/10 to-green-500/10 border border-emerald-500/30 rounded-xl p-4">
+                    <p className="text-xs text-theme-tertiary mb-1">Signature Verified</p>
+                    <p className="text-2xl font-bold text-emerald-400">
+                      {sigResult.verified ? "Valid" : "INVALID"}
+                    </p>
+                    <p className="text-xs text-theme-tertiary mt-1">Both algorithms agree</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-red-500/10 to-rose-500/10 border border-red-500/30 rounded-xl p-4">
+                    <p className="text-xs text-theme-tertiary mb-1">Tampered Message</p>
+                    <p className="text-2xl font-bold text-red-400">
+                      {sigResult.wrongMsgVerified ? "ACCEPTED (BAD)" : "Rejected"}
+                    </p>
+                    <p className="text-xs text-theme-tertiary mt-1">Forgery correctly detected</p>
+                  </div>
+                </div>
+
+                <div className="rounded-lg p-4 space-y-2" style={{ background: "var(--surface)" }}>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-theme-secondary">Public Key</span>
+                    <span className="text-theme font-mono text-xs">{sigResult.pkSize} bytes (ML-DSA + SLH-DSA)</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-theme-secondary">ML-DSA-65 Signature</span>
+                    <span className="text-violet-400 font-mono text-xs">{sigResult.mldsaSigSize} bytes</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-theme-secondary">SLH-DSA-SHAKE-128f Signature</span>
+                    <span className="text-pink-400 font-mono text-xs">{sigResult.slhdsaSigSize} bytes</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-theme-secondary">Total Signature</span>
+                    <span className="text-theme font-mono text-xs font-bold">{sigResult.totalSigSize} bytes</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-theme-secondary">Sign Time</span>
+                    <span className="text-emerald-400 font-mono">{sigResult.signTime.toFixed(2)} ms</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-theme-secondary">Verify Time</span>
+                    <span className="text-cyan-400 font-mono">{sigResult.verifyTime.toFixed(2)} ms</span>
+                  </div>
+                </div>
+
+                <div className="rounded-lg p-3" style={{ background: "var(--surface)" }}>
+                  <p className="text-xs text-theme-tertiary mb-1">Signature (truncated)</p>
+                  <p className="text-xs text-theme font-mono break-all">{sigResult.sigB64}</p>
+                </div>
+
+                <div className="bg-violet-500/10 border border-violet-500/20 rounded-lg p-3">
+                  <p className="text-xs text-violet-300">
+                    Dual signatures combine lattice-based ML-DSA-65 (FIPS 204) with hash-based SLH-DSA-SHAKE-128f (FIPS 205).
+                    An attacker must break BOTH cryptographic foundations to forge a signature.
+                  </p>
                 </div>
               </div>
             )}

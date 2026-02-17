@@ -28,7 +28,7 @@ const languageKeywords: Record<string, Set<string>> = {
 };
 
 const languageTypes: Record<string, Set<string>> = {
-  rust: new Set(["QShieldKEM", "QuantumShield", "String", "Vec", "Option", "Result", "Ok", "Err", "Some", "None", "u8", "u16", "u32", "u64", "i8", "i16", "i32", "i64", "f32", "f64", "bool", "usize", "isize", "str"]),
+  rust: new Set(["QShieldHybridKEM", "QShieldCipher", "QShieldSign", "QShieldVerifier", "QShieldSession", "QShieldKeyExchange", "DualSignature", "HybridEncapsulation", "HybridCipherResult", "String", "Vec", "Option", "Result", "Ok", "Err", "Some", "None", "u8", "u16", "u32", "u64", "i8", "i16", "i32", "i64", "f32", "f64", "bool", "usize", "isize", "str"]),
   typescript: new Set(["QAuthServer", "QAuthClient", "QAuthValidator", "ProofValidator", "PolicyEngine", "TokenOptions", "TokenPayload", "QAuthConfig", "IssuerKeys", "Policy", "PolicyRule", "PolicyConditions", "EvaluationContext", "EvaluationResult", "Promise", "Record", "Partial", "Required", "Readonly", "Pick", "Omit", "Exclude", "Extract", "Map", "Set", "Array", "Uint8Array", "Buffer", "Request", "Response", "NextRequest", "NextResponse", "Headers"]),
   javascript: new Set(["QAuthServer", "QAuthClient", "QAuthValidator", "ProofValidator", "PolicyEngine", "Promise", "Map", "Set", "Array", "Uint8Array", "Buffer", "Request", "Response", "Headers", "Error"]),
   python: new Set(["QAuthServer", "QAuthClient", "PolicyEngine", "str", "int", "float", "bool", "list", "dict", "tuple", "set", "bytes", "None"]),

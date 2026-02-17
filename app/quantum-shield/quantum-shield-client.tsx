@@ -47,17 +47,17 @@ const features = [
   },
   {
     title: "Key Derivation",
-    subtitle: "HKDF-SHA3-512",
+    subtitle: "Argon2id + HKDF-SHA3-512",
     description:
-      "Derives cryptographic keys using HKDF with SHA3-512. Domain separation ensures keys for different purposes are cryptographically isolated.",
+      "Passwords are hardened with Argon2id (19MB memory-hard, GPU/ASIC resistant). Raw keys use HKDF-SHA3-512 with domain separation for cryptographic isolation.",
     icon: "hash",
-    badge: "SHA3-512",
+    badge: "GPU Resistant",
   },
   {
     title: "Forward Secrecy",
-    subtitle: "Built-in Key Rotation",
+    subtitle: "HMAC-SHA3-256 Ratcheting",
     description:
-      "Ephemeral keys and automatic rotation ensure past communications remain secure even if long-term keys are compromised in the future.",
+      "Session keys are ratcheted forward after each message using HMAC-SHA3-256. Past messages cannot be decrypted even if the current key is compromised.",
     icon: "refresh",
     badge: "PFS",
   },
@@ -94,20 +94,26 @@ const useCases = [
   },
 ];
 
-const codeExample = `use quantum_shield::{QShieldKEM, QuantumShield};
+const codeExample = `use quantum_shield::*;
 
-// Generate quantum-secure key pair
-let (public_key, secret_key) = QShieldKEM::generate_keypair()?;
+// Generate hybrid keypairs (X25519 + ML-KEM-768)
+let alice = QShieldHybridKEM::new()?;
+let bob = QShieldHybridKEM::new()?;
 
-// Encapsulate shared secret (X25519 + ML-KEM-768)
-let (ciphertext, shared_secret) = QShieldKEM::encapsulate(&public_key)?;
+// Key encapsulation — quantum-secure key exchange
+let encap = alice.encapsulate(&bob.public_key())?;
+let shared = bob.decapsulate(&encap.ciphertext())?;
+// encap.shared_secret() == shared
 
 // Cascading encryption (AES-256-GCM + ChaCha20-Poly1305)
-let cipher = QuantumShield::new(&shared_secret)?;
+let cipher = QShieldCipher::from_bytes(&shared)?;
 let encrypted = cipher.encrypt(b"Quantum-secure message")?;
+let decrypted = cipher.decrypt(&encrypted)?;
 
-// Decrypt on the other side
-let decrypted = cipher.decrypt(&encrypted)?;`;
+// Dual signatures (ML-DSA-65 + SLH-DSA-SHAKE-128f)
+let signer = QShieldSign::new()?;
+let sig = signer.sign(b"Sign this document")?;
+assert!(signer.verify(b"Sign this document", &sig)?);`;
 
 export default function QuantumShieldClient() {
   return (
@@ -253,7 +259,7 @@ export default function QuantumShieldClient() {
             <p className="text-theme-secondary leading-relaxed">
               Nation-state actors are actively collecting encrypted data today,
               storing it until quantum computers can break current encryption.
-              Your RSA and ECC-encrypted data from 2024 could be readable by
+              Your RSA and ECC-encrypted data from today could be readable by
               2035.
             </p>
           </motion.div>
@@ -290,14 +296,14 @@ export default function QuantumShieldClient() {
             </div>
             <div className="space-y-3">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
-                <span className="text-theme-secondary font-medium">2024</span>
+                <span className="text-green-400 font-medium">2024 &#10003;</span>
                 <span className="text-theme-secondary text-sm sm:text-base">
-                  NIST finalizes PQC standards
+                  NIST finalized FIPS 203/204/205
                 </span>
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
-                <span className="text-theme-secondary font-medium">2025-2030</span>
-                <span className="text-theme-secondary text-sm sm:text-base">Migration window</span>
+                <span className="text-amber-400 font-medium">2025-2030</span>
+                <span className="text-theme-secondary text-sm sm:text-base">Migration window (we are here)</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
                 <span className="text-red-400 font-medium">2030-2035</span>
@@ -565,10 +571,13 @@ export default function QuantumShieldClient() {
           </div>
           <ul className="space-y-3 text-theme-secondary">
             {[
-              { strong: "NIST-approved algorithms", text: ": Uses fips203 (ML-KEM-768) pure-Rust implementation" },
-              { strong: "Hybrid approach", text: ": X25519 + ML-KEM-768 for defense-in-depth" },
-              { strong: "Battle-tested primitives", text: ": AES-GCM, ChaCha20-Poly1305, Argon2id from audited crates" },
-              { strong: "Memory safe", text: ": Written in Rust with automatic memory zeroization" },
+              { strong: "NIST FIPS 203/204/205", text: ": ML-KEM-768, ML-DSA-65, SLH-DSA-SHAKE-128f — all three finalized standards" },
+              { strong: "Hybrid KEM", text: ": X25519 + ML-KEM-768 — secure if EITHER algorithm holds" },
+              { strong: "Dual signatures", text: ": Lattice-based + hash-based — two independent mathematical foundations" },
+              { strong: "Cascading cipher", text: ": AES-256-GCM + ChaCha20-Poly1305 — both must be broken" },
+              { strong: "Argon2id KDF", text: ": 19MB memory-hard password hashing, GPU/ASIC resistant" },
+              { strong: "Memory safe", text: ": Written in Rust with automatic zeroization — no buffer overflows" },
+              { strong: "WebAssembly ready", text: ": Runs in any browser with full post-quantum security" },
               { strong: "Open source", text: ": Fully auditable code under MIT license" },
             ].map((item) => (
               <li key={item.strong} className="flex items-start gap-2">
@@ -697,8 +706,8 @@ export default function QuantumShieldClient() {
             Get Early Access
           </h2>
           <p className="text-theme-secondary text-lg max-w-2xl mx-auto mb-8">
-            Be the first to access Python, WebAssembly, and Node.js SDKs. Join
-            developers preparing their systems for the quantum era.
+            The Rust core and WebAssembly SDK are available now. Be the first to access
+            the upcoming Python, Node.js, and Go SDKs. Join developers preparing for the quantum era.
           </p>
 
           <div className="max-w-md mx-auto mb-6">

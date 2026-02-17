@@ -68,7 +68,7 @@ export default function QuantumShieldPage() {
             },
             offers: {
               '@type': 'Offer',
-              availability: 'https://schema.org/PreOrder',
+              availability: 'https://schema.org/InStock',
               price: '0',
               priceCurrency: 'USD',
             },
@@ -90,7 +90,7 @@ export default function QuantumShieldPage() {
             },
             offers: {
               '@type': 'Offer',
-              availability: 'https://schema.org/PreOrder',
+              availability: 'https://schema.org/InStock',
               price: '0',
               priceCurrency: 'USD',
             },
