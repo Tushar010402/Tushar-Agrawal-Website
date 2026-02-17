@@ -1,0 +1,75 @@
+[package]
+name = "quantum-shield"
+version = "0.1.0"
+edition = "2021"
+authors = ["Tushar Agrawal"]
+description = "QuantumShield WASM SDK - Post-quantum defense-in-depth encryption"
+license = "MIT"
+repository = "https://github.com/tushar-agrawal/quantum-shield"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook", "simd"]
+simd = []
+
+[dependencies]
+# WASM bindings
+wasm-bindgen = "0.2"
+
+# Pure-Rust cryptography with SIMD acceleration
+aes-gcm = { version = "0.10", features = ["aes"] }
+chacha20poly1305 = "0.10"
+x25519-dalek = { version = "2.0", features = ["static_secrets"] }
+sha3 = "0.10"
+hkdf = "0.12"
+rand_core = "0.6"
+getrandom = { version = "0.2", features = ["js"] }
+
+# POST-QUANTUM: NIST FIPS 203/204/205 (pure Rust, WASM compatible)
+fips203 = { version = "0.4", default-features = false, features = ["ml-kem-768"] }
+fips204 = { version = "0.4", default-features = false, features = ["ml-dsa-65", "default-rng"] }
+fips205 = { version = "0.4", default-features = false, features = ["slh_dsa_shake_128f", "default-rng"] }
+
+# Memory-hard password hashing (Argon2id - GPU/ASIC resistant)
+argon2 = "0.5"
+
+# HMAC for nonce derivation and key ratcheting
+hmac = "0.12"
+
+# Memory safety - zeroize secrets on drop
+zeroize = { version = "1.7", features = ["derive"] }
+
+# Constant-time comparison
+subtle = "2.5"
+
+# Error handling in WASM
+console_error_panic_hook = { version = "0.1", optional = true }
+
+# Serialization
+base64 = "0.22"
+
+# Web APIs
+js-sys = "0.3"
+web-sys = { version = "0.3", features = ["Performance", "Window"] }
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"
+
+# Maximum optimization for release builds
+[profile.release]
+opt-level = 3           # Maximum optimization
+lto = "fat"             # Full link-time optimization
+codegen-units = 1       # Single codegen unit for better optimization
+panic = "abort"         # Remove panic unwinding code
+strip = true            # Strip symbols
+debug = false           # No debug info
+
+# Optimize dependencies too
+[profile.release.package."*"]
+opt-level = 3
+
+# Disable wasm-opt (Rust's optimization is sufficient)
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false

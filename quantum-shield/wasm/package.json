@@ -1,9 +1,19 @@
 {
   "name": "quantum-shield",
   "version": "0.1.0",
-  "description": "Quantum-secure cryptographic library for the browser",
+  "description": "Quantum-secure cryptographic library for the browser — cascading encryption, hybrid KEM, dual signatures",
   "main": "pkg/quantum_shield.js",
+  "module": "pkg/quantum_shield.js",
   "types": "pkg/quantum_shield.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./pkg/quantum_shield.d.ts",
+      "import": "./pkg/quantum_shield.js",
+      "default": "./pkg/quantum_shield.js"
+    },
+    "./pkg/*": "./pkg/*"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tushar-agrawal/quantum-shield"
@@ -14,19 +24,34 @@
     "encryption",
     "wasm",
     "security",
-    "pqc"
+    "pqc",
+    "ml-kem",
+    "ml-dsa",
+    "slh-dsa",
+    "fips203",
+    "fips204",
+    "fips205",
+    "aes-gcm",
+    "chacha20",
+    "argon2"
   ],
   "author": "Tushar Agrawal",
   "license": "MIT",
   "files": [
-    "pkg/"
+    "pkg/",
+    "dist/",
+    "src/index.ts"
   ],
   "scripts": {
     "build": "wasm-pack build --target web --out-dir pkg",
     "build:node": "wasm-pack build --target nodejs --out-dir pkg-node",
     "build:bundler": "wasm-pack build --target bundler --out-dir pkg-bundler",
+    "build:ts": "tsc",
+    "build:all": "npm run build && npm run build:ts",
     "test": "wasm-pack test --headless --firefox",
-    "clean": "rm -rf pkg pkg-node pkg-bundler"
+    "test:chrome": "wasm-pack test --headless --chrome",
+    "clean": "rm -rf pkg pkg-node pkg-bundler dist target",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
