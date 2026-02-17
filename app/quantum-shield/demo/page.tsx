@@ -2,13 +2,13 @@ import { Metadata } from 'next';
 import QuantumShieldDemo from './demo-client';
 
 export const metadata: Metadata = {
-  title: 'QuantumShield Demo - Live Encryption',
+  title: 'QuantumShield Demo - Post-Quantum Encryption in Your Browser',
   description:
-    'Try QuantumShield encryption in your browser. Cascading encryption with AES-256-GCM and ChaCha20-Poly1305 running in WebAssembly.',
+    'Interactive demo of QuantumShield post-quantum encryption. Try hybrid KEM (X25519 + ML-KEM-768), dual signatures (ML-DSA-65 + SLH-DSA), and cascading AES-256-GCM + ChaCha20-Poly1305 — all running in WebAssembly.',
   openGraph: {
-    title: 'QuantumShield Demo - Live Encryption',
+    title: 'QuantumShield Demo - Post-Quantum Encryption in Your Browser',
     description:
-      'Try QuantumShield cascading encryption in your browser with WebAssembly.',
+      'Try hybrid KEM, dual signatures, and cascading encryption with NIST FIPS 203/204/205 algorithms in WebAssembly.',
     url: 'https://www.tusharagrawal.in/quantum-shield/demo',
   },
 };
