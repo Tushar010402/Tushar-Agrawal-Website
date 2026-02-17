@@ -44,10 +44,26 @@ next-env.d.ts
 backend/venv/
 backend/__pycache__/
 backend/**/__pycache__/
+**/__pycache__/
+.venv/
 *.pyc
 *.pyo
 *.pyd
 .Python
+.pytest_cache/
+
+# Rust build artifacts
+**/target/
+
+# Node modules (nested)
+**/node_modules/
+
+# WASM build output
+quantum-shield/wasm/pkg/
+**/.next/
+
+# Go
+quantum-shield/go/vendor/
 
 # Database
 backend/*.db

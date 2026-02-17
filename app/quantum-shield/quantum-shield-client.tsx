@@ -4,10 +4,8 @@ import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Spotlight } from "@/components/ui/spotlight";
 import { motion } from "framer-motion";
-import { WaitlistForm } from "@/components/quantum-shield/WaitlistForm";
 import { FeatureCard } from "@/components/quantum-shield/FeatureCard";
 import { CodePreview } from "@/components/quantum-shield/CodePreview";
-import { StatsCounter } from "@/components/quantum-shield/StatsCounter";
 import { AlgorithmBadge } from "@/components/quantum-shield/AlgorithmBadge";
 import { GlowBackground } from "@/components/ui/glow-background";
 import Link from "next/link";
@@ -831,50 +829,164 @@ export default function QuantumShieldClient() {
           </motion.div>
         </div>
 
-        {/* Upcoming SDKs + Waitlist */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="rounded-2xl p-6 md:p-8"
-          style={{
-            background: "linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), color-mix(in srgb, var(--accent) 5%, transparent))",
-            border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)",
-          }}
-        >
-          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
-            <div className="flex-1 text-center md:text-left">
-              <h3 className="text-xl font-bold text-theme mb-2">More SDKs Coming Soon</h3>
-              <p className="text-theme-secondary text-sm mb-4">
-                Python, Node.js, and Go SDKs are in development. Join the waitlist to get notified when they launch.
-              </p>
-              <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4">
-                {[
-                  { name: "Python", status: "In Development" },
-                  { name: "Node.js", status: "Planned" },
-                  { name: "Go", status: "Planned" },
-                ].map((sdk) => (
-                  <span
-                    key={sdk.name}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-theme-secondary"
-                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
-                  >
-                    <span className={`w-1.5 h-1.5 rounded-full ${sdk.status === "In Development" ? "bg-amber-400" : "bg-theme-muted"}`} />
-                    {sdk.name}
-                    <span className="text-theme-muted">— {sdk.status}</span>
-                  </span>
-                ))}
+        {/* Python, Node.js, Go SDKs */}
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Python SDK */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="rounded-2xl overflow-hidden"
+            style={{
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+            }}
+          >
+            <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: "1px solid var(--border)" }}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(234, 179, 8, 0.2))" }}>
+                  <svg className="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.09.32.04.29.02.27V8.07l-.02.29-.04.3-.09.3-.16.33-.25.34-.34.35-.45.34-.59.3-.73.26-.9.2-.97.14-.96.08-.32.02-.32-.02-.96-.08-.97-.14-.9-.2-.73-.26-.59-.3-.45-.34-.34-.35-.25-.34-.16-.33-.09-.3-.04-.3-.02-.29V5.8l.02-.27.04-.29.09-.32.16-.33.25-.34.34-.34.45-.32.59-.3.73-.26.9-.2.97-.13.96-.09h.64l.96.09.97.13zm-.18 1.42l-.8-.16-.82-.1h-.54l-.82.1-.8.16-.69.2-.55.22-.42.23-.31.24-.23.25-.16.25-.1.24-.06.24-.03.23v5.72l.03.23.06.24.1.24.16.24.23.26.31.24.42.23.55.22.69.2.8.16.82.1h.54l.82-.1.8-.16.69-.2.55-.22.42-.23.31-.24.23-.26.16-.24.1-.24.06-.24.03-.23V2.34l-.03-.23-.06-.24-.1-.24-.16-.25-.23-.25-.31-.24-.42-.23-.55-.22-.69-.2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-bold text-theme">Python SDK</h3>
+                  <p className="text-xs text-theme-muted">Python 3.9+</p>
+                </div>
+              </div>
+              <span className="px-2.5 py-1 rounded-full text-xs font-medium text-green-400 bg-green-500/10 border border-green-500/20">
+                Available
+              </span>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <p className="text-xs text-theme-muted mb-2 font-medium uppercase tracking-wider">Install</p>
+                <CodePreview
+                  code={`pip install quantum-shield`}
+                  language="bash"
+                  fileName="terminal"
+                />
+              </div>
+              <div>
+                <p className="text-xs text-theme-muted mb-2 font-medium uppercase tracking-wider">Quick Example</p>
+                <CodePreview
+                  code={`from quantum_shield import QShieldKEM, QuantumShield\n\npk, sk = QShieldKEM.generate_keypair()\nct, shared = QShieldKEM.encapsulate(pk)\ncipher = QuantumShield(shared)\nencrypted = cipher.encrypt(b"Hello!")`}
+                  language="python"
+                  fileName="main.py"
+                />
+              </div>
+              <div className="flex flex-wrap gap-2 pt-2">
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>59 tests</span>
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>Zero native deps</span>
               </div>
             </div>
-            <div className="w-full md:w-auto md:min-w-[320px]">
-              <WaitlistForm variant="full" />
-              <div className="mt-3">
-                <StatsCounter />
+          </motion.div>
+
+          {/* Node.js SDK */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="rounded-2xl overflow-hidden"
+            style={{
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+            }}
+          >
+            <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: "1px solid var(--border)" }}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2))" }}>
+                  <svg className="w-5 h-5 text-green-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0 l8.795-5.076c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072 c-0.081-0.047-0.189-0.047-0.271,0L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.136,0.235 l2.409,1.392c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253 v10.021c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-bold text-theme">Node.js SDK</h3>
+                  <p className="text-xs text-theme-muted">Node 18+, TypeScript</p>
+                </div>
+              </div>
+              <span className="px-2.5 py-1 rounded-full text-xs font-medium text-green-400 bg-green-500/10 border border-green-500/20">
+                Available
+              </span>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <p className="text-xs text-theme-muted mb-2 font-medium uppercase tracking-wider">Install</p>
+                <CodePreview
+                  code={`npm install @quantumshield/node`}
+                  language="bash"
+                  fileName="terminal"
+                />
+              </div>
+              <div>
+                <p className="text-xs text-theme-muted mb-2 font-medium uppercase tracking-wider">Quick Example</p>
+                <CodePreview
+                  code={`import { init, QShieldCipher } from '@quantumshield/node';\n\nawait init();\nconst cipher = QShieldCipher.fromPassword('secret');\nconst enc = cipher.encryptString('Hello!');\nconst dec = cipher.decryptString(enc);`}
+                  language="typescript"
+                  fileName="app.ts"
+                />
+              </div>
+              <div className="flex flex-wrap gap-2 pt-2">
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>72 tests</span>
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>Zero runtime deps</span>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+
+          {/* Go SDK */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="rounded-2xl overflow-hidden"
+            style={{
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+            }}
+          >
+            <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: "1px solid var(--border)" }}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, rgba(0, 173, 216, 0.2), rgba(0, 125, 156, 0.2))" }}>
+                  <svg className="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M1.811 10.231c-.047 0-.058-.023-.035-.059l.246-.315c.023-.035.081-.058.128-.058h4.172c.047 0 .058.035.035.07l-.199.303c-.023.036-.082.07-.117.07zM.047 11.306c-.047 0-.059-.023-.035-.058l.245-.316c.023-.035.082-.058.129-.058h5.328c.047 0 .07.035.058.07l-.093.28c-.012.047-.058.07-.105.07zm2.828 1.075c-.047 0-.059-.035-.035-.07l.163-.292c.023-.035.07-.07.117-.07h2.337c.047 0 .07.035.07.082l-.023.28c0 .047-.047.082-.082.082zM17.803 10.22c-1.544.35-2.6.617-4.137.96-.37.082-.393.093-.71-.256-.36-.396-.617-.653-1.112-.886-1.487-.7-2.926-.501-4.29.2-1.63.84-2.468 2.087-2.457 3.78.012 1.7 1.194 3.098 2.867 3.327 1.438.199 2.69-.234 3.733-1.248.21-.199.398-.42.62-.676H8.643c-.514 0-.641-.315-.468-.724.315-.757.908-2.03 1.26-2.672.082-.152.269-.397.607-.397h7.745c-.047.514-.047 1.029-.14 1.543-.235 1.448-.827 2.72-1.753 3.838-1.544 1.87-3.534 2.936-5.955 3.15-1.96.175-3.72-.292-5.236-1.566C3.376 17.5 2.73 15.87 2.59 13.984c-.163-2.205.571-4.16 1.986-5.84C6.125 6.43 8.074 5.473 10.342 5.25c1.706-.164 3.295.14 4.71 1.112.912.629 1.602 1.46 2.087 2.46.07.117.035.175-.117.21z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-bold text-theme">Go SDK</h3>
+                  <p className="text-xs text-theme-muted">Go 1.21+</p>
+                </div>
+              </div>
+              <span className="px-2.5 py-1 rounded-full text-xs font-medium text-green-400 bg-green-500/10 border border-green-500/20">
+                Available
+              </span>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <p className="text-xs text-theme-muted mb-2 font-medium uppercase tracking-wider">Install</p>
+                <CodePreview
+                  code={`go get github.com/Tushar010402/quantum-shield-go`}
+                  language="bash"
+                  fileName="terminal"
+                />
+              </div>
+              <div>
+                <p className="text-xs text-theme-muted mb-2 font-medium uppercase tracking-wider">Quick Example</p>
+                <CodePreview
+                  code={`import qs "github.com/Tushar010402/quantum-shield-go"\n\nalice, _ := qs.NewKEM()\nbob, _ := qs.NewKEM()\nct, shared, _ := alice.Encapsulate(bob.PublicKey())\ncipher, _ := qs.NewCipher(shared)`}
+                  language="go"
+                  fileName="main.go"
+                />
+              </div>
+              <div className="flex flex-wrap gap-2 pt-2">
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>56 tests</span>
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>x/crypto powered</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
     </div>
   );

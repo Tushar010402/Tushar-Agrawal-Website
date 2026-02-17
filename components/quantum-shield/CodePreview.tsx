@@ -30,10 +30,10 @@ const languageKeywords: Record<string, Set<string>> = {
 
 const languageTypes: Record<string, Set<string>> = {
   rust: new Set(["QShieldKEM", "QShieldKDF", "QShieldSign", "QShieldHandshake", "QShieldMessage", "QuantumShield", "QShieldHybridKEM", "QShieldCipher", "QShieldVerifier", "QShieldSession", "QShieldKeyExchange", "DualSignature", "HybridEncapsulation", "HybridCipherResult", "String", "Vec", "Option", "Result", "Ok", "Err", "Some", "None", "u8", "u16", "u32", "u64", "i8", "i16", "i32", "i64", "f32", "f64", "bool", "usize", "isize", "str"]),
-  typescript: new Set(["QAuthServer", "QAuthClient", "QAuthValidator", "ProofValidator", "PolicyEngine", "TokenOptions", "TokenPayload", "QAuthConfig", "IssuerKeys", "Policy", "PolicyRule", "PolicyConditions", "EvaluationContext", "EvaluationResult", "Promise", "Record", "Partial", "Required", "Readonly", "Pick", "Omit", "Exclude", "Extract", "Map", "Set", "Array", "Uint8Array", "Buffer", "Request", "Response", "NextRequest", "NextResponse", "Headers"]),
+  typescript: new Set(["QAuthServer", "QAuthClient", "QAuthValidator", "ProofValidator", "PolicyEngine", "TokenOptions", "TokenPayload", "QAuthConfig", "IssuerKeys", "Policy", "PolicyRule", "PolicyConditions", "EvaluationContext", "EvaluationResult", "QShieldCipher", "QShieldKeyExchange", "QShieldSession", "QShieldHybridKEM", "QShieldSign", "QShieldVerifier", "NodeCipher", "NodeKeyExchange", "NodeSession", "Promise", "Record", "Partial", "Required", "Readonly", "Pick", "Omit", "Exclude", "Extract", "Map", "Set", "Array", "Uint8Array", "Buffer", "Request", "Response", "NextRequest", "NextResponse", "Headers"]),
   javascript: new Set(["QAuthServer", "QAuthClient", "QAuthValidator", "ProofValidator", "PolicyEngine", "Promise", "Map", "Set", "Array", "Uint8Array", "Buffer", "Request", "Response", "Headers", "Error"]),
-  python: new Set(["QAuthServer", "QAuthClient", "PolicyEngine", "str", "int", "float", "bool", "list", "dict", "tuple", "set", "bytes", "None"]),
-  go: new Set(["Config", "TokenOptions", "Server", "Client", "string", "int", "int64", "float64", "bool", "error", "byte"]),
+  python: new Set(["QAuthServer", "QAuthClient", "PolicyEngine", "QShieldKEM", "QShieldSign", "QuantumShield", "QShieldKDF", "KdfConfig", "DerivedKey", "QShieldKEMPublicKey", "QShieldKEMSecretKey", "QShieldKEMCiphertext", "QShieldSignature", "str", "int", "float", "bool", "list", "dict", "tuple", "set", "bytes", "None"]),
+  go: new Set(["Config", "TokenOptions", "Server", "Client", "QShieldCipher", "QShieldKEM", "QShieldSign", "QShieldKDF", "QShieldSession", "string", "int", "int64", "float64", "bool", "error", "byte"]),
   sql: new Set([]),
   bash: new Set([]),
   toml: new Set([]),
