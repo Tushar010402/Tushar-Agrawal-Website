@@ -94,23 +94,20 @@ const useCases = [
   },
 ];
 
-const codeExample = `use quantum_shield::*;
+const codeExample = `use quantum_shield::{QShieldKEM, QuantumShield, QShieldSign};
 
-// Generate hybrid keypairs (X25519 + ML-KEM-768)
-let alice = QShieldHybridKEM::new()?;
-let bob = QShieldHybridKEM::new()?;
-
-// Key encapsulation — quantum-secure key exchange
-let encap = alice.encapsulate(&bob.public_key())?;
-let shared = bob.decapsulate(&encap.ciphertext())?;
-// encap.shared_secret() == shared
+// Hybrid key encapsulation (X25519 + ML-KEM-768)
+let (public_key, secret_key) = QShieldKEM::generate_keypair()?;
+let (ciphertext, shared_secret) = QShieldKEM::encapsulate(&public_key)?;
+let decapsulated = QShieldKEM::decapsulate(&secret_key, &ciphertext)?;
+// shared_secret == decapsulated
 
 // Cascading encryption (AES-256-GCM + ChaCha20-Poly1305)
-let cipher = QShieldCipher::from_bytes(&shared)?;
+let cipher = QuantumShield::new(&shared_secret)?;
 let encrypted = cipher.encrypt(b"Quantum-secure message")?;
 let decrypted = cipher.decrypt(&encrypted)?;
 
-// Dual signatures (ML-DSA-65 + SLH-DSA-SHAKE-128f)
+// Dual signatures (ML-DSA-65 + SLH-DSA)
 let signer = QShieldSign::new()?;
 let sig = signer.sign(b"Sign this document")?;
 assert!(signer.verify(b"Sign this document", &sig)?);`;
@@ -178,9 +175,29 @@ export default function QuantumShieldClient() {
               />
             </div>
 
-            {/* Inline Waitlist Form */}
-            <div className="max-w-md mx-auto mb-8">
-              <WaitlistForm variant="inline" />
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8">
+              <Link
+                href="#get-started"
+                className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-white font-semibold text-sm transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
+                style={{ background: "var(--accent)" }}
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Get Started
+              </Link>
+              <Link
+                href="/quantum-shield/demo"
+                className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-theme font-semibold text-sm transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
+                style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Try Live Demo
+              </Link>
             </div>
 
             {/* Trust Badges */}
@@ -689,32 +706,174 @@ export default function QuantumShieldClient() {
         </motion.div>
       </section>
 
-      {/* Full-Width Waitlist CTA */}
-      <section className="py-20 px-4 md:px-8 lg:px-16">
+      {/* Get Started — SDK Installation */}
+      <section id="get-started" className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="max-w-5xl mx-auto rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-12 text-center"
+          className="mb-12"
+        >
+          <h2 className="text-3xl md:text-5xl font-bold text-theme mb-4">
+            Get Started
+          </h2>
+          <p className="text-theme-secondary text-lg max-w-3xl">
+            Install QuantumShield and start encrypting with post-quantum security in minutes.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {/* Rust SDK */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="rounded-2xl overflow-hidden"
+            style={{
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+            }}
+          >
+            <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: "1px solid var(--border)" }}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(234, 88, 12, 0.2))" }}>
+                  <svg className="w-5 h-5 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23.834 8.101a13.912 13.912 0 01-13.643 11.72 10.105 10.105 0 01-1.994-.12 6.111 6.111 0 01-5.082-5.761 5.934 5.934 0 011.752-4.564 5.015 5.015 0 01-.2-2.108c.162-1.476 1.07-2.91 2.67-2.91.525 0 1.048.178 1.517.507a7.327 7.327 0 013.24-.734 7.384 7.384 0 013.262.757c.47-.346 1-.534 1.534-.534 1.627 0 2.55 1.475 2.69 2.975a5 5 0 01-.17 2.043 5.936 5.936 0 011.757 4.568 5.968 5.968 0 01-.333 1.97" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-bold text-theme">Rust SDK</h3>
+                  <p className="text-xs text-theme-muted">Native performance, full API</p>
+                </div>
+              </div>
+              <span className="px-2.5 py-1 rounded-full text-xs font-medium text-green-400 bg-green-500/10 border border-green-500/20">
+                Available
+              </span>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <p className="text-xs text-theme-muted mb-2 font-medium uppercase tracking-wider">Add to Cargo.toml</p>
+                <CodePreview
+                  code={`[dependencies]\nquantum-shield = { git = "https://github.com/Tushar010402/Tushar-Agrawal-Website", path = "quantum-shield/rust" }`}
+                  language="toml"
+                  fileName="Cargo.toml"
+                />
+              </div>
+              <div>
+                <p className="text-xs text-theme-muted mb-2 font-medium uppercase tracking-wider">Quick Example</p>
+                <CodePreview
+                  code={`use quantum_shield::{QShieldKEM, QuantumShield};\n\nlet (pk, sk) = QShieldKEM::generate_keypair()?;\nlet (ct, shared) = QShieldKEM::encapsulate(&pk)?;\nlet cipher = QuantumShield::new(&shared)?;\nlet encrypted = cipher.encrypt(b"Hello, quantum world!")?;`}
+                  language="rust"
+                  fileName="main.rs"
+                />
+              </div>
+              <div className="flex flex-wrap gap-2 pt-2">
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>5,358 lines</span>
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>FIPS 203/204/205</span>
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>MIT License</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* WASM SDK */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="rounded-2xl overflow-hidden"
+            style={{
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+            }}
+          >
+            <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: "1px solid var(--border)" }}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(124, 58, 237, 0.2))" }}>
+                  <svg className="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-bold text-theme">WebAssembly SDK</h3>
+                  <p className="text-xs text-theme-muted">Browser &amp; Node.js</p>
+                </div>
+              </div>
+              <span className="px-2.5 py-1 rounded-full text-xs font-medium text-green-400 bg-green-500/10 border border-green-500/20">
+                Available
+              </span>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <p className="text-xs text-theme-muted mb-2 font-medium uppercase tracking-wider">Build from Source</p>
+                <CodePreview
+                  code={`# Clone and build the WASM package\ngit clone https://github.com/Tushar010402/Tushar-Agrawal-Website.git\ncd Tushar-Agrawal-Website/quantum-shield/wasm\nwasm-pack build --target web`}
+                  language="bash"
+                  fileName="terminal"
+                />
+              </div>
+              <div>
+                <p className="text-xs text-theme-muted mb-2 font-medium uppercase tracking-wider">Quick Example</p>
+                <CodePreview
+                  code={`import init, { QShieldCipher, QShieldHybridKEM } from './pkg';\n\nawait init();\nconst cipher = QShieldCipher.new("my-password");\nconst encrypted = cipher.encrypt_string("Hello from WASM!");`}
+                  language="typescript"
+                  fileName="app.ts"
+                />
+              </div>
+              <div className="flex flex-wrap gap-2 pt-2">
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>~2MB WASM</span>
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>TypeScript types</span>
+                <span className="text-xs px-2.5 py-1 rounded-full text-theme-secondary" style={{ background: "var(--surface-hover)", border: "1px solid var(--border)" }}>All browsers</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Upcoming SDKs + Waitlist */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="rounded-2xl p-6 md:p-8"
           style={{
             background: "linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), color-mix(in srgb, var(--accent) 5%, transparent))",
             border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)",
           }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-theme mb-4">
-            Get Early Access
-          </h2>
-          <p className="text-theme-secondary text-lg max-w-2xl mx-auto mb-8">
-            The Rust core and WebAssembly SDK are available now. Be the first to access
-            the upcoming Python, Node.js, and Go SDKs. Join developers preparing for the quantum era.
-          </p>
-
-          <div className="max-w-md mx-auto mb-6">
-            <WaitlistForm variant="full" />
+          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+            <div className="flex-1 text-center md:text-left">
+              <h3 className="text-xl font-bold text-theme mb-2">More SDKs Coming Soon</h3>
+              <p className="text-theme-secondary text-sm mb-4">
+                Python, Node.js, and Go SDKs are in development. Join the waitlist to get notified when they launch.
+              </p>
+              <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4">
+                {[
+                  { name: "Python", status: "In Development" },
+                  { name: "Node.js", status: "Planned" },
+                  { name: "Go", status: "Planned" },
+                ].map((sdk) => (
+                  <span
+                    key={sdk.name}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-theme-secondary"
+                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+                  >
+                    <span className={`w-1.5 h-1.5 rounded-full ${sdk.status === "In Development" ? "bg-amber-400" : "bg-theme-muted"}`} />
+                    {sdk.name}
+                    <span className="text-theme-muted">— {sdk.status}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="w-full md:w-auto md:min-w-[320px]">
+              <WaitlistForm variant="full" />
+              <div className="mt-3">
+                <StatsCounter />
+              </div>
+            </div>
           </div>
-
-          <StatsCounter />
         </motion.div>
       </section>
     </div>

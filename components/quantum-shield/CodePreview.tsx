@@ -24,17 +24,19 @@ const languageKeywords: Record<string, Set<string>> = {
   go: new Set(["package", "import", "func", "return", "if", "else", "switch", "case", "default", "for", "range", "break", "continue", "go", "select", "chan", "defer", "type", "struct", "interface", "map", "var", "const", "true", "false", "nil", "make", "new", "len", "cap", "append", "copy", "delete", "close"]),
   sql: new Set(["SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "UPDATE", "SET", "DELETE", "CREATE", "TABLE", "ALTER", "DROP", "INDEX", "PRIMARY", "KEY", "FOREIGN", "REFERENCES", "NOT", "NULL", "DEFAULT", "UNIQUE", "CHECK", "AND", "OR", "IN", "LIKE", "BETWEEN", "JOIN", "LEFT", "RIGHT", "INNER", "OUTER", "ON", "AS", "ORDER", "BY", "GROUP", "HAVING", "LIMIT", "OFFSET", "UNION", "ALL", "EXISTS", "DISTINCT", "BOOLEAN", "TEXT", "INTEGER", "VARCHAR", "TIMESTAMP", "SERIAL", "BIGSERIAL", "UUID", "JSONB", "IF", "CASCADE", "CONSTRAINT", "WITH", "TIMEZONE", "NOW", "CURRENT_TIMESTAMP", "select", "from", "where", "insert", "into", "values", "update", "set", "delete", "create", "table", "alter", "drop", "index", "primary", "key", "foreign", "references", "not", "null", "default", "unique", "check", "and", "or", "in", "like", "between", "join", "left", "right", "inner", "outer", "on", "as", "order", "by", "group", "having", "limit", "offset", "union", "all", "exists", "distinct", "boolean", "text", "integer", "varchar", "timestamp", "serial", "bigserial", "uuid", "jsonb", "if", "cascade", "constraint", "with", "timezone", "now", "current_timestamp"]),
   bash: new Set(["if", "then", "else", "elif", "fi", "for", "do", "done", "while", "until", "case", "esac", "in", "function", "return", "export", "local", "readonly", "declare", "unset", "shift", "exit", "echo", "printf", "cd", "ls", "cp", "mv", "rm", "mkdir", "cat", "grep", "sed", "awk", "npm", "yarn", "pnpm", "bun", "npx", "pip", "cargo", "go", "git", "curl", "wget", "sudo", "apt", "brew"]),
+  toml: new Set(["true", "false"]),
   json: new Set([]),
 };
 
 const languageTypes: Record<string, Set<string>> = {
-  rust: new Set(["QShieldHybridKEM", "QShieldCipher", "QShieldSign", "QShieldVerifier", "QShieldSession", "QShieldKeyExchange", "DualSignature", "HybridEncapsulation", "HybridCipherResult", "String", "Vec", "Option", "Result", "Ok", "Err", "Some", "None", "u8", "u16", "u32", "u64", "i8", "i16", "i32", "i64", "f32", "f64", "bool", "usize", "isize", "str"]),
+  rust: new Set(["QShieldKEM", "QShieldKDF", "QShieldSign", "QShieldHandshake", "QShieldMessage", "QuantumShield", "QShieldHybridKEM", "QShieldCipher", "QShieldVerifier", "QShieldSession", "QShieldKeyExchange", "DualSignature", "HybridEncapsulation", "HybridCipherResult", "String", "Vec", "Option", "Result", "Ok", "Err", "Some", "None", "u8", "u16", "u32", "u64", "i8", "i16", "i32", "i64", "f32", "f64", "bool", "usize", "isize", "str"]),
   typescript: new Set(["QAuthServer", "QAuthClient", "QAuthValidator", "ProofValidator", "PolicyEngine", "TokenOptions", "TokenPayload", "QAuthConfig", "IssuerKeys", "Policy", "PolicyRule", "PolicyConditions", "EvaluationContext", "EvaluationResult", "Promise", "Record", "Partial", "Required", "Readonly", "Pick", "Omit", "Exclude", "Extract", "Map", "Set", "Array", "Uint8Array", "Buffer", "Request", "Response", "NextRequest", "NextResponse", "Headers"]),
   javascript: new Set(["QAuthServer", "QAuthClient", "QAuthValidator", "ProofValidator", "PolicyEngine", "Promise", "Map", "Set", "Array", "Uint8Array", "Buffer", "Request", "Response", "Headers", "Error"]),
   python: new Set(["QAuthServer", "QAuthClient", "PolicyEngine", "str", "int", "float", "bool", "list", "dict", "tuple", "set", "bytes", "None"]),
   go: new Set(["Config", "TokenOptions", "Server", "Client", "string", "int", "int64", "float64", "bool", "error", "byte"]),
   sql: new Set([]),
   bash: new Set([]),
+  toml: new Set([]),
   json: new Set([]),
 };
 
@@ -47,6 +49,7 @@ function getDefaultFileName(language: string): string {
     go: "main.go",
     sql: "schema.sql",
     bash: "terminal",
+    toml: "Cargo.toml",
     json: "config.json",
   };
   return fileNames[language] || language;
@@ -72,7 +75,7 @@ export function CodePreview({ code, language, fileName }: CodePreviewProps) {
     // Determine comment prefix
     const commentPrefixes: Record<string, string> = {
       rust: "//", typescript: "//", javascript: "//", go: "//",
-      python: "#", bash: "#", sql: "--", json: "",
+      python: "#", bash: "#", sql: "--", toml: "#", json: "",
     };
     const commentPrefix = commentPrefixes[lang] || "//";
 
