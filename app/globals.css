@@ -625,3 +625,158 @@ body {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ============================================================
+   MODERN REDESIGN LAYER (2026) — additive, theme-aware
+   ============================================================ */
+
+/* Motion tokens — shared easings/durations for a consistent feel */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 0.18s;
+  --dur-base: 0.32s;
+  --dur-slow: 0.6s;
+}
+
+/* Fluid typography — scales smoothly across viewports (no layout shift) */
+.display {
+  font-size: clamp(2.5rem, 6vw + 1rem, 5.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+.text-fluid-h2 {
+  font-size: clamp(1.875rem, 3vw + 0.5rem, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.text-fluid-lead {
+  font-size: clamp(1.05rem, 1vw + 0.85rem, 1.375rem);
+  line-height: 1.6;
+}
+.measure {
+  max-width: 68ch;
+}
+
+/* Animated gradient text (premium accent) */
+.gradient-text-animated {
+  background: linear-gradient(110deg, var(--accent), var(--accent-hover), #a855f7, var(--accent));
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-pan 8s linear infinite;
+}
+@keyframes gradient-pan {
+  to { background-position: 250% 0; }
+}
+
+/* Aurora / mesh-gradient fallback for the hero (used when WebGL is off or
+   prefers-reduced-motion). Pure CSS, GPU-cheap, theme-aware via --orb-* vars. */
+.hero-aurora-fallback {
+  background:
+    radial-gradient(40% 50% at 20% 25%, var(--orb-primary) 0%, transparent 60%),
+    radial-gradient(45% 55% at 80% 20%, var(--orb-secondary) 0%, transparent 62%),
+    radial-gradient(50% 60% at 60% 80%, var(--orb-accent) 0%, transparent 65%);
+}
+@keyframes aurora-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -2%, 0) scale(1.06); }
+}
+.hero-aurora-fallback.is-animated {
+  animation: aurora-drift 14s var(--ease-out) infinite;
+}
+
+/* Elevated, modern card hover: subtle lift + accent ring + layered shadow */
+.card-modern {
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 1.1rem;
+  transition: transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+  will-change: transform;
+}
+.card-modern:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-muted);
+  box-shadow: var(--shadow-lg), 0 0 0 1px var(--accent-muted), var(--shadow-glow);
+}
+
+/* Gradient hairline border (for feature cards / CTAs) */
+.border-gradient {
+  position: relative;
+  border-radius: 1.1rem;
+  background: var(--surface);
+}
+.border-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--accent), transparent 40%, transparent 60%, var(--accent-hover));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Pill / eyebrow label used above section headings */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent-muted);
+}
+
+/* Reading-progress bar (blog posts) */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  transform-origin: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover), #a855f7);
+  z-index: 60;
+}
+
+/* Refined section rhythm */
+.section-pad {
+  padding-top: clamp(4rem, 8vw, 7rem);
+  padding-bottom: clamp(4rem, 8vw, 7rem);
+}
+
+/* Article prose polish (blog reading experience) */
+.article-prose {
+  font-size: 1.075rem;
+  line-height: 1.78;
+}
+.article-prose h2 {
+  scroll-margin-top: 6rem;
+}
+.article-prose h3 {
+  scroll-margin-top: 6rem;
+}
+
+/* Kill heavy hover transforms / shimmer for reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+  .card-modern:hover {
+    transform: none;
+  }
+  .hero-aurora-fallback.is-animated,
+  .gradient-text-animated {
+    animation: none;
+  }
+}

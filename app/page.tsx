@@ -1,5 +1,6 @@
 "use client";
-import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
+import dynamic from "next/dynamic";
+import { Highlight } from "@/components/ui/hero-highlight";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { ProjectGrid } from "@/components/ui/project-card";
@@ -8,10 +9,12 @@ import { Button } from "@/components/ui/moving-border";
 import { MagneticElement } from "@/components/ui/magnetic-element";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Spotlight } from "@/components/ui/spotlight";
-import { GlowBackground } from "@/components/ui/glow-background";
 import { AIChatPanel } from "@/components/ui/ai-chat-panel";
 import { AIChatFab } from "@/components/ui/ai-chat-fab";
 import { useCallback, useRef, useState } from "react";
+
+// Lazy, client-only WebGL hero background — kept out of the initial bundle.
+const ShaderBackground = dynamic(() => import("@/components/ui/shader-background"), { ssr: false });
 
 function MagneticTitle({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -119,11 +122,6 @@ export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatTopic, setChatTopic] = useState<string | undefined>(undefined);
 
-  const handleOpenChat = useCallback((topic: string) => {
-    setChatTopic(topic);
-    setIsChatOpen(true);
-  }, []);
-
   return (
     <div className="w-full transition-theme" style={{ background: "var(--background)" }}>
       <script
@@ -132,9 +130,19 @@ export default function Home() {
       />
 
       {/* Hero Section */}
-      <section id="home" className="relative overflow-hidden">
-        <GlowBackground className="opacity-80" />
-        <HeroHighlight containerClassName="pt-28" onOpenChat={handleOpenChat}>
+      <section id="home" className="relative overflow-hidden flex items-center justify-center min-h-[100svh] pt-28 pb-16">
+        {/* Layered hero background: CSS aurora fallback + lazy WebGL shader on top */}
+        <div className="absolute inset-0 hero-aurora-fallback is-animated" aria-hidden="true" />
+        <div className="absolute inset-0" aria-hidden="true">
+          <ShaderBackground className="h-full w-full" />
+        </div>
+        {/* Readability scrim so text stays high-contrast over the shader */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          aria-hidden="true"
+          style={{ background: "radial-gradient(120% 90% at 50% 35%, transparent 40%, color-mix(in srgb, var(--background) 70%, transparent) 100%)" }}
+        />
+        <div className="relative z-10 w-full">
           <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="currentColor" />
           <div className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto text-theme">
             <motion.div
@@ -205,7 +213,7 @@ export default function Home() {
               </svg>
             </a>
           </motion.div>
-        </HeroHighlight>
+        </div>
       </section>
 
       {/* About Section */}
@@ -215,7 +223,7 @@ export default function Home() {
         </FadeInSection>
         <FadeInSection delay={0.1}>
           <div className="grid md:grid-cols-2 gap-8 mb-8">
-            <div className="card p-8">
+            <div className="card-modern p-8">
               <h3 className="text-2xl font-bold text-theme mb-4">Professional Background</h3>
               <p className="text-theme-secondary text-base leading-relaxed">
                 Full-Stack Developer with 3 years building scalable healthcare SaaS platforms serving 80+ users across 20+ businesses.
@@ -223,7 +231,7 @@ export default function Home() {
                 teams and third-party vendors to deliver integrated solutions.
               </p>
             </div>
-            <div className="card p-8">
+            <div className="card-modern p-8">
               <h3 className="text-2xl font-bold text-theme mb-4">Technical Expertise</h3>
               <p className="text-theme-secondary text-base leading-relaxed">
                 Proficient in Python, Go, React, and Next.js with hands-on experience in HIPAA-compliant systems and cloud deployment.
@@ -244,7 +252,7 @@ export default function Home() {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="card p-6 text-center"
+                className="card-modern p-6 text-center"
                 style={{
                   borderColor: `color-mix(in srgb, ${stat.color} 30%, transparent)`,
                   background: `linear-gradient(135deg, color-mix(in srgb, ${stat.color} 10%, var(--surface)), var(--surface))`,
@@ -382,7 +390,7 @@ export default function Home() {
               }
             ].map((article) => (
               <a key={article.href} href={article.href} className="group">
-                <div className="card p-6 h-full transition-all hover:shadow-theme-md" style={{ borderColor: "var(--border)" }}>
+                <div className="card-modern p-6 h-full" style={{ borderColor: "var(--border)" }}>
                   <span className="text-xs font-medium" style={{ color: article.tagColor }}>{article.tag}</span>
                   <h3 className="text-theme font-semibold mt-2 mb-3 group-hover:text-theme-accent transition-colors">{article.title}</h3>
                   <p className="text-theme-secondary text-sm">{article.description}</p>
