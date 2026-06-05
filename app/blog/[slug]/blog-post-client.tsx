@@ -113,18 +113,52 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
     // Italic
     html = html.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
 
-    // Links
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-theme-accent hover:opacity-80 underline" target="_blank" rel="noopener noreferrer">$1</a>');
+    // Links — internal links (starting with / or #) stay in-tab; external open in a new tab
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_m, text, url) => {
+      const isInternal = url.startsWith('/') || url.startsWith('#');
+      const attrs = isInternal ? '' : ' target="_blank" rel="noopener noreferrer"';
+      return `<a href="${url}" class="text-theme-accent hover:opacity-80 underline"${attrs}>${text}</a>`;
+    });
+
+    // GFM tables — header row, separator row, then body rows (inline formatting already applied)
+    const tableBlocks: string[] = [];
+    html = html.replace(
+      /^[ \t]*\|(.+)\|[ \t]*\n[ \t]*\|[ \t]*:?-+:?[ \t]*(?:\|[ \t]*:?-+:?[ \t]*)*\|[ \t]*\n((?:[ \t]*\|.*\|[ \t]*\n?)+)/gm,
+      (_match, headerLine, bodyLines) => {
+        const parseCells = (line: string) =>
+          line.replace(/^[ \t]*\|/, '').replace(/\|[ \t]*$/, '').split('|').map((c) => c.trim());
+        const headers: string[] = parseCells(headerLine);
+        const rows: string[][] = (bodyLines as string).trim().split('\n').filter(Boolean).map(parseCells);
+        const thead =
+          '<thead><tr>' +
+          headers.map((h: string) => `<th style="border:1px solid var(--border);" class="px-3 py-2 text-left font-semibold text-theme">${h}</th>`).join('') +
+          '</tr></thead>';
+        const tbody =
+          '<tbody>' +
+          rows.map((r: string[]) => '<tr>' + r.map((c: string) => `<td style="border:1px solid var(--border);" class="px-3 py-2 text-theme-secondary align-top">${c}</td>`).join('') + '</tr>').join('') +
+          '</tbody>';
+        const index = tableBlocks.length;
+        tableBlocks.push(`<div class="overflow-x-auto my-6"><table class="w-full border-collapse text-sm">${thead}${tbody}</table></div>`);
+        return `%%TABLE_${index}%%\n\n`;
+      }
+    );
 
     // Bullet lists
     html = html.replace(/^\- (.*$)/gim, '<li class="ml-6 mb-2 list-disc text-theme-secondary">$1</li>');
     html = html.replace(/(<li class="ml-6 mb-2 list-disc text-theme-secondary">.*<\/li>\n?)+/g, '<ul class="my-4">$&</ul>');
 
+    // Ordered lists
+    html = html.replace(/^\d+\. (.*$)/gim, '<li class="ml-6 mb-2 list-decimal text-theme-secondary">$1</li>');
+    html = html.replace(/(<li class="ml-6 mb-2 list-decimal text-theme-secondary">.*<\/li>\n?)+/g, '<ol class="my-4">$&</ol>');
+
     // Paragraphs
     html = html.replace(/\n\n/g, '</p><p class="text-theme-secondary leading-relaxed mb-4">');
     html = `<p class="text-theme-secondary leading-relaxed mb-4">${html}</p>`;
 
-    // Phase 3: Restore code blocks from placeholders
+    // Phase 3: Restore tables and code blocks from placeholders
+    tableBlocks.forEach((block, index) => {
+      html = html.replace(`%%TABLE_${index}%%`, block);
+    });
     codeBlocks.forEach((block, index) => {
       html = html.replace(`%%CODEBLOCK_${index}%%`, block);
     });
@@ -276,7 +310,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                 {blog.tags.split(',').map((tag, i) => (
                   <Link
                     key={i}
-                    href={`/blog?tag=${encodeURIComponent(tag.trim())}`}
+                    href={`/blog/tag/${tag.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`}
                     className="inline-flex items-center gap-1 px-3 py-1 text-theme-secondary text-sm rounded-full hover:border-[--accent-muted] transition-all"
                     style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
                   >

@@ -66,12 +66,6 @@ export default function QAuthPage() {
               name: 'Tushar Agrawal',
               url: 'https://www.tusharagrawal.in',
             },
-            offers: {
-              '@type': 'Offer',
-              availability: 'https://schema.org/InStock',
-              price: '0',
-              priceCurrency: 'USD',
-            },
           }),
         }}
       />

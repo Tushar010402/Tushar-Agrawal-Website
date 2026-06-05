@@ -1,18 +1,33 @@
 import { NextResponse } from 'next/server';
-import { getAllPosts } from '@/lib/blog';
+import { getAllPosts, getAllTagSlugs } from '@/lib/blog';
 
 const INDEXNOW_KEY = 'a20e21d4acb5337398de17ea47ef1265';
 const SITE_URL = 'https://www.tusharagrawal.in';
 
+// Build the full list of canonical URLs to submit (static + posts + tag hubs).
+function buildUrlList(): string[] {
+  const staticPaths = [
+    '',
+    '/about',
+    '/blog',
+    '/quantum-shield',
+    '/quantum-shield/demo',
+    '/qauth',
+    '/qauth/docs',
+    '/qauth/demo',
+  ];
+  const posts = getAllPosts();
+  return [
+    ...staticPaths.map((p) => `${SITE_URL}${p}`),
+    ...posts.map((post) => `${SITE_URL}/blog/${post.slug}`),
+    ...getAllTagSlugs().map((slug) => `${SITE_URL}/blog/tag/${slug}`),
+  ];
+}
+
 export async function POST() {
   try {
-    // Get all URLs to submit
-    const posts = getAllPosts();
-    const urls = [
-      SITE_URL,
-      `${SITE_URL}/blog`,
-      ...posts.map(post => `${SITE_URL}/blog/${post.slug}`)
-    ];
+    // Get all URLs to submit (static pages + blog posts + tag hubs)
+    const urls = buildUrlList();
 
     // Submit to IndexNow (Bing, Yandex, Seznam, Naver)
     const indexNowEndpoints = [
@@ -53,12 +68,7 @@ export async function POST() {
 }
 
 export async function GET() {
-  const posts = getAllPosts();
-  const urls = [
-    SITE_URL,
-    `${SITE_URL}/blog`,
-    ...posts.map(post => `${SITE_URL}/blog/${post.slug}`)
-  ];
+  const urls = buildUrlList();
 
   return NextResponse.json({
     key: INDEXNOW_KEY,

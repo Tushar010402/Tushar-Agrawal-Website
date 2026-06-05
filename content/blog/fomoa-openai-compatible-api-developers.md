@@ -1,537 +1,162 @@
 ---
-title: "Building AI APIs: FOMOA's OpenAI-Compatible Endpoint for Developers"
-description: "Drop-in replacement for OpenAI API with India-optimized search. Change base_url, keep your code. Works with LangChain, LlamaIndex, and streaming responses."
+title: "FOMOA for Developers: OpenAI-Compatible API, Deep Research & Ethical Crawling"
+description: "The complete FOMOA developer guide — a drop-in OpenAI-compatible endpoint, multi-hop deep research, an ethical web-crawl API that respects robots.txt, and entity search over 50,000+ Indian companies and schemes."
 date: "2026-01-15"
+updated: "2026-06-06"
 author: "Tushar Agrawal"
-tags: ["OpenAI API Alternative", "AI API Developers", "Chat Completion API", "FOMOA", "LangChain", "LlamaIndex", "Python API", "Developer Tools"]
+tags: ["OpenAI API Alternative", "AI API Developers", "Chat Completion API", "FOMOA", "LangChain", "Web Crawler API", "Deep Research AI", "Developer Tools"]
 image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&h=630&fit=crop"
 published: true
 ---
 
+If you have ever wired an app to the OpenAI API, you already know how to use FOMOA. That is the whole point: FOMOA exposes an **OpenAI-compatible endpoint**, so you change one line — the `base_url` — and keep the rest of your code. On top of that drop-in chat API, it adds India-optimised search plus four purpose-built endpoints for research, crawling, and entity lookup.
+
+This guide consolidates the developer story: the compatible chat API, deep research, ethical crawling, and entity/company search. For the product overview and how the model was trained, start with [the complete FOMOA guide](/blog/fomoa-ai-complete-guide-features-2026).
+
 ## Drop-In OpenAI Replacement
 
-If you're building AI applications, you're probably using OpenAI's API. FOMOA offers an **OpenAI-compatible endpoint** - just change the base URL and your existing code works with India-optimized AI search.
-
-```python
-# Before: OpenAI
-from openai import OpenAI
-client = OpenAI(api_key="sk-xxx")
-
-# After: FOMOA (just change base_url)
-from openai import OpenAI
-client = OpenAI(
-    base_url="https://fomoa.cloud/v1",
-    api_key="your_fomoa_key"
-)
-
-# Same code, India-optimized results
-response = client.chat.completions.create(
-    model="fomoa",
-    messages=[{"role": "user", "content": "Best UPI apps India 2026"}]
-)
-```
-
-## Why OpenAI Compatibility Matters
-
-```
-Benefits of OpenAI-Compatible API
-=================================
-
-1. Zero Code Changes
-   └── Existing integrations work immediately
-
-2. Ecosystem Compatibility
-   ├── LangChain ✓
-   ├── LlamaIndex ✓
-   ├── Semantic Kernel ✓
-   ├── AutoGen ✓
-   └── Any OpenAI SDK ✓
-
-3. Streaming Support
-   └── Real-time responses for chat UIs
-
-4. Familiar Developer Experience
-   └── Same patterns, same documentation approach
-```
-
-## Quick Start Guide
-
-### Step 1: Get Your API Key
-
-```bash
-# Sign up at fomoa.cloud
-# Navigate to Dashboard → API Keys
-# Copy your API key
-```
-
-### Step 2: Install OpenAI SDK
-
-```bash
-pip install openai
-```
-
-### Step 3: Initialize Client
+The migration is deliberately boring — which is exactly what you want:
 
 ```python
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://fomoa.cloud/v1",
-    api_key="fomoa_your_api_key_here"
-)
-```
-
-### Step 4: Make Your First Request
-
-```python
-response = client.chat.completions.create(
-    model="fomoa",
-    messages=[
-        {
-            "role": "system",
-            "content": "You are a helpful assistant focused on Indian context."
-        },
-        {
-            "role": "user",
-            "content": "What are the latest income tax slabs for FY 2024-25?"
-        }
-    ],
-    temperature=0.7,
-    max_tokens=1000
+    api_key="YOUR_FOMOA_KEY",
+    base_url="https://api.fomoa.in/v1",  # the only change
 )
 
-print(response.choices[0].message.content)
+resp = client.chat.completions.create(
+    model="fomoa-search",
+    messages=[{"role": "user", "content": "Latest UPI transaction limits in India"}],
+)
+print(resp.choices[0].message.content)
 ```
 
-## Streaming Responses
+Because it speaks the OpenAI wire format, it works with anything built on that format — the official SDK, LangChain, LlamaIndex, and your existing streaming code.
 
-For chat interfaces, enable streaming for real-time output:
+### Streaming
 
 ```python
-# Streaming enabled
 stream = client.chat.completions.create(
-    model="fomoa",
-    messages=[{"role": "user", "content": "Explain GST in simple terms"}],
-    stream=True  # Enable streaming
+    model="fomoa-search",
+    messages=[{"role": "user", "content": "Explain the new tax regime slabs"}],
+    stream=True,
 )
-
 for chunk in stream:
-    if chunk.choices[0].delta.content:
-        print(chunk.choices[0].delta.content, end="", flush=True)
+    delta = chunk.choices[0].delta.content
+    if delta:
+        print(delta, end="", flush=True)
 ```
 
-### Streaming with Async
+If you are designing the API layer around this, the usual rules apply — sensible status codes, idempotency, and backpressure. I wrote those up in [REST API design best practices](/blog/rest-api-design-best-practices) and [rate limiting & API gateway patterns](/blog/rate-limiting-api-gateway-patterns).
 
-```python
-import asyncio
-from openai import AsyncOpenAI
+## The India-Specific Endpoints
 
-async def stream_response():
-    client = AsyncOpenAI(
-        base_url="https://fomoa.cloud/v1",
-        api_key="your_key"
-    )
+Beyond `/v1/chat/completions`, FOMOA exposes four endpoints that a generic chat model does not give you:
 
-    stream = await client.chat.completions.create(
-        model="fomoa",
-        messages=[{"role": "user", "content": "PM-KISAN eligibility criteria"}],
-        stream=True
-    )
+| Endpoint | Purpose |
+|----------|---------|
+| `/api/answer` | A direct, cited answer to a single question |
+| `/api/research` | Multi-hop deep research with conflict detection |
+| `/api/crawl` | Ethical web-content extraction |
+| `/api/entities` | Structured search over Indian companies & schemes |
 
-    async for chunk in stream:
-        if chunk.choices[0].delta.content:
-            print(chunk.choices[0].delta.content, end="")
+### `/api/answer` — direct cited answers
 
-asyncio.run(stream_response())
-```
+When you want a single grounded answer rather than a chat turn, `/api/answer` returns the response *with its citations*, so you can show users where each claim came from.
 
-## FOMOA-Specific Endpoints
+## Deep Research: Multi-Hop, Conflict-Aware
 
-Beyond the OpenAI-compatible chat endpoint, FOMOA provides specialized APIs:
+A normal search does one query and returns links. **Multi-hop research** uses the results of the first search to decide what to search next — following leads the way a human researcher would — then synthesises a cited report and flags where sources disagree.
 
-### /api/answer - Direct Answers
+FOMOA offers three depths so you can trade latency for thoroughness:
+
+- **Quick (~5s)** — a fast single-pass answer.
+- **Normal (~15s)** — a couple of hops, good for most questions.
+- **Deep (~60s)** — up to three hops, conflict detection, and a structured report.
 
 ```python
 import requests
 
-response = requests.post(
-    "https://fomoa.cloud/api/answer",
+r = requests.post(
+    "https://api.fomoa.in/api/research",
+    headers={"Authorization": "Bearer YOUR_FOMOA_KEY"},
+    json={"query": "Impact of UPI on Indian economy 2024", "depth": "deep"},
+)
+report = r.json()
+# report -> { summary, sections[], sources[], conflicts[] }
+```
+
+The `conflicts[]` array is the interesting part: instead of silently picking one number when two sources disagree, it returns both and tells you which source is more authoritative — the same credibility ranking described in [the complete FOMOA guide](/blog/fomoa-ai-complete-guide-features-2026). This is what makes it usable for journalists, analysts, and anyone who has to defend an answer.
+
+## Ethical Web Crawling
+
+`/api/crawl` extracts clean, readable content from a URL — but with guardrails that a naive scraper skips:
+
+- **Respects `robots.txt`.** If a site disallows crawling, FOMOA does not crawl it.
+- **Rate-limited to ~2 requests/second per site** so you do not hammer anyone's server.
+- **Returns clean text, links, and metadata** rather than raw HTML soup.
+
+```python
+r = requests.post(
+    "https://api.fomoa.in/api/crawl",
+    headers={"Authorization": "Bearer YOUR_FOMOA_KEY"},
+    json={"url": "https://example.gov.in/scheme", "mode": "single"},
+)
+# -> { text, links[], meta: { title, description, published } }
+```
+
+It supports single-page, site-wide, and sitemap-based modes, handles pagination, and degrades gracefully on JavaScript-heavy pages. The ethical defaults matter: building data pipelines on top of a crawler that ignores `robots.txt` is how you get your IPs blocked and your project shut down.
+
+## Entity Search: Indian Companies & Schemes
+
+`/api/entities` is structured search over India-specific entities — most usefully, **50,000+ Indian startups and companies** and the catalogue of government schemes.
+
+```python
+r = requests.post(
+    "https://api.fomoa.in/api/entities",
+    headers={"Authorization": "Bearer YOUR_FOMOA_KEY"},
     json={
-        "query": "Current repo rate India",
-        "include_sources": True,
-        "language": "auto"  # Detects Hindi/English
+        "type": "company",
+        "filters": {"industry": "fintech", "location": "Bengaluru", "funding_stage": "Series A"},
     },
-    headers={"Authorization": "Bearer your_key"}
 )
-
-result = response.json()
-print(f"Answer: {result['answer']}")
-print(f"Sources: {result['sources']}")
+companies = r.json()["results"]
 ```
 
-### /api/research - Deep Research
+You can filter by industry, location, and funding stage (and combine them), or pass a natural-language query. For the scheme side — eligibility, documents, official links — see the use-case walkthroughs in [FOMOA vs Exa.ai + India Use-Cases](/blog/fomoa-vs-exa-ai-comparison).
+
+## Framework Integrations
+
+Because the chat endpoint is OpenAI-compatible, framework integration is trivial:
 
 ```python
-response = requests.post(
-    "https://fomoa.cloud/api/research",
-    json={
-        "query": "Impact of PLI scheme on manufacturing",
-        "depth": "deep",  # quick, normal, deep
-        "include_analysis": True
-    },
-    headers={"Authorization": "Bearer your_key"}
-)
-
-result = response.json()
-print(f"Summary: {result['summary']}")
-print(f"Key findings: {result['key_findings']}")
-print(f"Sources analyzed: {result['total_sources']}")
-```
-
-### /api/crawl - Web Crawling
-
-```python
-response = requests.post(
-    "https://fomoa.cloud/api/crawl",
-    json={
-        "url": "https://example.gov.in/schemes",
-        "extract": ["text", "links", "meta"],
-        "max_pages": 10
-    },
-    headers={"Authorization": "Bearer your_key"}
-)
-
-result = response.json()
-for page in result['pages']:
-    print(f"Title: {page['title']}")
-    print(f"Content: {page['content'][:500]}...")
-```
-
-### /api/entities - Entity Search
-
-```python
-response = requests.post(
-    "https://fomoa.cloud/api/entities",
-    json={
-        "entity_type": "company",
-        "filters": {
-            "industry": "Fintech",
-            "location": "Bangalore",
-            "founded_after": 2020
-        }
-    },
-    headers={"Authorization": "Bearer your_key"}
-)
-
-result = response.json()
-for company in result['entities']:
-    print(f"{company['name']} - {company['description']}")
-```
-
-## LangChain Integration
-
-```python
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage
-
-# Initialize with FOMOA
-chat = ChatOpenAI(
-    openai_api_base="https://fomoa.cloud/v1",
-    openai_api_key="your_fomoa_key",
-    model_name="fomoa"
-)
-
-messages = [
-    SystemMessage(content="You are an expert on Indian government policies."),
-    HumanMessage(content="What is the Startup India scheme?")
-]
-
-response = chat(messages)
-print(response.content)
-```
-
-### LangChain with Tools
-
-```python
-from langchain.agents import initialize_agent, Tool
-from langchain.chat_models import ChatOpenAI
-import requests
-
-def fomoa_search(query: str) -> str:
-    """Search using FOMOA API"""
-    response = requests.post(
-        "https://fomoa.cloud/api/answer",
-        json={"query": query},
-        headers={"Authorization": "Bearer your_key"}
-    )
-    return response.json()["answer"]
-
-tools = [
-    Tool(
-        name="IndiaSearch",
-        func=fomoa_search,
-        description="Search for India-specific information including government schemes, policies, and current affairs"
-    )
-]
+# LangChain
+from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
-    openai_api_base="https://fomoa.cloud/v1",
-    openai_api_key="your_key",
-    model_name="fomoa"
+    model="fomoa-search",
+    api_key="YOUR_FOMOA_KEY",
+    base_url="https://api.fomoa.in/v1",
 )
-
-agent = initialize_agent(
-    tools,
-    llm,
-    agent="zero-shot-react-description",
-    verbose=True
-)
-
-agent.run("Find me the best mutual funds for tax saving in India 2026")
 ```
 
-## LlamaIndex Integration
+LlamaIndex works the same way — point its OpenAI-compatible LLM wrapper at FOMOA's `base_url`.
 
-```python
-from llama_index import VectorStoreIndex, Document, ServiceContext
-from llama_index.llms import OpenAILike
+## Error Handling and Rate Limits
 
-# Configure FOMOA as LLM
-llm = OpenAILike(
-    api_base="https://fomoa.cloud/v1",
-    api_key="your_fomoa_key",
-    model="fomoa",
-    is_chat_model=True
-)
+Treat it like any production dependency:
 
-service_context = ServiceContext.from_defaults(llm=llm)
+- **Handle 429s with backoff.** Respect the documented per-key limits and retry with exponential backoff and jitter.
+- **Set timeouts**, especially for deep research (which can legitimately take ~60s).
+- **Cache** repeated answers where freshness allows — the same caching discipline I cover in [Redis caching strategies](/blog/redis-caching-strategies-complete-guide).
 
-# Create index and query
-documents = [Document(text="Your document content here")]
-index = VectorStoreIndex.from_documents(
-    documents,
-    service_context=service_context
-)
+## Why This Matters
 
-query_engine = index.as_query_engine()
-response = query_engine.query("Summarize the key points about Indian tax laws")
-print(response)
-```
+The combination is what is rare: an OpenAI-compatible chat API you can adopt in five minutes, *plus* research, crawl, and entity endpoints tuned for Indian data — at zero cost. For a paid-vs-free breakdown against the main commercial alternative, read [FOMOA vs Exa.ai](/blog/fomoa-vs-exa-ai-comparison).
 
-## Error Handling
-
-```python
-from openai import OpenAI, APIError, RateLimitError, APIConnectionError
-
-client = OpenAI(
-    base_url="https://fomoa.cloud/v1",
-    api_key="your_key"
-)
-
-def safe_query(prompt: str) -> str:
-    try:
-        response = client.chat.completions.create(
-            model="fomoa",
-            messages=[{"role": "user", "content": prompt}],
-            timeout=30
-        )
-        return response.choices[0].message.content
-
-    except RateLimitError:
-        # Wait and retry
-        print("Rate limited, waiting...")
-        time.sleep(60)
-        return safe_query(prompt)
-
-    except APIConnectionError:
-        # Network issue
-        print("Connection error, retrying...")
-        time.sleep(5)
-        return safe_query(prompt)
-
-    except APIError as e:
-        # API error
-        print(f"API error: {e}")
-        return None
-```
-
-## Rate Limits
-
-```
-FOMOA API Rate Limits
-=====================
-
-Endpoint              Rate Limit      Burst
---------              ----------      -----
-/v1/chat/completions  60/minute       100
-/api/answer           60/minute       100
-/api/research         20/minute       30
-/api/crawl            30/minute       50
-/api/entities         60/minute       100
-
-Headers returned:
-- X-RateLimit-Limit: Your limit
-- X-RateLimit-Remaining: Remaining requests
-- X-RateLimit-Reset: Reset timestamp
-```
-
-### Handling Rate Limits
-
-```python
-import time
-
-def rate_limited_query(client, messages, max_retries=3):
-    for attempt in range(max_retries):
-        try:
-            return client.chat.completions.create(
-                model="fomoa",
-                messages=messages
-            )
-        except RateLimitError as e:
-            if attempt < max_retries - 1:
-                # Exponential backoff
-                wait_time = 2 ** attempt * 10
-                print(f"Rate limited. Waiting {wait_time}s...")
-                time.sleep(wait_time)
-            else:
-                raise e
-```
-
-## Authentication
-
-```python
-# Option 1: API Key in client initialization
-client = OpenAI(
-    base_url="https://fomoa.cloud/v1",
-    api_key="fomoa_your_key"
-)
-
-# Option 2: Environment variable
-import os
-os.environ["OPENAI_API_KEY"] = "fomoa_your_key"
-os.environ["OPENAI_API_BASE"] = "https://fomoa.cloud/v1"
-
-client = OpenAI()  # Picks up from environment
-
-# Option 3: Header (for direct API calls)
-headers = {
-    "Authorization": "Bearer fomoa_your_key",
-    "Content-Type": "application/json"
-}
-```
-
-## Complete Example: India-Aware Chatbot
-
-```python
-from openai import OpenAI
-from typing import List, Dict
-import json
-
-class IndiaAwareChatbot:
-    def __init__(self, api_key: str):
-        self.client = OpenAI(
-            base_url="https://fomoa.cloud/v1",
-            api_key=api_key
-        )
-        self.conversation_history: List[Dict] = []
-        self.system_prompt = """
-        You are an AI assistant specialized in Indian context.
-        - Understand lakhs/crores number format
-        - Know Indian government schemes
-        - Support Hindi/Hinglish queries
-        - Cite Indian authoritative sources
-        - Use IST for time references
-        """
-
-    def chat(self, user_message: str, stream: bool = False):
-        self.conversation_history.append({
-            "role": "user",
-            "content": user_message
-        })
-
-        messages = [
-            {"role": "system", "content": self.system_prompt}
-        ] + self.conversation_history
-
-        if stream:
-            return self._stream_response(messages)
-        else:
-            return self._get_response(messages)
-
-    def _get_response(self, messages):
-        response = self.client.chat.completions.create(
-            model="fomoa",
-            messages=messages,
-            temperature=0.7
-        )
-
-        assistant_message = response.choices[0].message.content
-        self.conversation_history.append({
-            "role": "assistant",
-            "content": assistant_message
-        })
-
-        return assistant_message
-
-    def _stream_response(self, messages):
-        stream = self.client.chat.completions.create(
-            model="fomoa",
-            messages=messages,
-            temperature=0.7,
-            stream=True
-        )
-
-        full_response = ""
-        for chunk in stream:
-            if chunk.choices[0].delta.content:
-                content = chunk.choices[0].delta.content
-                full_response += content
-                yield content
-
-        self.conversation_history.append({
-            "role": "assistant",
-            "content": full_response
-        })
-
-    def clear_history(self):
-        self.conversation_history = []
-
-# Usage
-chatbot = IndiaAwareChatbot(api_key="your_key")
-
-# Regular chat
-print(chatbot.chat("What is the current GST rate for electronics?"))
-
-# Streaming chat
-for chunk in chatbot.chat("Explain PM-KISAN scheme in Hindi", stream=True):
-    print(chunk, end="", flush=True)
-```
-
-## SDKs and Libraries
-
-```
-Language Support
-================
-
-Python:  openai>=1.0.0   ✓ Full support
-Node.js: openai@4.x      ✓ Full support
-Go:      sashabaranov/go-openai ✓ Compatible
-Ruby:    ruby-openai     ✓ Compatible
-Java:    openai-java     ✓ Compatible
-.NET:    Azure.AI.OpenAI ✓ With custom endpoint
-```
-
----
-
-Build India-first AI applications with familiar tools.
-
-Get your API key at [fomoa.cloud](https://fomoa.cloud).
-
-*Need help with integration or custom use cases? Connect on [LinkedIn](https://www.linkedin.com/in/tushar-agrawal-91b67a28a).*
-
-## Related Articles
-
-- [FOMOA vs Exa.ai: Free India-Optimized Alternative](/blog/fomoa-vs-exa-ai-comparison)
-- [Deep Research Mode: Multi-Hop AI Research Explained](/blog/fomoa-deep-research-multi-hop-ai)
-- [How FOMOA Handles Hindi and Hinglish Queries](/blog/fomoa-hindi-hinglish-ai-assistant)
-- [Understanding Source Credibility: How FOMOA Ranks Results](/blog/fomoa-source-credibility-ranking-system)
+**Keep reading:**
+- [FOMOA AI: The Complete Guide (2026)](/blog/fomoa-ai-complete-guide-features-2026)
+- [FOMOA vs Exa.ai + India Use-Cases](/blog/fomoa-vs-exa-ai-comparison)
+- [REST API Design Best Practices](/blog/rest-api-design-best-practices)
+- [Rate Limiting & API Gateway Patterns](/blog/rate-limiting-api-gateway-patterns)

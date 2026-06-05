@@ -1,495 +1,102 @@
 ---
-title: "FOMOA vs Exa.ai: Free India-Optimized AI Search Alternative in 2026"
-description: "Exa.ai charges $5/1000 requests. FOMOA offers the same 5 features completely free - plus native Hindi support and 150+ Indian sources. Complete feature comparison."
+title: "FOMOA vs Exa.ai + India Use-Cases: Schemes, Students & Startups (2026)"
+description: "Exa.ai charges ~$5 per 1,000 requests; FOMOA offers the same core capabilities free, with native Hindi and 150+ Indian sources. Full comparison plus real India use-cases — government schemes, JEE/NEET/UPSC students, and startup data."
 date: "2026-01-13"
+updated: "2026-06-06"
 author: "Tushar Agrawal"
-tags: ["Exa.ai Alternative", "Free AI Search API", "FOMOA", "AI Search Engine", "API Comparison", "Developer Tools", "India AI"]
+tags: ["Exa.ai Alternative", "Free AI Search API", "FOMOA", "Government Schemes India", "JEE NEET UPSC", "Startup Search India", "API Comparison", "India AI"]
 image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&h=630&fit=crop"
 published: true
 ---
 
-## The AI Search API Landscape in 2026
+There are two questions people actually ask about FOMOA. The first is "how does it compare to the paid AI-search APIs like Exa.ai?" The second is "what can I actually *do* with it in India?" This guide answers both — the comparison first, then three concrete India use-cases: government schemes, student exam prep, and startup/company data.
 
-If you're building AI applications that need web search capabilities, you've likely looked at Exa.ai. It's powerful, well-documented, and used by companies like Notion and Perplexity.
+For the product overview and developer reference, see [the complete FOMOA guide](/blog/fomoa-ai-complete-guide-features-2026) and [FOMOA for developers](/blog/fomoa-openai-compatible-api-developers).
 
-**But there's a problem:** Exa.ai costs $5 per 1,000 requests, and it has virtually no optimization for Indian content, sources, or languages.
+## FOMOA vs Exa.ai
 
-Enter FOMOA: **All 5 core Exa.ai features, completely free, with India-first optimization.**
+Exa.ai is a strong, general-purpose AI-search API. The two differences that matter for Indian builders are **cost** and **India-tuning**.
 
-## Quick Feature Comparison
+| Capability | Exa.ai | FOMOA |
+|------------|--------|-------|
+| Pricing | ~$5 / 1,000 requests | Free |
+| Direct answers | ✅ | ✅ (`/api/answer`) |
+| Deep research | ✅ | ✅ (`/api/research`, 3 hops) |
+| Web crawling | ✅ | ✅ (`/api/crawl`, robots-aware) |
+| Entity search | ✅ | ✅ (`/api/entities`) |
+| Collections / websets | ✅ | ✅ |
+| Native Hindi/Hinglish | ❌ | ✅ |
+| 150+ Indian sources | ❌ | ✅ |
+| Indian number/format awareness | ❌ | ✅ |
 
-| Feature | Exa.ai | FOMOA |
-|---------|--------|-------|
-| **Direct Answers** | $5/1,000 requests | Free |
-| **Deep Research** | $5/1,000 requests | Free |
-| **Web Crawling** | $5/1,000 requests | Free |
-| **Entity Search** | $5/1,000 requests | Free |
-| **Websets** | $5/1,000 requests | Free |
-| **Indian Sources** | ~10 sources | 150+ curated sources |
-| **Hindi Support** | Basic/Translation | Native (56K samples) |
-| **Hinglish Support** | None | Full support |
-| **India Credibility DB** | No | Yes (pre-scored) |
-| **Government Schemes** | Limited | Comprehensive |
-| **OpenAI Compatible** | No | Yes |
-| **Rate Limit** | Depends on plan | 60 req/min (free) |
+### What this means in practice
 
-## Feature-by-Feature Deep Dive
+- **Cost at scale.** A startup running a news/research aggregator that makes, say, 100,000 requests a month pays real money on a per-request API and ₹0 on FOMOA. For a student project or an early-stage product, free is decisive.
+- **India context is built in, not bolted on.** Exa returns excellent general results; FOMOA additionally understands lakhs/crores, prioritises `gov.in` sources, and answers Hindi natively (about 65% of its training was Hindi/Hinglish — see [the training breakdown](/blog/fomoa-ai-complete-guide-features-2026)).
 
-### 1. Direct Answers (/api/answer)
+### Migrating from Exa to FOMOA
 
-Both platforms provide AI-generated answers from web sources. Here's how they compare:
+Because FOMOA's chat endpoint is OpenAI-compatible, migration is mostly URL and endpoint mapping:
 
-```python
-# Exa.ai Answer API
-import exa_py
+1. Point your client at FOMOA's `base_url`.
+2. Map Exa's search/contents calls to `/api/answer`, `/api/research`, and `/api/crawl`.
+3. Adjust parameter names where they differ.
 
-exa = exa_py.Exa(api_key="your_exa_key")
+The full code-level walkthrough (LangChain, LlamaIndex, streaming) is in [FOMOA for developers](/blog/fomoa-openai-compatible-api-developers).
 
-result = exa.answer(
-    query="What is India's GDP 2024?",
-    num_results=5
-)
-# Cost: $0.005 per request
-```
+### When to choose which
 
-```python
-# FOMOA Answer API (Free)
-import requests
-
-response = requests.post(
-    "https://fomoa.cloud/api/answer",
-    json={
-        "query": "What is India's GDP 2024?",
-        "num_results": 5,
-        "include_sources": True
-    },
-    headers={"Authorization": "Bearer your_fomoa_key"}
-)
-# Cost: $0.00
-```
-
-**FOMOA Advantage:** For India-specific queries, FOMOA searches Indian government sources (mospi.gov.in, rbi.org.in) that Exa.ai doesn't prioritize.
-
-### 2. Deep Research (/api/research)
-
-Multi-hop research that follows leads from initial results:
-
-```
-Exa.ai Research Process
-=======================
-Query → Search → Extract → Summarize
-         ↓
-    Generic global sources
-         ↓
-    May miss Indian context
-
-FOMOA Research Process
-======================
-Query → Expand → Search (Parallel) → Extract → Follow-up → Synthesize
-         ↓                            ↓
-    Hindi query variants         Indian sources
-         ↓                       prioritized
-    English + Hindi sources          ↓
-                                Conflict detection
-                                     ↓
-                                Credibility-weighted
-                                   synthesis
-```
-
-```python
-# FOMOA Deep Research API
-response = requests.post(
-    "https://fomoa.cloud/api/research",
-    json={
-        "query": "Impact of UPI on Indian economy 2024",
-        "depth": "deep",  # quick (5s), normal (15s), deep (60s)
-        "include_analysis": True
-    },
-    headers={"Authorization": "Bearer your_fomoa_key"}
-)
-
-# Returns:
-# - Multi-source synthesis
-# - RBI statistics
-# - NPCI data
-# - Academic research
-# - News analysis
-# - Conflict flags if sources disagree
-```
-
-### 3. Web Crawling (/api/crawl)
-
-Extract content from websites:
-
-```
-Exa.ai Crawl               FOMOA Crawl
-===========               ===========
-Basic extraction           Smart extraction
-No Indian site tuning      Indian site optimization
-                          - Handles common Indian CMS
-                          - gov.in specific parsing
-                          - Hindi content extraction
-Respects robots.txt        Respects robots.txt
-                          - Plus ethical rate limiting
-                          - Sitemap optimization
-```
-
-```python
-# FOMOA Crawl API
-response = requests.post(
-    "https://fomoa.cloud/api/crawl",
-    json={
-        "url": "https://pmjay.gov.in/about-pmjay",
-        "extract": ["text", "links", "meta"],
-        "max_pages": 10
-    }
-)
-
-# Returns clean, structured content
-# even from complex government websites
-```
-
-### 4. Entity Search (/api/entities)
-
-Search for specific entity types:
-
-**Exa.ai entities:** Companies, people, products (global focus)
-
-**FOMOA entities:**
-- Companies (Indian startup ecosystem)
-- Government schemes (100+ central, 1000+ state)
-- Educational institutions (IITs, IIMs, NITs, universities)
-- Financial instruments (NSE/BSE listed)
-- Government offices and services
-
-```python
-# FOMOA Entity Search - Government Schemes
-response = requests.post(
-    "https://fomoa.cloud/api/entities",
-    json={
-        "entity_type": "govt_scheme",
-        "filters": {
-            "ministry": "Agriculture",
-            "beneficiary": "farmers",
-            "state": "Maharashtra"
-        }
-    }
-)
-
-# Returns structured scheme data:
-# - Scheme name (Hindi + English)
-# - Eligibility criteria
-# - Benefits
-# - Application process
-# - Official portal links
-```
-
-### 5. Websets (Collections)
-
-Create curated collections of web sources:
-
-```python
-# FOMOA Websets API
-# Create a collection of Indian fintech companies
-
-response = requests.post(
-    "https://fomoa.cloud/api/websets",
-    json={
-        "name": "Indian Fintech 2026",
-        "description": "Top fintech companies in India",
-        "criteria": {
-            "entity_type": "company",
-            "industry": "Fintech",
-            "location": "India",
-            "founded_after": 2015
-        },
-        "max_size": 100
-    }
-)
-
-# Use webset for targeted searches
-search_response = requests.post(
-    "https://fomoa.cloud/api/search",
-    json={
-        "query": "UPI integration features",
-        "webset_id": response.json()["webset_id"]
-    }
-)
-```
-
-## Cost Comparison: Real-World Scenarios
-
-### Scenario 1: Startup Building India News Aggregator
-
-```
-Daily requests: 10,000
-Monthly requests: 300,000
-
-Exa.ai Cost:
-- 300,000 × $0.005 = $1,500/month
-- Annual: $18,000
-
-FOMOA Cost:
-- $0/month
-- Annual: $0
-
-Savings: $18,000/year
-```
-
-### Scenario 2: Student Research Project
-
-```
-Monthly queries: 5,000
-
-Exa.ai Cost:
-- 5,000 × $0.005 = $25/month
-- Often exceeds student budgets
-
-FOMOA Cost:
-- $0/month
-- Perfect for academic use
-```
-
-### Scenario 3: Government Portal Integration
-
-```
-Daily queries: 50,000
-Monthly: 1,500,000
-
-Exa.ai Cost:
-- 1,500,000 × $0.005 = $7,500/month
-- Government procurement complexity
-
-FOMOA Cost:
-- $0/month
-- Designed for government use cases
-```
-
-## India-Specific Advantages
-
-### 1. Native Hindi Processing
-
-```
-Query: "मुद्रा लोन कैसे लें"
-(How to get Mudra loan)
-
-Exa.ai:
-- May translate query
-- Searches English sources
-- Response requires translation back
-- Context often lost
-
-FOMOA:
-- Native Hindi understanding
-- Searches Hindi + English sources
-- Response in user's language
-- Full context preserved
-```
-
-### 2. Government Source Priority
-
-```
-Query: "Ayushman Bharat eligibility"
-
-Exa.ai Results:
-1. Wikipedia article
-2. News article (2022)
-3. Insurance company blog
-4. Quora answer
-
-FOMOA Results:
-1. pmjay.gov.in (Official) ★
-2. PIB Press Release ★
-3. State health department portal
-4. NHA announcement
-```
-
-### 3. Indian Format Understanding
-
-```
-Formats FOMOA handles natively:
-- Lakhs/Crores number system
-- +91 phone number format
-- PIN codes (6 digits)
-- Aadhaar (12 digits)
-- PAN (AAAAA0000A)
-- GSTIN (15 characters)
-- IFSC codes
-- Vehicle registration formats
-```
-
-## Migration Guide: Exa.ai to FOMOA
-
-### Step 1: Update Base URL
-
-```python
-# Before (Exa.ai)
-import exa_py
-exa = exa_py.Exa(api_key="exa_key")
-
-# After (FOMOA) - Using OpenAI-compatible endpoint
-from openai import OpenAI
-client = OpenAI(
-    base_url="https://fomoa.cloud/v1",
-    api_key="fomoa_key"
-)
-```
-
-### Step 2: Map API Endpoints
-
-```
-Exa.ai Endpoint           FOMOA Endpoint
----------------           --------------
-/search                   /api/search
-/answer                   /api/answer
-/research                 /api/research
-/crawl                    /api/crawl
-/contents                 /api/entities
-```
-
-### Step 3: Update Parameters
-
-```python
-# Exa.ai style
-result = exa.search(
-    query="AI startups India",
-    num_results=10,
-    include_domains=["techcrunch.com", "ycombinator.com"]
-)
-
-# FOMOA style
-result = requests.post(
-    "https://fomoa.cloud/api/search",
-    json={
-        "query": "AI startups India",
-        "num_results": 10,
-        "domain_filter": ["tracxn.com", "inc42.com", "yourstory.com"],
-        "include_indian_sources": True  # FOMOA-specific
-    }
-)
-```
-
-## Integration Examples
-
-### LangChain Integration
-
-```python
-from langchain.tools import Tool
-from langchain.agents import initialize_agent, AgentType
-from langchain.llms import OpenAI
-import requests
-
-def fomoa_search(query: str) -> str:
-    response = requests.post(
-        "https://fomoa.cloud/api/answer",
-        json={"query": query},
-        headers={"Authorization": "Bearer your_key"}
-    )
-    return response.json()["answer"]
-
-search_tool = Tool(
-    name="FOMOA Search",
-    func=fomoa_search,
-    description="Search Indian web sources for information"
-)
-
-agent = initialize_agent(
-    tools=[search_tool],
-    llm=OpenAI(),
-    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION
-)
-```
-
-### LlamaIndex Integration
-
-```python
-from llama_index import VectorStoreIndex, Document
-from llama_index.readers.web import FOMOAReader
-
-# Custom reader for FOMOA
-class FOMOAReader:
-    def load_data(self, query: str, num_results: int = 10):
-        response = requests.post(
-            "https://fomoa.cloud/api/search",
-            json={"query": query, "num_results": num_results}
-        )
-
-        documents = []
-        for result in response.json()["results"]:
-            documents.append(Document(
-                text=result["content"],
-                metadata={
-                    "url": result["url"],
-                    "credibility_score": result["credibility_score"]
-                }
-            ))
-        return documents
-```
-
-## Rate Limits & Fair Use
-
-```
-FOMOA Free Tier Limits
-======================
-
-API Endpoint          Rate Limit           Burst
-------------          ----------           -----
-/api/search           60/minute            100
-/api/answer           60/minute            100
-/api/research         20/minute            30
-/api/crawl            30/minute            50
-/api/entities         60/minute            100
-
-Total daily limit: 100,000 requests
-No credit card required
-```
-
-## When to Choose Which
-
-### Choose FOMOA When:
-- Building for Indian market
-- Need Hindi/Hinglish support
-- Government/scheme related queries
-- Cost-sensitive project
-- Student/researcher
-- Startup with limited budget
-- Need OpenAI-compatible API
-
-### Consider Exa.ai When:
-- Pure global English focus
-- Need enterprise SLA guarantees
-- Existing Exa.ai integration
-- Require specific Exa.ai features
-
-## Getting Started
-
-1. **Sign up:** [fomoa.cloud](https://fomoa.cloud)
-2. **Get API key:** Dashboard → API Keys
-3. **Start building:** Use our OpenAI-compatible endpoint
-
-```python
-# Quick start in 3 lines
-from openai import OpenAI
-
-client = OpenAI(base_url="https://fomoa.cloud/v1", api_key="your_key")
-response = client.chat.completions.create(
-    model="fomoa",
-    messages=[{"role": "user", "content": "Best mutual funds India 2026"}]
-)
-print(response.choices[0].message.content)
-```
+Choose **Exa.ai** if you need a mature global index and your queries are not India-centric. Choose **FOMOA** if your users are Indian, your budget is tight, or you need Hindi and government-source accuracy. For most Indian products, FOMOA wins on both cost and relevance.
 
 ---
 
-**Save thousands in API costs while getting better results for Indian queries.**
+Now the part that makes FOMOA genuinely useful day-to-day: India use-cases.
 
-Try FOMOA free at [fomoa.cloud](https://fomoa.cloud).
+## Use-Case 1: Government Schemes
 
-*Questions about migrating from Exa.ai? Connect on [LinkedIn](https://www.linkedin.com/in/tushar-agrawal-91b67a28a).*
+India runs 100+ central schemes and 1000+ state schemes. The hard part is not the schemes — it is discovering which one *you* qualify for, with the right documents and the official link. FOMOA's entity search and `gov.in` source priority make this its single strongest consumer workflow.
 
-## Related Articles
+Ask in plain language (Hindi works best here):
 
-- [Why Indian Users Need an India-First AI Search Engine](/blog/india-first-ai-search-engine-fomoa)
-- [Deep Research Mode: Multi-Hop AI Research Explained](/blog/fomoa-deep-research-multi-hop-ai)
-- [Building AI APIs: FOMOA's OpenAI-Compatible Endpoint](/blog/fomoa-openai-compatible-api-developers)
-- [Understanding Source Credibility: How FOMOA Ranks Results](/blog/fomoa-source-credibility-ranking-system)
+- "Main ek chhota kisan hoon, mere liye kaun si scheme hai?"
+- "Schemes for women entrepreneurs in Maharashtra"
+- "Senior citizen pension scheme eligibility and documents"
+
+You get eligibility, required documents, benefits, and the official application URL — pulled from official portals. The major schemes people search for:
+
+- **PM-KISAN** — income support for farmers.
+- **Ayushman Bharat (PM-JAY)** — health cover for eligible families.
+- **MUDRA loans** — collateral-free business loans (Shishu/Kishore/Tarun).
+- **PM Awas Yojana** — housing assistance.
+
+**Pro tips:** ask state-specific questions (schemes differ by state), check eligibility before applying, and always confirm amounts and deadlines against the linked official page — FOMOA cites it precisely so you can.
+
+## Use-Case 2: Students (JEE, NEET, UPSC & Scholarships)
+
+Exam information online is a minefield of outdated dates and coaching-center SEO. FOMOA answers from official NTA and government sources, with citations, so students get the *current* number.
+
+- **JEE Main 2026** — exam dates, session details, syllabus and pattern, and college cutoffs.
+- **NEET 2026** — exam details and medical-college queries.
+- **UPSC Civil Services 2026** — the exam calendar and optional-subject information.
+- **Scholarships** — national (NSP) and state scholarships with eligibility and deadlines.
+
+How students should use it: ask specific questions ("NEET 2026 application last date"), verify every deadline against the cited official source, and use Hindi/Hinglish freely. Set up a few recurring queries during application season so you never miss a window.
+
+## Use-Case 3: Startup & Company Data
+
+For investors, job-seekers, and market researchers, FOMOA's `/api/entities` is a free window into **50,000+ Indian companies and startups**, searchable by industry, location, and funding stage.
+
+- **Investors** — screen startups by sector and stage.
+- **Job seekers** — find funded companies hiring in a city.
+- **Journalists & researchers** — pull market and funding data with sources.
+
+You can combine filters ("fintech, Bengaluru, Series A") or just ask in natural language. The API mechanics are in [FOMOA for developers](/blog/fomoa-openai-compatible-api-developers).
+
+## The Bottom Line
+
+Against paid APIs, FOMOA's pitch is "the same core capabilities, free, and tuned for India." Against doing nothing, its pitch is the three workflows above — schemes, exams, and company data — that are genuinely painful without it. If your users are in India, it is worth the five-minute integration.
+
+**Keep reading:**
+- [FOMOA AI: The Complete Guide (2026)](/blog/fomoa-ai-complete-guide-features-2026)
+- [FOMOA for Developers: API, Deep Research & Ethical Crawling](/blog/fomoa-openai-compatible-api-developers)
+- [The Best Free AI Search Engine for India in 2026](/blog/best-free-ai-search-engine-india-2026)

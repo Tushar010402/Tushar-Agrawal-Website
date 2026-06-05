@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 import BlogListingClient from './blog-listing-client';
-import { getAllPosts } from '@/lib/blog';
+import { getAllPosts, getTagHubs } from '@/lib/blog';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
 
@@ -61,6 +62,7 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   const posts = getAllPosts();
+  const tagHubs = getTagHubs();
 
   // JSON-LD Schema for Blog Listing (CollectionPage)
   const blogListSchema = {
@@ -215,6 +217,23 @@ export default function BlogPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <BlogListingClient initialBlogs={blogs} />
+
+      {/* Server-rendered topic hubs for SEO crawling + internal linking */}
+      <nav className="max-w-7xl mx-auto px-4 py-8" style={{ borderTop: "1px solid var(--border)" }} aria-label="Browse by topic">
+        <h2 className="text-xl font-semibold text-theme mb-4">Browse by Topic</h2>
+        <div className="flex flex-wrap gap-2">
+          {tagHubs.map((t) => (
+            <Link
+              key={t.slug}
+              href={`/blog/tag/${t.slug}`}
+              className="inline-flex items-center px-3 py-1 text-sm rounded-full text-theme-secondary hover:text-theme-accent transition-all"
+              style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+            >
+              {t.tag}
+            </Link>
+          ))}
+        </div>
+      </nav>
 
       {/* Server-rendered links to ALL posts for SEO crawling */}
       <nav className="max-w-7xl mx-auto px-4 py-8" style={{ borderTop: "1px solid var(--border)" }} aria-label="All blog posts">

@@ -1,439 +1,153 @@
 ---
-title: "FOMOA AI: Complete Guide to India's Free AI Search Engine (2026 Features)"
-description: "Everything you need to know about FOMOA AI - India's free AI search engine with Hindi support, 150+ Indian sources, government scheme search, and OpenAI-compatible API. Complete feature guide for 2026."
+title: "FOMOA AI: The Complete Guide to India's Free AI Search Engine (2026)"
+description: "Everything about FOMOA AI — India's free AI search engine. Native Hindi/Hinglish support, 150+ Indian sources, a 4-signal credibility ranking system, government scheme search, and how it was trained on 86,000 India-centric samples."
 date: "2026-01-17"
+updated: "2026-06-06"
 author: "Tushar Agrawal"
-tags: ["FOMOA AI", "AI Search Engine India", "Free AI Tool", "FOMOA Features", "Indian AI", "Hindi AI Assistant", "Government Schemes AI", "FOMOA Guide 2026"]
+tags: ["FOMOA AI", "AI Search Engine India", "Free AI Tool", "Indian AI", "Hindi AI Assistant", "Government Schemes AI", "Source Credibility", "FOMOA Guide 2026"]
 image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=630&fit=crop"
 published: true
 ---
 
+Generic AI models were not built for India. Ask one "मेरी सैलरी 12 लाख है, टैक्स कितना लगेगा?" and it stumbles on the number format before it even gets to the tax slabs. Ask it which government scheme a small farmer qualifies for and it confidently invents one. That gap is exactly why I got interested in **FOMOA** — an India-first AI search engine that is free to use, understands Hindi and Hinglish natively, and ranks answers by how trustworthy the source actually is.
+
+This is the complete guide: what FOMOA is, why an India-first engine matters, the features that make it different, how it ranks results, and how it was actually trained. If you only read one FOMOA article, read this one.
+
 ## What is FOMOA AI?
 
-**FOMOA** (Find Out More On Anything) is India's first AI-powered search engine built specifically for Indian users. Unlike ChatGPT or Perplexity that are trained on Western data, FOMOA understands Indian context natively - from lakhs and crores to government schemes and Hinglish queries.
-
-```
-FOMOA at a Glance
-=================
-
-Launch: 2025
-Price: Completely Free
-Languages: English, Hindi, Hinglish
-Indian Sources: 150+ curated
-Training Data: 86,760 samples (65% Hindi/Hinglish)
-API: OpenAI-compatible (free)
-Website: fomoa.cloud
-```
-
-## Why FOMOA Was Built
-
-Every day, millions of Indians search for:
-- Government scheme eligibility
-- Tax saving options
-- Exam dates and application processes
-- Business compliance requirements
-- Health insurance comparisons
-
-**The problem?** Global AI tools give generic, often incorrect answers for India-specific queries.
-
-```
-The India Problem with Global AI
-================================
-
-Query: "PM-KISAN ke liye kaise apply karein?"
-
-ChatGPT: "I'm not sure what PM-KISAN is..."
-Perplexity: Shows English results, misses Hindi context
-Google AI: Generic overview, outdated process
-
-FOMOA: Complete Hindi response with:
-├── Eligibility criteria
-├── Required documents
-├── Step-by-step pmkisan.gov.in guide
-├── Current installment status
-└── State-specific variations
-```
-
-## FOMOA AI Features in 2026
-
-### 1. Native Hindi and Hinglish Support
-
-FOMOA doesn't translate - it **thinks** in Hindi.
-
-```
-Supported Query Types
-=====================
-
-Pure Hindi:
-"आयकर बचाने के तरीके बताइए"
-→ Complete 80C, 80D, NPS options in Hindi
-
-Pure English:
-"Best mutual funds for SIP 2026"
-→ SEBI-registered AMC comparisons
-
-Hinglish (Code-Mixed):
-"Mujhe GST registration karni hai online"
-→ Step-by-step gst.gov.in walkthrough
-
-Regional + English:
-"Aadhaar update kaise kare nearest center pe"
-→ UIDAI process with center locator
-```
-
-**Training:** 56,760 Hindi/Hinglish instruction pairs from curated datasets.
-
-### 2. 150+ Indian Authoritative Sources
-
-FOMOA maintains a **pre-scored database** of Indian sources:
-
-```
-Source Credibility Scoring
-==========================
-
-Tier 1 - Government (Score: 1.0)
-├── india.gov.in (National Portal)
-├── rbi.org.in (Reserve Bank)
-├── sebi.gov.in (Securities Board)
-├── incometax.gov.in
-├── gst.gov.in
-├── uidai.gov.in (Aadhaar)
-├── epfindia.gov.in
-└── All state .gov.in portals
-
-Tier 2 - Scheme Portals (Score: 0.95)
-├── pmkisan.gov.in
-├── pmjay.gov.in (Ayushman Bharat)
-├── pmjdy.gov.in (Jan Dhan)
-├── mudra.org.in
-└── ncs.gov.in
-
-Tier 3 - Education (Score: 0.95)
-├── nta.ac.in (JEE, NEET)
-├── ugc.gov.in
-├── aicte-india.org
-└── IITs, IIMs, NITs
-
-Tier 4 - Finance (Score: 0.85-0.90)
-├── nseindia.com
-├── bseindia.com
-├── moneycontrol.com
-└── screener.in
-
-Tier 5 - Quality News (Score: 0.80-0.85)
-├── thehindu.com
-├── indianexpress.com
-├── livemint.com
-└── economictimes.com
-```
-
-### 3. Indian Number System Understanding
-
-FOMOA natively understands Indian numerical conventions:
-
-```
-Indian Number Parsing
-=====================
-
-"Budget is 5 crore" → ₹5,00,00,000 (50 million)
-"Salary 12 lakh" → ₹12,00,000 (1.2 million)
-"Price 50 thousand" → ₹50,000
-
-Also recognizes:
-├── Phone: +91 XXXXX XXXXX
-├── PIN codes: 6-digit validation
-├── Aadhaar: 12-digit format
-├── PAN: AAAAA0000A pattern
-├── GSTIN: 15-character format
-└── IFSC: 11-character bank codes
-```
-
-### 4. Government Scheme Navigator
-
-India has 100+ central and 1000+ state schemes. FOMOA helps navigate them:
-
-```
-Example: "Schemes for farmers in Maharashtra"
-
-FOMOA Response Structure:
-=========================
-
-Central Schemes:
-├── PM-KISAN: ₹6,000/year
-│   └── Eligibility, documents, status check
-├── PM Fasal Bima Yojana
-│   └── Crop insurance details
-├── Kisan Credit Card
-│   └── Low-interest farm loans
-└── PM Krishi Sinchai Yojana
-    └── Irrigation subsidies
-
-Maharashtra State Schemes:
-├── Mahatma Phule Shetkari Yojana
-├── Nanaji Deshmukh Krishi Sanjivani
-└── Chief Minister's Agriculture Solar Feeder
-
-Each with:
-├── Exact eligibility criteria
-├── Required documents
-├── Application process
-├── Official portal link
-└── Helpline numbers
-```
-
-### 5. Deep Research Mode
-
-For complex queries requiring multi-source synthesis:
-
-```
-Deep Research Example
-=====================
-
-Query: "Compare NPS vs PPF vs ELSS for tax saving"
-
-FOMOA Deep Research:
-├── Step 1: Fetch current rates from RBI, PFRDA
-├── Step 2: Compare lock-in periods
-├── Step 3: Analyze tax treatment (EEE vs EET)
-├── Step 4: Calculate returns scenarios
-├── Step 5: Risk assessment
-└── Step 6: Synthesize recommendation
-
-Output:
-├── Comparison table with current data
-├── Tax saving calculations
-├── Risk-return analysis
-├── Recommendation by investor profile
-└── All sources cited
-```
-
-### 6. Real-Time Information
-
-FOMOA crawls Indian sources continuously:
-
-```
-Update Frequency
-================
-
-Government portals: Daily
-News sources: Hourly
-Stock data: Real-time (market hours)
-Exam notifications: As published
-Scheme updates: When announced
-RBI rates: Same day
-```
-
-### 7. Free OpenAI-Compatible API
-
-Developers can integrate FOMOA into their apps:
-
-```python
-from openai import OpenAI
-
-# Works with any OpenAI-compatible library
-client = OpenAI(
-    base_url="https://fomoa.cloud/v1",
-    api_key="your_free_api_key"
-)
-
-# Direct answer
-response = client.chat.completions.create(
-    model="fomoa",
-    messages=[{
-        "role": "user",
-        "content": "Current repo rate RBI 2026"
-    }]
-)
-
-print(response.choices[0].message.content)
-# Output: "The current RBI repo rate is X.XX% as of [date].
-# Source: rbi.org.in"
-```
-
-**API Features:**
-- 60 requests/minute (free)
-- Direct answers with citations
-- Deep research mode
-- Web crawling
-- Entity/company search
-- No credit card required
-
-## FOMOA Use Cases
-
-### For Students
-
-```
-JEE/NEET Preparation:
-├── Exam dates and schedule
-├── Application deadlines
-├── Admit card release
-├── Result dates
-├── Counseling process
-└── All from nta.ac.in
-
-Scholarships:
-├── Central scholarships (NSP)
-├── State-wise schemes
-├── Eligibility checker
-├── Application process
-└── Document requirements
-
-College Admissions:
-├── Cutoff analysis
-├── College comparisons
-├── Fee structures
-├── Placement data
-└── Official sources only
-```
-
-### For Professionals
-
-```
-Tax Planning:
-├── Section 80C options (1.5L limit)
-├── 80CCD(1B) NPS benefit (50K extra)
-├── 80D health insurance
-├── HRA exemption calculator
-├── New vs Old regime comparison
-└── From incometax.gov.in
-
-Career Growth:
-├── Certification requirements
-├── Skill gap analysis
-├── Industry salary data
-├── Job market trends
-└── Upskilling resources
-```
-
-### For Business Owners
-
-```
-Compliance:
-├── GST registration/filing
-├── MSME registration
-├── Startup India benefits
-├── Import/export licenses
-├── Labor law compliance
-└── All .gov.in sources
-
-Funding:
-├── MUDRA loans
-├── SIDBI schemes
-├── State startup policies
-├── Angel tax exemptions
-└── Current application status
-```
-
-### For General Users
-
-```
-Daily Queries:
-├── Aadhaar/PAN updates
-├── Passport application
-├── Driving license renewal
-├── Voter ID registration
-├── Ration card services
-
-Healthcare:
-├── Ayushman Bharat eligibility
-├── Hospital empanelment
-├── Generic medicine prices
-├── Health scheme comparisons
-└── IRDAI-regulated options
-
-Finance:
-├── Bank FD rates comparison
-├── Credit card recommendations
-├── Loan EMI calculations
-├── Investment options
-└── RBI-regulated info only
-```
-
-## How FOMOA Compares
-
-| Feature | FOMOA | ChatGPT | Perplexity | Google AI |
-|---------|-------|---------|------------|-----------|
-| Price | Free | $20/mo | $20/mo | Free |
-| Hindi Native | Yes | No | No | Partial |
-| Hinglish | Yes | No | No | No |
-| Indian Sources | 150+ | ~20 | ~30 | ~50 |
-| Govt Schemes | Excellent | Poor | Fair | Fair |
-| Real-time India | Yes | No | Partial | Yes |
-| Free API | Yes | No | No | No |
-| Lakh/Crore | Native | Confused | Confused | Partial |
-
-## Getting Started with FOMOA
-
-### Step 1: Visit FOMOA
-
-Go to [fomoa.cloud](https://fomoa.cloud) - no signup required for basic use.
-
-### Step 2: Ask Your Question
-
-Type in English, Hindi, or Hinglish:
-- "PM-KISAN status check kaise karein"
-- "Best tax saving options for 10 lakh salary"
-- "JEE Main 2026 important dates"
-
-### Step 3: Get Cited Answers
-
-Every response includes:
-- Direct answer to your query
-- Source citations (with credibility scores)
-- Related follow-up suggestions
-- Official portal links
-
-### Step 4: For Developers - Get API Key
-
-1. Sign up at fomoa.cloud
-2. Generate free API key
-3. Use with any OpenAI-compatible library
-4. 60 requests/minute included
+FOMOA is a free AI search engine optimised for Indian users and Indian context. Instead of bolting an "India mode" onto a global model, it was built from the ground up around three things global tools get wrong:
+
+1. **Language** — Indians search in Hindi, English, and a constant code-mix of both ("Hinglish"). FOMOA detects the language automatically and answers in kind.
+2. **Sources** — it draws on 150+ authoritative Indian sources (government portals, regulators, major Indian publications) instead of treating a random blog as equal to an official notification.
+3. **Format** — it understands the Indian number system (lakhs, crores), Indian dates, and the structure of Indian government schemes.
+
+You can use it as a normal web search assistant, or — if you are a developer — through an OpenAI-compatible API. I cover the developer side in depth in the companion guide, [FOMOA for Developers](/blog/fomoa-openai-compatible-api-developers).
+
+## Why an India-First Engine Matters
+
+Here is where global AI models consistently fail Indian users:
+
+### 1. The Indian number system
+
+"12 lakh" is 1,200,000. "2.5 crore" is 25,000,000. Global models frequently misread these, and a single misread digit destroys a tax, loan, or salary answer. FOMOA treats lakh/crore as first-class units.
+
+### 2. Source credibility blindness
+
+Most AI search treats Wikipedia, a government circular, and an SEO content farm as roughly equal text. For "what documents do I need for a passport," that is dangerous. FOMOA scores sources explicitly (more on the ranking system below).
+
+### 3. Hindi and Hinglish queries
+
+Roughly half of India's internet users are more comfortable in Hindi than English. A query like "PM Kisan ka paisa kab aayega" should just work — no translation, no language toggle.
+
+### 4. Government scheme navigation
+
+India runs 100+ central schemes and 1000+ state schemes. Finding the one *you* qualify for, with the right documents and the official application link, is genuinely hard. This is one of FOMOA's strongest use cases — covered in detail in [FOMOA vs Exa.ai and India Use-Cases](/blog/fomoa-vs-exa-ai-comparison).
+
+## FOMOA's Core Features in 2026
+
+### Native Hindi and Hinglish support
+
+FOMOA handles three modes with zero manual switching:
+
+- **Pure Hindi** (शुद्ध हिंदी) — full Devanagari queries and answers.
+- **Hinglish** — "Mujhe ek accha SIP plan batao for long term."
+- **Code-mixed** — a sentence that swaps scripts mid-way.
+
+It auto-detects the language and, importantly, expands Hindi queries to also search high-quality English sources, then answers back in the user's language. On internal Hindi factual-query benchmarks this reached around **89% accuracy** — a number that comes directly from how the model was trained (below).
+
+### 150+ Indian authoritative sources
+
+FOMOA maintains a curated index of Indian government domains, regulators, and reputable publications, with Indian government domains (`*.gov.in`, `*.nic.in`) getting automatic trust. So a scheme question is answered from the actual ministry page, not a third-party aggregator.
+
+### Indian number and format understanding
+
+Lakhs, crores, Indian financial-year dates, GST/PAN context — handled natively. This sounds small until you watch a global model turn "₹2.5 crore" into "$2.5 million."
+
+### Government scheme navigator
+
+Ask in plain language ("schemes for women entrepreneurs in Maharashtra") and get eligibility, required documents, benefits, and the official application link — sourced from official portals.
+
+### Deep research mode
+
+For harder questions, FOMOA can follow leads across multiple "hops," detect conflicts between sources, and synthesise a cited report. There are three depths — quick (~5s), normal (~15s), and deep (~60s). The mechanics are explained in [FOMOA for Developers](/blog/fomoa-openai-compatible-api-developers).
+
+### Real-time information
+
+FOMOA pulls fresh data from its Indian source set rather than relying only on a training snapshot, so exam dates, scheme deadlines, and prices stay current.
+
+### Free, OpenAI-compatible API
+
+Developers can point the standard OpenAI SDK at FOMOA by changing the `base_url` — no rewrite required. This is the feature that makes FOMOA interesting beyond consumer search.
+
+## How FOMOA Ranks Results: The 4-Signal System
+
+The single most important thing separating FOMOA from "ask a chatbot" is that it ranks sources explicitly before answering. Four signals combine into a score:
+
+| Signal | Weight | What it measures |
+|--------|--------|------------------|
+| **Semantic relevance** | 50% | How well the source actually answers the query |
+| **Source credibility** | 25% | Authority of the domain (gov/regulator/established publisher → high) |
+| **Content freshness** | 20% | How recent the information is |
+| **Domain expertise** | 5% | Topical match between source and query |
+
+A couple of things make this practical:
+
+- **Indian government domains get automatic trust.** A `gov.in` notification outranks a blog summarising it.
+- **Weighting is query-adaptive.** For "latest NEET 2026 date," freshness matters more; for "what is compound interest," credibility and relevance dominate.
+- **Conflicts are surfaced, not hidden.** When sources disagree, FOMOA shows the disagreement and the more authoritative source, instead of silently picking one.
+
+This is the same instinct behind good engineering: don't treat all inputs as equal — score them, weight them, and make the decision auditable. If you are interested in the broader landscape of AI search tools, I compared the options in [the best free AI search engine for India](/blog/best-free-ai-search-engine-india-2026).
+
+## How FOMOA Was Trained (86,000 India-Centric Samples)
+
+FOMOA's India fluency is not a prompt trick — it is baked into the model weights. The training approach, briefly:
+
+- **Base model:** Qwen2.5-7B-Instruct. A 7B model was a deliberate choice — large enough to reason well, small enough to serve cheaply and stay free for users.
+- **Method:** QLoRA fine-tuning (4-bit quantised base + low-rank adapters), which makes fine-tuning a 7B model feasible on modest hardware.
+- **Training data (≈86,000 samples):**
+  - ~56,760 Hindi/Hinglish samples (about 65% of the mix) — this is *why* Hindi works natively rather than via translation.
+  - ~20,000 analytical-reasoning samples.
+  - ~10,000 diverse-knowledge samples.
+- **Compute:** roughly 113 hours of training.
+
+The key lesson: **native beats translated.** A model trained on real Hindi and Hinglish understands idiom and code-mixing in a way that a translate-then-answer pipeline never will. That is the difference between "technically supports Hindi" and "actually feels Indian."
+
+## Who FOMOA Is For
+
+- **Students** — exam dates, syllabus, cutoffs, and scholarships from official NTA/government sources.
+- **Professionals** — tax, finance, and policy questions answered in Indian units with cited sources.
+- **Business owners** — scheme and compliance discovery (MUDRA, GST, registrations).
+- **General users** — government services, healthcare schemes, and everyday queries in their own language.
+
+The student and government-scheme workflows are deep enough that I gave them their own guide: [FOMOA vs Exa.ai and India Use-Cases](/blog/fomoa-vs-exa-ai-comparison).
+
+## Getting Started
+
+1. **Open FOMOA** and ask a question in Hindi, English, or Hinglish.
+2. **Read the cited answer** — every claim links back to its source so you can verify.
+3. **For deeper questions,** switch to deep research mode.
+4. **Developers:** grab an API key and read the [developer guide](/blog/fomoa-openai-compatible-api-developers).
 
 ## Frequently Asked Questions
 
-### Is FOMOA really completely free?
-Yes. No premium tier, no hidden charges, no credit card required. All features are free.
+**Is FOMOA really completely free?**
+Yes — both the web interface and the developer API are free to use, which is the headline difference versus paid AI-search APIs.
 
-### How accurate is FOMOA for government information?
-FOMOA prioritizes official .gov.in sources with credibility score 1.0. Information is updated daily from government portals.
+**How accurate is FOMOA for government information?**
+Government questions are answered from official `gov.in`/`nic.in` sources with citations, and those domains are automatically trusted in the ranking system. Always verify deadlines and amounts against the linked official page before acting.
 
-### Can FOMOA help with tax filing?
-FOMOA provides tax planning guidance, deduction options, and regime comparisons. For actual filing, use the official incometax.gov.in portal.
+**Does FOMOA work in Hindi?**
+Natively. About 65% of its training data was Hindi/Hinglish, with ~89% accuracy on Hindi factual queries in internal benchmarks.
 
-### Does FOMOA store my queries?
-FOMOA doesn't store personal queries for advertising. Basic analytics for service improvement only.
+**Can developers use it?**
+Yes. It exposes an OpenAI-compatible endpoint plus India-specific endpoints for research, crawling, and entity search. See the [developer guide](/blog/fomoa-openai-compatible-api-developers).
 
-### How is FOMOA different from just Googling?
-FOMOA synthesizes information from multiple authoritative sources into direct answers with citations. No ads, no SEO-gamed results, no clicking through multiple pages.
+## The Takeaway
 
-### Can I use FOMOA for my business app?
-Yes, the free API supports commercial use. Rate limit is 60 requests/minute.
+FOMOA's bet is simple: India deserves AI that speaks its languages, trusts the right sources, and reads its numbers correctly — for free. The credibility ranking and native Hindi training are what make that more than a marketing line.
 
-## The Future of FOMOA
-
-FOMOA is continuously improving:
-
-- **More Regional Languages:** Tamil, Telugu, Bengali, Marathi support planned
-- **Voice Interface:** Hindi voice queries coming soon
-- **WhatsApp Bot:** Access FOMOA via WhatsApp
-- **Offline Mode:** Cached responses for common queries
-- **State-Specific Modes:** Deep coverage of state schemes
-
-## Try FOMOA Today
-
-Stop struggling with AI tools that don't understand India. FOMOA is built for Indian users, by understanding Indian context.
-
-**[Try FOMOA Free](https://fomoa.cloud)**
-
----
-
-*Building AI applications for Indian users? Let's discuss integration on [LinkedIn](https://www.linkedin.com/in/tushar-agrawal-91b67a28a).*
-
-## Related Articles
-
-- [Why Indian Users Need an India-First AI Search Engine](/blog/india-first-ai-search-engine-fomoa)
-- [Best Free AI Search Engine for India 2026](/blog/best-free-ai-search-engine-india-2026)
-- [How FOMOA Handles Hindi and Hinglish](/blog/fomoa-hindi-hinglish-ai-assistant)
-- [FOMOA's Source Credibility System](/blog/fomoa-source-credibility-ranking-system)
-- [FOMOA API Guide for Developers](/blog/fomoa-openai-compatible-api-developers)
+**Keep reading:**
+- [FOMOA for Developers: OpenAI-Compatible API, Deep Research & Ethical Crawling](/blog/fomoa-openai-compatible-api-developers)
+- [FOMOA vs Exa.ai + India Use-Cases: Schemes, Students & Startups](/blog/fomoa-vs-exa-ai-comparison)
+- [The Best Free AI Search Engine for India in 2026](/blog/best-free-ai-search-engine-india-2026)
+- [AI Capabilities in 2026: A Complete Guide](/blog/ai-capabilities-2026-complete-guide)

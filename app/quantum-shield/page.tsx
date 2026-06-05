@@ -66,34 +66,6 @@ export default function QuantumShieldPage() {
               name: 'Tushar Agrawal',
               url: 'https://www.tusharagrawal.in',
             },
-            offers: {
-              '@type': 'Offer',
-              availability: 'https://schema.org/InStock',
-              price: '0',
-              priceCurrency: 'USD',
-            },
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: 'QuantumShield',
-            description:
-              'Post-quantum cryptography library for secure encryption against quantum computing threats.',
-            brand: {
-              '@type': 'Brand',
-              name: 'QuantumShield',
-            },
-            offers: {
-              '@type': 'Offer',
-              availability: 'https://schema.org/InStock',
-              price: '0',
-              priceCurrency: 'USD',
-            },
           }),
         }}
       />

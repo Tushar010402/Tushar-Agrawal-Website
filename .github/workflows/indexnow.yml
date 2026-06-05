@@ -1,0 +1,41 @@
+name: IndexNow Submit
+
+# Ping IndexNow (Bing, Yandex, Seznam, Naver) whenever blog content or routes change
+# on the default branch. Runs after Vercel has had time to deploy the new build.
+# Note: Google does NOT use IndexNow — for Google, use Search Console's
+# sitemap resubmission + URL Inspection (see SEO_INDEXING_CHECKLIST.md).
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'content/blog/**'
+      - 'app/sitemap.ts'
+      - 'app/blog/**'
+      - 'next.config.ts'
+  workflow_dispatch: {}
+
+# Avoid overlapping submissions if several pushes land quickly.
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for deployment to propagate
+        run: sleep 120
+
+      - name: Trigger IndexNow submission
+        run: |
+          echo "Submitting URLs to IndexNow via the production endpoint..."
+          response=$(curl -s -w "\n%{http_code}" -X POST https://www.tusharagrawal.in/api/indexnow)
+          body=$(echo "$response" | head -n -1)
+          status=$(echo "$response" | tail -n 1)
+          echo "HTTP $status"
+          echo "$body"
+          if [ "$status" -ge 400 ]; then
+            echo "IndexNow submission failed"
+            exit 1
+          fi

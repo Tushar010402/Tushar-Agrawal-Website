@@ -66,6 +66,55 @@ function FadeInSection({ children, className, delay = 0 }: { children: React.Rea
   );
 }
 
+// FAQPage schema — rendered only on the homepage (its visible Q&A content lives here),
+// so Google does not see FAQ markup on pages that have no FAQ.
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Who is Tushar Agrawal?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Tushar Agrawal is a Backend Engineer based in New Delhi, India with 3+ years of experience building scalable healthcare SaaS platforms. He specializes in Python, Go, FastAPI, Django, microservices architecture, and cloud technologies. He currently works at Dr. Dangs Lab building HIPAA-compliant healthcare systems.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What technologies does Tushar Agrawal work with?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Tushar Agrawal works with Python, Go, TypeScript, FastAPI, Django, React, Next.js, PostgreSQL, Redis, Apache Kafka, Docker, Kubernetes, AWS, and Nginx. He specializes in microservices architecture, event-driven systems, and building scalable backend systems.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where does Tushar Agrawal work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Tushar Agrawal currently works as a Software Developer at Dr. Dangs Lab in New Delhi, India, where he builds Laboratory Information Management Systems (LIMS) and healthcare SaaS platforms serving 80+ users across 20+ businesses.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What projects has Tushar Agrawal built?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Tushar Agrawal has built LiquorPro (inventory management for 20+ businesses), LIMS at Dr. Dangs Lab (serving 500+ daily patients), FOMOA (India-first AI search engine), and various microservices handling 50,000+ daily API requests with 99.9% uptime.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How to contact Tushar Agrawal?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "You can contact Tushar Agrawal via email at tusharagrawal0104@gmail.com, phone at +91-8126816664, LinkedIn at linkedin.com/in/tushar-agrawal-91b67a28a, or GitHub at github.com/Tushar010402.",
+      },
+    },
+  ],
+};
+
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatTopic, setChatTopic] = useState<string | undefined>(undefined);
@@ -77,6 +126,10 @@ export default function Home() {
 
   return (
     <div className="w-full transition-theme" style={{ background: "var(--background)" }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
 
       {/* Hero Section */}
       <section id="home" className="relative overflow-hidden">
@@ -286,11 +339,11 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {[
               {
-                href: "/blog/india-first-ai-search-engine-fomoa",
-                tag: "AI SEARCH",
+                href: "/blog/redis-cache-stampede-p99-latency-war-story",
+                tag: "PERFORMANCE",
                 tagColor: "var(--accent)",
-                title: "Why Indian Users Need an India-First AI Search Engine",
-                description: "Generic AI models fail on Indian context - lakhs, crores, Hinglish, govt schemes. FOMOA is built for India."
+                title: "The Cache Stampede That Took Down Our API",
+                description: "A single expiring Redis key sent 4,000 requests to PostgreSQL at once. How we cut p99 latency by 80%."
               },
               {
                 href: "/blog/database-connection-pooling-performance-guide",
@@ -300,11 +353,32 @@ export default function Home() {
                 description: "How I learned about connection pooling after our PostgreSQL database crashed under load."
               },
               {
-                href: "/blog/ai-native-backend-architecture-2026",
-                tag: "ARCHITECTURE",
+                href: "/blog/kafka-consumer-lag-2-million-debugging-war-story",
+                tag: "DISTRIBUTED",
                 tagColor: "#a855f7",
-                title: "Building AI-Native Backends: Architecture for 2026",
-                description: "Complete guide to designing backend systems for AI agents - MCP protocol, vector databases, governance."
+                title: "When Our Kafka Consumer Lag Hit 2 Million",
+                description: "Order events fell 2M messages behind and nobody noticed for hours. Diagnosing and draining Kafka lag."
+              },
+              {
+                href: "/blog/post-quantum-cryptography-migration-guide-2026",
+                tag: "SECURITY",
+                tagColor: "#06b6d4",
+                title: "Migrating to Post-Quantum Cryptography (2026)",
+                description: "Harvest-now-decrypt-later means quantum-vulnerable data is already at risk. A practical migration guide."
+              },
+              {
+                href: "/blog/idempotency-keys-preventing-double-charges",
+                tag: "API DESIGN",
+                tagColor: "#f59e0b",
+                title: "Idempotency Keys: How We Stopped Double-Charging",
+                description: "A retry on a slow payment charged a customer twice. Making any unsafe POST safe to retry."
+              },
+              {
+                href: "/blog/backend-developer-salary-india-2026",
+                tag: "CAREER",
+                tagColor: "#ec4899",
+                title: "Backend Developer Salary in India 2026",
+                description: "Realistic salary ranges by experience, city, and company tier — and the skills that move you between bands."
               }
             ].map((article) => (
               <a key={article.href} href={article.href} className="group">
@@ -315,6 +389,32 @@ export default function Home() {
                 </div>
               </a>
             ))}
+          </div>
+        </FadeInSection>
+        <FadeInSection delay={0.15}>
+          <div className="mb-8">
+            <p className="text-theme-secondary text-sm mb-3 font-medium">Browse by topic</p>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { label: "PostgreSQL", slug: "postgresql" },
+                { label: "Redis", slug: "redis" },
+                { label: "Kafka", slug: "apache-kafka" },
+                { label: "Post-Quantum Cryptography", slug: "post-quantum-cryptography" },
+                { label: "System Design", slug: "system-design" },
+                { label: "Python", slug: "python" },
+                { label: "Microservices", slug: "microservices" },
+                { label: "Tech Career India", slug: "tech-career-india" },
+              ].map((t) => (
+                <a
+                  key={t.slug}
+                  href={`/blog/tag/${t.slug}`}
+                  className="inline-flex items-center px-3 py-1 text-sm rounded-full text-theme-secondary hover:text-theme-accent transition-all"
+                  style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+                >
+                  {t.label}
+                </a>
+              ))}
+            </div>
           </div>
         </FadeInSection>
         <FadeInSection delay={0.2}>
