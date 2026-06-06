@@ -1,12 +1,14 @@
 "use client";
 
-import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Spotlight } from "@/components/ui/spotlight";
-import { GlowBackground } from "@/components/ui/glow-background";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
+
+// Lazy, client-only WebGL hero background — kept out of the initial bundle.
+const ShaderBackground = dynamic(() => import("@/components/ui/shader-background"), { ssr: false });
 
 const features = [
   {
@@ -207,9 +209,17 @@ export default function QAuthClient() {
   return (
     <div className="w-full min-h-screen" style={{ background: "var(--background)" }}>
       {/* Hero Section */}
-      <section id="hero" className="relative">
-        <GlowBackground className="opacity-60" />
-        <HeroHighlight containerClassName="pt-28 pb-12 min-h-[90vh] !items-start">
+      <section id="hero" className="relative overflow-hidden">
+        <div className="absolute inset-0 hero-aurora-fallback is-animated" aria-hidden="true" />
+        <div className="absolute inset-0" aria-hidden="true">
+          <ShaderBackground className="h-full w-full" />
+        </div>
+        <div
+          className="absolute inset-0 pointer-events-none"
+          aria-hidden="true"
+          style={{ background: "radial-gradient(120% 90% at 50% 30%, transparent 45%, color-mix(in srgb, var(--background) 70%, transparent) 100%)" }}
+        />
+        <div className="relative z-10 w-full min-h-[90vh] pt-28 pb-12 flex flex-col items-center justify-start">
           <Spotlight
             className="-top-40 left-0 md:left-60 md:-top-20"
             fill="currentColor"
@@ -398,7 +408,7 @@ export default function QAuthClient() {
               </span>
             </motion.div>
           </motion.div>
-        </HeroHighlight>
+        </div>
       </section>
 
       {/* Problem Section */}
