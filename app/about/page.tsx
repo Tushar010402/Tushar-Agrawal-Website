@@ -50,7 +50,7 @@ export default function AboutPage() {
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 pt-24 pb-20">
 
         <article className="prose prose-lg max-w-none" style={{ color: "var(--text-primary)" }}>
-          <h1 className="display gradient-text mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold mb-8 text-theme">
             About Tushar Agrawal
           </h1>
 
@@ -83,7 +83,7 @@ export default function AboutPage() {
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-theme-accent mb-4">Professional Experience</h2>
 
-            <div className="rounded-2xl p-6 mb-6 hover:-translate-y-1 hover:shadow-theme-md transition-all duration-300" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+            <div className="rounded-2xl p-6 mb-6" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
               <h3 className="text-xl font-bold text-theme">Software Developer at Dr. Dangs Lab</h3>
               <p className="text-theme-secondary mt-1">May 2023 - Present | New Delhi, India</p>
               <ul className="text-theme-secondary mt-4 space-y-2">
@@ -94,7 +94,7 @@ export default function AboutPage() {
               </ul>
             </div>
 
-            <div className="rounded-2xl p-6 mb-6 hover:-translate-y-1 hover:shadow-theme-md transition-all duration-300" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+            <div className="rounded-2xl p-6 mb-6" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
               <h3 className="text-xl font-bold text-theme">Frontend Developer at BeanByte Softwares</h3>
               <p className="text-theme-secondary mt-1">Feb 2023 - May 2023 | Jaipur, India</p>
               <ul className="text-theme-secondary mt-4 space-y-2">
@@ -103,7 +103,7 @@ export default function AboutPage() {
               </ul>
             </div>
 
-            <div className="rounded-2xl p-6 hover:-translate-y-1 hover:shadow-theme-md transition-all duration-300" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+            <div className="rounded-2xl p-6" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
               <h3 className="text-xl font-bold text-theme">Frontend Developer Intern at GoBOLT</h3>
               <p className="text-theme-secondary mt-1">Jun 2022 - Dec 2022 | Gurugram, India</p>
               <ul className="text-theme-secondary mt-4 space-y-2">
@@ -117,17 +117,17 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold text-theme-accent mb-4">Notable Projects</h2>
 
             <div className="grid gap-6">
-              <div className="rounded-2xl p-6 hover:-translate-y-1 hover:shadow-theme-md transition-all duration-300" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+              <div className="rounded-2xl p-6" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
                 <h3 className="text-xl font-bold text-theme">LiquorPro</h3>
                 <p className="text-theme-secondary mt-2">Enterprise inventory management platform serving 20+ businesses with 80+ users across Uttar Pradesh. Built with Go, Flutter, Redis, Kafka, and PostgreSQL.</p>
               </div>
 
-              <div className="rounded-2xl p-6 hover:-translate-y-1 hover:shadow-theme-md transition-all duration-300" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+              <div className="rounded-2xl p-6" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
                 <h3 className="text-xl font-bold text-theme">FOMOA - India-First AI Search</h3>
                 <p className="text-theme-secondary mt-2">AI search engine optimized for Indian context with Hindi/Hinglish support, trained on 86,000+ samples from 150+ authoritative Indian sources.</p>
               </div>
 
-              <div className="rounded-2xl p-6 hover:-translate-y-1 hover:shadow-theme-md transition-all duration-300" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+              <div className="rounded-2xl p-6" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
                 <h3 className="text-xl font-bold text-theme">Dr. Dangs Lab LIMS</h3>
                 <p className="text-theme-secondary mt-2">HIPAA-compliant Laboratory Information Management System processing 10,000+ monthly medical records with real-time reporting and OCR automation.</p>
               </div>
@@ -136,7 +136,7 @@ export default function AboutPage() {
 
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-theme-accent mb-4">Education</h2>
-            <div className="rounded-2xl p-6 hover:-translate-y-1 hover:shadow-theme-md transition-all duration-300" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+            <div className="rounded-2xl p-6" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
               <h3 className="text-xl font-bold text-theme">GD Goenka University</h3>
               <p className="text-theme-secondary mt-1">B.Tech in Computer Science | 2019 - 2023</p>
             </div>
