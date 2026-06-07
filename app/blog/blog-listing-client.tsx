@@ -335,7 +335,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             className="mb-12"
           >
             <Link href={`/blog/${featuredPost.slug}`}>
-              <div className="group relative rounded-2xl overflow-hidden hover:border-[--accent-muted] hover:-translate-y-1 hover:shadow-theme-lg transition-all duration-300" style={{ background: "linear-gradient(to bottom right, var(--surface), color-mix(in srgb, var(--surface) 50%, transparent))", border: "1px solid var(--border)" }}>
+              <div className="group relative rounded-2xl overflow-hidden hover:border-[--accent-muted] transition-all duration-300" style={{ background: "linear-gradient(to bottom right, var(--surface), color-mix(in srgb, var(--surface) 50%, transparent))", border: "1px solid var(--border)" }}>
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Image */}
                   {featuredPost.image_url && (
@@ -411,7 +411,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
                 <Link href={`/blog/${blog.slug}`}>
-                  <article className="group rounded-xl overflow-hidden hover:border-[--accent-muted] hover:-translate-y-1 hover:shadow-theme-md transition-all duration-300 h-full flex flex-col" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+                  <article className="group rounded-xl overflow-hidden hover:border-[--accent-muted] transition-all duration-300 h-full flex flex-col" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
                     {/* Image */}
                     {blog.image_url && (
                       <div className="relative h-44 overflow-hidden">

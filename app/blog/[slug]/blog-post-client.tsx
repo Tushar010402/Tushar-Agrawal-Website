@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Blog } from '@/lib/types';
 import {
   Calendar,
@@ -29,10 +29,6 @@ interface BlogPostClientProps {
 
 export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPostClientProps) {
   const [copied, setCopied] = useState(false);
-
-  // Reading-progress indicator (cheap: one scroll listener, GPU transform).
-  const { scrollYProgress } = useScroll();
-  const readingProgress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
 
   // Format date
   const formatDate = (dateString: string) => {
@@ -175,8 +171,6 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
 
   return (
     <div className="min-h-screen text-theme" style={{ background: "var(--background)" }}>
-      {/* Reading progress */}
-      <motion.div className="reading-progress" style={{ scaleX: readingProgress }} aria-hidden="true" />
       <div className="max-w-[1400px] mx-auto px-4 pt-24 pb-20">
         <div className="flex gap-8">
           {/* Sidebar - Left Navigation */}
@@ -331,7 +325,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
 
               {/* Content */}
               <div
-                className="prose article-prose max-w-none"
+                className="prose max-w-none"
                 style={{ color: "var(--text-secondary)" }}
                 dangerouslySetInnerHTML={{ __html: renderMarkdown(blog.content) }}
               />
