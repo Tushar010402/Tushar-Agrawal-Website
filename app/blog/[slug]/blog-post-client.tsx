@@ -1,40 +1,10 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { Blog } from '@/lib/types';
-
-// Slugify a heading into an anchor id (shared by the renderer and the TOC).
-function slugifyHeading(s: string): string {
-  return s
-    .replace(/<[^>]+>/g, '')
-    .replace(/[*`_~]/g, '')
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-// Build a table of contents (h2/h3) from raw markdown, skipping fenced code blocks.
-function buildToc(markdown: string): { level: number; text: string; id: string }[] {
-  const out: { level: number; text: string; id: string }[] = [];
-  let inFence = false;
-  for (const line of markdown.split('\n')) {
-    if (line.trim().startsWith('```')) {
-      inFence = !inFence;
-      continue;
-    }
-    if (inFence) continue;
-    const m = line.match(/^(#{2,3})\s+(.*)$/);
-    if (m) {
-      const text = m[2].replace(/[*`_~]/g, '').trim();
-      out.push({ level: m[1].length, text, id: slugifyHeading(text) });
-    }
-  }
-  return out;
-}
 import {
   Calendar,
   Tag as TagIcon,
@@ -63,28 +33,6 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
   // Reading-progress indicator (cheap: one scroll listener, GPU transform).
   const { scrollYProgress } = useScroll();
   const readingProgress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
-
-  // Table of contents + scroll-spy (only shown for longer posts).
-  const toc = useMemo(() => buildToc(blog.content), [blog.content]);
-  const [activeId, setActiveId] = useState<string>('');
-  useEffect(() => {
-    if (toc.length < 3) return;
-    const headings = toc
-      .map((t) => document.getElementById(t.id))
-      .filter((el): el is HTMLElement => el !== null);
-    if (!headings.length) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length) {
-          setActiveId(visible[0].target.id);
-        }
-      },
-      { rootMargin: '-80px 0px -70% 0px', threshold: 0 }
-    );
-    headings.forEach((h) => observer.observe(h));
-    return () => observer.disconnect();
-  }, [toc]);
 
   // Format date
   const formatDate = (dateString: string) => {
@@ -158,9 +106,9 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
     });
 
     // Phase 2: Apply markdown transformations (code is safely extracted)
-    // Headers — h2/h3 get slug ids so the table of contents can link to them
-    html = html.replace(/^### (.*$)/gim, (_m, t) => `<h3 id="${slugifyHeading(t)}" class="text-2xl font-bold mt-8 mb-4 text-theme">${t}</h3>`);
-    html = html.replace(/^## (.*$)/gim, (_m, t) => `<h2 id="${slugifyHeading(t)}" class="text-3xl font-bold mt-10 mb-6 text-theme">${t}</h2>`);
+    // Headers
+    html = html.replace(/^### (.*$)/gim, '<h3 class="text-2xl font-bold mt-8 mb-4 text-theme">$1</h3>');
+    html = html.replace(/^## (.*$)/gim, '<h2 class="text-3xl font-bold mt-10 mb-6 text-theme">$1</h2>');
     html = html.replace(/^# (.*$)/gim, '<h1 class="text-4xl font-bold mt-12 mb-8 text-theme">$1</h1>');
 
     // Bold
@@ -242,37 +190,6 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                 <ArrowLeft className="w-4 h-4" />
                 All Articles
               </Link>
-
-              {/* Table of Contents (longer posts only) */}
-              {toc.length >= 3 && (
-                <nav
-                  aria-label="Table of contents"
-                  className="rounded-xl p-4 mb-6"
-                  style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}
-                >
-                  <div className="flex items-center gap-2 mb-3 pb-3" style={{ borderBottom: "1px solid var(--border)" }}>
-                    <BookOpen className="w-4 h-4 text-theme-accent" />
-                    <span className="font-semibold text-sm text-theme">On this page</span>
-                  </div>
-                  <ul className="space-y-1 max-h-[45vh] overflow-y-auto pr-1 text-sm">
-                    {toc.map((item) => (
-                      <li key={item.id} className={item.level === 3 ? "pl-3" : ""}>
-                        <a
-                          href={`#${item.id}`}
-                          className={`block py-1 border-l-2 pl-2 transition-colors ${
-                            activeId === item.id
-                              ? "text-theme-accent font-medium"
-                              : "text-theme-secondary hover:text-theme"
-                          }`}
-                          style={{ borderColor: activeId === item.id ? "var(--accent)" : "transparent" }}
-                        >
-                          {item.text}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              )}
 
               {/* All Blogs List */}
               <div className="rounded-xl p-4" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
