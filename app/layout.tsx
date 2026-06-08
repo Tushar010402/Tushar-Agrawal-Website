@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/ui/footer";
 import { ThemeProvider } from "@/components/theme-provider";
-import { CursorGlow } from "@/components/ui/cursor-glow";
+import { SmoothScroll } from "@/components/ui/visuals/smooth-scroll";
+import { CookieConsent } from "@/components/ui/cookie-consent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,13 +17,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Distinctive grotesk display face for big headings (Clay-style).
+const displayFont = Bricolage_Grotesque({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in'),
   verification: {
     google: 'QgpuL3dlMJxrVaZQ0j1KMx1cB3zVdoxU8lShWYEDc1s',
   },
-  title: "Tushar Agrawal - Backend Engineer | Full-Stack Developer",
-  description: "Backend Engineer with 3 years of experience building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, React, Next.js, Django, FastAPI, PostgreSQL, Redis, Docker, Nginx, and microservices architecture. Specialized in HIPAA-compliant systems, distributed systems, and AI automation.",
+  title: "Tushar Agrawal - Full-Stack Engineer | Backend & Distributed Systems",
+  description: "Full-Stack Engineer with 3 years of experience building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, React, Next.js, Django, FastAPI, PostgreSQL, Redis, Docker, Nginx, and microservices architecture. Specialized in HIPAA-compliant systems, distributed systems, and AI automation.",
   keywords: ["Tushar Agrawal", "Backend Engineer", "Full Stack Developer", "Python Developer", "Go Developer", "TypeScript Developer", "React Developer", "Next.js", "Django", "FastAPI", "PostgreSQL", "Redis", "Docker", "Nginx", "Microservices", "Healthcare SaaS", "HIPAA Compliance", "Distributed Systems", "AI Automation"],
   authors: [{ name: "Tushar Agrawal", url: "https://github.com/Tushar010402" }],
   icons: {
@@ -38,8 +46,8 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   openGraph: {
-    title: "Tushar Agrawal - Backend Engineer | Full-Stack Developer",
-    description: "Backend Engineer with 3 years building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, and modern web technologies.",
+    title: "Tushar Agrawal - Full-Stack Engineer | Backend & Distributed Systems",
+    description: "Full-Stack Engineer with 3 years building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, and modern web technologies.",
     type: "website",
     locale: "en_US",
     url: '/',
@@ -47,8 +55,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tushar Agrawal - Backend Engineer",
-    description: "Backend Engineer with 3 years building scalable healthcare SaaS platforms.",
+    title: "Tushar Agrawal - Full-Stack Engineer",
+    description: "Full-Stack Engineer with 3 years building scalable healthcare SaaS platforms.",
     creator: "@TusharAgrawal",
   },
   other: {
@@ -228,7 +236,7 @@ export default function RootLayout({
   // content has no FAQ), which Google flagged as invalid items in Search Console.
 
   return (
-    <html lang="en">
+    <html lang="en" className="warm">
       <head>
         {/* Favicon configuration - 48x48 required for Google Search results */}
         <link rel="icon" href="/favicon.ico" sizes="48x48" />
@@ -237,7 +245,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#6366f1" />
+        <meta name="theme-color" content="#17130d" />
 
         <script
           type="application/ld+json"
@@ -257,16 +265,18 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col transition-theme`}
+        className={`${geistSans.variable} ${geistMono.variable} ${displayFont.variable} antialiased min-h-screen flex flex-col transition-theme`}
         style={{ background: "var(--background)", color: "var(--text-primary)" }}
       >
         <ThemeProvider>
-          <Navbar />
-          <CursorGlow />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <SmoothScroll>
+            <Navbar />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </SmoothScroll>
+          <CookieConsent />
         </ThemeProvider>
       </body>
     </html>

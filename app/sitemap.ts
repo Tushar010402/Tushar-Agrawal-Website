@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/qauth`, lastModified: new Date('2026-01-30'), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${baseUrl}/qauth/docs`, lastModified: new Date('2026-01-30'), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/qauth/demo`, lastModified: new Date('2026-01-30'), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${baseUrl}/privacy`, lastModified: new Date('2026-06-08'), changeFrequency: 'yearly', priority: 0.3 },
   ];
 
   // Blog posts.

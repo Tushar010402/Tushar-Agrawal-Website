@@ -8,7 +8,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/static/', '/_next/image/'],
+        // NOTE: do NOT block /_next/static or /_next/image — Google needs CSS/JS/images
+        // to render and index pages. Only private/non-content routes are disallowed.
+        disallow: ['/api/', '/admin'],
       },
       // Major Search Engines - Explicitly allow
       {

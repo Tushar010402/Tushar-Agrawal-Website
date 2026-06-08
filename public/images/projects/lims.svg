@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="Dr. Dangs Lab LIMS — healthcare platform">
+  <defs>
+    <linearGradient id="li-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a0f23"/>
+      <stop offset="1" stop-color="#2a0f2e"/>
+    </linearGradient>
+    <linearGradient id="li-pulse" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+    <radialGradient id="li-glow" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#a855f7" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#a855f7" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="li-blur"><feGaussianBlur stdDeviation="26"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#li-bg)"/>
+  <ellipse cx="600" cy="300" rx="340" ry="280" fill="url(#li-glow)" filter="url(#li-blur)"/>
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <path d="M0 150H1200M0 300H1200M0 450H1200"/>
+  </g>
+  <!-- ECG pulse line -->
+  <polyline points="120,300 320,300 380,300 420,180 470,430 520,300 760,300 820,300 860,230 900,360 940,300 1080,300"
+            fill="none" stroke="url(#li-pulse)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- medical cross -->
+  <g transform="translate(600 290)">
+    <rect x="-90" y="-90" width="180" height="180" rx="36" fill="url(#li-pulse)" fill-opacity="0.14" stroke="url(#li-pulse)" stroke-width="3"/>
+    <path d="M-22 -56 H22 V-22 H56 V22 H22 V56 H-22 V22 H-56 V-22 H-22 Z" fill="#fce7f3"/>
+  </g>
+  <text x="64" y="612" font-family="'Bricolage Grotesque','Geist',system-ui,sans-serif" font-size="34" font-weight="700" fill="#ffffff" letter-spacing="-0.5">Dr. Dangs Lab LIMS</text>
+  <text x="64" y="642" font-family="'Geist',system-ui,sans-serif" font-size="18" fill="#d6bfe0">HIPAA-compliant · 500+ daily patients</text>
+</svg>

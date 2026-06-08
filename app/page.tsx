@@ -1,73 +1,103 @@
 "use client";
-import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
-import { TextScramble } from "@/components/ui/text-scramble";
-import { HoverEffect } from "@/components/ui/card-hover-effect";
-import { ProjectGrid } from "@/components/ui/project-card";
-import { Timeline } from "@/components/ui/timeline";
-import { Button } from "@/components/ui/moving-border";
-import { MagneticElement } from "@/components/ui/magnetic-element";
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { Spotlight } from "@/components/ui/spotlight";
-import { GlowBackground } from "@/components/ui/glow-background";
+
+import Link from "next/link";
+import { useState } from "react";
+import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { AIChatPanel } from "@/components/ui/ai-chat-panel";
 import { AIChatFab } from "@/components/ui/ai-chat-fab";
-import { useCallback, useRef, useState } from "react";
+import { Counter, Marquee, RotatingWord } from "@/components/ui/visuals/motion-bits";
+import { AnimatedHeroBg } from "@/components/ui/visuals/animated-hero-bg";
 
-function MagneticTitle({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 150, damping: 15 });
-  const springY = useSpring(y, { stiffness: 150, damping: 15 });
+// ---- Content -------------------------------------------------------------
 
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
-      if (!ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const dx = e.clientX - centerX;
-      const dy = e.clientY - centerY;
-      x.set(dx * 0.03);
-      y.set(dy * 0.03);
-    },
-    [x, y]
-  );
+const stats = [
+  { num: 3, suffix: "+", label: "Years experience" },
+  { num: 80, suffix: "+", label: "Active users" },
+  { num: 20, suffix: "+", label: "Businesses served" },
+  { num: 99.9, suffix: "%", label: "System uptime" },
+];
 
-  const handleMouseLeave = useCallback(() => {
-    x.set(0);
-    y.set(0);
-  }, [x, y]);
+const techStack = [
+  "Python", "Go", "TypeScript", "FastAPI", "Django", "Next.js", "React",
+  "PostgreSQL", "Redis", "Apache Kafka", "Docker", "Kubernetes", "AWS", "Rust",
+];
 
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY }}
-    >
-      {children}
-    </motion.div>
-  );
-}
+const projects = [
+  {
+    name: "LiquorPro",
+    year: "2024",
+    tags: ["Go", "Kafka", "PostgreSQL", "Flutter"],
+    description:
+      "Enterprise inventory & billing platform serving 20+ businesses and 80+ users across Uttar Pradesh.",
+    href: "https://github.com/Tushar010402",
+    accent: "#4f46e5",
+    image: "/images/projects/liquorpro.svg",
+  },
+  {
+    name: "LIMS — Dr. Dangs Lab",
+    year: "2023",
+    tags: ["Go", "FastAPI", "Microservices", "HIPAA"],
+    description:
+      "HIPAA-compliant Laboratory Information Management System for 15+ departments and 500+ daily patients.",
+    href: "#contact",
+    accent: "#0ea5e9",
+    image: "/images/projects/lims.svg",
+  },
+  {
+    name: "FOMOA — AI Search",
+    year: "2026",
+    tags: ["LLM", "RAG", "Python", "India-first"],
+    description:
+      "India-first AI search engine with native Hindi/Hinglish, trained on 86,000+ samples from 150+ Indian sources.",
+    href: "/blog/fomoa-ai-complete-guide-features-2026",
+    accent: "#f59e0b",
+    image: "/images/projects/fomoa.svg",
+  },
+  {
+    name: "QAuth & QuantumShield",
+    year: "2026",
+    tags: ["Rust", "Post-Quantum", "ML-DSA", "Security"],
+    description:
+      "A post-quantum authentication protocol and cryptography library implementing NIST FIPS 203/204/205.",
+    href: "/qauth",
+    accent: "#10b981",
+    image: "/images/projects/qauth.svg",
+  },
+];
 
-// Simple fade-up wrapper - no variants, no propagation issues
-function FadeInSection({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.05 }}
-      transition={{ duration: 0.6, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
+const capabilities = [
+  { title: "Languages", items: "Python · Go · TypeScript · JavaScript" },
+  { title: "Backend", items: "FastAPI · Django · Flask · Node.js" },
+  { title: "Databases", items: "PostgreSQL · MongoDB · Redis · DynamoDB" },
+  { title: "Messaging", items: "Apache Kafka · RabbitMQ · Redis Streams" },
+  { title: "Cloud & DevOps", items: "AWS · Docker · Kubernetes · Nginx · CI/CD" },
+  { title: "Architecture", items: "Microservices · Event-Driven · REST · GraphQL" },
+];
 
-// FAQPage schema — rendered only on the homepage (its visible Q&A content lives here),
-// so Google does not see FAQ markup on pages that have no FAQ.
+const experience = [
+  { role: "Software Developer", org: "Dr. Dangs Lab", period: "May 2023 — Present", place: "New Delhi" },
+  { role: "Frontend Developer", org: "BeanByte Softwares", period: "Feb 2023 — May 2023", place: "Jaipur" },
+  { role: "Frontend Developer Intern", org: "GoBOLT", period: "Jun 2022 — Dec 2022", place: "Gurugram" },
+];
+
+const writing = [
+  {
+    title: "The Cache Stampede That Took Down Our API",
+    tag: "Performance",
+    href: "/blog/redis-cache-stampede-p99-latency-war-story",
+  },
+  {
+    title: "Post-Quantum Cryptography Deadlines: 2027, 2030 & 2035",
+    tag: "Security",
+    href: "/blog/post-quantum-cryptography-deadlines-2027-2030-2035",
+  },
+  {
+    title: "Building Backends for AI Agents",
+    tag: "Architecture",
+    href: "/blog/building-backends-for-ai-agents-idempotency-retries-state",
+  },
+];
+
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -98,14 +128,6 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "What projects has Tushar Agrawal built?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Tushar Agrawal has built LiquorPro (inventory management for 20+ businesses), LIMS at Dr. Dangs Lab (serving 500+ daily patients), FOMOA (India-first AI search engine), and various microservices handling 50,000+ daily API requests with 99.9% uptime.",
-      },
-    },
-    {
-      "@type": "Question",
       name: "How to contact Tushar Agrawal?",
       acceptedAnswer: {
         "@type": "Answer",
@@ -115,583 +137,243 @@ const faqSchema = {
   ],
 };
 
+// ---- Helpers -------------------------------------------------------------
+
+function Reveal({ children, className }: { children: React.ReactNode; delay?: number; className?: string }) {
+  return <div className={`clay-reveal ${className ?? ""}`}>{children}</div>;
+}
+
+// ---- Page ----------------------------------------------------------------
+
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [chatTopic, setChatTopic] = useState<string | undefined>(undefined);
-
-  const handleOpenChat = useCallback((topic: string) => {
-    setChatTopic(topic);
-    setIsChatOpen(true);
-  }, []);
 
   return (
-    <div className="w-full transition-theme" style={{ background: "var(--background)" }}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+    <div className="w-full" style={{ background: "var(--background)", color: "var(--text-primary)" }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* Hero Section */}
-      <section id="home" className="relative overflow-hidden">
-        <GlowBackground className="opacity-80" />
-        <HeroHighlight containerClassName="pt-28" onOpenChat={handleOpenChat}>
-          <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="currentColor" />
-          <div className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto text-theme">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.3 }}
-            >
-              <MagneticTitle>
-                Hi, I&apos;m{" "}
-                <Highlight className="text-theme">
-                  Tushar Agrawal
-                </Highlight>
-              </MagneticTitle>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.6 }}
-              className="mt-8"
-            >
-              <TextScramble
-                text="Backend Engineer | 3+ YOE | Distributed Systems, Python, TypeScript, Apache & Nginx, PostgreSQL"
-                className="text-xl md:text-2xl"
-                delay={800}
-                duration={2000}
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.9 }}
-              className="flex gap-4 flex-wrap justify-center mt-10"
-            >
-              <MagneticElement>
-                <Button borderRadius="1.75rem" className="px-8 py-4 transition-theme" containerClassName="transition-theme">
-                  <a href="/Tushar_Agrawal_Resume.pdf" download="Tushar_Agrawal_Resume.pdf" className="flex items-center gap-2 text-theme">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Download Resume
-                  </a>
-                </Button>
-              </MagneticElement>
-              <MagneticElement>
-                <Button borderRadius="1.75rem" className="px-8 py-4 transition-theme" containerClassName="transition-theme">
-                  <a href="mailto:tusharagrawal0104@gmail.com" className="flex items-center gap-2 text-theme">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    Get in Touch
-                  </a>
-                </Button>
-              </MagneticElement>
-            </motion.div>
-          </div>
+      {/* ===== Hero ===== */}
+      <section id="home" className="relative overflow-hidden pt-40 pb-24 md:pt-52 md:pb-32">
+        {/* Living, video-style animated gradient mesh */}
+        <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ opacity: 0.5 }}>
+          <AnimatedHeroBg intensity={1} />
+        </div>
+        {/* Faint crisp grid backdrop — designed, not muddy */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
+            backgroundSize: "clamp(48px, 7vw, 96px) clamp(48px, 7vw, 96px)",
+            maskImage: "radial-gradient(120% 90% at 30% 10%, #000 30%, transparent 80%)",
+            WebkitMaskImage: "radial-gradient(120% 90% at 30% 10%, #000 30%, transparent 80%)",
+            opacity: 0.6,
+          }}
+        />
+        <div className="clay-container relative">
+          <p className="clay-rise clay-eyebrow mb-8 inline-flex items-center gap-2">
+            <span className="inline-block w-2 h-2 rounded-full" style={{ background: "var(--success)" }} />
+            Tushar Agrawal — Full-Stack Engineer · New Delhi, India
+          </p>
 
-          {/* Scroll indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.5, duration: 0.8 }}
-            className="absolute bottom-6 left-0 right-0 z-20 flex justify-center"
-          >
-            <a href="#about" className="flex flex-col items-center gap-1 text-theme-tertiary hover:text-theme-secondary transition-colors">
-              <span className="text-[10px] uppercase tracking-[0.2em] font-medium">Scroll</span>
-              <svg className="w-4 h-4 animate-bounce-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
+          <h1 className="clay-rise clay-rise-1 clay-display max-w-[18ch]">
+            I build full-stack systems that{" "}
+            <RotatingWord
+              words={["scale.", "ship.", "endure.", "perform."]}
+              className="text-[var(--accent)]"
+            />
+          </h1>
+
+          <p className="clay-rise clay-rise-2 clay-lead text-theme-secondary mt-10 max-w-2xl">
+            Three years building HIPAA-compliant healthcare platforms, distributed systems, and
+            post-quantum infrastructure — front to back, with Python, Go, TypeScript, and a lot of
+            production scars.
+          </p>
+
+          <div className="clay-rise clay-rise-3 flex flex-wrap items-center gap-4 mt-12">
+            <a href="#work" className="clay-btn clay-btn-dark">
+              View work <ArrowDown className="w-4 h-4" />
             </a>
-          </motion.div>
-        </HeroHighlight>
+            <a href="/Tushar_Agrawal_Resume.pdf" download className="clay-btn clay-btn-ghost">
+              Download résumé <ArrowUpRight className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto relative">
-        <FadeInSection>
-          <h2 className="text-4xl md:text-6xl font-bold text-theme mb-12">About Me</h2>
-        </FadeInSection>
-        <FadeInSection delay={0.1}>
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
-            <div className="card p-8">
-              <h3 className="text-2xl font-bold text-theme mb-4">Professional Background</h3>
-              <p className="text-theme-secondary text-base leading-relaxed">
-                Full-Stack Developer with 3 years building scalable healthcare SaaS platforms serving 80+ users across 20+ businesses.
-                Reduced operational costs by 90% through microservices architecture and AI automation. Collaborated with cross-functional
-                teams and third-party vendors to deliver integrated solutions.
-              </p>
+      {/* ===== Tech marquee ===== */}
+      <section aria-label="Technologies" className="py-6 border-y" style={{ borderColor: "var(--border)" }}>
+        <Marquee>
+          {techStack.map((t) => (
+            <span key={t} className="mx-6 text-xl md:text-2xl font-medium text-theme-tertiary">
+              {t}
+              <span className="mx-6 text-theme-muted">/</span>
+            </span>
+          ))}
+        </Marquee>
+      </section>
+
+      {/* ===== Statement + stats ===== */}
+      <section id="about" className="clay-container py-16 md:py-24">
+        <Reveal>
+          <hr className="clay-rule mb-16" />
+          <p className="clay-statement max-w-5xl">
+            Full-Stack Engineer at <span className="text-theme">Dr. Dangs Lab</span>, building
+            systems that serve <span className="text-theme">500+ daily patients</span> and{" "}
+            <span className="text-theme">80+ businesses</span> — reliably, securely, at scale.
+          </p>
+        </Reveal>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-8 mt-20">
+          {stats.map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.08}>
+              <Counter value={s.num} suffix={s.suffix} className="clay-stat block text-[var(--accent)]" />
+              <div className="text-theme-secondary mt-2 text-sm md:text-base">{s.label}</div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ===== Selected Work ===== */}
+      <section id="work" className="clay-container clay-section">
+        <Reveal>
+          <div className="flex items-end justify-between flex-wrap gap-4 mb-14">
+            <div>
+              <p className="clay-eyebrow mb-4">Selected Work</p>
+              <h2 className="clay-h2">Things I&apos;ve built.</h2>
             </div>
-            <div className="card p-8">
-              <h3 className="text-2xl font-bold text-theme mb-4">Technical Expertise</h3>
-              <p className="text-theme-secondary text-base leading-relaxed">
-                Proficient in Python, Go, React, and Next.js with hands-on experience in HIPAA-compliant systems and cloud deployment.
-                Specialized in building high-performance distributed systems with event-driven architecture and microservices.
-              </p>
-            </div>
           </div>
-        </FadeInSection>
+        </Reveal>
 
-        {/* Quick Stats */}
-        <FadeInSection delay={0.2}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            {[
-              { value: "3+", label: "Years Experience", color: "var(--accent)" },
-              { value: "80+", label: "Active Users", color: "#22c55e" },
-              { value: "20+", label: "Businesses Served", color: "#a855f7" },
-              { value: "99.9%", label: "System Uptime", color: "#f59e0b" },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="card p-6 text-center"
-                style={{
-                  borderColor: `color-mix(in srgb, ${stat.color} 30%, transparent)`,
-                  background: `linear-gradient(135deg, color-mix(in srgb, ${stat.color} 10%, var(--surface)), var(--surface))`,
-                }}
-              >
-                <div className="text-3xl font-bold" style={{ color: stat.color }}>{stat.value}</div>
-                <div className="text-sm text-theme-secondary mt-2">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </FadeInSection>
-
-        <FadeInSection delay={0.3}>
-          <div className="flex gap-4 flex-wrap">
-            <MagneticElement>
-              <Button borderRadius="1.75rem" className="px-8 py-4 transition-theme" containerClassName="transition-theme">
-                <a href="/Tushar_Agrawal_Resume.pdf" download="Tushar_Agrawal_Resume.pdf" className="flex items-center gap-2 text-theme">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Download Resume
-                </a>
-              </Button>
-            </MagneticElement>
-            <MagneticElement>
-              <Button borderRadius="1.75rem" className="px-8 py-4 transition-theme" containerClassName="transition-theme">
-                <a href="tel:+918126816664" className="flex items-center gap-2 text-theme">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  +91-8126816664
-                </a>
-              </Button>
-            </MagneticElement>
-            <MagneticElement>
-              <Button borderRadius="1.75rem" className="px-8 py-4 transition-theme" containerClassName="transition-theme">
-                <a href="mailto:tusharagrawal0104@gmail.com" className="flex items-center gap-2 text-theme">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  Email Me
-                </a>
-              </Button>
-            </MagneticElement>
-          </div>
-        </FadeInSection>
-      </section>
-
-      {/* Skills Section */}
-      <section id="skills" className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
-        <FadeInSection>
-          <h2 className="text-4xl md:text-6xl font-bold text-theme mb-4">Skills & Technologies</h2>
-          <p className="text-theme-secondary text-lg max-w-3xl mb-12">
-            Comprehensive technical expertise across full-stack development, cloud infrastructure, and modern architecture patterns.
-          </p>
-        </FadeInSection>
-        <FadeInSection delay={0.1}>
-          <HoverEffect items={skillsData} />
-        </FadeInSection>
-      </section>
-
-      {/* Experience Section */}
-      <section id="experience" className="py-20">
-        <FadeInSection>
-          <Timeline data={experienceData} />
-        </FadeInSection>
-      </section>
-
-      {/* Projects Section */}
-      <section id="projects" className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
-        <FadeInSection>
-          <h2 className="text-4xl md:text-6xl font-bold text-theme mb-4">Featured Projects</h2>
-          <p className="text-theme-secondary text-lg max-w-3xl mb-12">
-            A showcase of my work in building scalable systems, healthcare platforms, and innovative solutions
-            that have made real-world impact across multiple industries.
-          </p>
-        </FadeInSection>
-        <FadeInSection delay={0.1}>
-          <ProjectGrid items={projectsData} />
-        </FadeInSection>
-      </section>
-
-      {/* Blog Section */}
-      <section id="blog" className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
-        <FadeInSection>
-          <h2 className="text-4xl md:text-6xl font-bold text-theme mb-4">Latest Articles</h2>
-          <p className="text-theme-secondary text-lg max-w-3xl mb-12">
-            Technical deep-dives on backend engineering, system design, and modern development practices.
-          </p>
-        </FadeInSection>
-        <FadeInSection delay={0.1}>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {[
-              {
-                href: "/blog/redis-cache-stampede-p99-latency-war-story",
-                tag: "PERFORMANCE",
-                tagColor: "var(--accent)",
-                title: "The Cache Stampede That Took Down Our API",
-                description: "A single expiring Redis key sent 4,000 requests to PostgreSQL at once. How we cut p99 latency by 80%."
-              },
-              {
-                href: "/blog/database-connection-pooling-performance-guide",
-                tag: "DATABASE",
-                tagColor: "#22c55e",
-                title: "Database Connection Pooling: The Performance Fix",
-                description: "How I learned about connection pooling after our PostgreSQL database crashed under load."
-              },
-              {
-                href: "/blog/kafka-consumer-lag-2-million-debugging-war-story",
-                tag: "DISTRIBUTED",
-                tagColor: "#a855f7",
-                title: "When Our Kafka Consumer Lag Hit 2 Million",
-                description: "Order events fell 2M messages behind and nobody noticed for hours. Diagnosing and draining Kafka lag."
-              },
-              {
-                href: "/blog/post-quantum-cryptography-migration-guide-2026",
-                tag: "SECURITY",
-                tagColor: "#06b6d4",
-                title: "Migrating to Post-Quantum Cryptography (2026)",
-                description: "Harvest-now-decrypt-later means quantum-vulnerable data is already at risk. A practical migration guide."
-              },
-              {
-                href: "/blog/idempotency-keys-preventing-double-charges",
-                tag: "API DESIGN",
-                tagColor: "#f59e0b",
-                title: "Idempotency Keys: How We Stopped Double-Charging",
-                description: "A retry on a slow payment charged a customer twice. Making any unsafe POST safe to retry."
-              },
-              {
-                href: "/blog/backend-developer-salary-india-2026",
-                tag: "CAREER",
-                tagColor: "#ec4899",
-                title: "Backend Developer Salary in India 2026",
-                description: "Realistic salary ranges by experience, city, and company tier — and the skills that move you between bands."
-              }
-            ].map((article) => (
-              <a key={article.href} href={article.href} className="group">
-                <div className="card p-6 h-full transition-all hover:shadow-theme-md" style={{ borderColor: "var(--border)" }}>
-                  <span className="text-xs font-medium" style={{ color: article.tagColor }}>{article.tag}</span>
-                  <h3 className="text-theme font-semibold mt-2 mb-3 group-hover:text-theme-accent transition-colors">{article.title}</h3>
-                  <p className="text-theme-secondary text-sm">{article.description}</p>
+        <div id="projects" className="grid md:grid-cols-2 gap-6 lg:gap-8">
+          {projects.map((p, i) => (
+            <Reveal key={p.name} delay={(i % 2) * 0.1}>
+              <Link href={p.href} className="clay-card group block h-full overflow-hidden">
+                {/* Poster cover art */}
+                <div className="relative h-48 md:h-56 overflow-hidden">
+                  <img
+                    src={p.image}
+                    alt={`${p.name} cover`}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35), transparent 55%)" }} />
+                  <span className="absolute bottom-4 left-5 text-white/85 text-sm font-medium">{p.year}</span>
+                  <ArrowUpRight className="absolute top-5 right-5 w-6 h-6 text-white/90 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </div>
-              </a>
+                <div className="p-6 md:p-8">
+                  <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">{p.name}</h3>
+                  <p className="text-theme-secondary mt-3 leading-relaxed">{p.description}</p>
+                  <div className="flex flex-wrap gap-2 mt-6">
+                    {p.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="text-xs px-3 py-1 rounded-full text-theme-secondary"
+                        style={{ background: "var(--background-secondary)", border: "1px solid var(--border)" }}
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ===== Capabilities ===== */}
+      <section id="skills" className="clay-section" style={{ background: "var(--background-secondary)" }}>
+        <div className="clay-container">
+          <Reveal>
+            <p className="clay-eyebrow mb-4">Capabilities</p>
+            <h2 className="clay-h2 mb-16">What I work with.</h2>
+          </Reveal>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12">
+            {capabilities.map((c, i) => (
+              <Reveal key={c.title} delay={(i % 3) * 0.08}>
+                <h3 className="text-lg font-semibold mb-3">{c.title}</h3>
+                <hr className="clay-rule mb-3" />
+                <p className="text-theme-secondary leading-relaxed">{c.items}</p>
+              </Reveal>
             ))}
           </div>
-        </FadeInSection>
-        <FadeInSection delay={0.15}>
-          <div className="mb-8">
-            <p className="text-theme-secondary text-sm mb-3 font-medium">Browse by topic</p>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { label: "PostgreSQL", slug: "postgresql" },
-                { label: "Redis", slug: "redis" },
-                { label: "Kafka", slug: "apache-kafka" },
-                { label: "Post-Quantum Cryptography", slug: "post-quantum-cryptography" },
-                { label: "System Design", slug: "system-design" },
-                { label: "Python", slug: "python" },
-                { label: "Microservices", slug: "microservices" },
-                { label: "Tech Career India", slug: "tech-career-india" },
-              ].map((t) => (
-                <a
-                  key={t.slug}
-                  href={`/blog/tag/${t.slug}`}
-                  className="inline-flex items-center px-3 py-1 text-sm rounded-full text-theme-secondary hover:text-theme-accent transition-all"
-                  style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
-                >
-                  {t.label}
-                </a>
-              ))}
+        </div>
+      </section>
+
+      {/* ===== Experience ===== */}
+      <section className="clay-container clay-section">
+        <Reveal>
+          <p className="clay-eyebrow mb-4">Experience</p>
+          <h2 className="clay-h2 mb-14">Where I&apos;ve worked.</h2>
+        </Reveal>
+        <div>
+          {experience.map((e, i) => (
+            <Reveal key={e.org} delay={i * 0.06}>
+              <div className="grid md:grid-cols-12 gap-2 md:gap-6 items-baseline py-7" style={{ borderTop: "1px solid var(--border)" }}>
+                <div className="md:col-span-5 text-2xl md:text-3xl font-semibold tracking-tight">{e.org}</div>
+                <div className="md:col-span-4 text-theme-secondary">{e.role}</div>
+                <div className="md:col-span-3 text-theme-tertiary md:text-right">
+                  {e.period} · {e.place}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+          <hr className="clay-rule" />
+        </div>
+      </section>
+
+      {/* ===== Writing ===== */}
+      <section id="blog" className="clay-section" style={{ background: "var(--background-secondary)" }}>
+        <div className="clay-container">
+          <Reveal>
+            <div className="flex items-end justify-between flex-wrap gap-4 mb-14">
+              <div>
+                <p className="clay-eyebrow mb-4">Writing</p>
+                <h2 className="clay-h2">From the blog.</h2>
+              </div>
+              <Link href="/blog" className="clay-link text-lg">All articles →</Link>
             </div>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            {writing.map((w, i) => (
+              <Reveal key={w.href} delay={i * 0.1}>
+                <Link href={w.href} className="clay-card group block h-full p-7">
+                  <span className="clay-eyebrow">{w.tag}</span>
+                  <h3 className="text-xl font-semibold mt-4 leading-snug tracking-tight group-hover:text-theme-accent transition-colors">
+                    {w.title}
+                  </h3>
+                  <span className="inline-flex items-center gap-1 mt-6 text-theme-secondary text-sm">
+                    Read <ArrowUpRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
           </div>
-        </FadeInSection>
-        <FadeInSection delay={0.2}>
-          <div className="text-center">
-            <a href="/blog" className="inline-flex items-center gap-2 font-medium transition-colors" style={{ color: "var(--accent)" }}>
-              View all articles
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+        </div>
+      </section>
+
+      {/* ===== Contact ===== */}
+      <section id="contact" className="clay-container clay-section text-center">
+        <Reveal>
+          <p className="clay-eyebrow mb-8">Get in touch</p>
+          <h2 className="clay-display mb-10">Let&apos;s build something.</h2>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a href="mailto:tusharagrawal0104@gmail.com" className="clay-btn clay-btn-dark">
+              tusharagrawal0104@gmail.com <ArrowUpRight className="w-4 h-4" />
             </a>
           </div>
-        </FadeInSection>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
-        <FadeInSection>
-          <div
-            className="card p-12 relative overflow-hidden"
-            style={{
-              background: "linear-gradient(135deg, var(--surface), color-mix(in srgb, var(--surface) 50%, var(--background)))",
-            }}
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10 blur-3xl" style={{ background: "var(--accent)" }} />
-
-            <div className="text-center mb-12 relative z-10">
-              <h2 className="text-4xl md:text-6xl font-bold text-theme mb-6">Let&apos;s Connect</h2>
-              <p className="text-theme-secondary text-lg max-w-2xl mx-auto leading-relaxed">
-                I&apos;m always interested in hearing about new projects and opportunities.
-                Whether you have a question or just want to say hi, feel free to reach out!
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 relative z-10">
-              {[
-                {
-                  href: "mailto:tusharagrawal0104@gmail.com",
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                  ),
-                  title: "Email",
-                  subtitle: "tusharagrawal0104@gmail.com"
-                },
-                {
-                  href: "https://www.linkedin.com/in/tushar-agrawal-91b67a28a",
-                  icon: (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                  ),
-                  title: "LinkedIn",
-                  subtitle: "Connect with me"
-                },
-                {
-                  href: "https://github.com/Tushar010402",
-                  icon: (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                    </svg>
-                  ),
-                  title: "GitHub",
-                  subtitle: "View my projects"
-                }
-              ].map((contact) => (
-                <a
-                  key={contact.title}
-                  href={contact.href}
-                  target={contact.href.startsWith("http") ? "_blank" : undefined}
-                  rel={contact.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="group"
-                >
-                  <div className="card-elevated p-6 text-center">
-                    <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 transition-all group-hover:scale-110"
-                      style={{ background: "var(--accent-subtle)", color: "var(--accent)" }}
-                    >
-                      {contact.icon}
-                    </div>
-                    <h3 className="text-theme font-semibold mb-2">{contact.title}</h3>
-                    <p className="text-theme-secondary text-sm">{contact.subtitle}</p>
-                  </div>
-                </a>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap gap-4 justify-center relative z-10">
-              <MagneticElement>
-                <Button borderRadius="1.75rem" className="px-10 py-4 transition-theme" containerClassName="transition-theme">
-                  <a href="/Tushar_Agrawal_Resume.pdf" download="Tushar_Agrawal_Resume.pdf" className="flex items-center gap-2 font-semibold text-theme">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Download Resume
-                  </a>
-                </Button>
-              </MagneticElement>
-            </div>
+          <div className="flex items-center justify-center gap-8 mt-12 text-theme-secondary">
+            <a href="https://www.linkedin.com/in/tushar-agrawal-91b67a28a" target="_blank" rel="noopener noreferrer" className="clay-link">LinkedIn</a>
+            <a href="https://github.com/Tushar010402" target="_blank" rel="noopener noreferrer" className="clay-link">GitHub</a>
+            <a href="/blog" className="clay-link">Blog</a>
           </div>
-        </FadeInSection>
+        </Reveal>
       </section>
 
-      {/* AI Chat FAB + Panel */}
-      <AIChatFab onClick={() => { setChatTopic(undefined); setIsChatOpen(true); }} />
-      <AIChatPanel isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} topic={chatTopic} />
-
+      <AIChatFab onClick={() => setIsChatOpen(true)} />
+      <AIChatPanel isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} topic={undefined} />
     </div>
   );
 }
-
-const skillsData = [
-  {
-    title: "Languages",
-    description:
-      "TypeScript, JavaScript, Python, Golang",
-  },
-  {
-    title: "Frameworks",
-    description:
-      "Next.js, Django, Flask, Node.js, FastAPI, React.js",
-  },
-  {
-    title: "Databases",
-    description:
-      "PostgreSQL, MongoDB, DynamoDB, Redis",
-  },
-  {
-    title: "DevOps & Infrastructure",
-    description:
-      "Docker, Nginx/Apache, CI/CD Pipelines (Github Actions), Automated Database/RAM Optimization, Secure Cloud Storage",
-  },
-  {
-    title: "Architecture",
-    description:
-      "Event-Driven Systems, Microservices, System Design, AI-Assisted Development (Claude Code, Cursor), LLMs",
-  },
-  {
-    title: "Additional Skills",
-    description:
-      "REST APIs, GraphQL, WebSocket, HIPAA/DPDP Compliance, OCR, Load Balancing, Zero-Downtime Deployment",
-  },
-];
-
-const projectsData = [
-  {
-    title: "LiquorPro",
-    description:
-      "Enterprise-grade inventory management platform serving 20+ businesses with 80+ users across Uttar Pradesh, revolutionizing liquor retail operations.",
-    longDescription:
-      "A comprehensive SaaS solution that transformed how liquor retailers manage inventory, sales, and compliance across multiple stores.",
-    tech: ["Go", "Flutter", "Redis", "Kafka", "PostgreSQL", "Docker", "Microservices", "OCR", "REST API"],
-    achievements: [
-      "Reduced data entry time by 90% (45 minutes → 5 minutes) using AI-powered OCR",
-      "Achieved sub-100ms response times with optimized Go microservices",
-      "Serving 80+ users across 20+ businesses in Uttar Pradesh",
-      "Built event-driven architecture with Kafka for real-time inventory updates",
-      "Implemented Redis caching layer reducing database load by 70%"
-    ],
-    link: "https://floelife.in",
-    github: "https://github.com/Tushar010402/Liqour_1.1",
-    status: "Live" as const,
-  },
-  {
-    title: "Laboratory Information Management System (LIMS)",
-    description:
-      "Enterprise healthcare system for Dr Dangs Lab managing 15+ departments, 500+ daily patients, and processing 1,000+ medical reports daily.",
-    longDescription:
-      "Comprehensive LIMS platform revolutionizing healthcare operations with automated report processing and real-time analytics.",
-    tech: ["Django", "React.js", "Python", "PostgreSQL", "Redis", "OCR", "WebSocket", "Docker", "Nginx"],
-    achievements: [
-      "Reduced report processing time by 60% through automation",
-      "Processing 1,000+ daily medical reports with 90% error reduction",
-      "Serving 500+ daily patients across 15+ departments",
-      "Built Python OCR system eliminating manual data entry errors",
-      "Implemented real-time report delivery via WebSocket connections",
-      "Achieved 99.9% uptime with zero-downtime deployment pipeline"
-    ],
-    link: "#",
-    github: undefined,
-    status: "Live" as const,
-  },
-  {
-    title: "FloeMed",
-    description:
-      "Revolutionary healthcare blockchain platform with Apple Watch integration for secure, immutable medical records and real-time health monitoring.",
-    longDescription:
-      "Next-generation healthcare solution combining blockchain technology with wearable integration for secure patient data management.",
-    tech: ["Flutter", "Blockchain", "HealthKit", "Dart", "Smart Contracts", "Apple Watch SDK", "Firebase"],
-    achievements: [
-      "Built immutable medical records system using blockchain technology",
-      "Integrated Apple Watch for real-time health metrics synchronization",
-      "Enabled secure patient analytics with end-to-end encryption",
-      "Developed cross-platform mobile app using Flutter",
-      "Implemented HealthKit integration for seamless data collection",
-      "Created smart contracts for secure data sharing between healthcare providers"
-    ],
-    link: "#",
-    github: "https://github.com/Tushar010402/Floemed",
-    status: "Completed" as const,
-  },
-  {
-    title: "Microservices Healthcare Platform",
-    description:
-      "Scalable Go/FastAPI microservices architecture handling 10,000+ monthly records with 99.9% uptime and HIPAA/DPDP compliance.",
-    longDescription:
-      "Enterprise-grade distributed system built for healthcare operations with focus on reliability, security, and compliance.",
-    tech: ["Go", "FastAPI", "Python", "PostgreSQL", "Redis", "Docker", "Kubernetes", "GraphQL", "REST API", "WebSocket"],
-    achievements: [
-      "Handling 10,000+ monthly records with 99.9% uptime",
-      "Achieved HIPAA/DPDP compliance for healthcare data",
-      "Built API gateway handling 50,000+ daily requests at sub-100ms latency",
-      "Implemented load balancing for high availability",
-      "Reduced deployment time by 92% (4 hours → 20 minutes)",
-      "Supports REST, GraphQL, and WebSocket protocols"
-    ],
-    link: "#",
-    github: undefined,
-    status: "Live" as const,
-  },
-];
-
-const experienceData = [
-  {
-    title: "May 2023 – Present",
-    content: (
-      <div>
-        <h3 className="text-theme text-xl md:text-3xl font-bold mb-4">
-          Software Developer
-        </h3>
-        <p className="text-theme-secondary text-sm md:text-base mb-4">
-          Dr Dangs Lab, New Delhi
-        </p>
-        <ul className="text-theme-secondary text-sm md:text-base list-disc list-inside space-y-2">
-          <li>Built Laboratory Information Management System for 15+ departments serving 500+ daily patients, reducing report processing time by 60% (Django, React.js)</li>
-          <li>Engineered Go/FastAPI microservices platform handling 10,000+ monthly records with 99.9% uptime and HIPAA/DPDP compliance</li>
-          <li>Automated medical report extraction using Python OCR, processing 1,000+ daily reports and eliminating 90% of manual errors</li>
-          <li>Designed API gateway with load balancing handling 50,000+ daily requests at sub-100ms latency (REST, GraphQL, WebSocket)</li>
-          <li>Reduced deployment time by 92% (4 hours → 20 minutes) using Docker/Nginx pipeline enabling daily zero-downtime releases</li>
-        </ul>
-      </div>
-    ),
-  },
-  {
-    title: "Feb 2023 – May 2023",
-    content: (
-      <div>
-        <h3 className="text-theme text-xl md:text-3xl font-bold mb-4">
-          Frontend Developer
-        </h3>
-        <p className="text-theme-secondary text-sm md:text-base mb-4">
-          BeanByte Softwares, Jaipur
-        </p>
-        <ul className="text-theme-secondary text-sm md:text-base list-disc list-inside space-y-2">
-          <li>Developed 10+ production web applications in React.js with pixel-perfect UI, increasing user engagement by 30%</li>
-          <li>Translated design mockups into functional interfaces collaborating with cross-functional teams</li>
-          <li>Optimized Redux and Context API implementation, reducing page load times by 25%</li>
-        </ul>
-      </div>
-    ),
-  },
-  {
-    title: "Jun 2022 – Dec 2022",
-    content: (
-      <div>
-        <h3 className="text-theme text-xl md:text-3xl font-bold mb-4">
-          Frontend Developer Intern
-        </h3>
-        <p className="text-theme-secondary text-sm md:text-base mb-4">
-          GoBOLT, Gurugram
-        </p>
-        <ul className="text-theme-secondary text-sm md:text-base list-disc list-inside space-y-2">
-          <li>Built 5+ shipment tracking features in React.js, improving accuracy by 35% for 1,000+ daily users</li>
-          <li>Integrated 8+ frontend components with backend APIs for authentication and data visualization</li>
-          <li>Resolved 20+ UI bugs through code reviews and agile collaboration, improving stability by 40%</li>
-        </ul>
-      </div>
-    ),
-  },
-];

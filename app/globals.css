@@ -63,28 +63,28 @@
    LIGHT THEME (Pure White)
    ======================================== */
 .light {
-  /* Background & Surface */
-  --background: #ffffff;
-  --background-secondary: #f8fafc;
-  --foreground: #0f172a;
-  --surface: #f1f5f9;
-  --surface-hover: #e2e8f0;
+  /* Background & Surface — warm off-white (Clay-style), white cards */
+  --background: #f4f2ed;
+  --background-secondary: #ebe8e1;
+  --foreground: #16130f;
+  --surface: #ffffff;
+  --surface-hover: #faf9f6;
 
-  /* Text Colors */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-tertiary: #64748b;
-  --text-muted: #94a3b8;
+  /* Text Colors — warm near-black */
+  --text-primary: #16130f;
+  --text-secondary: #57534e;
+  --text-tertiary: #78716c;
+  --text-muted: #a8a29e;
 
   /* Brand Colors */
   --accent: #4f46e5;
   --accent-hover: #4338ca;
-  --accent-muted: rgba(79, 70, 229, 0.15);
-  --accent-subtle: rgba(79, 70, 229, 0.08);
+  --accent-muted: rgba(79, 70, 229, 0.14);
+  --accent-subtle: rgba(79, 70, 229, 0.07);
 
   /* Borders */
-  --border: #e2e8f0;
-  --border-hover: #cbd5e1;
+  --border: #e4e0d8;
+  --border-hover: #d6d1c6;
   --border-focus: #4f46e5;
 
   /* Gradient Orbs */
@@ -101,16 +101,16 @@
   --warning: #d97706;
   --error: #dc2626;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-glow: 0 0 40px -10px rgba(79, 70, 229, 0.2);
+  /* Shadows — soft, premium */
+  --shadow-sm: 0 1px 2px 0 rgba(28, 25, 23, 0.04);
+  --shadow-md: 0 6px 20px -6px rgba(28, 25, 23, 0.10);
+  --shadow-lg: 0 24px 50px -12px rgba(28, 25, 23, 0.16);
+  --shadow-glow: 0 20px 50px -16px rgba(28, 25, 23, 0.18);
 
   /* Scrollbar */
-  --scrollbar-track: #f1f5f9;
-  --scrollbar-thumb: #cbd5e1;
-  --scrollbar-thumb-hover: #94a3b8;
+  --scrollbar-track: #ebe8e1;
+  --scrollbar-thumb: #d6d1c6;
+  --scrollbar-thumb-hover: #a8a29e;
 
   /* Selection */
   --selection-bg: rgba(79, 70, 229, 0.2);
@@ -118,61 +118,62 @@
 }
 
 /* ========================================
-   WARM THEME (Cream/Sepia)
+   WARM THEME (Dark amber/gold — DEFAULT)
+   Industrial, warm, low-glare dark surface with a deep gold accent.
    ======================================== */
 .warm {
-  /* Background & Surface */
-  --background: #faf8f5;
-  --background-secondary: #f5f2ed;
-  --foreground: #1c1917;
-  --surface: #f0ebe4;
-  --surface-hover: #e7e0d6;
+  /* Background & Surface — warm near-black charcoal */
+  --background: #17130d;
+  --background-secondary: #1e1810;
+  --foreground: #f6efe2;
+  --surface: #221b11;
+  --surface-hover: #2c2416;
 
-  /* Text Colors */
-  --text-primary: #1c1917;
-  --text-secondary: #57534e;
-  --text-tertiary: #78716c;
-  --text-muted: #a8a29e;
+  /* Text Colors — warm cream */
+  --text-primary: #f6efe2;
+  --text-secondary: #c2b7a1;
+  --text-tertiary: #918671;
+  --text-muted: #6d6452;
 
-  /* Brand Colors */
-  --accent: #b45309;
-  --accent-hover: #92400e;
-  --accent-muted: rgba(180, 83, 9, 0.15);
-  --accent-subtle: rgba(180, 83, 9, 0.08);
+  /* Brand Colors — deep warm gold */
+  --accent: #e0a526;
+  --accent-hover: #f3bd4c;
+  --accent-muted: rgba(224, 165, 38, 0.16);
+  --accent-subtle: rgba(224, 165, 38, 0.08);
 
   /* Borders */
-  --border: #e7e0d6;
-  --border-hover: #d6cdc0;
-  --border-focus: #b45309;
+  --border: #322817;
+  --border-hover: #4a3c22;
+  --border-focus: #e0a526;
 
   /* Gradient Orbs */
-  --orb-primary: rgba(180, 83, 9, 0.12);
-  --orb-secondary: rgba(217, 119, 6, 0.1);
-  --orb-accent: rgba(245, 158, 11, 0.1);
+  --orb-primary: rgba(224, 165, 38, 0.22);
+  --orb-secondary: rgba(217, 119, 6, 0.16);
+  --orb-accent: rgba(245, 158, 11, 0.14);
 
   /* Grid */
-  --grid-color: #1c1917;
-  --grid-highlight: rgba(180, 83, 9, 0.05);
+  --grid-color: #f6efe2;
+  --grid-highlight: rgba(224, 165, 38, 0.08);
 
   /* Status Colors */
-  --success: #15803d;
-  --warning: #b45309;
-  --error: #b91c1c;
+  --success: #84cc16;
+  --warning: #e0a526;
+  --error: #ef4444;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(28, 25, 23, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(28, 25, 23, 0.07);
-  --shadow-lg: 0 10px 15px -3px rgba(28, 25, 23, 0.1);
-  --shadow-glow: 0 0 40px -10px rgba(180, 83, 9, 0.2);
+  /* Shadows — deep, warm */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 20px -6px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 24px 50px -12px rgba(0, 0, 0, 0.65);
+  --shadow-glow: 0 0 40px -10px rgba(224, 165, 38, 0.35);
 
   /* Scrollbar */
-  --scrollbar-track: #f0ebe4;
-  --scrollbar-thumb: #d6cdc0;
-  --scrollbar-thumb-hover: #a8a29e;
+  --scrollbar-track: #1e1810;
+  --scrollbar-thumb: #4a3c22;
+  --scrollbar-thumb-hover: #6d5a31;
 
   /* Selection */
-  --selection-bg: rgba(180, 83, 9, 0.2);
-  --selection-text: #1c1917;
+  --selection-bg: rgba(224, 165, 38, 0.3);
+  --selection-text: #17130d;
 }
 
 /* ========================================
@@ -624,4 +625,250 @@ body {
 .topic-chip:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* ============================================================
+   CLAY-INSPIRED LAYER (2026) — clean, bold, editorial, premium
+   ============================================================ */
+
+/* Oversized display type — the signature of the look */
+.clay-display {
+  font-size: clamp(2.75rem, 9vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+}
+.clay-h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+.clay-statement {
+  font-size: clamp(1.6rem, 3.4vw, 3rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+.clay-lead {
+  font-size: clamp(1.05rem, 1.1vw, 1.3rem);
+  line-height: 1.6;
+}
+
+/* Generous, editorial section rhythm */
+.clay-section {
+  padding-top: clamp(5rem, 11vw, 11rem);
+  padding-bottom: clamp(5rem, 11vw, 11rem);
+}
+.clay-container {
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 4rem);
+}
+
+/* Tiny uppercase section label (Clay uses these as eyebrows) */
+.clay-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* Clean, image-forward card — no heavy borders, soft lift on hover */
+.clay-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.clay-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Solid pill buttons (Clay CTA style) */
+.clay-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.6rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.975rem;
+  transition: transform 0.3s var(--ease-out, ease), background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.clay-btn-dark {
+  background: var(--text-primary);
+  color: var(--background);
+}
+.clay-btn-dark:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.clay-btn-ghost {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-hover);
+}
+.clay-btn-ghost:hover {
+  background: var(--surface);
+  transform: translateY(-2px);
+}
+
+/* Underline-reveal text link (editorial) */
+.clay-link {
+  position: relative;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.clay-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out, ease);
+}
+.clay-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Hairline divider */
+.clay-rule {
+  height: 1px;
+  background: var(--border);
+  border: 0;
+}
+
+/* Big marquee-ish stat number */
+.clay-stat {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* Display headings use the grotesk display face */
+.clay-display,
+.clay-h2,
+.clay-statement,
+.clay-stat {
+  font-family: var(--font-display), var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* ---- Lenis smooth scroll ---- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---- CSS entrance (robust: visible without JS, no hydration dependency) ---- */
+@keyframes clay-rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+.clay-rise {
+  opacity: 0;
+  animation: clay-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.clay-rise-1 { animation-delay: 0.08s; }
+.clay-rise-2 { animation-delay: 0.18s; }
+.clay-rise-3 { animation-delay: 0.30s; }
+.clay-rise-4 { animation-delay: 0.42s; }
+@media (prefers-reduced-motion: reduce) {
+  .clay-rise { opacity: 1; animation: none; }
+}
+
+/* Scroll-reveal that is robust without JS: animates via the view() scroll
+   timeline where supported, and stays fully visible everywhere else. */
+.clay-reveal {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .clay-reveal {
+      animation: clay-rise both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 22%;
+    }
+  }
+}
+
+/* ---- Marquee ---- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 28s linear infinite;
+}
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+/* ---- Blog reading typography (Clay) ---- */
+.clay-prose {
+  font-size: 1.075rem;
+  line-height: 1.8;
+}
+.clay-prose p {
+  font-size: 1.075rem;
+  line-height: 1.8;
+  margin-bottom: 1.4rem;
+}
+.clay-prose h1,
+.clay-prose h2,
+.clay-prose h3 {
+  font-family: var(--font-display), var(--font-geist-sans), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 6rem;
+}
+.clay-prose h2 {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+.clay-prose ul,
+.clay-prose ol {
+  font-size: 1.075rem;
+  line-height: 1.75;
+}
+.clay-prose li { margin-bottom: 0.5rem; }
+.clay-prose a {
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.clay-prose strong { color: var(--text-primary); }
+.clay-prose blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  margin: 1.75rem 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+/* First paragraph reads as a lead-in */
+.clay-prose > p:first-of-type {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: var(--text-primary);
 }

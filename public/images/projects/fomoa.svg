@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="FOMOA — India-first AI search">
+  <defs>
+    <linearGradient id="fo-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#21130a"/>
+      <stop offset="1" stop-color="#2a1606"/>
+    </linearGradient>
+    <linearGradient id="fo-ray" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+    <radialGradient id="fo-glow" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#f59e0b" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="fo-blur"><feGaussianBlur stdDeviation="26"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#fo-bg)"/>
+  <ellipse cx="600" cy="300" rx="330" ry="290" fill="url(#fo-glow)" filter="url(#fo-blur)"/>
+  <!-- orbit rays -->
+  <g transform="translate(600 300)" stroke="url(#fo-ray)" fill="none">
+    <circle r="210" stroke-opacity="0.16" stroke-width="2"/>
+    <circle r="150" stroke-opacity="0.3" stroke-width="2"/>
+    <g stroke-opacity="0.5" stroke-width="2">
+      <line x1="0" y1="-210" x2="0" y2="-150"/>
+      <line x1="148" y1="-148" x2="106" y2="-106"/>
+      <line x1="210" y1="0" x2="150" y2="0"/>
+      <line x1="-148" y1="148" x2="-106" y2="106"/>
+      <line x1="-210" y1="0" x2="-150" y2="0"/>
+    </g>
+  </g>
+  <!-- search lens -->
+  <g transform="translate(600 290)">
+    <circle r="92" fill="none" stroke="url(#fo-ray)" stroke-width="14"/>
+    <circle r="92" fill="#f59e0b" fill-opacity="0.1"/>
+    <line x1="66" y1="66" x2="128" y2="128" stroke="url(#fo-ray)" stroke-width="18" stroke-linecap="round"/>
+    <!-- spark -->
+    <path d="M0 -34 L10 -8 L36 0 L10 8 L0 34 L-10 8 L-36 0 L-10 -8 Z" fill="#fff7e6"/>
+  </g>
+  <!-- orbit node dots -->
+  <g fill="#fbbf24">
+    <circle cx="600" cy="90" r="7"/><circle cx="810" cy="300" r="7"/>
+    <circle cx="452" cy="448" r="7"/><circle cx="390" cy="300" r="7"/>
+  </g>
+  <text x="64" y="612" font-family="'Bricolage Grotesque','Geist',system-ui,sans-serif" font-size="34" font-weight="700" fill="#ffffff" letter-spacing="-0.5">FOMOA</text>
+  <text x="64" y="642" font-family="'Geist',system-ui,sans-serif" font-size="18" fill="#d8c1a0">India-first AI search · RAG · Hinglish</text>
+</svg>

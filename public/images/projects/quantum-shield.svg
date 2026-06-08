@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="QuantumShield — post-quantum cryptography">
+  <defs>
+    <linearGradient id="qs-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#06140f"/>
+      <stop offset="1" stop-color="#0a1a2a"/>
+    </linearGradient>
+    <linearGradient id="qs-shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <radialGradient id="qs-glow" cx="0.5" cy="0.4" r="0.6">
+      <stop offset="0" stop-color="#10b981" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="qs-blur"><feGaussianBlur stdDeviation="26"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#qs-bg)"/>
+  <ellipse cx="600" cy="300" rx="320" ry="300" fill="url(#qs-glow)" filter="url(#qs-blur)"/>
+  <!-- hex lattice -->
+  <g stroke="#ffffff" stroke-opacity="0.06" stroke-width="1.5" fill="none">
+    <g transform="translate(0 0)">
+      <path d="M150 120 l40 23 v46 l-40 23 l-40 -23 v-46 z"/>
+      <path d="M270 190 l40 23 v46 l-40 23 l-40 -23 v-46 z"/>
+      <path d="M1020 470 l40 23 v46 l-40 23 l-40 -23 v-46 z"/>
+      <path d="M930 150 l40 23 v46 l-40 23 l-40 -23 v-46 z"/>
+      <path d="M180 470 l40 23 v46 l-40 23 l-40 -23 v-46 z"/>
+    </g>
+  </g>
+  <!-- central shield -->
+  <g transform="translate(600 300)">
+    <path d="M0 -150 L130 -100 V20 C130 110 70 160 0 195 C-70 160 -130 110 -130 20 V-100 Z"
+          fill="url(#qs-shield)" fill-opacity="0.16" stroke="url(#qs-shield)" stroke-width="3"/>
+    <path d="M0 -110 L95 -73 V15 C95 82 50 120 0 145 C-50 120 -95 82 -95 15 V-73 Z"
+          fill="none" stroke="#34d399" stroke-opacity="0.5" stroke-width="2"/>
+    <!-- check -->
+    <path d="M-38 5 L-8 38 L48 -30" fill="none" stroke="#e8fff6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="64" y="612" font-family="'Bricolage Grotesque','Geist',system-ui,sans-serif" font-size="34" font-weight="700" fill="#ffffff" letter-spacing="-0.5">QuantumShield</text>
+  <text x="64" y="642" font-family="'Geist',system-ui,sans-serif" font-size="18" fill="#9fb3ad">NIST FIPS 203/204/205 · Rust + WASM</text>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="QAuth — post-quantum authentication">
+  <defs>
+    <linearGradient id="qa-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#10261f"/>
+    </linearGradient>
+    <radialGradient id="qa-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#10b981" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="qa-ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+    <filter id="qa-blur"><feGaussianBlur stdDeviation="22"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#qa-bg)"/>
+  <g opacity="0.35">
+    <ellipse cx="600" cy="338" rx="280" ry="280" fill="url(#qa-glow)" filter="url(#qa-blur)"/>
+  </g>
+  <!-- faint lattice grid -->
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <path d="M0 84H1200M0 168H1200M0 253H1200M0 337H1200M0 421H1200M0 506H1200M0 590H1200"/>
+    <path d="M100 0V675M250 0V675M400 0V675M550 0V675M700 0V675M850 0V675M1000 0V675M1150 0V675"/>
+  </g>
+  <!-- concentric auth rings -->
+  <g fill="none" stroke="url(#qa-ring)" transform="translate(600 338)">
+    <circle r="210" stroke-opacity="0.18" stroke-width="2"/>
+    <circle r="160" stroke-opacity="0.35" stroke-width="2"/>
+    <circle r="110" stroke-opacity="0.6" stroke-width="3"/>
+  </g>
+  <!-- keyhole mark -->
+  <g transform="translate(600 318)" fill="#e8fff6">
+    <circle r="42" fill="url(#qa-ring)"/>
+    <circle r="20" fill="#0b1220"/>
+    <path d="M-12 18 L12 18 L20 78 L-20 78 Z" fill="#0b1220"/>
+  </g>
+  <!-- dotted nodes on outer ring -->
+  <g fill="#34d399">
+    <circle cx="600" cy="128" r="6"/>
+    <circle cx="810" cy="338" r="6"/>
+    <circle cx="600" cy="548" r="6"/>
+    <circle cx="390" cy="338" r="6"/>
+  </g>
+  <text x="64" y="612" font-family="'Bricolage Grotesque','Geist',system-ui,sans-serif" font-size="34" font-weight="700" fill="#ffffff" letter-spacing="-0.5">QAuth</text>
+  <text x="64" y="642" font-family="'Geist',system-ui,sans-serif" font-size="18" fill="#9fb3ad">Post-quantum authentication · ML-DSA</text>
+</svg>

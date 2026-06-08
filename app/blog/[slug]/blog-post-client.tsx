@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import { Blog } from '@/lib/types';
 import {
   Calendar,
@@ -252,12 +251,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
             </Link>
 
             {/* Article */}
-            <motion.article
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="max-w-3xl"
-            >
+            <article className="clay-rise max-w-3xl">
               {/* Featured Image */}
               {blog.image_url && (
                 <div className="relative w-full h-80 md:h-96 mb-8 rounded-xl overflow-hidden">
@@ -273,7 +267,10 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
               )}
 
               {/* Title */}
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 gradient-text">
+              <h1
+                className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-theme"
+                style={{ fontFamily: "var(--font-display), var(--font-geist-sans), system-ui, sans-serif", letterSpacing: "-0.02em", lineHeight: 1.05 }}
+              >
                 {blog.title}
               </h1>
 
@@ -325,7 +322,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
 
               {/* Content */}
               <div
-                className="prose max-w-none"
+                className="prose clay-prose max-w-none"
                 style={{ color: "var(--text-secondary)" }}
                 dangerouslySetInnerHTML={{ __html: renderMarkdown(blog.content) }}
               />
@@ -358,15 +355,12 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                   </button>
                 </div>
               </div>
-            </motion.article>
+            </article>
 
             {/* Related Posts */}
             {relatedBlogs.length > 0 && (
-              <motion.section
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="mt-16 pt-8 max-w-3xl"
+              <section
+                className="clay-reveal mt-16 pt-8 max-w-3xl"
                 style={{ borderTop: "1px solid var(--border)" }}
               >
                 <h2 className="text-2xl font-bold mb-6 text-theme">Related Articles</h2>
@@ -382,7 +376,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                     </Link>
                   ))}
                 </div>
-              </motion.section>
+              </section>
             )}
           </main>
         </div>

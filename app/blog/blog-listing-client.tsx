@@ -134,40 +134,40 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
 
   return (
     <div className="min-h-screen text-theme" style={{ background: "var(--background)" }}>
-      {/* Hero Section */}
-      <div className="relative overflow-hidden pt-24 pb-16" style={{ background: "linear-gradient(to bottom, color-mix(in srgb, var(--accent) 10%, var(--background)), var(--background))" }}>
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full" style={{ background: "color-mix(in srgb, var(--accent) 10%, transparent)", filter: "blur(120px)" }} />
+      {/* Hero Section — Clay editorial */}
+      <div className="relative overflow-hidden pt-36 pb-12">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
+            backgroundSize: "clamp(48px, 7vw, 96px) clamp(48px, 7vw, 96px)",
+            maskImage: "radial-gradient(110% 80% at 25% 0%, #000 30%, transparent 80%)",
+            WebkitMaskImage: "radial-gradient(110% 80% at 25% 0%, #000 30%, transparent 80%)",
+            opacity: 0.6,
+          }}
+        />
+        <div className="clay-container relative">
+          <p className="clay-rise clay-eyebrow mb-6">Writing · {blogs.length} articles</p>
+          <h1 className="clay-rise clay-rise-1 clay-display max-w-[14ch]">Notes from the backend.</h1>
+          <p className="clay-rise clay-rise-2 clay-lead text-theme-secondary mt-8 max-w-2xl">
+            Deep dives into backend engineering, distributed systems, post-quantum security, and the
+            occasional production war story.
+          </p>
 
-        <div className="relative max-w-6xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              <span className="gradient-text">
-                Technical Blog
-              </span>
-            </h1>
-            <p className="text-theme-secondary text-lg max-w-2xl mx-auto mb-8">
-              Deep dives into backend engineering, system design, and modern development practices
-            </p>
-
-            {/* Search Bar */}
-            <div className="relative max-w-2xl mx-auto">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-theme-secondary w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search articles by title, topic, or technology..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full backdrop-blur-sm rounded-xl pl-12 pr-4 py-4 text-theme placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-[--accent-muted] transition-all"
-                style={{ background: "color-mix(in srgb, var(--surface) 80%, transparent)", border: "1px solid var(--border)" }}
-              />
-            </div>
-          </motion.div>
+          {/* Search */}
+          <div className="clay-rise clay-rise-3 relative max-w-xl mt-10">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-theme-tertiary w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search articles…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full rounded-full pl-13 pr-5 py-4 text-theme placeholder-theme-tertiary focus:outline-none transition-all"
+              style={{ background: "var(--surface)", border: "1px solid var(--border)", paddingLeft: "3.25rem" }}
+            />
+          </div>
         </div>
       </div>
 

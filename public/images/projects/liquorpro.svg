@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="LiquorPro — enterprise inventory platform">
+  <defs>
+    <linearGradient id="lp-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071726"/>
+      <stop offset="1" stop-color="#0b2236"/>
+    </linearGradient>
+    <linearGradient id="lp-bar" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#0ea5e9"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <radialGradient id="lp-glow" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#0ea5e9" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#0ea5e9" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="lp-blur"><feGaussianBlur stdDeviation="28"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#lp-bg)"/>
+  <ellipse cx="640" cy="300" rx="340" ry="280" fill="url(#lp-glow)" filter="url(#lp-blur)"/>
+  <!-- grid -->
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <path d="M0 130H1200M0 250H1200M0 370H1200M0 490H1200"/>
+  </g>
+  <!-- analytics bars -->
+  <g transform="translate(360 470)">
+    <rect x="0"   y="-120" width="64" height="120" rx="10" fill="url(#lp-bar)" opacity="0.55"/>
+    <rect x="90"  y="-190" width="64" height="190" rx="10" fill="url(#lp-bar)" opacity="0.7"/>
+    <rect x="180" y="-150" width="64" height="150" rx="10" fill="url(#lp-bar)" opacity="0.6"/>
+    <rect x="270" y="-250" width="64" height="250" rx="10" fill="url(#lp-bar)"/>
+    <rect x="360" y="-200" width="64" height="200" rx="10" fill="url(#lp-bar)" opacity="0.8"/>
+  </g>
+  <!-- trend line -->
+  <polyline points="360,330 450,270 540,300 630,210 720,250"
+            fill="none" stroke="#e0f2fe" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#e0f2fe">
+    <circle cx="360" cy="330" r="7"/><circle cx="450" cy="270" r="7"/>
+    <circle cx="540" cy="300" r="7"/><circle cx="630" cy="210" r="7"/><circle cx="720" cy="250" r="7"/>
+  </g>
+  <text x="64" y="612" font-family="'Bricolage Grotesque','Geist',system-ui,sans-serif" font-size="34" font-weight="700" fill="#ffffff" letter-spacing="-0.5">LiquorPro</text>
+  <text x="64" y="642" font-family="'Geist',system-ui,sans-serif" font-size="18" fill="#9cc4dd">Enterprise inventory · Go · Kafka · Redis</text>
+</svg>

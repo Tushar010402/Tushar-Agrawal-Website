@@ -47,29 +47,54 @@ export const Footer = () => {
   ];
 
   return (
-    <footer
-      className="border-t transition-theme"
-      style={{
-        borderColor: "var(--border)",
-        background: "var(--background-secondary)",
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="md:col-span-2">
-            <Link
-              href="/"
-              className="text-xl font-bold text-theme hover:text-theme-accent transition-colors"
-            >
-              Tushar Agrawal
-            </Link>
-            <p className="mt-3 text-theme-secondary text-sm max-w-md">
-              Backend Engineer specializing in Python, Go, distributed systems, and healthcare SaaS platforms.
-              Building secure, scalable solutions for the modern web.
+    <footer className="border-t transition-theme" style={{ borderColor: "var(--border)", background: "var(--background)" }}>
+      <div className="clay-container py-20 md:py-28">
+        {/* Big CTA */}
+        <p className="clay-eyebrow mb-6">Get in touch</p>
+        <a href="mailto:tusharagrawal0104@gmail.com" className="clay-h2 inline-block group">
+          Let&apos;s build something
+          <span className="text-theme-tertiary group-hover:text-theme-accent transition-colors">.</span>
+        </a>
+        <div className="mt-10">
+          <a href="mailto:tusharagrawal0104@gmail.com" className="clay-btn clay-btn-dark">
+            tusharagrawal0104@gmail.com
+          </a>
+        </div>
+
+        <hr className="clay-rule my-16" />
+
+        {/* Columns */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="col-span-2 md:col-span-1">
+            <Link href="/" className="text-lg font-semibold text-theme">Tushar Agrawal</Link>
+            <p className="mt-3 text-theme-secondary text-sm max-w-xs">
+              Full-Stack Engineer — New Delhi, India. Python, Go, distributed systems, and
+              post-quantum security.
             </p>
-            {/* Social Links */}
-            <div className="flex gap-4 mt-4">
+          </div>
+          <div>
+            <h3 className="clay-eyebrow mb-4">Navigation</h3>
+            <ul className="space-y-3">
+              {navigationLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-theme-secondary hover:text-theme transition-colors text-sm">{link.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="clay-eyebrow mb-4">Products</h3>
+            <ul className="space-y-3">
+              {productLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-theme-secondary hover:text-theme transition-colors text-sm">{link.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="clay-eyebrow mb-4">Elsewhere</h3>
+            <div className="flex gap-4">
               {socialLinks.map((link) => (
                 <a
                   key={link.name}
@@ -84,59 +109,11 @@ export const Footer = () => {
               ))}
             </div>
           </div>
-
-          {/* Navigation */}
-          <div>
-            <h3 className="text-sm font-semibold text-theme uppercase tracking-wider mb-4">
-              Navigation
-            </h3>
-            <ul className="space-y-3">
-              {navigationLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-theme-secondary hover:text-theme transition-colors text-sm"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Products */}
-          <div>
-            <h3 className="text-sm font-semibold text-theme uppercase tracking-wider mb-4">
-              Products
-            </h3>
-            <ul className="space-y-3">
-              {productLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-theme-secondary hover:text-theme transition-colors text-sm"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div
-          className="mt-12 pt-8 border-t"
-          style={{ borderColor: "var(--border)" }}
-        >
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-theme-muted text-sm">
-              © {currentYear} Tushar Agrawal. All rights reserved.
-            </p>
-            <p className="text-theme-muted text-sm">
-              Built with Next.js and Aceternity UI
-            </p>
-          </div>
+        <div className="mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderTop: "1px solid var(--border)" }}>
+          <p className="text-theme-muted text-sm">© {currentYear} Tushar Agrawal. All rights reserved.</p>
+          <p className="text-theme-muted text-sm">Designed &amp; built by Tushar Agrawal · Next.js</p>
         </div>
       </div>
     </footer>

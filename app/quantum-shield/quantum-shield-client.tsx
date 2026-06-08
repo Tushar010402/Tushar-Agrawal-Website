@@ -1,13 +1,11 @@
 "use client";
 
-import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { Spotlight } from "@/components/ui/spotlight";
+import { AnimatedHeroBg } from "@/components/ui/visuals/animated-hero-bg";
 import { motion } from "framer-motion";
 import { FeatureCard } from "@/components/quantum-shield/FeatureCard";
 import { CodePreview } from "@/components/quantum-shield/CodePreview";
 import { AlgorithmBadge } from "@/components/quantum-shield/AlgorithmBadge";
-import { GlowBackground } from "@/components/ui/glow-background";
 import Link from "next/link";
 
 const features = [
@@ -113,14 +111,24 @@ assert!(signer.verify(b"Sign this document", &sig)?);`;
 export default function QuantumShieldClient() {
   return (
     <div className="w-full min-h-screen overflow-x-hidden transition-theme" style={{ background: "var(--background)" }}>
-      {/* Hero Section */}
-      <section id="hero" className="relative">
-        <GlowBackground className="opacity-60" />
-        <HeroHighlight containerClassName="pt-28 pb-12 min-h-[90vh] !items-start">
-          <Spotlight
-            className="-top-40 left-0 md:left-60 md:-top-20"
-            fill="currentColor"
-          />
+      {/* Hero Section — Clay */}
+      <section id="hero" className="relative overflow-hidden pt-36 pb-20 md:pt-44 md:pb-28">
+        <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ opacity: 0.45 }}>
+          <AnimatedHeroBg intensity={1.1} />
+        </div>
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
+            backgroundSize: "clamp(48px, 7vw, 96px) clamp(48px, 7vw, 96px)",
+            maskImage: "radial-gradient(110% 80% at 50% 0%, #000 25%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(110% 80% at 50% 0%, #000 25%, transparent 75%)",
+            opacity: 0.55,
+          }}
+        />
+        <div className="clay-container relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: [20, -5, 0] }}
@@ -219,7 +227,7 @@ export default function QuantumShieldClient() {
               ))}
             </motion.div>
           </motion.div>
-        </HeroHighlight>
+        </div>
       </section>
 
       {/* Problem Statement Section */}
