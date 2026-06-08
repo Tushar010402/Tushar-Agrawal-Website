@@ -25,21 +25,13 @@ export const metadata: Metadata = {
     url: 'https://www.tusharagrawal.in/qauth',
     siteName: 'Tushar Agrawal',
     type: 'website',
-    images: [
-      {
-        url: 'https://www.tusharagrawal.in/qauth/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'QAuth - Post-Quantum Authentication Protocol',
-      },
-    ],
+    // OG image is provided by the file-convention app/qauth/opengraph-image.png
   },
   twitter: {
     card: 'summary_large_image',
     title: 'QAuth - Post-Quantum Authentication Protocol',
     description:
       'Replace OAuth 2.0 and JWT with quantum-safe authentication.',
-    images: ['https://www.tusharagrawal.in/qauth/og-image.png'],
   },
   alternates: {
     canonical: 'https://www.tusharagrawal.in/qauth',

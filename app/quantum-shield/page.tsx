@@ -25,21 +25,13 @@ export const metadata: Metadata = {
     url: 'https://www.tusharagrawal.in/quantum-shield',
     siteName: 'Tushar Agrawal',
     type: 'website',
-    images: [
-      {
-        url: 'https://www.tusharagrawal.in/quantum-shield/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'QuantumShield - Post-Quantum Cryptography Library',
-      },
-    ],
+    // OG image is provided by the file-convention app/quantum-shield/opengraph-image.png
   },
   twitter: {
     card: 'summary_large_image',
     title: 'QuantumShield - Post-Quantum Cryptography Library',
     description:
       'Open-source quantum-secure encryption with NIST FIPS 203/204/205 algorithms.',
-    images: ['https://www.tusharagrawal.in/quantum-shield/og-image.png'],
   },
   alternates: {
     canonical: 'https://www.tusharagrawal.in/quantum-shield',
