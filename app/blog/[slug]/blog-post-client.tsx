@@ -18,6 +18,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { BlogReader } from '@/components/ui/blog-reader';
+import { PostDiscussion } from '@/components/ui/post-discussion';
 
 interface BlogPostClientProps {
   blog: Blog;
@@ -340,6 +341,9 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlu
                 </div>
               </div>
             </section>
+
+            {/* Community Q&A (giscus — renders only when env vars are configured) */}
+            <PostDiscussion />
 
             {/* Related Posts */}
             {relatedBlogs.length > 0 && (
