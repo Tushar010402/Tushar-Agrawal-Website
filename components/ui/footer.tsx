@@ -30,6 +30,7 @@ export const Footer = () => {
   const resourceLinks = [
     { name: "Résumé (PDF)", href: "/Tushar_Agrawal_Resume.pdf" },
     { name: "RSS Feed", href: "/rss.xml" },
+    { name: "Podcast Feed", href: "/podcast.xml" },
     { name: "llms.txt", href: "/llms.txt" },
   ];
 

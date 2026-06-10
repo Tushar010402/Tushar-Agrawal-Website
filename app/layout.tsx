@@ -81,7 +81,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
     types: {
-      'application/rss+xml': '/rss.xml',
+      'application/rss+xml': [
+        { url: '/rss.xml', title: 'Blog RSS' },
+        { url: '/podcast.xml', title: 'Podcast (narrated articles)' },
+      ],
     },
   },
 };

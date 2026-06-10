@@ -22,6 +22,7 @@ Education: B.Tech, GD Goenka University, Gurugram, Haryana (2019–2023); school
 
 - [Blog index](https://www.tusharagrawal.in/blog): 80+ in-depth engineering articles
 - [RSS feed](https://www.tusharagrawal.in/rss.xml): Subscribe for new posts
+- [Podcast feed](https://www.tusharagrawal.in/podcast.xml): Narrated audio versions of flagship articles
 - [Database Connection Pooling Performance Guide](https://www.tusharagrawal.in/blog/database-connection-pooling-performance-guide): Tuning connection pools for high-throughput backends
 - [Redis Cache Stampede: A P99 Latency War Story](https://www.tusharagrawal.in/blog/redis-cache-stampede-p99-latency-war-story): Debugging and fixing a production cache stampede
 - [Kafka Consumer Lag at 2 Million: A Debugging War Story](https://www.tusharagrawal.in/blog/kafka-consumer-lag-2-million-debugging-war-story): Diagnosing runaway consumer lag in production

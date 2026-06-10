@@ -89,6 +89,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const allPosts = getAllPosts();
   const blogUrl = `${siteUrl}/blog/${post.slug}`;
   const contentHtml = await renderMarkdownToHtml(post.content);
+  const audio = getAudioForSlug(post.slug);
 
   // Generate JSON-LD structured data for BlogPosting
   const blogPostingSchema = {
@@ -129,6 +130,20 @@ export default async function BlogPostPage({ params }: PageProps) {
     },
     inLanguage: 'en-US',
     isAccessibleForFree: true,
+    // Narrated posts expose their audio to search engines (audio results / podcasts)
+    ...(audio
+      ? {
+          audio: {
+            '@type': 'AudioObject',
+            contentUrl: `${siteUrl}${audio.file}`,
+            encodingFormat: 'audio/mpeg',
+            name: `${post.title} — audio narration`,
+            ...(audio.duration
+              ? { duration: `PT${Math.floor(audio.duration / 60)}M${audio.duration % 60}S` }
+              : {}),
+          },
+        }
+      : {}),
   };
 
   // Generate BreadcrumbList schema
@@ -224,7 +239,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         relatedBlogs={relatedBlogs}
         allBlogs={allBlogs}
         tagHubSlugs={getAllTagSlugs()}
-        audio={getAudioForSlug(post.slug)}
+        audio={audio}
       />
     </>
   );
