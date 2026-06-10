@@ -10,6 +10,8 @@ import { useEffect, useRef } from "react";
  * - The backing buffer renders at ~0.5x CSS size (the result is blurry anyway),
  *   cutting fill cost by ~75%. CSS scales it back up.
  * - DPR is pinned to 1 (no retina multiplier needed for a blurred gradient).
+ * - Capped at 24fps: the blobs drift over ~35s, so 60fps is pure waste — and the
+ *   CSS blur re-runs on the GPU every painted frame, so fewer frames = less blur.
  * - On mobile / low-core / reduced-motion devices it paints ONE static frame
  *   and never starts a RAF loop.
  * - Pauses when scrolled out of view.
@@ -93,9 +95,14 @@ export function AnimatedHeroBg({
 
     let raf = 0;
     let running = false;
+    const FRAME_MS = 1000 / 24; // 24fps is indistinguishable for slow ambient drift
+    let lastFrame = 0;
     const loop = (t: number) => {
       if (!running) return;
-      draw(t);
+      if (t - lastFrame >= FRAME_MS) {
+        lastFrame = t;
+        draw(t);
+      }
       raf = requestAnimationFrame(loop);
     };
 
@@ -148,7 +155,9 @@ export function AnimatedHeroBg({
       ref={canvasRef}
       aria-hidden="true"
       className={`pointer-events-none ${className}`}
-      style={{ width: "100%", height: "100%", filter: "blur(8px)" }}
+      // 4px (was 8): the gradients are already smooth — blur only hides upscaling
+      // artifacts, and GPU blur cost grows fast with radius on a full-viewport layer.
+      style={{ width: "100%", height: "100%", filter: "blur(4px)" }}
     />
   );
 }
