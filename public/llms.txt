@@ -33,6 +33,9 @@ Education: B.Tech, GD Goenka University, Gurugram, Haryana (2019–2023); school
 - [System Design Interview Guide](https://www.tusharagrawal.in/blog/system-design-interview-guide): Structured approach to system design interviews
 - [Python asyncio Complete Guide](https://www.tusharagrawal.in/blog/python-asyncio-complete-guide): Concurrency in Python from first principles
 - [Building Backends for AI Agents: Idempotency, Retries, State](https://www.tusharagrawal.in/blog/building-backends-for-ai-agents-idempotency-retries-state): Designing agent-safe backend APIs
+- [Technical SEO for Next.js Developers (2026)](https://www.tusharagrawal.in/blog/technical-seo-nextjs-developers-complete-guide-2026): Metadata API, JSON-LD entities, sitemaps, and AI-crawler policy as code
+- [llms.txt, GEO and AI Search for Developers (2026)](https://www.tusharagrawal.in/blog/llms-txt-generative-engine-optimization-developers-2026): How to get cited by ChatGPT, Perplexity, and Google AI Mode
+- [Core Web Vitals for Backend Engineers (2026)](https://www.tusharagrawal.in/blog/core-web-vitals-backend-engineers-server-performance-2026): TTFB budgets, caching, and streaming SSR
 - [FOMOA AI: Complete Guide & Features](https://www.tusharagrawal.in/blog/fomoa-ai-complete-guide-features-2026): India-first AI search engine project
 
 ## Optional

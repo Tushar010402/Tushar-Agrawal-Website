@@ -183,6 +183,12 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                   <Calendar className="w-4 h-4" />
                   {formatDate(blog.created_at)}
                 </div>
+                {blog.updated_at && blog.updated_at !== blog.created_at && (
+                  <div className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-theme-accent" />
+                    Updated {formatDate(blog.updated_at)}
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4" />
                   {calculateReadingTime(blog.content)}
@@ -271,6 +277,50 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                 </div>
               </div>
             </article>
+
+            {/* Author bio — visible E-E-A-T signal tied to the Person entity */}
+            <section
+              className="mt-12 max-w-3xl rounded-xl p-6 md:p-7 flex flex-col sm:flex-row gap-5 items-start"
+              style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+            >
+              <div
+                className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 text-xl font-bold"
+                style={{ background: "var(--accent)", color: "var(--background)" }}
+                aria-hidden="true"
+              >
+                TA
+              </div>
+              <div>
+                <p className="clay-eyebrow mb-1">Written by</p>
+                <h3 className="text-lg font-semibold text-theme mb-2">Tushar Agrawal</h3>
+                <p className="text-sm text-theme-secondary leading-relaxed mb-3">
+                  Full-Stack Engineer in New Delhi building healthcare SaaS at Dr. Dangs Lab.
+                  3+ years shipping Python/Go microservices, event-driven systems, and HIPAA-compliant
+                  platforms at 99.9% uptime. Creator of QAuth and QuantumShield.
+                </p>
+                <div className="flex flex-wrap gap-4 text-sm">
+                  <Link href="/about" className="text-theme-accent hover:opacity-80 underline underline-offset-2">
+                    About
+                  </Link>
+                  <a
+                    href="https://github.com/Tushar010402"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-theme-accent hover:opacity-80 underline underline-offset-2"
+                  >
+                    GitHub
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/tushar-agrawal-91b67a28a"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-theme-accent hover:opacity-80 underline underline-offset-2"
+                  >
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            </section>
 
             {/* Related Posts */}
             {relatedBlogs.length > 0 && (
