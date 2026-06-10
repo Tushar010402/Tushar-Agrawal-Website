@@ -4,7 +4,6 @@ import "./globals.css";
 import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/ui/footer";
 import { ThemeProvider } from "@/components/theme-provider";
-import { SmoothScroll } from "@/components/ui/visuals/smooth-scroll";
 import { CookieConsent } from "@/components/ui/cookie-consent";
 
 const geistSans = Geist({
@@ -21,7 +20,8 @@ const geistMono = Geist_Mono({
 const displayFont = Bricolage_Grotesque({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  // 800 was loaded but never used; 700 is used by blog prose headings (font-bold).
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   title: "Tushar Agrawal - Full-Stack Engineer | Backend & Distributed Systems",
   description: "Full-Stack Engineer with 3 years of experience building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, React, Next.js, Django, FastAPI, PostgreSQL, Redis, Docker, Nginx, and microservices architecture. Specialized in HIPAA-compliant systems, distributed systems, and AI automation.",
-  keywords: ["Tushar Agrawal", "Backend Engineer", "Full Stack Developer", "Python Developer", "Go Developer", "TypeScript Developer", "React Developer", "Next.js", "Django", "FastAPI", "PostgreSQL", "Redis", "Docker", "Nginx", "Microservices", "Healthcare SaaS", "HIPAA Compliance", "Distributed Systems", "AI Automation"],
+  keywords: ["Tushar Agrawal", "Backend Engineer", "Full Stack Developer", "Python Developer", "Go Developer", "TypeScript Developer", "React Developer", "Next.js", "Django", "FastAPI", "PostgreSQL", "Redis", "Docker", "Kubernetes", "Nginx", "Microservices", "Healthcare SaaS", "HIPAA Compliance", "Distributed Systems", "AI Automation", "LLM Integration", "AI Agents", "Post-Quantum Cryptography"],
   authors: [{ name: "Tushar Agrawal", url: "https://github.com/Tushar010402" }],
   icons: {
     icon: [
@@ -181,6 +181,11 @@ export default function RootLayout({
       "DevOps",
       "CI/CD",
       "AWS",
+      "Kubernetes",
+      "gRPC",
+      "AI Agent Backends",
+      "LLM Integration",
+      "Post-Quantum Cryptography",
     ],
     worksFor: {
       "@type": "Organization",
@@ -291,13 +296,11 @@ export default function RootLayout({
         style={{ background: "var(--background)", color: "var(--text-primary)" }}
       >
         <ThemeProvider>
-          <SmoothScroll>
-            <Navbar />
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-          </SmoothScroll>
+          <Navbar />
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
           <CookieConsent />
         </ThemeProvider>
       </body>

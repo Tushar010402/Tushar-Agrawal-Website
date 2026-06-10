@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, Mail, Phone, MapPin } from "lucide-react";
-import { AnimatedHeroBg } from "@/components/ui/visuals/animated-hero-bg";
+import { HeroBlobs } from "@/components/ui/visuals/hero-blobs";
 import { breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -90,11 +90,11 @@ const projects = [
 
 const skills = [
   { title: "Languages", items: "Python · Go · TypeScript · JavaScript" },
-  { title: "Backend", items: "FastAPI · Django · Flask · Node.js" },
+  { title: "Backend & APIs", items: "FastAPI · Django · Node.js · gRPC · REST · GraphQL" },
+  { title: "AI Engineering", items: "LLM Integration · AI Agent Backends · MCP · RAG Pipelines" },
   { title: "Frontend", items: "React · Next.js · Tailwind" },
-  { title: "Databases", items: "PostgreSQL · MongoDB · Redis · DynamoDB" },
-  { title: "Messaging", items: "Apache Kafka · RabbitMQ · Redis Streams" },
-  { title: "Cloud & DevOps", items: "AWS · Docker · Kubernetes · Nginx · CI/CD" },
+  { title: "Data & Messaging", items: "PostgreSQL · Redis · MongoDB · Apache Kafka · RabbitMQ" },
+  { title: "Cloud-Native & DevOps", items: "AWS · Docker · Kubernetes · Nginx · CI/CD · Observability" },
 ];
 
 export default function AboutPage() {
@@ -132,7 +132,7 @@ export default function AboutPage() {
       {/* ===== Hero ===== */}
       <section className="relative overflow-hidden pt-36 pb-20 md:pt-44 md:pb-28">
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ opacity: 0.5 }}>
-          <AnimatedHeroBg intensity={1} />
+          <HeroBlobs />
         </div>
         <div
           aria-hidden="true"
@@ -202,7 +202,7 @@ export default function AboutPage() {
                   <p className="text-white/70 mt-4 text-sm tracking-wide uppercase">Full-Stack Engineer</p>
                 </div>
                 <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2 flex-wrap px-5">
-                  {["Python", "Go", "React", "Rust"].map((t) => (
+                  {["Python", "Go", "TypeScript", "AI"].map((t) => (
                     <span key={t} className="text-xs px-3 py-1 rounded-full text-white/80" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}>
                       {t}
                     </span>

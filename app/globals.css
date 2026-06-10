@@ -765,16 +765,16 @@ body {
   font-family: var(--font-display), var(--font-geist-sans), system-ui, sans-serif;
 }
 
-/* ---- Lenis smooth scroll ---- */
-html.lenis,
-html.lenis body {
-  height: auto;
+/* ---- Native smooth scrolling (replaces Lenis: zero JS, no input lag) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
+/* Anchor targets land below the sticky navbar (was Lenis scrollTo offset: -80) */
+section[id],
+[id]:target {
+  scroll-margin-top: 5.5rem;
 }
 
 /* ---- CSS entrance (robust: visible without JS, no hydration dependency) ---- */
@@ -806,6 +806,62 @@ html.lenis body {
       animation-timeline: view();
       animation-range: entry 0% cover 22%;
     }
+  }
+}
+
+/* ---- Hero blobs: compositor-only ambient gradient (zero JS, zero repaint) ---- */
+.hero-blobs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  /* Rasterize once on its own layer; keyframes below touch transform only */
+  will-change: transform;
+}
+.hero-blob-1 {
+  width: 55vmax;
+  height: 55vmax;
+  left: -12%;
+  top: -28%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 42%, transparent) 0%, transparent 65%);
+  animation: blob-drift-1 52s ease-in-out infinite alternate;
+}
+.hero-blob-2 {
+  width: 44vmax;
+  height: 44vmax;
+  right: -10%;
+  top: -12%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent-hover) 34%, transparent) 0%, transparent 65%);
+  animation: blob-drift-2 64s ease-in-out infinite alternate;
+}
+.hero-blob-3 {
+  width: 38vmax;
+  height: 38vmax;
+  left: 28%;
+  bottom: -42%;
+  background: radial-gradient(circle, color-mix(in srgb, #b45309 36%, transparent) 0%, transparent 65%);
+  animation: blob-drift-3 47s ease-in-out infinite alternate;
+}
+@keyframes blob-drift-1 {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(14vw, 9vh, 0) scale(1.12); }
+}
+@keyframes blob-drift-2 {
+  from { transform: translate3d(0, 0, 0) scale(1.08); }
+  to { transform: translate3d(-12vw, 14vh, 0) scale(0.94); }
+}
+@keyframes blob-drift-3 {
+  from { transform: translate3d(0, 0, 0) scale(0.96); }
+  to { transform: translate3d(-10vw, -10vh, 0) scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-blob {
+    animation: none;
   }
 }
 

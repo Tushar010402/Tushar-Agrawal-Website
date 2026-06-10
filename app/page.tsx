@@ -2,11 +2,19 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
-import { AIChatPanel } from "@/components/ui/ai-chat-panel";
-import { AIChatFab } from "@/components/ui/ai-chat-fab";
 import { Counter, Marquee, RotatingWord } from "@/components/ui/visuals/motion-bits";
-import { AnimatedHeroBg } from "@/components/ui/visuals/animated-hero-bg";
+import { HeroBlobs } from "@/components/ui/visuals/hero-blobs";
+
+// Chat is below-the-fold UX; keep its 400+ lines + framer-motion out of first-load JS.
+const AIChatFab = dynamic(() => import("@/components/ui/ai-chat-fab").then((m) => m.AIChatFab), {
+  ssr: false,
+});
+const AIChatPanel = dynamic(
+  () => import("@/components/ui/ai-chat-panel").then((m) => m.AIChatPanel),
+  { ssr: false }
+);
 
 // ---- Content -------------------------------------------------------------
 
@@ -19,7 +27,8 @@ const stats = [
 
 const techStack = [
   "Python", "Go", "TypeScript", "FastAPI", "Django", "Next.js", "React",
-  "PostgreSQL", "Redis", "Apache Kafka", "Docker", "Kubernetes", "AWS", "Rust",
+  "PostgreSQL", "Redis", "Apache Kafka", "Docker", "Kubernetes", "AWS",
+  "AI Agents", "LLM Integration", "gRPC", "CI/CD", "Microservices",
 ];
 
 const projects = [
@@ -67,11 +76,11 @@ const projects = [
 
 const capabilities = [
   { title: "Languages", items: "Python · Go · TypeScript · JavaScript" },
-  { title: "Backend", items: "FastAPI · Django · Flask · Node.js" },
-  { title: "Databases", items: "PostgreSQL · MongoDB · Redis · DynamoDB" },
-  { title: "Messaging", items: "Apache Kafka · RabbitMQ · Redis Streams" },
-  { title: "Cloud & DevOps", items: "AWS · Docker · Kubernetes · Nginx · CI/CD" },
-  { title: "Architecture", items: "Microservices · Event-Driven · REST · GraphQL" },
+  { title: "Backend & APIs", items: "FastAPI · Django · Node.js · gRPC · REST · GraphQL" },
+  { title: "AI Engineering", items: "LLM Integration · AI Agent Backends · MCP · RAG Pipelines" },
+  { title: "Data & Messaging", items: "PostgreSQL · Redis · MongoDB · Apache Kafka · RabbitMQ" },
+  { title: "Cloud-Native & DevOps", items: "AWS · Docker · Kubernetes · Nginx · CI/CD · Observability" },
+  { title: "Architecture & Security", items: "Microservices · Event-Driven · HIPAA · Post-Quantum Crypto" },
 ];
 
 const experience = [
@@ -156,7 +165,7 @@ export default function Home() {
       <section id="home" className="relative overflow-hidden pt-40 pb-24 md:pt-52 md:pb-32">
         {/* Living, video-style animated gradient mesh */}
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ opacity: 0.5 }}>
-          <AnimatedHeroBg intensity={1} />
+          <HeroBlobs />
         </div>
         {/* Faint crisp grid backdrop — designed, not muddy */}
         <div

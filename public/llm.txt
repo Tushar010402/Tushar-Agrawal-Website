@@ -158,12 +158,14 @@ Tushar has written 80+ comprehensive technical articles sharing real-world imple
 - Relevant Coursework: Data Structures, Algorithms, Database Management, Operating Systems, Computer Networks, Software Engineering
 
 ### Core Competencies
-1. **Backend Development**: Expert in Python (FastAPI, Django, Flask), Go microservices, REST APIs, GraphQL
-2. **Healthcare Technology**: HIPAA/DPDP compliance, Medical data processing, OCR automation, LIMS
-3. **System Architecture**: Microservices, Event-driven systems, API Gateway, Load balancing
-4. **DevOps & Cloud**: Docker, Nginx, CI/CD, AWS (EC2, S3, RDS), Zero-downtime deployment
-5. **Data Engineering**: PostgreSQL optimization, Redis caching, Kafka streaming, MongoDB
-6. **Frontend Development**: React, Next.js, TypeScript, Flutter, State management
+1. **Backend Development**: Expert in Python (FastAPI, Django, Flask), Go microservices, REST APIs, gRPC, GraphQL
+2. **AI Engineering**: LLM integration, AI agent backends (idempotency, retries, state), MCP, RAG pipelines, AI-powered OCR
+3. **Healthcare Technology**: HIPAA/DPDP compliance, Medical data processing, OCR automation, LIMS
+4. **System Architecture**: Microservices, Event-driven systems, API Gateway, Load balancing
+5. **DevOps & Cloud**: Docker, Kubernetes, Nginx, CI/CD, AWS (EC2, S3, RDS), Zero-downtime deployment
+6. **Data Engineering**: PostgreSQL optimization, Redis caching, Kafka streaming, MongoDB
+7. **Frontend Development**: React, Next.js, TypeScript, Flutter, State management
+8. **Security**: Post-quantum cryptography (creator of QAuth & QuantumShield), JWT/OAuth, encryption
 
 ### Work Timeline
 - **2023 (Aug) - Present**: Backend Developer at Dr. Dangs Lab (3 years)

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { AnimatedHeroBg } from "@/components/ui/visuals/animated-hero-bg";
+import { HeroBlobs } from "@/components/ui/visuals/hero-blobs";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -207,7 +207,7 @@ export default function QAuthClient() {
       {/* Hero Section — Clay */}
       <section id="hero" className="relative overflow-hidden pt-36 pb-20 md:pt-44 md:pb-28">
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ opacity: 0.45 }}>
-          <AnimatedHeroBg intensity={1.1} />
+          <HeroBlobs />
         </div>
         <div
           aria-hidden="true"
