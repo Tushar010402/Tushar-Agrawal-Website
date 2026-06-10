@@ -865,6 +865,15 @@ section[id],
   }
 }
 
+/* ---- Audio player EQ bars ---- */
+@keyframes eq-bounce {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [class*="eq-bounce"] { animation: none !important; }
+}
+
 /* ---- Marquee ---- */
 @keyframes marquee {
   from { transform: translateX(0); }
