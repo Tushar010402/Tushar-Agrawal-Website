@@ -58,8 +58,24 @@ export function Counter({ value, suffix = "", className }: { value: number; suff
 
 /** Seamless horizontal marquee. Renders the children twice for a loop. */
 export function Marquee({ children, className }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Pause the CSS animation when scrolled out of view — no reason to composite
+  // a moving layer nobody can see.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const track = el.querySelector<HTMLElement>(".marquee-track");
+    if (!track) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      track.style.animationPlayState = entry.isIntersecting ? "running" : "paused";
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className={`marquee-mask overflow-hidden ${className ?? ""}`}>
+    <div ref={ref} className={`marquee-mask overflow-hidden ${className ?? ""}`}>
       <div className="marquee-track">
         <span className="flex items-center">{children}</span>
         <span className="flex items-center" aria-hidden="true">{children}</span>

@@ -818,10 +818,33 @@ html.lenis body {
   display: inline-flex;
   white-space: nowrap;
   animation: marquee 28s linear infinite;
+  /* Own GPU layer: text rasterizes once, then only the transform changes per frame */
+  will-change: transform;
+  transform: translateZ(0);
 }
+/* Edge fades as static overlay layers — NOT mask-image: masking a continuously
+   animating subtree forces a re-composite through the mask every frame, which
+   made this marquee one of the most expensive elements on the page. */
 .marquee-mask {
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  position: relative;
+}
+.marquee-mask::before,
+.marquee-mask::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8%;
+  z-index: 1;
+  pointer-events: none;
+}
+.marquee-mask::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--background), transparent);
+}
+.marquee-mask::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--background), transparent);
 }
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
