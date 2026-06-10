@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Play,
   Pause,
@@ -528,6 +529,18 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
   const [ambientOn, setAmbientOn] = useState(true);
   const [ambientVol, setAmbientVol] = useState(30); // 0–100 → 0–0.09 gain
   const [fileDur, setFileDur] = useState(audioDuration || 0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  // Keep page content clear of the fixed mini bar (replaces an in-article
+  // spacer that sat in the wrong place).
+  useEffect(() => {
+    if (isActive) {
+      document.body.style.paddingBottom = '84px';
+      return () => { document.body.style.paddingBottom = ''; };
+    }
+  }, [isActive]);
 
   // ── Refs ──
   const chunksRef = useRef<SpeechChunk[]>([]);
@@ -883,8 +896,10 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
         <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{Math.ceil(dur / 60)} min</span>
       </button>
 
-      {/* ── Bottom player ── */}
-      {isActive && (
+      {/* ── Bottom player — portaled to <body>: ancestors with transforms
+            (e.g. the article's entrance animation) would otherwise hijack
+            position:fixed and pin the bar inside the article. ── */}
+      {isActive && mounted && createPortal(
         <div className="fixed inset-x-0 bottom-0 z-50" style={{ pointerEvents: 'none' }}>
           {isExpanded && (
             <div
@@ -1127,10 +1142,9 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
-
-      {isActive && !isExpanded && <div className="h-16" />}
     </>
   );
 }
