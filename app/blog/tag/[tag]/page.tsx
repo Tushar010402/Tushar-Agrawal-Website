@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import Link from 'next/link';
 import {
   getAllTagSlugs,
   getTagBySlug,
   getPostsByTag,
   getTagHubs,
+  TAG_HUB_MIN_POSTS,
 } from '@/lib/blog';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
@@ -64,6 +65,13 @@ export default async function TagPage({ params }: PageProps) {
   }
 
   const posts = getPostsByTag(tag);
+
+  // Below-threshold tags would be thin, near-duplicate pages that Google leaves
+  // "Discovered - currently not indexed". Consolidate them into the blog index.
+  if (posts.length < TAG_HUB_MIN_POSTS) {
+    permanentRedirect('/blog');
+  }
+
   const url = `${siteUrl}/blog/tag/${tag}`;
 
   // Other topics to cross-link (builds the internal link graph for crawlers).

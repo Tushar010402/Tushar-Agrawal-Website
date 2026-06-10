@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import BlogPostClient from './blog-post-client';
-import { getPostBySlug, getRelatedPosts, getAllSlugs, getAllPosts } from '@/lib/blog';
+import { getPostBySlug, getRelatedPosts, getAllSlugs, getAllPosts, getAllTagSlugs } from '@/lib/blog';
 import { renderMarkdownToHtml } from '@/lib/markdown';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
@@ -217,7 +217,13 @@ export default async function BlogPostPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <BlogPostClient blog={blog} comments={[]} relatedBlogs={relatedBlogs} allBlogs={allBlogs} />
+      <BlogPostClient
+        blog={blog}
+        comments={[]}
+        relatedBlogs={relatedBlogs}
+        allBlogs={allBlogs}
+        tagHubSlugs={getAllTagSlugs()}
+      />
     </>
   );
 }

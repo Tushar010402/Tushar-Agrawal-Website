@@ -142,7 +142,9 @@ export function slugifyTag(tag: string): string {
 
 // Minimum posts a tag needs to get its own hub page. Single-post tags would be thin,
 // near-duplicate pages of the post itself — exactly the kind of page we don't want indexed.
-const TAG_HUB_MIN_POSTS = 2;
+// Raised 2 -> 3 (June 2026): GSC showed ~45 "Discovered - currently not indexed" pages,
+// dominated by thin 2-post hubs; below-threshold tag URLs now 308 to /blog instead.
+export const TAG_HUB_MIN_POSTS = 3;
 
 // Display tags that have at least `min` published posts, with their post counts.
 // Used for tag hubs, sitemap, and "browse by topic" rows (newest/most-used first).

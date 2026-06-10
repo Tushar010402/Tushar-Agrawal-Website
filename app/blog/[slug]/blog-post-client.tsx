@@ -24,9 +24,11 @@ interface BlogPostClientProps {
   comments?: never[];
   relatedBlogs: Blog[];
   allBlogs: Blog[];
+  /** Tag slugs that have a hub page — only these get linked (non-hub tag URLs redirect). */
+  tagHubSlugs?: string[];
 }
 
-export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPostClientProps) {
+export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlugs = [] }: BlogPostClientProps) {
   const [copied, setCopied] = useState(false);
 
   // Format date
@@ -211,19 +213,36 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                 />
               </div>
 
-              {/* Tags */}
+              {/* Tags — only hub tags link out; thin tags render as plain chips so
+                  crawlers never discover below-threshold tag URLs */}
               <div className="flex flex-wrap gap-2 mb-8">
-                {blog.tags.split(',').map((tag, i) => (
-                  <Link
-                    key={i}
-                    href={`/blog/tag/${tag.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`}
-                    className="inline-flex items-center gap-1 px-3 py-1 text-theme-secondary text-sm rounded-full hover:border-[--accent-muted] transition-all"
-                    style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
-                  >
-                    <TagIcon className="w-3 h-3" />
-                    {tag.trim()}
-                  </Link>
-                ))}
+                {blog.tags.split(',').map((tag, i) => {
+                  const slug = tag.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+                  const chipStyle = { background: "var(--surface)", border: "1px solid var(--border)" };
+                  if (!tagHubSlugs.includes(slug)) {
+                    return (
+                      <span
+                        key={i}
+                        className="inline-flex items-center gap-1 px-3 py-1 text-theme-secondary text-sm rounded-full"
+                        style={chipStyle}
+                      >
+                        <TagIcon className="w-3 h-3" />
+                        {tag.trim()}
+                      </span>
+                    );
+                  }
+                  return (
+                    <Link
+                      key={i}
+                      href={`/blog/tag/${slug}`}
+                      className="inline-flex items-center gap-1 px-3 py-1 text-theme-secondary text-sm rounded-full hover:border-[--accent-muted] transition-all"
+                      style={chipStyle}
+                    >
+                      <TagIcon className="w-3 h-3" />
+                      {tag.trim()}
+                    </Link>
+                  );
+                })}
               </div>
 
               {/* TL;DR — explicit summary block (also aids AI answer extraction) */}
