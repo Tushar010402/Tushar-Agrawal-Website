@@ -71,14 +71,38 @@ export function Marquee({ children, className }: { children: ReactNode; classNam
 /** A word that rolls vertically through a list (kinetic headline accent). */
 export function RotatingWord({ words, className, interval = 2200 }: { words: string[]; className?: string; interval?: number }) {
   const [i, setI] = useState(0);
+  const rootRef = useRef<HTMLSpanElement>(null);
+
   useEffect(() => {
     if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setI((p) => (p + 1) % words.length), interval);
-    return () => clearInterval(id);
+
+    // Only rotate while on screen — no ticking (and re-rendering) once the hero scrolls away.
+    let id: ReturnType<typeof setInterval> | null = null;
+    const start = () => {
+      if (id === null) id = setInterval(() => setI((p) => (p + 1) % words.length), interval);
+    };
+    const stop = () => {
+      if (id !== null) {
+        clearInterval(id);
+        id = null;
+      }
+    };
+
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      start();
+      return stop;
+    }
+    const observer = new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop()));
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      stop();
+    };
   }, [words.length, interval]);
 
   return (
-    <span className={`relative inline-grid overflow-hidden align-bottom ${className ?? ""}`} style={{ verticalAlign: "bottom" }}>
+    <span ref={rootRef} className={`relative inline-grid overflow-hidden align-bottom ${className ?? ""}`} style={{ verticalAlign: "bottom" }}>
       {/* reserve width with the longest word, invisible */}
       <span className="invisible col-start-1 row-start-1" aria-hidden="true">
         {words.reduce((a, b) => (a.length >= b.length ? a : b))}

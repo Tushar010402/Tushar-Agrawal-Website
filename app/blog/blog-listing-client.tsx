@@ -406,9 +406,9 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             {remainingPosts.map((blog, index) => (
               <motion.div
                 key={blog.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+                transition={{ duration: 0.3, delay: Math.min(index, 5) * 0.04 }}
               >
                 <Link href={`/blog/${blog.slug}`}>
                   <article className="group clay-card-hover rounded-xl overflow-hidden h-full flex flex-col" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
@@ -474,9 +474,9 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
             {remainingPosts.map((blog, index) => (
               <motion.div
                 key={blog.id}
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+                transition={{ duration: 0.3, delay: Math.min(index, 5) * 0.04 }}
               >
                 <Link href={`/blog/${blog.slug}`}>
                   <article className="group clay-card-hover flex gap-4 rounded-xl p-4" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>

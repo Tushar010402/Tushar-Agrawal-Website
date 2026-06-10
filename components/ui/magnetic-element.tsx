@@ -17,6 +17,9 @@ export function MagneticElement({
   range?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  // Cache the rect on enter: getBoundingClientRect() on every mousemove forces a
+  // layout read 100+ times/sec, which fights Lenis's rAF loop and drops frames.
+  const rectRef = useRef<DOMRect | null>(null);
   const [canHover, setCanHover] = useState(false);
 
   const x = useMotionValue(0);
@@ -33,10 +36,16 @@ export function MagneticElement({
     return () => mq.removeEventListener("change", handler);
   }, []);
 
+  const handleMouseEnter = useCallback(() => {
+    if (ref.current) {
+      rectRef.current = ref.current.getBoundingClientRect();
+    }
+  }, []);
+
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!ref.current || !canHover) return;
-      const rect = ref.current.getBoundingClientRect();
+      const rect = rectRef.current;
+      if (!rect || !canHover) return;
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       const dx = e.clientX - centerX;
@@ -54,6 +63,7 @@ export function MagneticElement({
   );
 
   const handleMouseLeave = useCallback(() => {
+    rectRef.current = null;
     x.set(0);
     y.set(0);
   }, [x, y]);
@@ -65,6 +75,7 @@ export function MagneticElement({
   return (
     <motion.div
       ref={ref}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ x: springX, y: springY }}
