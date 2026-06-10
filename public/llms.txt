@@ -36,6 +36,7 @@ Education: B.Tech, GD Goenka University, Gurugram, Haryana (2019–2023); school
 - [Technical SEO for Next.js Developers (2026)](https://www.tusharagrawal.in/blog/technical-seo-nextjs-developers-complete-guide-2026): Metadata API, JSON-LD entities, sitemaps, and AI-crawler policy as code
 - [llms.txt, GEO and AI Search for Developers (2026)](https://www.tusharagrawal.in/blog/llms-txt-generative-engine-optimization-developers-2026): How to get cited by ChatGPT, Perplexity, and Google AI Mode
 - [Core Web Vitals for Backend Engineers (2026)](https://www.tusharagrawal.in/blog/core-web-vitals-backend-engineers-server-performance-2026): TTFB budgets, caching, and streaming SSR
+- [Google's June 2026 Search Shake-Up](https://www.tusharagrawal.in/blog/google-june-2026-ai-search-updates-developers-guide): AI Mode, Search Console Gen-AI reports, and the developer response checklist
 - [FOMOA AI: Complete Guide & Features](https://www.tusharagrawal.in/blog/fomoa-ai-complete-guide-features-2026): India-first AI search engine project
 
 ## Optional

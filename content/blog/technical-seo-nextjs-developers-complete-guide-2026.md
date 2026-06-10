@@ -174,6 +174,14 @@ async redirects() {
 
 Thin, near-duplicate pages dilute topical authority. Consolidating them — and preserving link equity with 301s — is one of the highest-ROI cleanups a content-heavy site can do. After this consolidation, my "Crawled – not indexed" count in Search Console started falling within weeks.
 
+## How do you monitor all of this after shipping?
+
+Three dashboards cover the whole stack, and as of June 2026 one of them is new:
+
+- **Google Search Console** — indexing coverage, rich-result validation, Core Web Vitals field data, and (rolling out since June 3, 2026) the new **Generative AI performance report**: impressions your pages earn inside AI Overviews and AI Mode, per URL, country, and device. This is the first official feedback loop for AI visibility — check it monthly once it reaches your property. The same June update added a toggle to opt your site out of AI search features; it defaults to *in*, which is what you want — leave it alone.
+- **Bing Webmaster Tools** — crawl stats, IndexNow submission history, and Copilot-side visibility. Two minutes to set up via "Import from Google Search Console."
+- **Rich Results Test + Schema validator** — run after any JSON-LD change; invalid structured data silently stops earning enhancements long before it triggers a Search Console error.
+
 ## The 2026 technical SEO checklist
 
 - `metadataBase` + per-page `generateMetadata` with canonical URLs
@@ -186,6 +194,7 @@ Thin, near-duplicate pages dilute topical authority. Consolidating them — and 
 - Visible author bio + updated dates on posts (E-E-A-T is now checked against *rendered* pages, not just markup)
 - 301 consolidation of thin content
 - No fake freshness — never bulk-update dates
+- Search Console Generative AI report reviewed monthly; AI opt-out toggle left at its opted-in default
 
 None of this requires an SEO tool subscription. It requires treating your crawl surface as a public API — versioned, honest, and fast. That's a backend engineer's job description.
 

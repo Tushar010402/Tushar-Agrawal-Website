@@ -120,6 +120,19 @@ The 2026 citation data is unusually specific, and it converges on a few mechanic
 
 **Be a named entity.** Citations skew heavily toward sources with strong E-E-A-T: a Person schema with an `@id`, a visible author bio, consistent facts about you across pages, and `sameAs` links to GitHub/LinkedIn. AI systems resolve *who is saying this* before deciding whether to repeat it. The structured-data half of this is covered in my [technical SEO guide for Next.js](/blog/technical-seo-nextjs-developers-complete-guide-2026).
 
+## How do you measure whether GEO is actually working?
+
+Until June 2026 the honest answer was "you mostly can't." That changed on June 3, 2026, when Google launched **Generative AI performance reports in Search Console** — the first official data on AI visibility. The new report shows impressions your URLs earn *inside AI Overviews and AI Mode* (and AI features in Discover), broken down by page, country, device, and date, at granularity down to hourly. No click data yet, but for the first time you can see which pages AI answers actually pull from — and which never get selected.
+
+The rollout is staged (UK first, then global), so check Search Console periodically until the report appears for your property. When it does, treat it like any other funnel metric: pages with search impressions but zero AI impressions are your optimization backlog — usually they fail the semantic-completeness test from the previous section.
+
+Two companion signals to track alongside it:
+
+- **Bing Webmaster Tools** already reports IndexNow submission status and Copilot-adjacent visibility.
+- **Server logs** — grep for `OAI-SearchBot`, `ClaudeBot`, and `PerplexityBot` user agents. Crawl frequency from these bots is a leading indicator of AI-surface inclusion; if they never fetch you, you can't be cited.
+
+> **Warning:** Google's June 2026 update also shipped an opt-out toggle that removes your site from AI Overviews and AI Mode entirely. It defaults to opted-in. If you're doing GEO, never touch it — sites that opt out get zero AI impressions and zero AI traffic, and Google has confirmed the toggle doesn't affect classic rankings either way.
+
 ## What does a complete GEO stack look like?
 
 The full checklist, all shippable in code:
@@ -132,6 +145,7 @@ The full checklist, all shippable in code:
 - Answer-first headings, TL;DR blocks, self-contained sections
 - Visible author identity and honest updated dates
 - RSS feed (several AI crawlers use it for freshness discovery)
+- Search Console Generative AI report monitored monthly (live since June 2026); AI opt-out toggle left untouched
 
 None of this replaces traditional SEO — Google's AI Overviews still draw from the regular index, so [Core Web Vitals and rendering performance](/blog/core-web-vitals-backend-engineers-server-performance-2026) still gate everything. GEO is a layer on top: same content, made legible to a new class of reader.
 
