@@ -1,0 +1,252 @@
+1
+00:00:00,050 --> 00:00:09,555
+You're listening to: Google's June 2026 Search Shake-Up: AI Mode, Gen-AI Reports in Search Console & What Developers Must Do.
+
+2
+00:00:09,555 --> 00:00:25,697
+In two weeks Google completed the May 2026 core update, made Gemini 3.5 Flash the default AI Mode model, launched AI agents in Search at I/O 2026, and shipped the first-ever Generative AI performance reports in Search Console.
+
+3
+00:00:25,697 --> 00:00:30,925
+Here's what changed, what it means for your traffic, and the exact developer checklist to respond.
+
+4
+00:00:30,925 --> 00:00:31,983
+Let's get started.
+
+5
+00:00:31,983 --> 00:00:37,403
+The first week of June 2026 was the busiest stretch for Google Search in years.
+
+6
+00:00:37,403 --> 00:01:06,225
+Within roughly ten days: the May 2026 core update finished rolling out (June 2), Google announced Generative AI performance reports and an AI opt-out control in Search Console (June 3), and I/O 2026 delivered the biggest changes to the search box in 25 years — Gemini 3.5 Flash as the global default for AI Mode, AI "information agents" that run continuous searches, and generative UI in results.
+
+7
+00:01:06,225 --> 00:01:10,600
+If you build or run websites, every one of those changes touches you.
+
+8
+00:01:10,600 --> 00:01:16,694
+Here's each launch, what it actually means, and what to do about it — as a developer, not a marketer.
+
+9
+00:01:16,694 --> 00:01:20,468
+Now, let's talk about What did the May 2026 core update change?.
+
+10
+00:01:20,468 --> 00:01:28,425
+The May 2026 core update completed on June 2 after an 11-day rollout with three distinct volatility spikes.
+
+11
+00:01:28,425 --> 00:01:43,641
+It continued the direction the March 2026 update set: rankings increasingly reward entity clarity, E-E-A-T that's visible on the rendered page, topical authority, and comparative value — does your page add something the other nine results don't?
+
+12
+00:01:43,641 --> 00:01:59,471
+The pattern across both 2026 core updates is uncomfortable for thin content and good news for practitioners: sites with first-hand experience, owned data, and direct answers held or gained, while aggregators and intermediaries kept sliding.
+
+13
+00:01:59,471 --> 00:02:06,875
+March alone reshuffled nearly 80% of top-three results, and May extended rather than reversed those moves.
+
+14
+00:02:06,875 --> 00:02:22,031
+Developer response: the technical half of E-E-A-T is shippable in code — a Person schema with a stable @id, visible author bios on articles, honest published/updated dates, and consolidation of thin pages with 301s.
+
+15
+00:02:22,031 --> 00:02:27,043
+I covered the full implementation in my technical SEO guide for Next.js.
+
+16
+00:02:27,043 --> 00:02:31,057
+Moving on to What are the new Generative AI reports in Search Console?.
+
+17
+00:02:31,057 --> 00:02:46,562
+Announced June 3, 2026, this is the most practically useful launch of the batch: Search Console now has a dedicated performance view for generative AI features — AI Overviews, AI Mode, and AI features in Discover.
+
+18
+00:02:46,562 --> 00:02:48,846
+For the first time, Google shows you:
+
+19
+00:02:48,846 --> 00:02:53,197
+Impressions your URLs earn inside AI-generated answers.
+
+20
+00:02:53,197 --> 00:02:57,848
+Pages — exactly which URLs get pulled into AI features.
+
+21
+00:02:57,848 --> 00:03:01,406
+Countries and devices behind that AI visibility.
+
+22
+00:03:01,406 --> 00:03:03,798
+Dates down to hourly granularity.
+
+23
+00:03:03,798 --> 00:03:08,810
+There's no click data yet, but this ends the era of guessing whether AI search sees you at all.
+
+24
+00:03:08,810 --> 00:03:17,271
+Before this report, AI visibility was measured by vibes and third-party scrapers; now it's a first-party metric you can put on a dashboard.
+
+25
+00:03:17,271 --> 00:03:25,408
+The rollout is staged — UK property owners first, then globally — so if you don't see it yet, check back over the coming weeks.
+
+26
+00:03:25,408 --> 00:03:29,699
+Developer response: when the report lands for your property, baseline it.
+
+27
+00:03:29,699 --> 00:03:40,216
+Pages with strong classic impressions but zero AI impressions are failing extraction — usually because the answer isn't self-contained or sits too deep in the page.
+
+28
+00:03:40,216 --> 00:03:49,158
+The fix patterns (answer-first headings, TL;DR blocks, 100–300 word complete passages) are in my GEO guide for developers.
+
+29
+00:03:49,158 --> 00:03:52,764
+Next up: Should you use the new AI opt-out toggle?.
+
+30
+00:03:52,764 --> 00:04:01,670
+Alongside the reports, Google shipped a control that lets site owners exclude their content from AI Overviews and AI Mode entirely.
+
+31
+00:04:01,670 --> 00:04:02,992
+Three facts matter:
+
+32
+00:04:02,992 --> 00:04:07,331
+It defaults to opted-in — no action keeps you in AI results..
+
+33
+00:04:07,331 --> 00:04:15,096
+Opting out means zero traffic and zero impressions from AI features — you vanish from the fastest-growing search surface..
+
+34
+00:04:15,096 --> 00:04:22,704
+Google states the toggle is not a ranking signal for classic results — opting out won't boost (or hurt) your blue links..
+
+35
+00:04:22,754 --> 00:04:29,242
+Note: For publishers whose business is exclusive content, opting out is a real strategic question.
+
+36
+00:04:29,242 --> 00:04:36,285
+For developers, products, and personal brands, it isn't — being quoted by AI Mode is the distribution.
+
+37
+00:04:36,285 --> 00:04:37,691
+Leave the toggle alone.
+
+38
+00:04:37,691 --> 00:04:42,259
+Let's explore What did I/O 2026 change about Search itself?.
+
+39
+00:04:42,259 --> 00:04:45,841
+Three launches, in order of how much they affect site owners:
+
+40
+00:04:45,841 --> 00:04:50,985
+Gemini 3.5 Flash is now the default AI Mode model globally.
+
+41
+00:04:50,985 --> 00:04:59,326
+A stronger, faster model composing answers means longer, more synthesized responses — and more aggressive selection of sources.
+
+42
+00:04:59,326 --> 00:05:07,054
+The semantic-completeness bar for getting cited keeps rising; content that needs surrounding context to make sense doesn't get quoted.
+
+43
+00:05:07,054 --> 00:05:17,607
+Information agents (AI Pro/Ultra, rolling out this summer) run continuous searches — "watch for apartments like this," "track this library's releases."
+
+44
+00:05:17,607 --> 00:05:29,338
+For site owners this quietly raises the value of freshness infrastructure: honest lastmod in sitemaps, an RSS feed, IndexNow pings on publish, and visible updated dates.
+
+45
+00:05:29,338 --> 00:05:34,518
+Agents revisiting a topic need machine-readable signals that something changed.
+
+46
+00:05:34,518 --> 00:05:42,379
+Generative UI in results (free, this summer) — Search composes interactive visuals and simulations in-line.
+
+47
+00:05:42,379 --> 00:05:47,403
+The practical implication: even more answers get fully resolved on the results page.
+
+48
+00:05:47,403 --> 00:05:55,035
+The traffic that still clicks through is higher-intent, which is exactly why being the cited source matters more than raw position.
+
+49
+00:05:55,035 --> 00:05:58,593
+Now let's look at The June 2026 developer checklist.
+
+50
+00:05:58,593 --> 00:06:03,160
+Everything above reduces to nine actions — all but two are code:
+
+51
+00:06:03,160 --> 00:06:10,396
+Person schema with @id + visible author bios + real updated dates (core updates reward rendered E-E-A-T).
+
+52
+00:06:10,396 --> 00:06:17,583
+Thin content consolidated with 301s; every page answers something the SERP doesn't already.
+
+53
+00:06:17,583 --> 00:06:23,689
+Answer-first structure: question headings, 1–2 sentence answers, self-contained sections.
+
+54
+00:06:23,689 --> 00:06:27,667
+TL;DR/summary block on long-form content.
+
+55
+00:06:27,667 --> 00:06:38,845
+llms.txt + full-content file for LLM crawlers; robots.txt allowing OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended.
+
+56
+00:06:38,845 --> 00:06:45,348
+Freshness pipeline: honest sitemap lastmod + RSS + IndexNow on every deploy.
+
+57
+00:06:45,348 --> 00:06:54,290
+Core Web Vitals field data clean at p75 — the backend half (TTFB, caching, streaming) usually decides it.
+
+58
+00:06:54,290 --> 00:07:00,336
+(Manual) Watch Search Console for the Generative AI report; baseline and review monthly.
+
+59
+00:07:00,336 --> 00:07:06,586
+(Manual) Leave the AI opt-out toggle at its default unless exclusivity is your business model.
+
+60
+00:07:06,586 --> 00:07:16,345
+The through-line of June 2026: Google finished making AI answers the primary search surface and finally gave site owners instrumentation for it.
+
+61
+00:07:16,345 --> 00:07:25,444
+The sites that win the next year are the ones that treat AI visibility as a measurable engineering target — because as of this month, it literally is one.
+
+62
+00:07:25,444 --> 00:07:27,066
+And that's the end of this article.
+
+63
+00:07:27,066 --> 00:07:28,184
+Thanks for listening.
+

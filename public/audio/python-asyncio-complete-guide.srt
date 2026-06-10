@@ -1,0 +1,188 @@
+1
+00:00:00,050 --> 00:00:05,925
+You're listening to: Python Async Programming with asyncio: Complete Developer Guide.
+
+2
+00:00:05,925 --> 00:00:09,963
+Master asynchronous programming in Python with asyncio.
+
+3
+00:00:09,963 --> 00:00:18,725
+Learn coroutines, tasks, event loops, async context managers, and build high-performance concurrent applications with practical examples.
+
+4
+00:00:18,725 --> 00:00:19,771
+Let's get started.
+
+5
+00:00:19,771 --> 00:00:21,887
+Now, let's talk about Introduction.
+
+6
+00:00:21,887 --> 00:00:27,307
+Asynchronous programming is essential for building high-performance Python applications.
+
+7
+00:00:27,307 --> 00:00:35,649
+At Dr. Dangs Lab, we use asyncio to handle thousands of concurrent API requests, database queries, and external service calls.
+
+8
+00:00:35,649 --> 00:00:39,735
+This guide covers everything you need to master async Python.
+
+9
+00:00:39,735 --> 00:00:43,149
+Moving on to Understanding Async/Await.
+
+10
+00:00:43,149 --> 00:00:45,685
+Synchronous vs Asynchronous.
+
+11
+00:00:45,685 --> 00:00:47,127
+How asyncio Works.
+
+12
+00:00:47,127 --> 00:00:50,697
+Next up: Coroutines, Tasks, and Futures.
+
+13
+00:00:50,697 --> 00:00:51,850
+Coroutines.
+
+14
+00:00:51,850 --> 00:00:54,158
+Tasks - Concurrent Execution.
+
+15
+00:00:54,158 --> 00:00:55,360
+Task Management.
+
+16
+00:00:55,360 --> 00:00:59,543
+Let's explore Async Context Managers and Iterators.
+
+17
+00:00:59,543 --> 00:01:01,682
+Async Context Managers.
+
+18
+00:01:01,682 --> 00:01:05,288
+Using contextlib for async context managers.
+
+19
+00:01:05,288 --> 00:01:07,043
+Async Iterators.
+
+20
+00:01:07,043 --> 00:01:08,533
+Async Generators.
+
+21
+00:01:08,533 --> 00:01:10,661
+Now let's look at Real-World Patterns.
+
+22
+00:01:10,661 --> 00:01:12,860
+HTTP Client with aiohttp.
+
+23
+00:01:12,860 --> 00:01:15,108
+Database Operations with asyncpg.
+
+24
+00:01:15,108 --> 00:01:16,730
+Producer-Consumer Pattern.
+
+25
+00:01:16,730 --> 00:01:18,533
+Async Retry Pattern.
+
+26
+00:01:18,533 --> 00:01:20,781
+Now, let's talk about Error Handling.
+
+27
+00:01:20,781 --> 00:01:22,860
+Handling Multiple Task Errors.
+
+28
+00:01:22,860 --> 00:01:24,218
+Graceful Shutdown.
+
+29
+00:01:24,218 --> 00:01:26,177
+Moving on to Performance Tips.
+
+30
+00:01:26,177 --> 00:01:27,692
+Avoid Blocking Calls.
+
+31
+00:01:27,692 --> 00:01:29,819
+Batching with asyncio.gather.
+
+32
+00:01:29,819 --> 00:01:31,790
+Next up: Key Takeaways.
+
+33
+00:01:31,790 --> 00:01:37,668
+Use async for I/O-bound operations - Network, database, file operations.
+
+34
+00:01:37,668 --> 00:01:42,992
+Never block the event loop - Use run_in_executor for CPU-bound work.
+
+35
+00:01:42,992 --> 00:01:48,305
+Create tasks for concurrency - asyncio.gather and create_task.
+
+36
+00:01:48,305 --> 00:01:52,283
+Implement proper cleanup - Use async context managers.
+
+37
+00:01:52,283 --> 00:01:56,237
+Handle timeouts - Use asyncio.wait_for.
+
+38
+00:01:56,237 --> 00:02:00,745
+Limit concurrency - Use Semaphore to prevent resource exhaustion.
+
+39
+00:02:00,745 --> 00:02:04,338
+Stream large data - Use async generators.
+
+40
+00:02:04,338 --> 00:02:05,997
+Let's explore Conclusion.
+
+41
+00:02:05,997 --> 00:02:12,896
+Async programming in Python unlocks massive performance improvements for I/O-bound applications.
+
+42
+00:02:12,896 --> 00:02:21,322
+Start with simple coroutines, learn to use tasks for concurrency, and gradually adopt advanced patterns like producer-consumer queues.
+
+43
+00:02:21,322 --> 00:02:26,526
+The investment in learning async pays dividends in application performance.
+
+44
+00:02:26,526 --> 00:02:29,254
+Building async Python applications?
+
+45
+00:02:29,254 --> 00:02:32,355
+Connect on LinkedIn to discuss best practices.
+
+46
+00:02:32,355 --> 00:02:34,026
+And that's the end of this article.
+
+47
+00:02:34,026 --> 00:02:35,120
+Thanks for listening.
+

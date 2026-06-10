@@ -1,0 +1,356 @@
+1
+00:00:00,050 --> 00:00:07,560
+You're listening to: Migrating to Post-Quantum Cryptography: A Practical Developer Guide (2026).
+
+2
+00:00:07,560 --> 00:00:12,860
+Harvest-now-decrypt-later means quantum-vulnerable data is already being stolen today.
+
+3
+00:00:12,860 --> 00:00:24,242
+A practical, no-hype migration guide: crypto-agility, where ML-KEM and ML-DSA fit, the hybrid rollout, and a concrete inventory-first plan for engineering teams.
+
+4
+00:00:24,242 --> 00:00:25,288
+Let's get started.
+
+5
+00:00:25,288 --> 00:00:33,641
+The uncomfortable truth about post-quantum cryptography is that you cannot wait for a quantum computer to exist before you act.
+
+6
+00:00:33,641 --> 00:00:46,478
+Adversaries are already running a strategy called harvest-now, decrypt-later: capture encrypted traffic today, store it, and decrypt it years from now when a cryptographically-relevant quantum computer arrives.
+
+7
+00:00:46,478 --> 00:00:58,137
+If your data needs to stay secret for a decade — health records, financial data, state secrets, even long-lived auth tokens — then for that data, the quantum threat is a present-day threat.
+
+8
+00:00:58,137 --> 00:01:04,519
+This is the practical migration guide I wish existed when I started building QuantumShield and QAuth.
+
+9
+00:01:04,519 --> 00:01:10,877
+No hype, no "quantum apocalypse" — just what an engineering team should actually do in 2026.
+
+10
+00:01:10,877 --> 00:01:14,699
+Now, let's talk about What quantum computers break (and what they don't).
+
+11
+00:01:14,699 --> 00:01:18,161
+Two quantum algorithms matter for cryptography:
+
+12
+00:01:18,161 --> 00:01:24,038
+Shor's algorithm efficiently factors large integers and solves discrete logarithms.
+
+13
+00:01:24,038 --> 00:01:36,802
+This breaks RSA, Diffie-Hellman, and elliptic-curve cryptography (ECDH, ECDSA) — the asymmetric primitives that protect virtually all key exchange and digital signatures today..
+
+14
+00:01:36,802 --> 00:01:41,165
+Grover's algorithm gives a quadratic speed-up on brute-force search.
+
+15
+00:01:41,165 --> 00:01:53,173
+This weakens symmetric crypto, but only mildly: AES-128 effectively drops to ~64-bit security, while AES-256 remains safe.
+
+16
+00:01:53,173 --> 00:02:00,180
+SHA-256/SHA-3 are similarly fine at appropriate sizes..
+
+17
+00:02:00,180 --> 00:02:07,331
+So the headline is precise: symmetric crypto is mostly OK; asymmetric crypto is the problem.
+
+18
+00:02:07,331 --> 00:02:15,132
+Your TLS key exchange and your signatures are what need replacing — not your AES-256 data encryption.
+
+19
+00:02:15,132 --> 00:02:17,968
+Moving on to The NIST standards you'll actually use.
+
+20
+00:02:17,968 --> 00:02:22,391
+In 2024 NIST finalized the first post-quantum standards.
+
+21
+00:02:22,391 --> 00:02:24,615
+Three matter for most engineers:
+
+22
+00:02:24,615 --> 00:02:28,088
+Standard, Name, Replaces, Use for.
+
+23
+00:02:28,088 --> 00:02:39,495
+FIPS 203, ML-KEM (Kyber), ECDH / RSA key exchange, Establishing shared secrets / key encapsulation.
+
+24
+00:02:39,495 --> 00:02:48,641
+FIPS 204, ML-DSA (Dilithium), ECDSA / RSA signatures, Digital signatures, token signing.
+
+25
+00:02:48,641 --> 00:02:58,149
+FIPS 205, SLH-DSA (SPHINCS+), —, Conservative, hash-based signatures (firmware, roots of trust).
+
+26
+00:02:58,149 --> 00:03:05,781
+ML-KEM is a Key Encapsulation Mechanism — it is how two parties agree on a shared secret in a quantum-safe way.
+
+27
+00:03:05,781 --> 00:03:08,197
+ML-DSA is a signature scheme.
+
+28
+00:03:08,197 --> 00:03:18,329
+If you understand "ECDH for key exchange, ECDSA for signatures," then the mapping is simply ML-KEM and ML-DSA respectively.
+
+29
+00:03:18,329 --> 00:03:23,161
+I go deeper on choosing between them in ML-KEM vs ML-DSA.
+
+30
+00:03:23,161 --> 00:03:28,401
+Next up: The one principle that makes migration survivable: crypto-agility.
+
+31
+00:03:28,401 --> 00:03:32,704
+The single biggest mistake teams make is hard-coding algorithms.
+
+32
+00:03:32,704 --> 00:03:38,413
+If RSA is hard-wired across your codebase, swapping it is a months-long, error-prone slog.
+
+33
+00:03:38,413 --> 00:03:47,199
+The fix is crypto-agility: route every cryptographic operation through an abstraction that names the algorithm as data, not as code.
+
+34
+00:03:47,199 --> 00:03:57,043
+Crypto-agility is what lets you roll out PQC incrementally, run hybrids, and — critically — roll back if a new scheme is found weak.
+
+35
+00:03:57,043 --> 00:04:02,235
+PQC schemes are younger than RSA; agility is your insurance policy.
+
+36
+00:04:02,235 --> 00:04:06,586
+Let's explore Why you deploy hybrids first, not pure PQC.
+
+37
+00:04:06,586 --> 00:04:15,865
+The recommended migration path is hybrid: combine a battle-tested classical algorithm with a post-quantum one, so the result is secure if either holds.
+
+38
+00:04:15,865 --> 00:04:23,161
+For key exchange, you derive the session key from both an ECDH secret and an ML-KEM secret.
+
+39
+00:04:23,161 --> 00:04:31,622
+For signatures, you attach both an Ed25519 and an ML-DSA signature and require both to verify.
+
+40
+00:04:31,622 --> 00:04:33,870
+The reasoning is risk symmetry:
+
+41
+00:04:33,870 --> 00:04:41,826
+Classical crypto (RSA/ECC) is proven against classical attacks but doomed against quantum ones..
+
+42
+00:04:41,826 --> 00:04:48,533
+PQC is quantum-resistant but younger and less battle-tested against classical cryptanalysis..
+
+43
+00:04:48,533 --> 00:04:57,920
+A hybrid is broken only if both are broken — covering you against a quantum computer and against an unforeseen weakness in the newer PQC scheme..
+
+44
+00:04:57,962 --> 00:05:07,551
+This is exactly the design choice behind QAuth's dual Ed25519 + ML-DSA-65 signatures.
+
+45
+00:05:07,551 --> 00:05:15,472
+I unpack the trade-offs in why hybrid Ed25519 + ML-DSA is the safe path.
+
+46
+00:05:15,472 --> 00:05:20,327
+Pure PQC is the destination; hybrid is how you travel there safely.
+
+47
+00:05:20,327 --> 00:05:22,731
+Now let's look at A concrete migration plan.
+
+48
+00:05:22,731 --> 00:05:24,762
+You do not migrate "the company."
+
+49
+00:05:24,762 --> 00:05:29,606
+You migrate one cryptographic dependency at a time, highest-risk first.
+
+50
+00:05:29,606 --> 00:05:31,962
+1. Inventory your cryptography.
+
+51
+00:05:31,962 --> 00:05:34,282
+You cannot protect what you cannot see.
+
+52
+00:05:34,282 --> 00:05:50,892
+Build a cryptographic bill of materials: every place you use asymmetric crypto — TLS endpoints, JWT/token signing, mTLS between services, code signing, stored encrypted blobs, VPNs, database TLS.
+
+53
+00:05:50,892 --> 00:05:59,570
+For each, record the algorithm, key size, and — most importantly — how long the protected data must stay confidential.
+
+54
+00:05:59,570 --> 00:06:02,299
+2. Prioritize by data lifetime.
+
+55
+00:06:02,299 --> 00:06:04,750
+Apply the harvest-now-decrypt-later lens.
+
+56
+00:06:04,750 --> 00:06:08,981
+Sort by (confidentiality_lifetime × exposure
+
+57
+00:06:08,981 --> 00:06:19,546
+Urgent: long-lived secrets crossing networks that adversaries can capture — health records, financial data, anything regulated for 7–10+ years..
+
+58
+00:06:19,546 --> 00:06:27,238
+Later: ephemeral data whose value evaporates in minutes (a short-lived session that's worthless once expired)..
+
+59
+00:06:27,238 --> 00:06:35,255
+Data that must stay secret until 2040 needs quantum-safe key exchange today, even though no quantum computer exists yet.
+
+60
+00:06:35,255 --> 00:06:38,512
+3. Add crypto-agility where it's missing.
+
+61
+00:06:38,512 --> 00:06:42,635
+Before swapping algorithms, introduce the abstraction layer.
+
+62
+00:06:42,635 --> 00:06:46,890
+This is often the largest engineering task and the most valuable one.
+
+63
+00:06:46,890 --> 00:06:49,787
+4. Roll out hybrids, behind flags.
+
+64
+00:06:49,787 --> 00:06:58,969
+Deploy hybrid key exchange and hybrid signatures behind feature flags, starting with internal service-to-service traffic where you control both ends.
+
+65
+00:06:58,969 --> 00:07:09,474
+Measure the overhead (ML-KEM/ML-DSA keys and signatures are larger than ECC — expect bigger handshakes and tokens) and watch your tail latencies.
+
+66
+00:07:09,474 --> 00:07:11,818
+5. Monitor, then expand.
+
+67
+00:07:11,818 --> 00:07:21,770
+Verify interoperability, watch error rates and latency, then widen the rollout outward to external-facing endpoints as client support matures.
+
+68
+00:07:21,770 --> 00:07:23,705
+Now, let's talk about What this costs you.
+
+69
+00:07:23,705 --> 00:07:26,433
+Be honest with stakeholders about the trade-offs:
+
+70
+00:07:26,433 --> 00:07:28,873
+Larger keys and signatures.
+
+71
+00:07:28,873 --> 00:07:37,779
+ML-DSA-65 signatures are several kilobytes versus ~64 bytes for Ed25519.
+
+72
+00:07:37,779 --> 00:07:45,460
+This inflates tokens, certificates, and handshake sizes — relevant for bandwidth-constrained or high-QPS systems..
+
+73
+00:07:45,460 --> 00:07:54,534
+More CPU, though modern lattice implementations are fast — often competitive with or faster than RSA for equivalent operations..
+
+74
+00:07:54,534 --> 00:07:55,880
+Maturing tooling.
+
+75
+00:07:55,880 --> 00:08:02,443
+Library, HSM, and browser support is improving rapidly but is not yet universal.
+
+76
+00:08:02,443 --> 00:08:05,592
+Hybrid mode is partly what bridges that gap..
+
+77
+00:08:05,592 --> 00:08:07,058
+None of these are blockers.
+
+78
+00:08:07,058 --> 00:08:08,633
+They are planning inputs.
+
+79
+00:08:08,633 --> 00:08:10,231
+Moving on to The takeaway.
+
+80
+00:08:10,231 --> 00:08:20,027
+Post-quantum migration is not a fire drill, but it is also not optional, and the "harvest now" reality means the clock for long-lived data has already started.
+
+81
+00:08:20,027 --> 00:08:27,887
+The winning strategy is unglamorous: inventory your crypto, make it agile, and roll out hybrids worst-case-first.
+
+82
+00:08:27,887 --> 00:08:36,613
+Teams that build crypto-agility now will swap algorithms in an afternoon; teams that hard-coded RSA will spend quarters on it.
+
+83
+00:08:36,613 --> 00:08:39,979
+Start with the abstraction layer — everything else follows from it.
+
+84
+00:08:39,979 --> 00:08:47,827
+Related reading: QAuth: The Post-Quantum Authentication Protocol That Replaces OAuth 2.0 and JWT.
+
+85
+00:08:47,827 --> 00:08:52,683
+QuantumShield: Building a Post-Quantum Cryptography Library from Scratch.
+
+86
+00:08:52,683 --> 00:08:58,416
+ML-KEM vs ML-DSA: NIST's Post-Quantum Standards Explained.
+
+87
+00:08:58,416 --> 00:09:05,448
+Hybrid Cryptography: Why Ed25519 + ML-DSA Is the Safe Migration Path.
+
+88
+00:09:05,448 --> 00:09:07,094
+And that's the end of this article.
+
+89
+00:09:07,094 --> 00:09:08,224
+Thanks for listening.
+

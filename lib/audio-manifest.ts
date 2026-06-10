@@ -3,6 +3,7 @@ import path from 'path';
 
 interface AudioEntry {
   file: string;
+  captions?: string;
   duration?: number;
   voice?: string;
   sizeKB?: number;

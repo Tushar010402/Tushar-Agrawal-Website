@@ -1,0 +1,340 @@
+1
+00:00:00,050 --> 00:00:05,516
+You're listening to: Database Connection Pooling: The Performance Fix That Saved Our Production.
+
+2
+00:00:05,516 --> 00:00:10,973
+How I learned about connection pooling after our PostgreSQL database crashed under load.
+
+3
+00:00:10,973 --> 00:00:16,550
+Practical guide with real configurations from handling millions of healthcare queries.
+
+4
+00:00:16,550 --> 00:00:17,608
+Let's get started.
+
+5
+00:00:17,608 --> 00:00:20,889
+Now, let's talk about The Monday Morning That Changed Everything.
+
+6
+00:00:20,889 --> 00:00:22,656
+It was 9:15 AM.
+
+7
+00:00:22,656 --> 00:00:31,622
+Our busiest time - patients arriving for their morning appointments, doctors pulling up test results, lab techs entering data from overnight samples.
+
+8
+00:00:31,622 --> 00:00:33,137
+Then everything stopped.
+
+9
+00:00:33,137 --> 00:00:36,502
+PostgreSQL had hit max_connections.
+
+10
+00:00:36,502 --> 00:00:44,074
+Our app had 3 instances, each opening 50 connections, but PostgreSQL was configured for 100 max.
+
+11
+00:00:44,074 --> 00:00:49,471
+We were at 150 attempted connections and the database was refusing new ones.
+
+12
+00:00:49,471 --> 00:00:51,201
+Error logs filled with:
+
+13
+00:00:51,201 --> 00:00:53,329
+Patients couldn't see their reports.
+
+14
+00:00:53,329 --> 00:00:55,444
+Doctors couldn't access histories.
+
+15
+00:00:55,444 --> 00:00:57,439
+Sample tracking went dark.
+
+16
+00:00:57,439 --> 00:01:02,608
+We scrambled to restart services, but they'd immediately exhaust connections again.
+
+17
+00:01:02,608 --> 00:01:08,377
+The only fix was killing application instances one by one until we got back under the limit.
+
+18
+00:01:08,377 --> 00:01:13,173
+That day cost us 47 minutes of downtime and a lot of angry phone calls.
+
+19
+00:01:13,173 --> 00:01:17,163
+It also taught me everything I now know about connection pooling.
+
+20
+00:01:17,163 --> 00:01:21,105
+Moving on to Why This Happens (And Why I Didn't See It Coming).
+
+21
+00:01:21,105 --> 00:01:24,002
+I'd always thought "just add more connections" was the answer.
+
+22
+00:01:24,002 --> 00:01:28,798
+More connections = more queries = better performance, right?
+
+23
+00:01:28,798 --> 00:01:29,963
+Completely wrong.
+
+24
+00:01:29,963 --> 00:01:31,887
+Here's what was happening in our system:
+
+25
+00:01:31,887 --> 00:01:34,543
+Next up: The Fix: Connection Pooling.
+
+26
+00:01:34,543 --> 00:01:38,353
+After that incident, I spent a week understanding connection pooling.
+
+27
+00:01:38,353 --> 00:01:39,927
+The concept is simple:
+
+28
+00:01:39,927 --> 00:01:46,189
+Instead of each request opening a new connection, requests borrow from a pool and return when done.
+
+29
+00:01:46,189 --> 00:01:49,975
+The pool maintains a fixed number of actual database connections.
+
+30
+00:01:49,975 --> 00:01:52,223
+Let's explore What I Actually Implemented.
+
+31
+00:01:52,223 --> 00:01:54,939
+Application-Level Pooling with asyncpg.
+
+32
+00:01:54,939 --> 00:01:59,699
+For our FastAPI services, I used asyncpg with a properly configured pool:
+
+33
+00:01:59,699 --> 00:02:02,403
+The Pool Sizing Formula That Actually Works.
+
+34
+00:02:02,403 --> 00:02:05,961
+I spent way too long trying different pool sizes.
+
+35
+00:02:05,961 --> 00:02:07,872
+Here's the formula I settled on:
+
+36
+00:02:07,872 --> 00:02:11,225
+I tried 50 connections once thinking "more is better."
+
+37
+00:02:11,225 --> 00:02:13,906
+The database got slower, not faster.
+
+38
+00:02:13,906 --> 00:02:19,747
+Too many connections means PostgreSQL spends more time scheduling processes than running queries.
+
+39
+00:02:19,747 --> 00:02:21,646
+FastAPI Integration.
+
+40
+00:02:21,646 --> 00:02:24,302
+Here's how we wire it up in FastAPI:
+
+41
+00:02:24,302 --> 00:02:28,882
+Now let's look at PgBouncer: When Application Pooling Isn't Enough.
+
+42
+00:02:28,882 --> 00:02:31,430
+After a few months, we hit another problem.
+
+43
+00:02:31,430 --> 00:02:36,105
+We had 5 application instances, each with a pool of 20 connections.
+
+44
+00:02:36,105 --> 00:02:40,492
+That's 100 connections to PostgreSQL - right at our limit again.
+
+45
+00:02:40,492 --> 00:02:46,418
+Enter PgBouncer - a connection pooler that sits between your applications and PostgreSQL.
+
+46
+00:02:46,418 --> 00:02:48,617
+My PgBouncer Configuration.
+
+47
+00:02:48,617 --> 00:02:52,584
+The pool_mode = transaction setting is crucial.
+
+48
+00:02:52,584 --> 00:02:59,110
+It means connections are returned to the pool after each transaction completes, not when the client disconnects.
+
+49
+00:02:59,110 --> 00:03:02,283
+This dramatically improves connection reuse.
+
+50
+00:03:02,283 --> 00:03:04,483
+Running PgBouncer in Docker.
+
+51
+00:03:04,483 --> 00:03:09,663
+Now, let's talk about Monitoring: How I Catch Problems Before They Crash Production.
+
+52
+00:03:09,663 --> 00:03:14,098
+After the Monday incident, I added monitoring for everything pool-related:
+
+53
+00:03:14,098 --> 00:03:15,324
+Alerts I Have Set Up.
+
+54
+00:03:15,324 --> 00:03:18,413
+Moving on to Common Mistakes I Made (So You Don't Have To).
+
+55
+00:03:18,413 --> 00:03:20,949
+Mistake 1: Pool Too Large.
+
+56
+00:03:20,949 --> 00:03:22,091
+Bigger isn't better.
+
+57
+00:03:22,091 --> 00:03:28,533
+200 connections to PostgreSQL means 200 processes competing for resources.
+
+58
+00:03:28,533 --> 00:03:31,814
+Mistake 2: Forgetting to Release Connections.
+
+59
+00:03:31,814 --> 00:03:35,576
+Mistake 3: Holding Connections During Slow Operations.
+
+60
+00:03:35,576 --> 00:03:39,074
+The first version holds a connection for 2+ seconds.
+
+61
+00:03:39,074 --> 00:03:41,911
+The second version holds it for milliseconds.
+
+62
+00:03:41,911 --> 00:03:43,810
+Next up: The Results.
+
+63
+00:03:43,810 --> 00:03:46,526
+After implementing proper connection pooling:
+
+64
+00:03:46,526 --> 00:03:48,269
+Metric, Before, After.
+
+65
+00:03:48,269 --> 00:03:54,110
+Max PostgreSQL connections, 100 → always hitting limit, 30 → plenty of headroom.
+
+66
+00:03:54,110 --> 00:03:58,281
+Connection errors, 50-100/day, 0.
+
+67
+00:03:58,281 --> 00:04:04,411
+Query latency p99, 800ms, 45ms.
+
+68
+00:04:04,411 --> 00:04:07,668
+App instances supported, 2, 10+.
+
+69
+00:04:07,668 --> 00:04:10,697
+The 47-minute outage never happened again.
+
+70
+00:04:10,697 --> 00:04:17,367
+And when traffic spikes, instead of crashing, we just queue requests briefly while waiting for connections.
+
+71
+00:04:17,367 --> 00:04:19,915
+Let's explore My Checklist for New Projects.
+
+72
+00:04:19,898 --> 00:04:27,155
+Connection pooling isn't glamorous, but it's the difference between a system that scales and one that falls over under load.
+
+73
+00:04:27,155 --> 00:04:29,739
+I learned this the hard way so you don't have to.
+
+74
+00:04:29,739 --> 00:04:33,958
+The patterns here have handled millions of queries per day in production.
+
+75
+00:04:33,958 --> 00:04:35,701
+They'll probably handle yours too.
+
+76
+00:04:35,701 --> 00:04:38,105
+Questions about database performance?
+
+77
+00:04:38,105 --> 00:04:41,206
+I've debugged more connection issues than I'd like to admit.
+
+78
+00:04:41,206 --> 00:04:42,420
+Reach out on LinkedIn.
+
+79
+00:04:42,420 --> 00:04:44,198
+Now let's look at Related Articles.
+
+80
+00:04:44,198 --> 00:04:48,862
+PostgreSQL Performance Optimization - Query tuning and indexes.
+
+81
+00:04:48,862 --> 00:04:52,432
+Database Sharding Guide - Horizontal scaling.
+
+82
+00:04:52,432 --> 00:04:56,446
+Building Scalable Microservices - Service architecture.
+
+83
+00:04:56,446 --> 00:05:00,004
+Redis Caching Strategies - Reducing database load.
+
+84
+00:05:00,004 --> 00:05:01,747
+And that's the end of this article.
+
+85
+00:05:01,747 --> 00:05:02,852
+Thanks for listening.
+

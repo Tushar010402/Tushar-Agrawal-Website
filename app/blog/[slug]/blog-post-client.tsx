@@ -28,7 +28,7 @@ interface BlogPostClientProps {
   /** Tag slugs that have a hub page — only these get linked (non-hub tag URLs redirect). */
   tagHubSlugs?: string[];
   /** Pre-generated neural narration (from public/audio/manifest.json), if available. */
-  audio?: { file: string; duration?: number } | null;
+  audio?: { file: string; duration?: number; captions?: string } | null;
 }
 
 export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlugs = [], audio }: BlogPostClientProps) {
@@ -215,6 +215,7 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlu
                   author={blog.author || undefined}
                   audioUrl={audio?.file}
                   audioDuration={audio?.duration}
+                  captionsUrl={audio?.captions}
                 />
               </div>
 

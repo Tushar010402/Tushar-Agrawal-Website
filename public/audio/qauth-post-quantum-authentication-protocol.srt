@@ -1,0 +1,544 @@
+1
+00:00:00,050 --> 00:00:08,100
+You're listening to: QAuth: The Post-Quantum Authentication Protocol That Replaces OAuth 2.0 and JWT.
+
+2
+00:00:08,100 --> 00:00:23,629
+Deep dive into QuantumAuth (QAuth), a next-generation authentication protocol with dual signatures (Ed25519 + ML-DSA-65), encrypted payloads, mandatory proof-of-possession, and built-in revocation.
+
+3
+00:00:23,629 --> 00:00:31,550
+Why OAuth 2.0 and JWT are fundamentally broken and how QAuth fixes everything.
+
+4
+00:00:31,550 --> 00:00:32,608
+Let's get started.
+
+5
+00:00:32,608 --> 00:00:38,858
+Now, let's talk about The Problem: OAuth 2.0 and JWT Are Fundamentally Broken.
+
+6
+00:00:38,858 --> 00:00:41,189
+Every security researcher knows it.
+
+7
+00:00:41,189 --> 00:00:43,521
+Every production breach proves it.
+
+8
+00:00:43,521 --> 00:00:52,680
+OAuth 2.0 and JWT have critical, unfixable vulnerabilities that have led to billions of compromised accounts.
+
+9
+00:00:52,680 --> 00:00:54,459
+Let me be direct about what's wrong.
+
+10
+00:00:54,459 --> 00:00:57,932
+OAuth 2.0: Death by a Thousand Cuts.
+
+11
+00:00:57,932 --> 00:01:01,622
+JWT: The Algorithm Confusion Nightmare.
+
+12
+00:01:01,622 --> 00:01:04,903
+JWT's design is fundamentally flawed.
+
+13
+00:01:04,903 --> 00:01:09,555
+The header contains the algorithm, meaning the attacker chooses how to verify:
+
+14
+00:01:09,555 --> 00:01:15,132
+Real-world impact: These aren't theoretical - they've caused breaches at major companies.
+
+15
+00:01:15,132 --> 00:01:25,432
+The Auth0 vulnerability (CVE-2022-23529), the PyJWT issues, countless custom implementations getting it wrong.
+
+16
+00:01:25,432 --> 00:01:27,463
+What's Missing From Current Standards.
+
+17
+00:01:27,463 --> 00:01:31,430
+Feature, OAuth 2.0, JWT, Required.
+
+18
+00:01:31,430 --> 00:01:33,653
+Post-quantum crypto, No, No, Yes.
+
+19
+00:01:33,653 --> 00:01:36,105
+Encrypted payloads, No, No, Yes.
+
+20
+00:01:36,105 --> 00:01:40,132
+Proof of possession, Optional (DPoP), No, Mandatory.
+
+21
+00:01:40,132 --> 00:01:42,776
+Built-in revocation, No, No, Yes.
+
+22
+00:01:42,776 --> 00:01:45,817
+Safe algorithm selection, No, No, Yes.
+
+23
+00:01:45,817 --> 00:01:47,860
+Device binding, No, No, Yes.
+
+24
+00:01:47,860 --> 00:01:52,548
+Fine-grained authorization, Scope explosion, Limited, Policy-based.
+
+25
+00:01:52,548 --> 00:01:58,269
+Moving on to Introducing QAuth: Authentication Rebuilt from First Principles.
+
+26
+00:01:58,269 --> 00:02:07,451
+QAuth is a complete replacement for OAuth 2.0 and JWT, designed with one goal: secure by default, not by configuration.
+
+27
+00:02:07,451 --> 00:02:11,706
+Next up: QToken Format: The Anti-JWT.
+
+28
+00:02:11,706 --> 00:02:21,538
+Unlike JWT's vulnerable header.payload.signature format with attacker-controlled algorithms, QToken uses a fixed, binary format:
+
+29
+00:02:21,538 --> 00:02:23,197
+Why This Format Matters.
+
+30
+00:02:23,197 --> 00:02:32,055
+No algorithm field - Server enforces Ed25519 + ML-DSA-65, period.
+
+31
+00:02:32,055 --> 00:02:36,875
+Encrypted claims - Payloads are private, preventing information leakage.
+
+32
+00:02:36,875 --> 00:02:41,574
+Dual signatures - Both classical and post-quantum must verify.
+
+33
+00:02:41,574 --> 00:02:45,877
+Proof binding - Token bound to specific device and client keys.
+
+34
+00:02:45,877 --> 00:02:50,108
+Let's explore Dual Signature System: Belt and Suspenders.
+
+35
+00:02:50,108 --> 00:02:53,209
+QAuth uses dual signatures for defense-in-depth:
+
+36
+00:02:53,209 --> 00:02:54,687
+Why dual signatures?
+
+37
+00:02:54,687 --> 00:03:03,088
+If Ed25519 is broken by quantum computers, ML-DSA-65 remains secure.
+
+38
+00:03:03,088 --> 00:03:10,552
+If ML-DSA-65 has an undiscovered flaw, Ed25519 is battle-tested.
+
+39
+00:03:10,552 --> 00:03:14,723
+Both must verify - attacker must break both simultaneously.
+
+40
+00:03:14,723 --> 00:03:17,740
+Now let's look at Mandatory Proof of Possession.
+
+41
+00:03:17,740 --> 00:03:24,795
+Unlike OAuth's bearer tokens that work from any device, QAuth requires every request to prove key possession:
+
+42
+00:03:24,795 --> 00:03:26,490
+Implementation Example.
+
+43
+00:03:26,490 --> 00:03:29,459
+Now, let's talk about Built-in Revocation System.
+
+44
+00:03:29,459 --> 00:03:35,336
+JWT's stateless nature means tokens can't be revoked without external systems.
+
+45
+00:03:35,336 --> 00:03:38,076
+QAuth solves this with built-in revocation:
+
+46
+00:03:38,076 --> 00:03:40,096
+Revocation Implementation.
+
+47
+00:03:40,096 --> 00:03:44,242
+Moving on to Policy-Based Authorization (No Scope Explosion).
+
+48
+00:03:44,242 --> 00:03:46,430
+OAuth's scope system doesn't scale.
+
+49
+00:03:46,430 --> 00:03:49,278
+QAuth uses policy references instead:
+
+50
+00:03:49,278 --> 00:03:51,586
+Benefits of Policy References.
+
+51
+00:03:51,586 --> 00:03:55,252
+Token stays small - Just a reference, not all permissions.
+
+52
+00:03:55,252 --> 00:03:59,651
+Policies update without re-issuing tokens - Change server-side.
+
+53
+00:03:59,651 --> 00:04:05,504
+Supports RBAC, ABAC, ReBAC - One unified system.
+
+54
+00:04:05,504 --> 00:04:10,973
+Context-aware conditions - Time, location, device, MFA status.
+
+55
+00:04:10,973 --> 00:04:13,750
+Audit-friendly - Clear policy documents.
+
+56
+00:04:13,750 --> 00:04:16,225
+Next up: Complete QAuth Flow.
+
+57
+00:04:16,225 --> 00:04:20,468
+Let's explore Security Analysis: QAuth vs Known Attacks.
+
+58
+00:04:20,468 --> 00:04:23,317
+JWT Attacks - All Mitigated.
+
+59
+00:04:23,317 --> 00:04:26,971
+Attack, JWT Vulnerable, QAuth Protected, How.
+
+60
+00:04:26,971 --> 00:04:32,031
+Algorithm confusion, Yes, N/A, No algorithm field.
+
+61
+00:04:32,031 --> 00:04:37,560
+"None" algorithm, Yes, N/A, Algorithm not configurable.
+
+62
+00:04:37,560 --> 00:04:42,692
+Key ID injection, Yes, No, KeyID is hash of public key.
+
+63
+00:04:42,692 --> 00:04:47,608
+Signature bypass, Yes, No, Server enforces verification.
+
+64
+00:04:47,608 --> 00:04:51,358
+Token replay, Yes, No, Proof of possession.
+
+65
+00:04:51,358 --> 00:04:56,250
+Token theft, Yes, No, Bound to device/client key.
+
+66
+00:04:56,250 --> 00:05:00,552
+Payload inspection, Yes, No, Encrypted, not encoded.
+
+67
+00:05:00,552 --> 00:05:04,483
+Expiry extension, Yes, No, Encrypted expiry.
+
+68
+00:05:04,483 --> 00:05:07,608
+OAuth 2.0 Attacks - All Mitigated.
+
+69
+00:05:07,538 --> 00:05:10,685
+Attack, OAuth Vulnerable, QAuth Protected, How.
+
+70
+00:05:10,685 --> 00:05:15,829
+Redirect URI manipulation, Yes, No, Cryptographic binding.
+
+71
+00:05:15,829 --> 00:05:21,105
+Authorization code interception, Yes, No, Bound to client public key.
+
+72
+00:05:21,105 --> 00:05:25,913
+PKCE downgrade, Yes, N/A, PKCE mandatory.
+
+73
+00:05:25,913 --> 00:05:30,480
+Bearer token theft, Yes, No, Proof of possession required.
+
+74
+00:05:30,480 --> 00:05:33,942
+Cross-app attacks, Yes, No, Client key binding.
+
+75
+00:05:33,942 --> 00:05:38,221
+Token reuse, Yes, No, Request-specific proofs.
+
+76
+00:05:38,221 --> 00:05:39,771
+Post-Quantum Security.
+
+77
+00:05:39,771 --> 00:05:42,848
+Threat, Current Status, QAuth Protection.
+
+78
+00:05:42,848 --> 00:05:48,798
+Harvest-now-decrypt-later, Active threat, ML-DSA-65 signatures.
+
+79
+00:05:48,798 --> 00:05:57,331
+Quantum signature forgery, Future threat, Dual Ed25519 + ML-DSA-65.
+
+80
+00:05:57,331 --> 00:06:04,146
+Quantum key compromise, Future threat, Keys derived with SHA3-512.
+
+81
+00:06:04,146 --> 00:06:06,418
+Now let's look at SDK Availability.
+
+82
+00:06:06,418 --> 00:06:09,194
+QAuth is available in multiple languages:
+
+83
+00:06:09,194 --> 00:06:11,454
+Rust (Reference Implementation).
+
+84
+00:06:11,454 --> 00:06:13,894
+TypeScript/JavaScript.
+
+85
+00:06:13,894 --> 00:06:14,759
+Python.
+
+86
+00:06:14,759 --> 00:06:15,384
+Go.
+
+87
+00:06:15,384 --> 00:06:17,692
+Now, let's talk about Performance Benchmarks.
+
+88
+00:06:17,692 --> 00:06:20,288
+QAuth performance on modern hardware:
+
+89
+00:06:20,288 --> 00:06:23,653
+Moving on to Migration Path from OAuth 2.0.
+
+90
+00:06:23,653 --> 00:06:25,901
+Phase 1: QAuth Gateway.
+
+91
+00:06:25,901 --> 00:06:29,783
+Deploy QAuth as a proxy in front of existing OAuth:
+
+92
+00:06:29,783 --> 00:06:31,790
+Phase 2: Hybrid Mode.
+
+93
+00:06:31,790 --> 00:06:35,228
+Auth server issues both OAuth and QAuth tokens:
+
+94
+00:06:35,228 --> 00:06:37,608
+Phase 3: Native QAuth.
+
+95
+00:06:37,608 --> 00:06:41,189
+Full QAuth implementation, OAuth deprecated:
+
+96
+00:06:41,189 --> 00:06:43,449
+Next up: Why Use QAuth?.
+
+97
+00:06:43,449 --> 00:06:45,012
+For Security Teams.
+
+98
+00:06:45,012 --> 00:06:51,586
+Eliminates entire attack classes - No algorithm confusion, no bearer token theft.
+
+99
+00:06:51,586 --> 00:06:56,574
+Post-quantum ready - Dual signatures protect against future quantum attacks.
+
+100
+00:06:56,574 --> 00:07:00,793
+Built-in revocation - 5-minute worst-case revocation window.
+
+101
+00:07:00,793 --> 00:07:05,132
+Audit-friendly - Clear policy documents, encrypted-by-default.
+
+102
+00:07:05,132 --> 00:07:06,490
+For Developers.
+
+103
+00:07:06,490 --> 00:07:10,769
+Simpler mental model - No complex security configurations.
+
+104
+00:07:10,769 --> 00:07:15,000
+Type-safe SDKs - Rust, TypeScript, Python, Go.
+
+105
+00:07:15,000 --> 00:07:19,975
+Policy updates without re-deployment - Change server-side policies.
+
+106
+00:07:19,975 --> 00:07:23,425
+Better error messages - Clear validation failures.
+
+107
+00:07:23,425 --> 00:07:24,663
+For Compliance.
+
+108
+00:07:24,663 --> 00:07:30,613
+NIST FIPS 204 compliant - ML-DSA-65 signatures.
+
+109
+00:07:30,613 --> 00:07:34,975
+Encrypted at rest and in transit - Payloads never exposed.
+
+110
+00:07:34,975 --> 00:07:40,721
+Fine-grained access control - RBAC, ABAC, ReBAC supported.
+
+111
+00:07:40,721 --> 00:07:44,723
+Complete audit trail - Every access logged with proof.
+
+112
+00:07:44,723 --> 00:07:46,394
+Let's explore Getting Started.
+
+113
+00:07:46,394 --> 00:07:47,475
+Installation.
+
+114
+00:07:47,475 --> 00:07:48,449
+Quick Start.
+
+115
+00:07:48,449 --> 00:07:50,204
+Now let's look at Conclusion.
+
+116
+00:07:50,204 --> 00:07:58,149
+OAuth 2.0 and JWT served their purpose, but their fundamental design flaws can't be fixed with patches.
+
+117
+00:07:58,149 --> 00:08:00,889
+QAuth is built from first principles:
+
+118
+00:08:00,889 --> 00:08:05,024
+Secure by default - No configuration required for security.
+
+119
+00:08:05,024 --> 00:08:09,519
+Post-quantum ready - Dual signatures protect against future threats.
+
+120
+00:08:09,519 --> 00:08:12,620
+Proof of possession - Stolen tokens are useless.
+
+121
+00:08:12,620 --> 00:08:15,781
+Built-in revocation - Instant invalidation.
+
+122
+00:08:15,781 --> 00:08:18,497
+Encrypted payloads - Privacy by design.
+
+123
+00:08:18,497 --> 00:08:22,031
+Policy-based authorization - No scope explosion.
+
+124
+00:08:22,031 --> 00:08:25,228
+The quantum computing threat isn't hypothetical.
+
+125
+00:08:25,228 --> 00:08:28,846
+Nation-states are harvesting encrypted data today.
+
+126
+00:08:28,846 --> 00:08:34,723
+QAuth ensures your authentication system will remain secure when quantum computers arrive.
+
+127
+00:08:34,723 --> 00:08:36,850
+Now, let's talk about Resources.
+
+128
+00:08:36,850 --> 00:08:38,509
+QAuth Specification.
+
+129
+00:08:38,509 --> 00:08:39,915
+Rust Implementation.
+
+130
+00:08:39,915 --> 00:08:44,639
+TypeScript SDK - npm install @quantumshield/qauth.
+
+131
+00:08:44,639 --> 00:08:47,572
+Python SDK - pip install qauth.
+
+132
+00:08:47,572 --> 00:08:48,713
+Go SDK.
+
+133
+00:08:48,713 --> 00:08:51,358
+QuantumShield Crypto Library.
+
+134
+00:08:51,358 --> 00:08:57,379
+QAuth is part of the QuantumShield project, bringing post-quantum cryptography to authentication.
+
+135
+00:08:57,379 --> 00:08:59,050
+And that's the end of this article.
+
+136
+00:08:59,050 --> 00:09:00,132
+Thanks for listening.
+

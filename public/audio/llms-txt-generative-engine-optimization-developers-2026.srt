@@ -1,0 +1,388 @@
+1
+00:00:00,050 --> 00:00:11,983
+You're listening to: llms.txt, GEO and AI Search: How Developers Get Cited by ChatGPT, Perplexity & Google AI Mode (2026).
+
+2
+00:00:11,983 --> 00:00:21,225
+Generative Engine Optimization (GEO) is how your content gets cited inside ChatGPT, Perplexity, Claude, and Google AI Overviews.
+
+3
+00:00:21,225 --> 00:00:37,560
+This developer-focused guide covers llms.txt and llms-full.txt, AI crawler policies, IndexNow, answer-first content structure, and the entity signals that drive AI citations in 2026 — with working code.
+
+4
+00:00:37,560 --> 00:00:38,629
+Let's get started.
+
+5
+00:00:38,629 --> 00:00:54,399
+Generative Engine Optimization (GEO) is the practice of making your content retrievable, quotable, and attributable by AI search systems — ChatGPT search, Perplexity, Claude, Bing Copilot, and Google's AI Overviews/AI Mode.
+
+6
+00:00:54,399 --> 00:01:08,461
+In 2026 this matters because the click economics changed: AI Overviews alone cut traditional CTR dramatically, but pages that get cited inside AI answers earn measurably more clicks than pages that merely rank.
+
+7
+00:01:08,461 --> 00:01:20,516
+The overlap between "ranks in the top 10" and "gets cited by AI" has dropped to roughly 17–38% — meaning AI citation is now a separate game you have to play deliberately.
+
+8
+00:01:20,516 --> 00:01:26,250
+The good news for developers: most of GEO is infrastructure, and you can ship it in an afternoon.
+
+9
+00:01:26,250 --> 00:01:29,302
+Here's the complete stack I run in production, with code.
+
+10
+00:01:29,302 --> 00:01:33,353
+Now, let's talk about What is llms.txt and do you need one?.
+
+11
+00:01:33,353 --> 00:01:44,314
+llms.txt is a proposed standard (llmstxt.org): a markdown file at your site root that gives LLMs a curated, token-efficient map of your site.
+
+12
+00:01:44,314 --> 00:01:48,834
+Think of it as a sitemap written for a language model instead of a crawler:
+
+13
+00:01:48,834 --> 00:01:57,644
+The format is strict on purpose: an H1 with your name, a blockquote summary, then H2 sections of links with one-line descriptions.
+
+14
+00:01:57,644 --> 00:02:04,206
+The blockquote is the part most LLMs quote verbatim when describing you — write it like the answer you want repeated.
+
+15
+00:02:04,206 --> 00:02:12,908
+Note: Google has said llms.txt is not required for AI Overviews, and that's true — Google uses its regular index.
+
+16
+00:02:12,908 --> 00:02:19,951
+But ChatGPT, Claude, Perplexity, and dozens of agent frameworks do fetch it when reasoning about a domain.
+
+17
+00:02:19,951 --> 00:02:21,971
+It costs one static file.
+
+18
+00:02:21,971 --> 00:02:22,716
+Ship it.
+
+19
+00:02:22,716 --> 00:02:27,127
+Moving on to What is llms-full.txt and how do you generate it?.
+
+20
+00:02:27,127 --> 00:02:38,425
+llms-full.txt is the companion file: the full text of your content in one plain-text document, so an LLM can ingest everything without crawling page by page.
+
+21
+00:02:38,425 --> 00:02:41,682
+Don't maintain it by hand — generate it at build time.
+
+22
+00:02:41,682 --> 00:02:44,915
+In Next.js App Router, that's a route handler:
+
+23
+00:02:44,915 --> 00:02:51,562
+Mine compiles 80+ posts into a ~2 MB file on every deploy and never goes stale.
+
+24
+00:02:51,562 --> 00:02:55,312
+The force-static export means it costs nothing at request time.
+
+25
+00:02:55,312 --> 00:02:59,831
+Next up: Which AI crawlers should you allow in robots.txt?.
+
+26
+00:02:59,831 --> 00:03:03,389
+This is the highest-leverage five minutes in GEO.
+
+27
+00:03:03,389 --> 00:03:10,961
+Each AI product uses distinct user agents, and several are blocked by default in popular robots.txt templates.
+
+28
+00:03:10,961 --> 00:03:13,629
+The ones that matter in 2026:
+
+29
+00:03:13,629 --> 00:03:16,177
+User agent, Powers, If you block it.
+
+30
+00:03:16,177 --> 00:03:22,548
+OAI-SearchBot, ChatGPT search citations, Invisible in ChatGPT web answers.
+
+31
+00:03:22,548 --> 00:03:27,283
+GPTBot, OpenAI training, Not in future model knowledge.
+
+32
+00:03:27,283 --> 00:03:34,375
+ClaudeBot / Claude-SearchBot, Anthropic indexing & search, Invisible to Claude users.
+
+33
+00:03:34,375 --> 00:03:40,649
+PerplexityBot / Perplexity-User, Perplexity answers, No Perplexity citations.
+
+34
+00:03:40,649 --> 00:03:45,673
+Google-Extended, Gemini grounding, Reduced Gemini visibility.
+
+35
+00:03:45,673 --> 00:03:49,879
+Bingbot, Bing + Copilot, Invisible to Copilot.
+
+36
+00:03:49,879 --> 00:03:54,302
+Amazonbot, Alexa / Rufus, No Alexa answers.
+
+37
+00:03:54,302 --> 00:03:58,858
+Meta-ExternalAgent, Meta AI, No Meta AI citations.
+
+38
+00:03:58,858 --> 00:04:09,639
+The distinction worth knowing: GPTBot is the training crawler, OAI-SearchBot is the search crawler, and ChatGPT-User is the live browsing agent acting for a user.
+
+39
+00:04:09,639 --> 00:04:15,444
+You can allow search and browsing while blocking training if that's your policy — they're independent rules.
+
+40
+00:04:15,444 --> 00:04:21,237
+For a personal brand or product site, I allow all of them: maximum surface area is the point.
+
+41
+00:04:21,237 --> 00:04:25,444
+Let's explore How does IndexNow get you into Bing and Copilot faster?.
+
+42
+00:04:25,444 --> 00:04:35,612
+Bing powers ChatGPT's underlying web index and Microsoft Copilot, which makes Bing indexing an AI-visibility play, not just a search one.
+
+43
+00:04:35,612 --> 00:04:43,774
+IndexNow is Bing/Yandex's push protocol — instead of waiting for a crawl, you POST your URLs the moment they change:
+
+44
+00:04:43,826 --> 00:04:57,850
+You verify ownership with a key file in public/, then curl -X POST https://yoursite.com/api/indexnow after each deploy (or wire it into CI).
+
+45
+00:04:57,850 --> 00:05:04,917
+My last submission pushed 194 URLs and all three endpoints returned success in under a second.
+
+46
+00:05:04,917 --> 00:05:10,795
+Google does not use IndexNow — for Google you still rely on sitemaps and Search Console.
+
+47
+00:05:10,795 --> 00:05:14,833
+Now let's look at How do you structure content so AI engines quote it?.
+
+48
+00:05:14,833 --> 00:05:21,840
+The 2026 citation data is unusually specific, and it converges on a few mechanical rules:
+
+49
+00:05:21,840 --> 00:05:23,667
+Answer first, then expand.
+
+50
+00:05:23,667 --> 00:05:29,581
+AI extraction favors pages where the H1 or first paragraph contains a complete answer.
+
+51
+00:05:29,581 --> 00:05:34,797
+Mirror the question in your heading, answer it in 1–2 sentences, then go deep.
+
+52
+00:05:34,797 --> 00:05:40,446
+(Notice every H2 in this post is a question with the answer in the first sentence below it.
+
+53
+00:05:40,446 --> 00:05:41,985
+That's not a style choice.)
+
+54
+00:05:41,985 --> 00:05:46,348
+Write self-contained passages of 100–300 words.
+
+55
+00:05:46,348 --> 00:05:53,223
+Extracted AI Overview passages cluster at 134–167 words.
+
+56
+00:05:53,223 --> 00:06:00,602
+A passage that depends on context three paragraphs up doesn't get quoted — every section should survive being read alone.
+
+57
+00:06:00,602 --> 00:06:07,333
+This is what the GEO literature calls semantic completeness, and it's the strongest single predictor of citation.
+
+58
+00:06:07,333 --> 00:06:09,797
+Put a labeled TL;DR at the top.
+
+59
+00:06:09,797 --> 00:06:15,638
+An explicit summary block adjacent to the H1 is the easiest possible extraction target.
+
+60
+00:06:15,638 --> 00:06:21,011
+I render every post's description as a visible TL;DR card for exactly this reason.
+
+61
+00:06:21,011 --> 00:06:23,727
+Use tables and lists for comparable facts.
+
+62
+00:06:23,727 --> 00:06:36,420
+Structured comparisons get lifted into AI answers far more often than the same facts buried in prose — pages combining text, structured data, and media see dramatically higher selection rates.
+
+63
+00:06:36,420 --> 00:06:37,922
+Be a named entity.
+
+64
+00:06:37,922 --> 00:06:51,408
+Citations skew heavily toward sources with strong E-E-A-T: a Person schema with an @id, a visible author bio, consistent facts about you across pages, and sameAs links to GitHub/LinkedIn.
+
+65
+00:06:51,408 --> 00:06:56,203
+AI systems resolve who is saying this before deciding whether to repeat it.
+
+66
+00:06:56,203 --> 00:07:01,985
+The structured-data half of this is covered in my technical SEO guide for Next.js.
+
+67
+00:07:01,985 --> 00:07:05,506
+Now, let's talk about How do you measure whether GEO is actually working?.
+
+68
+00:07:05,506 --> 00:07:10,134
+Until June 2026 the honest answer was "you mostly can't."
+
+69
+00:07:10,134 --> 00:07:20,807
+That changed on June 3, 2026, when Google launched Generative AI performance reports in Search Console — the first official data on AI visibility.
+
+70
+00:07:20,807 --> 00:07:34,629
+The new report shows impressions your URLs earn inside AI Overviews and AI Mode (and AI features in Discover), broken down by page, country, device, and date, at granularity down to hourly.
+
+71
+00:07:34,629 --> 00:07:41,864
+No click data yet, but for the first time you can see which pages AI answers actually pull from — and which never get selected.
+
+72
+00:07:41,864 --> 00:07:49,857
+The rollout is staged (UK first, then global), so check Search Console periodically until the report appears for your property.
+
+73
+00:07:49,857 --> 00:08:02,393
+When it does, treat it like any other funnel metric: pages with search impressions but zero AI impressions are your optimization backlog — usually they fail the semantic-completeness test from the previous section.
+
+74
+00:08:02,393 --> 00:08:05,122
+Two companion signals to track alongside it:
+
+75
+00:08:05,122 --> 00:08:12,081
+Bing Webmaster Tools already reports IndexNow submission status and Copilot-adjacent visibility..
+
+76
+00:08:12,081 --> 00:08:18,451
+Server logs — grep for OAI-SearchBot, ClaudeBot, and PerplexityBot user agents.
+
+77
+00:08:18,451 --> 00:08:26,648
+Crawl frequency from these bots is a leading indicator of AI-surface inclusion; if they never fetch you, you can't be cited..
+
+78
+00:08:26,648 --> 00:08:36,071
+Warning: Google's June 2026 update also shipped an opt-out toggle that removes your site from AI Overviews and AI Mode entirely.
+
+79
+00:08:36,071 --> 00:08:37,730
+It defaults to opted-in.
+
+80
+00:08:37,730 --> 00:08:49,100
+If you're doing GEO, never touch it — sites that opt out get zero AI impressions and zero AI traffic, and Google has confirmed the toggle doesn't affect classic rankings either way.
+
+81
+00:08:49,100 --> 00:08:52,069
+Moving on to What does a complete GEO stack look like?.
+
+82
+00:08:52,069 --> 00:08:54,785
+The full checklist, all shippable in code:
+
+83
+00:08:54,842 --> 00:08:59,996
+public/llms.txt — curated index, hand-written.
+
+84
+00:08:59,996 --> 00:09:05,765
+/llms-full.txt — full content, generated each build.
+
+85
+00:09:05,765 --> 00:09:13,337
+robots.txt allowing OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot and friends.
+
+86
+00:09:13,337 --> 00:09:18,085
+IndexNow endpoint + post-deploy ping (Bing/Yandex/Copilot).
+
+87
+00:09:18,085 --> 00:09:23,722
+JSON-LD entity graph: Person with @id, BlogPosting, BreadcrumbList.
+
+88
+00:09:23,722 --> 00:09:28,025
+Answer-first headings, TL;DR blocks, self-contained sections.
+
+89
+00:09:28,025 --> 00:09:31,558
+Visible author identity and honest updated dates.
+
+90
+00:09:31,558 --> 00:09:36,342
+RSS feed (several AI crawlers use it for freshness discovery).
+
+91
+00:09:36,342 --> 00:09:45,465
+Search Console Generative AI report monitored monthly (live since June 2026); AI opt-out toggle left untouched.
+
+92
+00:09:45,465 --> 00:09:56,258
+None of this replaces traditional SEO — Google's AI Overviews still draw from the regular index, so Core Web Vitals and rendering performance still gate everything.
+
+93
+00:09:56,258 --> 00:10:02,159
+GEO is a layer on top: same content, made legible to a new class of reader.
+
+94
+00:10:02,159 --> 00:10:07,231
+The sites winning AI citations in 2026 aren't doing anything mystical.
+
+95
+00:10:07,231 --> 00:10:16,979
+They made themselves easy to retrieve, easy to quote, and easy to attribute — and they did it before their competitors thought of AI search as a channel at all.
+
+96
+00:10:16,979 --> 00:10:18,662
+And that's the end of this article.
+
+97
+00:10:18,662 --> 00:10:19,755
+Thanks for listening.
+

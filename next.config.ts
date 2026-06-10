@@ -21,6 +21,13 @@ const nextConfig: NextConfig = {
       { source: '/blog/fomoa-ai-indian-government-schemes-benefits', destination: FOMOA_PILLAR_3, permanent: true },
       { source: '/blog/indian-government-schemes-ai-search', destination: FOMOA_PILLAR_3, permanent: true },
       { source: '/blog/fomoa-ai-indian-students-jee-neet-upsc-2026', destination: FOMOA_PILLAR_3, permanent: true },
+      // URLs the old llm.txt advertised that never existed — Google crawled them
+      // and reported 404s in GSC. 301 to the real equivalents.
+      { source: '/blog/building-scalable-microservices-with-go-and-fastapi-a-complete-guide', destination: '/blog/building-scalable-microservices-with-go-and-fastapi', permanent: true },
+      { source: '/blog/hipaa-compliant-healthcare-saas-security-best-practices-for-2025', destination: '/blog/hipaa-compliance-healthcare-saas', permanent: true },
+      { source: '/blog/ai-powered-ocr-for-medical-reports-reducing-manual-errors-by-90', destination: '/blog/healthcare-technology-dr-dangs-lab', permanent: true },
+      { source: '/blog/event-driven-architecture-with-kafka-real-time-inventory-management', destination: '/blog/event-driven-architecture-kafka', permanent: true },
+      { source: '/blog/zero-downtime-deployment-with-docker-and-nginx-from-4-hours-to-20-minutes', destination: '/blog/docker-kubernetes-deployment-guide', permanent: true },
     ];
   },
   images: {

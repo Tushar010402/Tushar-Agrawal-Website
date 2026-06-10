@@ -1,0 +1,380 @@
+1
+00:00:00,050 --> 00:00:08,149
+You're listening to: Core Web Vitals for Backend Engineers: TTFB, Caching & Server-Side Wins (2026).
+
+2
+00:00:08,149 --> 00:00:15,480
+Most Core Web Vitals advice targets frontend developers, but LCP and INP problems usually start at the server.
+
+3
+00:00:15,480 --> 00:00:27,295
+This guide covers the backend half: TTFB budgets, connection pooling, cache strategy, streaming SSR, CDN headers, and compression — with the production numbers behind each fix.
+
+4
+00:00:27,295 --> 00:00:28,377
+Let's get started.
+
+5
+00:00:28,377 --> 00:00:36,093
+Core Web Vitals are usually framed as a frontend problem — optimize images, defer scripts, reserve layout space.
+
+6
+00:00:36,093 --> 00:00:49,915
+But look at where the time actually goes on a slow page load and the story changes: Largest Contentful Paint (LCP) cannot be faster than your Time to First Byte (TTFB), and TTFB is pure backend.
+
+7
+00:00:49,915 --> 00:01:01,754
+Google's 2026 core updates lean harder on technical performance than ever, which means the server side of Web Vitals is now an SEO ranking input, not just an infrastructure metric.
+
+8
+00:01:01,754 --> 00:01:09,074
+This is the backend engineer's guide to Web Vitals — the layer below the framework, where the biggest wins usually live.
+
+9
+00:01:09,074 --> 00:01:13,112
+Now, let's talk about Which Core Web Vitals does the backend control?.
+
+10
+00:01:13,112 --> 00:01:22,632
+The three Core Web Vitals in 2026 are LCP (loading), INP (interactivity), and CLS (visual stability).
+
+11
+00:01:22,632 --> 00:01:24,867
+The backend's fingerprints are on two of them:
+
+12
+00:01:24,867 --> 00:01:27,932
+Metric, Good threshold, Backend's share.
+
+13
+00:01:27,932 --> 00:01:38,137
+LCP, ≤ 2.5s, TTFB + HTML generation + asset delivery — often 60%+ of the budget.
+
+14
+00:01:38,137 --> 00:01:47,031
+INP, ≤ 200ms, JS bundle size you force on the client; API latency behind interactions.
+
+15
+00:01:47,031 --> 00:01:55,444
+CLS, ≤ 0.1, Mostly frontend, but late-arriving server data causes shifts too.
+
+16
+00:01:55,444 --> 00:02:05,036
+The brutal math: if your TTFB is 1.8 seconds, your LCP is over 2.5 seconds before a single byte of CSS arrives.
+
+17
+00:02:05,036 --> 00:02:09,399
+No amount of image optimization rescues a slow server.
+
+18
+00:02:09,399 --> 00:02:19,675
+Google's own guidance puts a good TTFB at under 800ms; for server-rendered pages I budget 200–400ms at p75.
+
+19
+00:02:19,675 --> 00:02:22,656
+Moving on to What actually makes TTFB slow?.
+
+20
+00:02:22,656 --> 00:02:30,048
+In every production system I've profiled, TTFB problems come from the same short list, in roughly this order:
+
+21
+00:02:30,048 --> 00:02:32,968
+1. Database queries on the request path.
+
+22
+00:02:32,968 --> 00:02:41,730
+The classic: a page that runs 4 sequential queries at 80ms each has spent 320ms before rendering starts.
+
+23
+00:02:41,730 --> 00:02:50,132
+Fixes are well known — indexes, batching, denormalized read models — but the highest-leverage one is usually connection pooling.
+
+24
+00:02:50,132 --> 00:02:58,762
+A request that waits 150ms to acquire a connection has lost 150ms of LCP budget doing nothing.
+
+25
+00:02:58,762 --> 00:03:02,331
+2. Cache misses, and worse, cache stampedes.
+
+26
+00:03:02,331 --> 00:03:12,932
+A cached page at 20ms that occasionally takes 2s on a miss has a fine median and a terrible p75 — and Core Web Vitals are measured at p75.
+
+27
+00:03:12,932 --> 00:03:21,670
+When a hot key expires and 4,000 requests hit the database at once, your "fast" site fails Web Vitals for everyone in that window.
+
+28
+00:03:21,670 --> 00:03:31,887
+I wrote up exactly that failure in my Redis cache stampede war story; the fixes (lock-and-recompute, TTL jitter, stale-while-revalidate) are all server-side.
+
+29
+00:03:31,887 --> 00:03:34,771
+3. Render-blocking external calls.
+
+30
+00:03:34,771 --> 00:03:40,168
+CMS APIs, auth checks, feature-flag services on the critical path.
+
+31
+00:03:40,168 --> 00:03:43,629
+Each one adds its own p99 to yours.
+
+32
+00:03:43,629 --> 00:03:47,475
+Move them off-path, cache them, or accept stale values.
+
+33
+00:03:47,475 --> 00:03:50,829
+4. Cold starts and slow runtimes.
+
+34
+00:03:50,829 --> 00:03:56,911
+Serverless cold starts of 500ms–2s land directly in TTFB.
+
+35
+00:03:56,911 --> 00:04:05,324
+Provisioned concurrency, edge runtimes, or just a boring always-warm container all fix it — pick by cost profile.
+
+36
+00:04:05,324 --> 00:04:09,194
+Next up: How does static generation change the equation?.
+
+37
+00:04:09,194 --> 00:04:12,620
+The cheapest TTFB is the one where no code runs.
+
+38
+00:04:12,620 --> 00:04:22,115
+For content that's known at build time — blog posts, docs, marketing pages — static generation turns every request into a CDN file read:
+
+39
+00:04:22,115 --> 00:04:27,992
+This site prerenders 190+ pages (every post plus every tag hub) at build time.
+
+40
+00:04:27,992 --> 00:04:35,084
+TTFB from the CDN edge is consistently double-digit milliseconds — there is no server to be slow.
+
+41
+00:04:35,084 --> 00:04:38,353
+Two backend caveats that bite people at scale:
+
+42
+00:04:38,353 --> 00:04:41,514
+Tip: Memoize your data layer during builds.
+
+43
+00:04:41,514 --> 00:04:47,536
+A static export that prerenders hundreds of pages will call your "get all posts" function hundreds of times.
+
+44
+00:04:47,536 --> 00:04:55,012
+Mine reads and parses 80+ markdown files; without a module-level cache the tag-page export timed out.
+
+45
+00:04:55,012 --> 00:04:58,125
+One memoized read per worker fixed it.
+
+46
+00:04:58,130 --> 00:05:11,529
+For pages that can't be fully static, streaming SSR is the middle ground: flush the shell immediately (fast first byte, fast LCP for above-the-fold content) and stream the slow parts as they resolve.
+
+47
+00:05:11,529 --> 00:05:20,027
+React Suspense boundaries in App Router give you this almost for free — the key design decision is which data is allowed to block the shell.
+
+48
+00:05:20,027 --> 00:05:22,527
+The answer should be: almost none of it.
+
+49
+00:05:22,527 --> 00:05:26,914
+Let's explore What HTTP caching headers should your responses send?.
+
+50
+00:05:26,914 --> 00:05:32,791
+CDN-friendly cache headers are the highest ROI lines of config in web performance.
+
+51
+00:05:32,791 --> 00:05:36,878
+The pattern that covers most cases is stale-while-revalidate:
+
+52
+00:05:36,878 --> 00:05:46,012
+This tells the CDN: serve from cache for an hour, and for up to a day after that, serve the stale copy instantly while refreshing in the background.
+
+53
+00:05:46,012 --> 00:05:54,089
+Users never wait on regeneration; your origin sees a trickle of revalidation requests instead of traffic spikes.
+
+54
+00:05:54,089 --> 00:05:58,692
+I use exactly this header on my RSS feed and generated text routes.
+
+55
+00:05:58,692 --> 00:06:14,450
+The companion rule: immutable assets (hashed JS/CSS/fonts) get max-age=31536000, immutable, and HTML gets short or no client caching with CDN-level caching behind it.
+
+56
+00:06:14,450 --> 00:06:21,721
+Mixing those up — long-caching HTML, short-caching assets — is one of the most common Web Vitals own-goals.
+
+57
+00:06:21,721 --> 00:06:32,659
+Compression is the other free win: Brotli at the CDN edge typically cuts HTML/JSON transfer 15–25% over gzip.
+
+58
+00:06:32,659 --> 00:06:35,976
+You set it once and it pays on every request forever.
+
+59
+00:06:35,976 --> 00:06:39,402
+Now let's look at How does backend discipline improve INP?.
+
+60
+00:06:39,402 --> 00:06:48,620
+INP (Interaction to Next Paint) replaced FID in 2024 and measures all interactions, making it much harder to game.
+
+61
+00:06:48,620 --> 00:06:51,469
+Two backend-adjacent decisions dominate it:
+
+62
+00:06:51,469 --> 00:06:54,378
+Ship less JavaScript by doing work on the server.
+
+63
+00:06:54,378 --> 00:07:01,445
+Every kilobyte of client JS is parse/compile/execute time on a mid-range phone.
+
+64
+00:07:01,445 --> 00:07:07,551
+The pattern I keep returning to: move rendering work server-side and ship finished HTML.
+
+65
+00:07:07,551 --> 00:07:23,019
+When I moved this blog's markdown rendering (including syntax highlighting) from a client component to the server, the client lost ~95 lines of parsing logic and an entire highlighting library it never needed — readers' devices now do zero markdown work.
+
+66
+00:07:23,019 --> 00:07:26,217
+Make the APIs behind interactions fast.
+
+67
+00:07:26,217 --> 00:07:33,656
+A search box that calls an endpoint with a 600ms p75 will feel broken regardless of frontend polish.
+
+68
+00:07:33,656 --> 00:07:47,394
+Interaction-path endpoints deserve the same latency budgets as page loads: p75 under 200ms, p99 under 500ms, measured per endpoint, alerted like an SLO.
+
+69
+00:07:47,394 --> 00:07:55,988
+The async patterns in my long-running APIs guide apply directly: anything slower than the budget becomes a job, not a blocking call.
+
+70
+00:07:55,988 --> 00:07:59,498
+Now, let's talk about How do you measure Web Vitals like a backend engineer?.
+
+71
+00:07:59,498 --> 00:08:05,760
+Lab tools (Lighthouse) are for debugging; field data is what Google ranks you on.
+
+72
+00:08:05,760 --> 00:08:07,382
+The pipeline that works:
+
+73
+00:08:07,382 --> 00:08:16,000
+CrUX / Search Console — the ground truth Google sees, at p75, per origin and per URL group.
+
+74
+00:08:16,000 --> 00:08:17,010
+Check it monthly..
+
+75
+00:08:17,010 --> 00:08:25,832
+RUM beacons — the web-vitals JS library posts LCP/INP/CLS to a collection endpoint.
+
+76
+00:08:25,832 --> 00:08:29,991
+Store them like any other metric; graph p75 by route..
+
+77
+00:08:29,991 --> 00:08:34,786
+Server-side TTFB histograms — you already have these in your APM.
+
+78
+00:08:34,786 --> 00:08:40,171
+Correlate spikes against deploys, cache hit rates, and DB pool saturation.
+
+79
+00:08:40,171 --> 00:08:43,356
+(The instrumentation stack is in my observability guide.).
+
+80
+00:08:43,356 --> 00:08:54,702
+The habit that matters: treat a Web Vitals regression like an API latency regression — bisect by layer (CDN → origin → app → DB) instead of reaching for frontend tweaks first.
+
+81
+00:08:54,702 --> 00:08:57,575
+The waterfall doesn't lie about where the time went.
+
+82
+00:08:57,575 --> 00:09:00,616
+Moving on to The backend Web Vitals checklist.
+
+83
+00:09:00,616 --> 00:09:08,692
+TTFB p75 under 400ms for SSR routes; static-generate everything that can be.
+
+84
+00:09:08,692 --> 00:09:14,185
+Connection pools sized and monitored; no pool-wait time on the request path.
+
+85
+00:09:14,185 --> 00:09:20,652
+Cache stampede protection on every hot key (locks + jitter + stale-while-revalidate).
+
+86
+00:09:20,652 --> 00:09:26,866
+stale-while-revalidate CDN headers on dynamic-ish content; immutable on hashed assets.
+
+87
+00:09:26,866 --> 00:09:28,849
+Brotli compression at the edge.
+
+88
+00:09:28,849 --> 00:09:33,416
+Streaming SSR with nothing non-essential blocking the shell.
+
+89
+00:09:33,416 --> 00:09:41,601
+Server-side rendering of expensive transforms (markdown, highlighting, charts) — ship HTML, not libraries.
+
+90
+00:09:41,601 --> 00:09:47,851
+Interaction-path API budgets: p75 < 200ms, alerted.
+
+91
+00:09:47,851 --> 00:09:53,765
+Field data (CrUX + RUM) reviewed monthly, regressions bisected by layer.
+
+92
+00:09:53,810 --> 00:10:00,334
+Core Web Vitals being "a frontend metric" is the most expensive misconception in web performance.
+
+93
+00:10:00,334 --> 00:10:05,671
+The frontend spends the latency budget — but the backend decides how big the budget is.
+
+94
+00:10:05,671 --> 00:10:07,425
+And that's the end of this article.
+
+95
+00:10:07,425 --> 00:10:08,531
+Thanks for listening.
+

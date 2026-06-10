@@ -1,0 +1,376 @@
+1
+00:00:00,050 --> 00:00:08,040
+You're listening to: Building Backends for AI Agents: Idempotency, Retries & State (2026).
+
+2
+00:00:08,040 --> 00:00:14,338
+AI agents retry, run for minutes, and call your APIs in unpredictable loops.
+
+3
+00:00:14,338 --> 00:00:17,632
+The backend is where agent reliability lives.
+
+4
+00:00:17,632 --> 00:00:27,031
+A practical guide to idempotency, safe retries, durable state, and observability for agent-facing systems in 2026.
+
+5
+00:00:27,031 --> 00:00:28,112
+Let's get started.
+
+6
+00:00:28,112 --> 00:00:35,564
+There's a line going around in 2026 that I think is exactly right: the backend is where agent reliability lives.
+
+7
+00:00:35,564 --> 00:00:48,293
+All the attention goes to the model and the prompts, but when an AI agent does something wrong — charges twice, corrupts state, loops forever — the failure is almost always in the backend it was calling, not the model.
+
+8
+00:00:48,293 --> 00:01:00,396
+Agents are just a new, unusually chaotic kind of API client, and most backends were not built for a client that retries aggressively, runs for minutes, and calls your endpoints in loops it decides at runtime.
+
+9
+00:01:00,396 --> 00:01:05,528
+This is a practical guide to building backends that stay correct when an agent is driving.
+
+10
+00:01:05,528 --> 00:01:15,961
+It pulls together patterns I've written about individually — idempotency keys, event-driven design, rate limiting — into one mental model for agent-facing systems.
+
+11
+00:01:15,961 --> 00:01:19,411
+Now, let's talk about Why agents break backends that humans don't.
+
+12
+00:01:19,411 --> 00:01:27,776
+A human client is predictable: one click, one request, a sensible pause, a retry only when they're frustrated.
+
+13
+00:01:27,776 --> 00:01:29,663
+An agent is the opposite:
+
+14
+00:01:29,663 --> 00:01:31,983
+It retries reflexively.
+
+15
+00:01:31,983 --> 00:01:39,519
+When a tool call times out or returns an error, the agent's loop often just calls it again — sometimes many times, fast..
+
+16
+00:01:39,519 --> 00:01:40,697
+It runs long.
+
+17
+00:01:40,697 --> 00:01:46,947
+A single agent task can span minutes of tool calls, far past a normal HTTP timeout..
+
+18
+00:01:46,947 --> 00:01:49,639
+It calls tools in runtime-decided loops.
+
+19
+00:01:49,639 --> 00:01:54,627
+You can't predict the sequence or the volume; the agent composes it on the fly..
+
+20
+00:01:54,627 --> 00:01:56,382
+It acts on stale beliefs.
+
+21
+00:01:56,382 --> 00:02:01,081
+An agent may decide to "create the order" based on context that's already changed..
+
+22
+00:02:01,081 --> 00:02:12,343
+Each of these maps to a backend property you must now guarantee: idempotency, durable long-running execution, rate limiting and loop-breaking, and consistent state.
+
+23
+00:02:12,343 --> 00:02:16,562
+Get those four right and agents become a manageable client.
+
+24
+00:02:16,562 --> 00:02:23,966
+Skip them and you get the 2026 version of the double-charge bug — except the agent does it ten times in four seconds.
+
+25
+00:02:23,966 --> 00:02:25,084
+Moving on to 1.
+
+26
+00:02:25,084 --> 00:02:28,257
+Idempotency is non-negotiable now.
+
+27
+00:02:28,257 --> 00:02:33,004
+For human-facing APIs, idempotency is good hygiene.
+
+28
+00:02:33,004 --> 00:02:40,324
+For agent-facing APIs, it is mandatory, because the agent will retry, and you have no control over when.
+
+29
+00:02:40,324 --> 00:02:45,600
+Every state-changing tool an agent can call must be safe to call repeatedly.
+
+30
+00:02:45,600 --> 00:02:54,963
+The pattern is the same one I detailed in idempotency keys: the caller supplies a key, you claim it atomically, and you replay the stored result on duplicates.
+
+31
+00:02:54,963 --> 00:02:59,519
+The practical twist for agents: you often have to generate the key for them.
+
+32
+00:02:59,519 --> 00:03:02,115
+Many agent frameworks don't supply one.
+
+33
+00:03:02,115 --> 00:03:15,949
+A robust approach is to derive a deterministic key from (agent_run_id, tool_name, canonical_args_hash) — so the same logical action within a run collapses to one key even if the agent doesn't think to send one.
+
+34
+00:03:15,949 --> 00:03:20,312
+Next up: 2. Make destructive tools hard to fire by accident.
+
+35
+00:03:20,312 --> 00:03:23,605
+Idempotency stops duplicate harm.
+
+36
+00:03:23,605 --> 00:03:28,377
+You also want to limit first-time harm from an agent that misunderstands its task.
+
+37
+00:03:28,377 --> 00:03:29,675
+Two cheap guards:
+
+38
+00:03:29,675 --> 00:03:32,824
+Confirmation tokens for irreversible actions.
+
+39
+00:03:32,824 --> 00:03:40,072
+A "delete customer" tool returns a preview + a token; the action only executes when called again with that token.
+
+40
+00:03:40,072 --> 00:03:44,026
+This forces a two-step the agent must consciously complete..
+
+41
+00:03:44,026 --> 00:03:47,247
+Dry-run by default for high-blast-radius tools.
+
+42
+00:03:47,247 --> 00:03:50,997
+Return what would happen; require an explicit commit: true.
+
+43
+00:03:50,997 --> 00:03:55,072
+Agents tend to do the safe thing when the safe thing is the default..
+
+44
+00:03:55,072 --> 00:04:06,983
+These aren't agent-specific inventions — they're the same defensive instincts behind good REST API design — but agents raise the stakes enough that they're worth making mandatory for anything destructive.
+
+45
+00:04:06,983 --> 00:04:08,413
+Let's explore 3.
+
+46
+00:04:08,413 --> 00:04:11,718
+Rate limit per agent run, and break loops.
+
+47
+00:04:11,718 --> 00:04:14,963
+A buggy agent can hammer a tool in a tight loop.
+
+48
+00:04:14,963 --> 00:04:20,576
+Standard per-user rate limiting helps, but the more useful unit for agents is the agent run.
+
+49
+00:04:20,576 --> 00:04:23,617
+Track calls per agent_run_id and:
+
+50
+00:04:23,642 --> 00:04:25,863
+Cap total tool calls per run.
+
+51
+00:04:25,863 --> 00:04:33,604
+A hard ceiling ("this run may call tools 200 times") turns an infinite loop into a bounded, debuggable failure..
+
+52
+00:04:33,604 --> 00:04:34,950
+Detect repetition.
+
+53
+00:04:34,950 --> 00:04:45,611
+If the same (tool, args_hash) is called N times in a run with no state change, that's a loop — return an error that tells the agent to stop, not the same result that keeps it spinning..
+
+54
+00:04:45,611 --> 00:04:54,601
+The token-bucket and gateway patterns in rate limiting & API gateway patterns apply directly; you're just keying them on the run instead of the user.
+
+55
+00:04:54,601 --> 00:04:55,815
+Now let's look at 4.
+
+56
+00:04:55,815 --> 00:05:00,611
+State: agents need durable, inspectable execution.
+
+57
+00:05:00,611 --> 00:05:09,902
+Because agent tasks are long and multi-step, you cannot hold their progress in a request handler's memory — a deploy, crash, or timeout would lose it.
+
+58
+00:05:09,902 --> 00:05:18,652
+Agent backends need durable state: the run, its steps, and its tool results persisted so the work can resume and so you can inspect what happened.
+
+59
+00:05:18,652 --> 00:05:21,536
+This is where event-driven thinking pays off.
+
+60
+00:05:21,536 --> 00:05:33,243
+Model an agent run as an append-only event log — run_started, tool_called, tool_result, step_completed — exactly the event-driven architecture pattern.
+
+61
+00:05:33,243 --> 00:05:34,253
+Benefits:
+
+62
+00:05:34,253 --> 00:05:35,527
+Recoverability.
+
+63
+00:05:35,527 --> 00:05:39,457
+Rebuild run state by replaying its events after a crash..
+
+64
+00:05:39,457 --> 00:05:40,575
+Auditability.
+
+65
+00:05:40,575 --> 00:05:45,382
+When an agent does something surprising, the event log is the trace of why..
+
+66
+00:05:45,382 --> 00:05:47,065
+Idempotent resume.
+
+67
+00:05:47,065 --> 00:05:52,474
+Combined with the action keys above, you can re-drive a run without repeating completed side effects..
+
+68
+00:05:52,474 --> 00:06:02,618
+For long-running execution specifically, don't block the HTTP request for minutes — kick the work to a durable queue and let the agent poll or subscribe.
+
+69
+00:06:02,618 --> 00:06:08,808
+I cover that pattern in depth in designing async, long-running APIs for AI agents.
+
+70
+00:06:08,808 --> 00:06:10,262
+Now, let's talk about 5.
+
+71
+00:06:10,262 --> 00:06:13,784
+Observability: you cannot debug what you cannot see.
+
+72
+00:06:13,784 --> 00:06:16,644
+Agent failures are weird and intermittent.
+
+73
+00:06:16,644 --> 00:06:22,029
+Without tracing, "the agent did something bad yesterday" is unfixable.
+
+74
+00:06:22,029 --> 00:06:35,154
+Instrument every tool call with the agent_run_id as a trace/correlation ID, and emit the same percentile metrics you'd use anywhere — the Prometheus/Grafana/Jaeger stack works unchanged.
+
+75
+00:06:35,154 --> 00:06:45,863
+The one addition for agents: log the arguments and decision, not just latency, because the interesting failure is usually "why did it call this tool with these args," not "how slow was it."
+
+76
+00:06:45,863 --> 00:06:49,168
+Moving on to The checklist for an agent-ready backend.
+
+77
+00:06:49,168 --> 00:06:56,632
+Every state-changing tool is idempotent — caller key or server-derived (run, tool, args) key..
+
+78
+00:06:56,632 --> 00:07:01,717
+Destructive tools are two-step — confirmation tokens or dry-run-by-default..
+
+79
+00:07:01,717 --> 00:07:06,873
+Rate limits and loop detection are keyed on the agent run, with a hard call ceiling..
+
+80
+00:07:06,873 --> 00:07:13,051
+Runs are durable, append-only event logs — recoverable, auditable, resumable..
+
+81
+00:07:13,051 --> 00:07:17,906
+Long work is async, off the request path (details here)..
+
+82
+00:07:17,906 --> 00:07:21,885
+Every tool call is traced by run ID, with arguments captured..
+
+83
+00:07:21,885 --> 00:07:23,760
+Next up: The takeaway.
+
+84
+00:07:23,760 --> 00:07:35,214
+The agent era doesn't require exotic new backend theory — it requires you to actually apply the reliability patterns we already knew, because the new client punishes every shortcut.
+
+85
+00:07:35,214 --> 00:07:41,789
+Idempotency, durable state, run-scoped rate limits, and tracing were "nice to have" for human traffic.
+
+86
+00:07:41,789 --> 00:07:48,207
+For agents they're the difference between a tool an agent can safely use and a footgun it fires on your behalf.
+
+87
+00:07:48,207 --> 00:07:56,452
+Build the backend as if a fast, slightly confused client is in control of it — because in 2026, one is.
+
+88
+00:07:56,452 --> 00:08:02,077
+Related reading: Idempotency Keys: How We Stopped Double-Charging Customers.
+
+89
+00:08:02,077 --> 00:08:06,813
+Designing Async, Long-Running APIs for AI Agents.
+
+90
+00:08:06,813 --> 00:08:13,339
+MCP vs Direct API Calls: The Token-Efficiency Debate (2026).
+
+91
+00:08:13,339 --> 00:08:15,899
+Event-Driven Architecture with Kafka.
+
+92
+00:08:15,899 --> 00:08:19,601
+AI-Native Backend Architecture for 2026.
+
+93
+00:08:19,601 --> 00:08:21,188
+And that's the end of this article.
+
+94
+00:08:21,188 --> 00:08:22,293
+Thanks for listening.
+

@@ -1,72 +1,84 @@
 {
   "redis-cache-stampede-p99-latency-war-story": {
     "file": "/audio/redis-cache-stampede-p99-latency-war-story.mp3",
-    "duration": 449,
+    "captions": "/audio/redis-cache-stampede-p99-latency-war-story.srt",
+    "duration": 448,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 1753
+    "sizeKB": 1751
   },
   "kafka-consumer-lag-2-million-debugging-war-story": {
     "file": "/audio/kafka-consumer-lag-2-million-debugging-war-story.mp3",
+    "captions": "/audio/kafka-consumer-lag-2-million-debugging-war-story.srt",
     "duration": 382,
     "voice": "en-US-AndrewMultilingualNeural",
     "sizeKB": 1493
   },
   "database-connection-pooling-performance-guide": {
     "file": "/audio/database-connection-pooling-performance-guide.mp3",
-    "duration": 304,
+    "captions": "/audio/database-connection-pooling-performance-guide.srt",
+    "duration": 303,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 1186
+    "sizeKB": 1184
   },
   "building-scalable-microservices-with-go-and-fastapi": {
     "file": "/audio/building-scalable-microservices-with-go-and-fastapi.mp3",
+    "captions": "/audio/building-scalable-microservices-with-go-and-fastapi.srt",
     "duration": 354,
     "voice": "en-US-AndrewMultilingualNeural",
     "sizeKB": 1384
   },
   "post-quantum-cryptography-migration-guide-2026": {
     "file": "/audio/post-quantum-cryptography-migration-guide-2026.mp3",
+    "captions": "/audio/post-quantum-cryptography-migration-guide-2026.srt",
     "duration": 548,
     "voice": "en-US-AndrewMultilingualNeural",
     "sizeKB": 2142
   },
   "qauth-post-quantum-authentication-protocol": {
     "file": "/audio/qauth-post-quantum-authentication-protocol.mp3",
-    "duration": 541,
+    "captions": "/audio/qauth-post-quantum-authentication-protocol.srt",
+    "duration": 540,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 2113
+    "sizeKB": 2110
   },
   "python-asyncio-complete-guide": {
     "file": "/audio/python-asyncio-complete-guide.mp3",
-    "duration": 156,
+    "captions": "/audio/python-asyncio-complete-guide.srt",
+    "duration": 155,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 610
+    "sizeKB": 606
   },
   "building-backends-for-ai-agents-idempotency-retries-state": {
     "file": "/audio/building-backends-for-ai-agents-idempotency-retries-state.mp3",
-    "duration": 501,
+    "captions": "/audio/building-backends-for-ai-agents-idempotency-retries-state.srt",
+    "duration": 502,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 1959
+    "sizeKB": 1962
   },
   "technical-seo-nextjs-developers-complete-guide-2026": {
     "file": "/audio/technical-seo-nextjs-developers-complete-guide-2026.mp3",
+    "captions": "/audio/technical-seo-nextjs-developers-complete-guide-2026.srt",
     "duration": 611,
     "voice": "en-US-AndrewMultilingualNeural",
     "sizeKB": 2386
   },
   "llms-txt-generative-engine-optimization-developers-2026": {
     "file": "/audio/llms-txt-generative-engine-optimization-developers-2026.mp3",
-    "duration": 621,
+    "captions": "/audio/llms-txt-generative-engine-optimization-developers-2026.srt",
+    "duration": 620,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 2425
+    "sizeKB": 2422
   },
   "core-web-vitals-backend-engineers-server-performance-2026": {
     "file": "/audio/core-web-vitals-backend-engineers-server-performance-2026.mp3",
-    "duration": 607,
+    "captions": "/audio/core-web-vitals-backend-engineers-server-performance-2026.srt",
+    "duration": 609,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 2372
+    "sizeKB": 2378
   },
   "google-june-2026-ai-search-updates-developers-guide": {
     "file": "/audio/google-june-2026-ai-search-updates-developers-guide.mp3",
+    "captions": "/audio/google-june-2026-ai-search-updates-developers-guide.srt",
     "duration": 448,
     "voice": "en-US-AndrewMultilingualNeural",
     "sizeKB": 1751

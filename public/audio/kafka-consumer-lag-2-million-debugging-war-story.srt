@@ -1,0 +1,292 @@
+1
+00:00:00,050 --> 00:00:06,129
+You're listening to: When Our Kafka Consumer Lag Hit 2 Million: A Debugging War Story.
+
+2
+00:00:06,129 --> 00:00:11,382
+Our order events fell 2 million messages behind and nobody noticed for hours.
+
+3
+00:00:11,382 --> 00:00:20,961
+A practical walkthrough of diagnosing Kafka consumer lag — partitions, rebalances, poison messages — and the fixes that got us back to real time.
+
+4
+00:00:20,961 --> 00:00:22,007
+Let's get started.
+
+5
+00:00:22,007 --> 00:00:26,514
+The support ticket said: "Customers are seeing yesterday's order status."
+
+6
+00:00:26,514 --> 00:00:30,180
+That is a strange sentence when your system is "real-time."
+
+7
+00:00:30,180 --> 00:00:38,425
+It meant our event pipeline — the thing that propagates an order through payment, inventory, and notification — was running hours in the past.
+
+8
+00:00:38,425 --> 00:00:46,983
+When I opened the Kafka dashboard, the consumer lag on our orders topic read 2,147,000 messages and climbing.
+
+9
+00:00:46,983 --> 00:00:49,639
+Here is how I found the cause and dug us out.
+
+10
+00:00:49,639 --> 00:00:56,850
+If you are new to Kafka, my event streaming deep-dive and event-driven architecture guide cover the concepts I lean on here.
+
+11
+00:00:56,850 --> 00:01:00,973
+Now, let's talk about First: what consumer lag actually means.
+
+12
+00:01:00,973 --> 00:01:03,954
+Lag is simple but worth stating precisely.
+
+13
+00:01:03,954 --> 00:01:07,415
+For each partition, Kafka tracks two offsets:
+
+14
+00:01:07,415 --> 00:01:11,466
+Log-end offset — the offset of the latest message produced..
+
+15
+00:01:11,466 --> 00:01:15,048
+Committed offset — the offset your consumer group has processed..
+
+16
+00:01:15,048 --> 00:01:18,774
+Lag = log-end offset − committed offset.
+
+17
+00:01:18,774 --> 00:01:23,389
+Two million lag means two million messages were produced that we had not yet handled.
+
+18
+00:01:23,389 --> 00:01:32,403
+The danger of lag is that it is silent: nothing errors, producers keep producing happily, and consumers keep consuming — just too slowly.
+
+19
+00:01:32,403 --> 00:01:40,697
+The only symptom is staleness, which users feel long before any alert fires (unless you alert on lag directly, which we now do).
+
+20
+00:01:40,697 --> 00:01:44,146
+That third line told the story before I read anything else.
+
+21
+00:01:44,146 --> 00:01:48,281
+Moving on to Symptom 1: one partition stuck at offset 0.
+
+22
+00:01:48,281 --> 00:01:55,913
+Partition 2's CURRENT-OFFSET was 0 — it had never committed a single message — while the others were making progress.
+
+23
+00:01:55,913 --> 00:02:03,942
+In Kafka, a partition is consumed by exactly one consumer in the group, and ordering is guaranteed only within a partition.
+
+24
+00:02:03,942 --> 00:02:07,103
+If one partition is stuck, one consumer is stuck.
+
+25
+00:02:07,103 --> 00:02:09,242
+The cause: a poison message.
+
+26
+00:02:09,242 --> 00:02:15,048
+Some upstream service had published an order event with a malformed JSON body to partition 2.
+
+27
+00:02:15,048 --> 00:02:24,134
+Our consumer deserialized in a tight loop, threw on that message, did not commit, retried from the same offset, threw again — forever.
+
+28
+00:02:24,134 --> 00:02:29,435
+It was wedged on a single bad record while a quarter of all traffic piled up behind it.
+
+29
+00:02:29,435 --> 00:02:33,052
+The lesson: never let one bad message block a partition.
+
+30
+00:02:33,052 --> 00:02:35,216
+The fix is a dead-letter topic.
+
+31
+00:02:35,216 --> 00:02:42,199
+Now a malformed message is parked in orders.dlq for later inspection and the partition keeps flowing.
+
+32
+00:02:42,199 --> 00:02:48,064
+The moment I deployed this, partition 2 started moving and a third of the lag drained within minutes.
+
+33
+00:02:48,064 --> 00:02:51,935
+Next up: Symptom 2: constant rebalancing.
+
+34
+00:02:51,935 --> 00:02:56,298
+The other three partitions were making progress but far too slowly.
+
+35
+00:02:56,298 --> 00:03:02,728
+The broker logs were full of rebalance events — the consumer group was rebalancing every minute or so.
+
+36
+00:03:02,728 --> 00:03:08,665
+During a rebalance, all consumers in the group stop processing while partitions are reassigned.
+
+37
+00:03:08,665 --> 00:03:13,425
+Rebalance every minute, and you spend a big chunk of every minute frozen.
+
+38
+00:03:13,425 --> 00:03:17,848
+The trigger was max.poll.interval.ms.
+
+39
+00:03:17,848 --> 00:03:27,764
+Our per-message processing had gotten slower (an added synchronous call to a downstream service), so occasionally a single poll() batch took longer than the configured interval.
+
+40
+00:03:27,764 --> 00:03:32,067
+Kafka assumed the consumer was dead, kicked it out, and rebalanced.
+
+41
+00:03:32,067 --> 00:03:36,478
+The evicted consumer rejoined, triggering another rebalance.
+
+42
+00:03:36,478 --> 00:03:38,197
+A self-perpetuating churn.
+
+43
+00:03:38,197 --> 00:03:40,781
+Process less per poll, or faster.
+
+44
+00:03:40,781 --> 00:03:47,271
+I reduced max.poll.records so each batch was guaranteed to finish well within the interval..
+
+45
+00:03:47,271 --> 00:03:52,475
+Make the slow downstream call asynchronous instead of blocking the poll loop on it..
+
+46
+00:03:52,475 --> 00:04:01,887
+Disabling auto-commit matters too: auto-commit can advance the offset before you have actually processed a message, so a crash silently drops data.
+
+47
+00:04:01,887 --> 00:04:04,723
+Commit explicitly, after the work is done.
+
+48
+00:04:04,723 --> 00:04:09,038
+Let's explore Symptom 3: not enough parallelism.
+
+49
+00:04:09,050 --> 00:04:16,680
+With poison messages dead-lettered and rebalances calmed, we were keeping up with new traffic but the 2M backlog was draining slowly.
+
+50
+00:04:16,680 --> 00:04:22,978
+The constraint is structural: the maximum parallelism of a consumer group equals the number of partitions.
+
+51
+00:04:22,978 --> 00:04:30,706
+Our orders topic had 4 partitions, so at most 4 consumers could work in parallel, no matter how many pods we ran.
+
+52
+00:04:30,706 --> 00:04:45,033
+For the drain, I temporarily scaled the consumer pods to 4 (one per partition) so every partition had a dedicated worker, and increased the topic's partition count for headroom going forward (new partitions only help new keys, but it raised the ceiling).
+
+53
+00:04:45,033 --> 00:04:52,209
+The backlog of 2M drained in about 40 minutes once all four partitions had a healthy, dedicated consumer.
+
+54
+00:04:52,209 --> 00:04:54,420
+Now let's look at What I changed permanently.
+
+55
+00:04:54,420 --> 00:04:56,740
+Alert on lag, not just errors.
+
+56
+00:04:56,740 --> 00:05:02,064
+We now page when lag on any partition exceeds a threshold for more than a few minutes.
+
+57
+00:05:02,064 --> 00:05:04,757
+Staleness is now a first-class alert..
+
+58
+00:05:04,757 --> 00:05:07,533
+Dead-letter topic for every consumer.
+
+59
+00:05:07,533 --> 00:05:11,151
+A single malformed message can never again wedge a partition..
+
+60
+00:05:11,151 --> 00:05:13,795
+Explicit commits, smaller poll batches.
+
+61
+00:05:13,795 --> 00:05:18,254
+Predictable processing time prevents the rebalance death-spiral..
+
+62
+00:05:18,254 --> 00:05:25,658
+Partition count sized for peak parallelism, with consumers autoscaled toward (but not above) the partition count..
+
+63
+00:05:25,658 --> 00:05:28,038
+Now, let's talk about The mental model.
+
+64
+00:05:28,038 --> 00:05:33,495
+If you remember one thing: Kafka lag is a queueing problem, and the queue is per-partition.
+
+65
+00:05:33,495 --> 00:05:45,826
+Almost every lag incident reduces to one of three things — a partition is blocked (poison message), the consumers are frozen (rebalancing), or you are out of parallelism (too few partitions).
+
+66
+00:05:45,826 --> 00:05:52,052
+Check those three, in that order, and you will diagnose most lag incidents in minutes instead of hours.
+
+67
+00:05:52,052 --> 00:06:03,903
+For the broader patterns, see Apache Kafka: Event Streaming Deep Dive, and for how Kafka compares to other brokers, message queues: RabbitMQ vs Redis vs Kafka.
+
+68
+00:06:03,903 --> 00:06:08,519
+Related reading: Apache Kafka: Event Streaming Deep Dive.
+
+69
+00:06:08,519 --> 00:06:10,850
+Event-Driven Architecture with Kafka.
+
+70
+00:06:10,850 --> 00:06:15,153
+Message Queues: RabbitMQ vs Redis vs Kafka.
+
+71
+00:06:15,153 --> 00:06:19,312
+Observability with Prometheus, Grafana & Jaeger.
+
+72
+00:06:19,312 --> 00:06:20,995
+And that's the end of this article.
+
+73
+00:06:20,995 --> 00:06:22,076
+Thanks for listening.
+

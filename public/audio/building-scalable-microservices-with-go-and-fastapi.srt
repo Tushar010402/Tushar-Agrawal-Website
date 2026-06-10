@@ -1,0 +1,372 @@
+1
+00:00:00,050 --> 00:00:05,673
+You're listening to: Building Scalable Microservices with Go and FastAPI.
+
+2
+00:00:05,673 --> 00:00:17,560
+How I learned to combine Go and Python microservices the hard way - after our monolith crashed during peak hours at Dr. Dangs Lab. Real patterns from processing millions of healthcare transactions.
+
+3
+00:00:17,560 --> 00:00:18,605
+Let's get started.
+
+4
+00:00:18,605 --> 00:00:21,730
+Now, let's talk about The Day Our Monolith Died.
+
+5
+00:00:21,730 --> 00:00:24,603
+It was 9:47 AM on a Monday.
+
+6
+00:00:24,603 --> 00:00:28,389
+Our lab management system at Dr. Dangs Lab had just crashed.
+
+7
+00:00:28,389 --> 00:00:35,576
+200+ patients were waiting for their reports, 80 doctors couldn't access test results, and my phone wouldn't stop buzzing.
+
+8
+00:00:35,576 --> 00:00:36,466
+The culprit?
+
+9
+00:00:36,466 --> 00:00:43,713
+Our Python monolith was trying to process 500 lab reports simultaneously while handling API requests.
+
+10
+00:00:43,713 --> 00:00:48,725
+CPU hit 100%, memory exhausted, and the whole thing came down.
+
+11
+00:00:48,725 --> 00:00:56,334
+That day taught me why microservices exist - not as a trendy architecture choice, but as a survival mechanism.
+
+12
+00:00:56,334 --> 00:01:00,492
+Moving on to Why I Ended Up Using Both Go and FastAPI.
+
+13
+00:01:00,492 --> 00:01:04,531
+After the crash, I spent two weeks analyzing our workloads.
+
+14
+00:01:04,531 --> 00:01:05,745
+Here's what I found:
+
+15
+00:01:05,745 --> 00:01:13,329
+CPU-bound work (report processing, PDF generation): Python was spending 80% of time waiting for GIL locks.
+
+16
+00:01:13,329 --> 00:01:17,295
+Processing 100 reports took 45 seconds.
+
+17
+00:01:17,295 --> 00:01:19,963
+Memory usage spiked unpredictably.
+
+18
+00:01:19,963 --> 00:01:27,307
+I/O-bound work (API requests, database queries): Most requests were waiting on database/network.
+
+19
+00:01:27,307 --> 00:01:29,915
+Python's async was actually fine here.
+
+20
+00:01:29,915 --> 00:01:33,076
+Developer velocity mattered more than raw speed.
+
+21
+00:01:33,076 --> 00:01:38,064
+The answer became obvious: Go for the heavy lifting, Python for everything else.
+
+22
+00:01:38,064 --> 00:01:40,312
+The Performance Difference Was Shocking.
+
+23
+00:01:40,312 --> 00:01:43,834
+I rewrote our report processor in Go as an experiment:
+
+24
+00:01:43,834 --> 00:01:48,581
+Results: 100 reports: 45 seconds → 3 seconds.
+
+25
+00:01:48,581 --> 00:01:57,415
+Memory: 2GB spikes → stable 200MB. CPU: 100% single core → distributed across 8 cores.
+
+26
+00:01:57,415 --> 00:01:58,497
+I was sold.
+
+27
+00:01:58,497 --> 00:02:06,153
+But I wasn't about to rewrite our entire API layer in Go - that would take months and our team knew Python inside out.
+
+28
+00:02:06,153 --> 00:02:08,713
+Next up: Our Hybrid Architecture.
+
+29
+00:02:08,713 --> 00:02:10,216
+Here's what we actually built:
+
+30
+00:02:10,216 --> 00:02:13,100
+FastAPI Handles the API Layer.
+
+31
+00:02:13,100 --> 00:02:16,742
+I kept all patient-facing APIs in FastAPI.
+
+32
+00:02:16,742 --> 00:02:17,403
+Why?
+
+33
+00:02:17,403 --> 00:02:20,516
+Because I could ship features in hours, not days:
+
+34
+00:02:20,516 --> 00:02:22,608
+Go Handles the Heavy Processing.
+
+35
+00:02:22,608 --> 00:02:27,536
+When a batch of lab results comes in, FastAPI hands it off to our Go service:
+
+36
+00:02:27,536 --> 00:02:31,490
+Let's explore The Communication Problem (And How I Almost Got It Wrong).
+
+37
+00:02:31,490 --> 00:02:35,240
+My first attempt at connecting the services was... embarrassing.
+
+38
+00:02:35,240 --> 00:02:38,004
+What Actually Works: Batch + Async.
+
+39
+00:02:38,004 --> 00:02:40,552
+For Real-Time Stuff: gRPC.
+
+40
+00:02:40,552 --> 00:02:47,704
+When we needed real-time status updates (doctors waiting for urgent results), HTTP polling was too slow.
+
+41
+00:02:47,704 --> 00:02:50,216
+gRPC streaming solved it:
+
+42
+00:02:50,216 --> 00:02:56,117
+The streaming version meant doctors saw results appearing in real-time instead of waiting for the whole batch.
+
+43
+00:02:56,117 --> 00:02:58,461
+For Decoupled Work: Kafka.
+
+44
+00:02:58,461 --> 00:03:01,093
+Some things don't need immediate responses.
+
+45
+00:03:01,093 --> 00:03:05,120
+When a report is finalized, multiple systems need to know:
+
+46
+00:03:05,120 --> 00:03:07,872
+Now let's look at The Distributed Transaction Nightmare.
+
+47
+00:03:07,872 --> 00:03:10,204
+Here's a scenario that kept me up at night:
+
+48
+00:03:10,204 --> 00:03:12,031
+Patient pays for a test.
+
+49
+00:03:12,031 --> 00:03:13,521
+Sample is collected.
+
+50
+00:03:13,521 --> 00:03:17,175
+Payment fails (card declined after initial auth).
+
+51
+00:03:17,175 --> 00:03:18,978
+Sample is already in the lab.
+
+52
+00:03:18,978 --> 00:03:19,326
+???.
+
+53
+00:03:19,326 --> 00:03:22,776
+In a monolith, you'd wrap it in a database transaction.
+
+54
+00:03:22,776 --> 00:03:25,360
+With microservices, that's not possible.
+
+55
+00:03:25,360 --> 00:03:27,319
+The Saga Pattern Saved Us.
+
+56
+00:03:27,319 --> 00:03:30,925
+Now, let's talk about Deployment: What Actually Runs in Production.
+
+57
+00:03:30,925 --> 00:03:34,627
+After getting burned by "it works on my machine" too many times:
+
+58
+00:03:34,627 --> 00:03:38,329
+Moving on to Monitoring: Because You Can't Fix What You Can't See.
+
+59
+00:03:38,329 --> 00:03:44,038
+After our third "silent failure" incident, I made observability non-negotiable:
+
+60
+00:03:44,038 --> 00:03:46,237
+Next up: What I'd Do Differently.
+
+61
+00:03:46,237 --> 00:03:49,687
+Looking back after 2 years of running this in production:
+
+62
+00:03:49,687 --> 00:03:53,557
+Start with a monolith - We extracted services too early.
+
+63
+00:03:53,557 --> 00:03:55,865
+Should have waited for clear pain points..
+
+64
+00:03:55,865 --> 00:04:04,086
+Shared database was fine initially - The "each service owns its data" rule caused more problems than it solved for our team size..
+
+65
+00:04:04,086 --> 00:04:13,100
+gRPC from day one - HTTP was easier to start but we eventually rewrote all internal communication to gRPC anyway..
+
+66
+00:04:13,100 --> 00:04:20,600
+Invest in local dev environment - Running 5 services locally was painful until we set up docker-compose properly..
+
+67
+00:04:20,600 --> 00:04:24,026
+Contract testing - Integration tests were flaky.
+
+68
+00:04:24,026 --> 00:04:28,737
+Consumer-driven contract tests (Pact) would have saved hours of debugging..
+
+69
+00:04:28,737 --> 00:04:30,456
+Let's explore The Results.
+
+70
+00:04:30,456 --> 00:04:32,163
+After 18 months:
+
+71
+00:04:32,162 --> 00:04:35,237
+Metric, Monolith, Microservices.
+
+72
+00:04:35,237 --> 00:04:40,982
+Report processing, 45s/batch, 3s/batch.
+
+73
+00:04:40,982 --> 00:04:47,280
+API latency p99, 2.1s, 180ms.
+
+74
+00:04:47,280 --> 00:04:50,237
+Deployment frequency, Weekly, Daily.
+
+75
+00:04:50,237 --> 00:04:54,251
+Incidents/month, 4-5, 0-1.
+
+76
+00:04:54,251 --> 00:04:58,902
+Time to add new feature, 2-3 days, 4-6 hours.
+
+77
+00:04:58,902 --> 00:04:59,816
+Was it worth it?
+
+78
+00:04:59,816 --> 00:05:00,898
+Absolutely.
+
+79
+00:05:00,898 --> 00:05:03,494
+But I wouldn't recommend it for every project.
+
+80
+00:05:03,494 --> 00:05:06,378
+We needed it because our scale demanded it.
+
+81
+00:05:06,378 --> 00:05:07,845
+Now let's look at Wrapping Up.
+
+82
+00:05:07,845 --> 00:05:16,703
+The combination of Go for performance-critical paths and FastAPI for rapid API development has worked incredibly well for us.
+
+83
+00:05:16,703 --> 00:05:19,984
+But the real lesson isn't about languages - it's about:
+
+84
+00:05:19,984 --> 00:05:23,362
+Understanding your actual bottlenecks before optimizing.
+
+85
+00:05:23,362 --> 00:05:25,970
+Keeping services focused and small.
+
+86
+00:05:25,970 --> 00:05:28,530
+Investing heavily in observability.
+
+87
+00:05:28,530 --> 00:05:32,292
+Accepting that distributed systems are inherently complex.
+
+88
+00:05:32,292 --> 00:05:39,708
+If you're considering microservices, ask yourself: do you actually need them, or is your monolith just poorly structured?
+
+89
+00:05:39,708 --> 00:05:43,193
+Often, a well-organized monolith is the right answer.
+
+90
+00:05:43,193 --> 00:05:45,068
+Got questions about this architecture?
+
+91
+00:05:45,068 --> 00:05:51,246
+I've made plenty of mistakes not covered here - feel free to reach out on LinkedIn or check out more of my work on GitHub.
+
+92
+00:05:51,246 --> 00:05:53,037
+And that's the end of this article.
+
+93
+00:05:53,037 --> 00:05:54,179
+Thanks for listening.
+

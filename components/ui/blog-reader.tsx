@@ -29,6 +29,8 @@ interface BlogReaderProps {
    *  instead of browser speech synthesis — real seeking, consistent voice. */
   audioUrl?: string;
   audioDuration?: number;
+  /** SRT file with sentence-level cues, displayed as synced subtitles. */
+  captionsUrl?: string;
 }
 
 type ChunkType = 'intro' | 'heading' | 'text' | 'data' | 'diagram' | 'transition' | 'conclusion';
@@ -41,27 +43,23 @@ interface SpeechChunk {
 // ─────────────────────────────────────
 // Ambient background pad (Web Audio)
 // ─────────────────────────────────────
-// Generative, royalty-free ambience: three soft triangle oscillators drifting
-// through a warm chord progression behind a slow-breathing lowpass filter.
+// Calm, royalty-free ambience built like a meditation drone, not a synth:
+// pure sine drone (root + fifth) with one slowly rotating color tone,
+// a whisper of filtered noise for "air", and a slow breathing swell.
 // No audio files, ~zero CPU, starts only on user gesture.
 
 class AmbientPad {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
-  private oscs: OscillatorNode[] = [];
-  private filter: BiquadFilterNode | null = null;
-  private lfo: OscillatorNode | null = null;
-  private chordTimer: ReturnType<typeof setInterval> | null = null;
-  private chordIdx = 0;
-  private volume = 0.05;
+  private nodes: AudioNode[] = [];
+  private stoppables: { stop(): void }[] = [];
+  private colorOsc: OscillatorNode | null = null;
+  private colorTimer: ReturnType<typeof setInterval> | null = null;
+  private colorIdx = 0;
+  private volume = 0.04;
 
-  // Warm progression in a low register: Am — F — C — G (root, fifth, octave)
-  private static CHORDS: number[][] = [
-    [110.0, 164.81, 220.0],
-    [87.31, 130.81, 174.61],
-    [130.81, 196.0, 261.63],
-    [98.0, 146.83, 196.0],
-  ];
+  // Color tones over an A drone — pentatonic-adjacent, no tense intervals.
+  private static COLORS = [277.18, 246.94, 329.63, 220.0]; // C#4, B3, E4, A3
 
   start(volume: number) {
     this.volume = volume;
@@ -73,53 +71,87 @@ class AmbientPad {
     if (!Ctx) return;
     const ctx = new Ctx();
     this.ctx = ctx;
+    const now = ctx.currentTime;
 
+    // master: long fade-in so it emerges rather than starts
     const master = ctx.createGain();
-    master.gain.setValueAtTime(0, ctx.currentTime);
-    master.gain.linearRampToValueAtTime(this.volume, ctx.currentTime + 2.5);
+    master.gain.setValueAtTime(0, now);
+    master.gain.linearRampToValueAtTime(this.volume, now + 4);
     master.connect(ctx.destination);
     this.master = master;
 
+    // slow breathing swell (±22% over ~40s)
+    const swell = ctx.createGain();
+    swell.gain.setValueAtTime(0.85, now);
+    const swellLfo = ctx.createOscillator();
+    swellLfo.frequency.setValueAtTime(0.025, now);
+    const swellDepth = ctx.createGain();
+    swellDepth.gain.setValueAtTime(0.18, now);
+    swellLfo.connect(swellDepth);
+    swellDepth.connect(swell.gain);
+    swellLfo.start();
+    swell.connect(master);
+    this.stoppables.push(swellLfo);
+
+    // gentle master lowpass keeps everything soft
     const filter = ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(520, ctx.currentTime);
-    filter.Q.setValueAtTime(0.6, ctx.currentTime);
-    filter.connect(master);
-    this.filter = filter;
+    filter.frequency.setValueAtTime(900, now);
+    filter.Q.setValueAtTime(0.4, now);
+    filter.connect(swell);
+    this.nodes.push(filter, swell);
 
-    // Slow "breathing" of the filter cutoff
-    const lfo = ctx.createOscillator();
-    lfo.frequency.setValueAtTime(0.05, ctx.currentTime);
-    const lfoGain = ctx.createGain();
-    lfoGain.gain.setValueAtTime(140, ctx.currentTime);
-    lfo.connect(lfoGain);
-    lfoGain.connect(filter.frequency);
-    lfo.start();
-    this.lfo = lfo;
-
-    const chord = AmbientPad.CHORDS[0];
-    this.oscs = chord.map((freq, i) => {
+    const addSine = (freq: number, gain: number, fadeIn = 3) => {
       const osc = ctx.createOscillator();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-      osc.detune.setValueAtTime(i === 1 ? 4 : i === 2 ? -3 : 0, ctx.currentTime);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
       const g = ctx.createGain();
-      g.gain.setValueAtTime(i === 0 ? 0.5 : 0.3, ctx.currentTime);
+      g.gain.setValueAtTime(0, now);
+      g.gain.linearRampToValueAtTime(gain, now + fadeIn);
       osc.connect(g);
       g.connect(filter);
       osc.start();
+      this.stoppables.push(osc);
       return osc;
-    });
+    };
 
-    // Glide to the next chord every 16s
-    this.chordTimer = setInterval(() => {
-      if (!this.ctx) return;
-      this.chordIdx = (this.chordIdx + 1) % AmbientPad.CHORDS.length;
-      const next = AmbientPad.CHORDS[this.chordIdx];
-      this.oscs.forEach((osc, i) => {
-        osc.frequency.setTargetAtTime(next[i], this.ctx!.currentTime, 4);
-      });
-    }, 16000);
+    // drone: root + fifth, plus a barely-detuned root double for natural width
+    addSine(110.0, 0.42);            // A2
+    addSine(110.5, 0.18, 5);         // A2 slightly detuned — slow natural beating
+    addSine(164.81, 0.22, 6);        // E3
+    this.colorOsc = addSine(AmbientPad.COLORS[0], 0.1, 10);
+
+    // "air": looped noise through a dark lowpass, barely audible
+    const noiseLen = 2 * ctx.sampleRate;
+    const noiseBuf = ctx.createBuffer(1, noiseLen, ctx.sampleRate);
+    const data = noiseBuf.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < noiseLen; i++) {
+      // brown-ish noise: integrate white noise for a softer spectrum
+      last = (last + (Math.random() * 2 - 1) * 0.02) * 0.998;
+      data[i] = last * 3.5;
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = noiseBuf;
+    noise.loop = true;
+    const noiseFilter = ctx.createBiquadFilter();
+    noiseFilter.type = 'lowpass';
+    noiseFilter.frequency.setValueAtTime(320, now);
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.setValueAtTime(0, now);
+    noiseGain.gain.linearRampToValueAtTime(0.05, now + 8);
+    noise.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(filter);
+    noise.start();
+    this.stoppables.push(noise);
+
+    // rotate the color tone very slowly (8s glide every 20s)
+    this.colorTimer = setInterval(() => {
+      if (!this.ctx || !this.colorOsc) return;
+      this.colorIdx = (this.colorIdx + 1) % AmbientPad.COLORS.length;
+      this.colorOsc.frequency.setTargetAtTime(AmbientPad.COLORS[this.colorIdx], this.ctx.currentTime, 8);
+    }, 20000);
   }
 
   setVolume(v: number) {
@@ -143,23 +175,50 @@ class AmbientPad {
   stop() {
     if (!this.ctx) return;
     const ctx = this.ctx;
-    this.master?.gain.setTargetAtTime(0, ctx.currentTime, 0.4);
-    if (this.chordTimer) clearInterval(this.chordTimer);
-    const oscs = this.oscs;
-    const lfo = this.lfo;
+    this.master?.gain.setTargetAtTime(0, ctx.currentTime, 0.5);
+    if (this.colorTimer) clearInterval(this.colorTimer);
+    const stoppables = this.stoppables;
     setTimeout(() => {
-      oscs.forEach((o) => { try { o.stop(); } catch { /* already stopped */ } });
-      try { lfo?.stop(); } catch { /* already stopped */ }
+      stoppables.forEach((s) => { try { s.stop(); } catch { /* already stopped */ } });
       ctx.close().catch(() => {});
-    }, 1500);
+    }, 1800);
     this.ctx = null;
     this.master = null;
-    this.oscs = [];
-    this.filter = null;
-    this.lfo = null;
-    this.chordTimer = null;
-    this.chordIdx = 0;
+    this.nodes = [];
+    this.stoppables = [];
+    this.colorOsc = null;
+    this.colorTimer = null;
+    this.colorIdx = 0;
   }
+}
+
+// ─────────────────────────────────────
+// SRT subtitle parsing (for pre-generated narration)
+// ─────────────────────────────────────
+
+interface SubtitleCue {
+  start: number;
+  end: number;
+  text: string;
+}
+
+function parseSrt(srt: string): SubtitleCue[] {
+  const cues: SubtitleCue[] = [];
+  const toSec = (h: string, m: string, s: string, ms: string) =>
+    Number(h) * 3600 + Number(m) * 60 + Number(s) + Number(ms) / 1000;
+  for (const block of srt.split(/\r?\n\s*\r?\n/)) {
+    const lines = block.trim().split(/\r?\n/);
+    const timeIdx = lines.findIndex((l) => l.includes('-->'));
+    if (timeIdx === -1) continue;
+    const m = lines[timeIdx].match(
+      /(\d+):(\d+):(\d+)[,.](\d+)\s*-->\s*(\d+):(\d+):(\d+)[,.](\d+)/
+    );
+    if (!m) continue;
+    const text = lines.slice(timeIdx + 1).join(' ').trim();
+    if (!text) continue;
+    cues.push({ start: toSec(m[1], m[2], m[3], m[4]), end: toSec(m[5], m[6], m[7], m[8]), text });
+  }
+  return cues;
 }
 
 // ─────────────────────────────────────
@@ -450,7 +509,7 @@ function CoverArt({ playing, size = 'lg' }: { playing: boolean; size?: 'sm' | 'l
 // Component
 // ═══════════════════════════════════════
 
-export function BlogReader({ title, content, description, author, audioUrl, audioDuration }: BlogReaderProps) {
+export function BlogReader({ title, content, description, author, audioUrl, audioDuration, captionsUrl }: BlogReaderProps) {
   const hasFile = Boolean(audioUrl);
   // ── State ──
   const [isActive, setIsActive] = useState(false);
@@ -467,7 +526,7 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
   const [elapsed, setElapsed] = useState(0);
   const [currentText, setCurrentText] = useState('');
   const [ambientOn, setAmbientOn] = useState(true);
-  const [ambientVol, setAmbientVol] = useState(40); // 0–100 → 0–0.12 gain
+  const [ambientVol, setAmbientVol] = useState(30); // 0–100 → 0–0.09 gain
   const [fileDur, setFileDur] = useState(audioDuration || 0);
 
   // ── Refs ──
@@ -481,8 +540,10 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
   const ambientRef = useRef<AmbientPad | null>(null);
   const ambientOnRef = useRef(true);
   const audioElRef = useRef<HTMLAudioElement | null>(null);
+  const cuesRef = useRef<SubtitleCue[] | null>(null);
+  const cueIdxRef = useRef(0);
 
-  const ambientGain = (v: number) => (v / 100) * 0.12;
+  const ambientGain = (v: number) => (v / 100) * 0.09;
 
   const totalDuration = useCallback(() => {
     const words = chunksRef.current.reduce((s, c) => s + c.text.split(/\s+/).length, 0);
@@ -598,9 +659,27 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
     a.addEventListener('loadedmetadata', () => {
       if (Number.isFinite(a.duration)) setFileDur(Math.round(a.duration));
     });
+    // Synced subtitles from the SRT generated alongside the narration
+    if (captionsUrl && !cuesRef.current) {
+      fetch(captionsUrl)
+        .then((r) => (r.ok ? r.text() : Promise.reject()))
+        .then((srt) => { cuesRef.current = parseSrt(srt); })
+        .catch(() => { cuesRef.current = []; });
+    }
     a.addEventListener('timeupdate', () => {
-      setElapsed(Math.floor(a.currentTime));
-      if (a.duration) setProgress((a.currentTime / a.duration) * 100);
+      const t = a.currentTime;
+      setElapsed(Math.floor(t));
+      if (a.duration) setProgress((t / a.duration) * 100);
+      const cues = cuesRef.current;
+      if (cues && cues.length) {
+        // start from the cached index; rewind if user seeked backwards
+        let i = cueIdxRef.current;
+        if (i >= cues.length || cues[i].start > t) i = 0;
+        while (i < cues.length - 1 && cues[i].end < t) i++;
+        cueIdxRef.current = i;
+        const cue = cues[i];
+        setCurrentText(cue.start <= t && t <= cue.end + 0.3 ? cue.text : '');
+      }
     });
     a.addEventListener('ended', () => {
       ambientRef.current?.stop(); ambientRef.current = null;
@@ -610,7 +689,7 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
     });
     audioElRef.current = a;
     return a;
-  }, [audioUrl]);
+  }, [audioUrl, captionsUrl]);
 
   // ── Controls (branch: real audio file vs speech synthesis) ──
   const play = useCallback(() => {
@@ -841,22 +920,32 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
                 </div>
 
                 {/* Title / author */}
-                <div className="px-6 text-center">
+                <div className="px-5 text-center">
                   <h3 className="text-base font-semibold text-theme line-clamp-2">{title}</h3>
                   <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                     {author || 'Tushar Agrawal'} · {Math.ceil(dur / 60)} min listen{hasFile ? ' · HD voice' : ''}
                   </p>
                 </div>
 
-                {/* Live caption */}
-                {currentText && (
-                  <p className="px-6 pt-3 text-xs italic text-center line-clamp-2 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                    &ldquo;{currentText.replace(/\.\.\./g, '').trim().slice(0, 110)}{currentText.length > 110 ? '…' : ''}&rdquo;
-                  </p>
-                )}
+                {/* Synced subtitles — fixed height so the card never jumps */}
+                <div className="px-5 pt-3 min-h-[3.5rem] flex items-center justify-center">
+                  {currentText ? (
+                    <p
+                      key={currentText}
+                      className="subtitle-line text-sm text-center leading-relaxed line-clamp-2"
+                      style={{ color: 'var(--text-secondary)' }}
+                    >
+                      {currentText.replace(/\.\.\./g, '').trim()}
+                    </p>
+                  ) : (
+                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                      {playingNow ? '…' : 'Press play to listen'}
+                    </p>
+                  )}
+                </div>
 
                 {/* Progress */}
-                <div className="px-6 pt-4">
+                <div className="px-5 pt-3">
                   <div className="relative h-1.5 rounded-full cursor-pointer group/bar" style={{ background: 'var(--border)' }} onClick={seekTo}>
                     <div className="h-full rounded-full transition-all duration-200" style={{ width: `${progress}%`, background: 'var(--accent)' }} />
                     <div
@@ -998,8 +1087,10 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
 
                   <div className="flex-1 min-w-0 mx-1">
                     <p className="text-xs font-medium text-theme truncate">{title}</p>
-                    <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
-                      {fmt(elapsed)} / {fmt(adjDur)} · {speed}x{ambientOn ? ' · ♪' : ''}
+                    <p className="text-[10px] truncate" style={{ color: 'var(--text-muted)' }}>
+                      {playingNow && currentText
+                        ? currentText.replace(/\.\.\./g, '').trim()
+                        : `${fmt(elapsed)} / ${fmt(adjDur)} · ${speed}x${ambientOn ? ' · ♪' : ''}`}
                     </p>
                   </div>
 

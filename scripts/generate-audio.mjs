@@ -148,10 +148,11 @@ for (const slug of slugs) {
   const txtFile = path.join(os.tmpdir(), `${slug}.txt`);
   const rawFile = path.join(os.tmpdir(), `${slug}-raw.mp3`);
   const outFile = path.join(OUT_DIR, `${slug}.mp3`);
+  const srtFile = path.join(OUT_DIR, `${slug}.srt`);
   fs.writeFileSync(txtFile, narration);
 
   console.log(`▸ generating ${slug} (${narration.split(/\s+/).length} words)…`);
-  execFileSync('python3', ['-m', 'edge_tts', '--file', txtFile, '--voice', VOICE, '--rate', RATE, '--write-media', rawFile], { stdio: ['ignore', 'ignore', 'inherit'] });
+  execFileSync('python3', ['-m', 'edge_tts', '--file', txtFile, '--voice', VOICE, '--rate', RATE, '--write-media', rawFile, '--write-subtitles', srtFile], { stdio: ['ignore', 'ignore', 'inherit'] });
   // 32kbps mono keeps voice quality while shrinking ~40%
   execFileSync('ffmpeg', ['-y', '-i', rawFile, '-ac', '1', '-b:a', '32k', outFile], { stdio: ['ignore', 'ignore', 'pipe'] });
   fs.unlinkSync(rawFile);
@@ -159,8 +160,8 @@ for (const slug of slugs) {
 
   const duration = ffprobeDuration(outFile);
   const sizeKB = Math.round(fs.statSync(outFile).size / 1024);
-  manifest[slug] = { file: `/audio/${slug}.mp3`, duration, voice: VOICE, sizeKB };
-  console.log(`  ✓ ${sizeKB} KB, ${duration ? Math.round(duration / 60) + ' min' : '?'}`);
+  manifest[slug] = { file: `/audio/${slug}.mp3`, captions: `/audio/${slug}.srt`, duration, voice: VOICE, sizeKB };
+  console.log(`  ✓ ${sizeKB} KB, ${duration ? Math.round(duration / 60) + ' min' : '?'}, subtitles ✓`);
 }
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2));
