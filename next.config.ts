@@ -75,6 +75,21 @@ const nextConfig: NextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
           },
+          {
+            // Defense-in-depth that does NOT restrict scripts/styles/images
+            // (Next.js needs inline scripts), so it cannot break the app, but
+            // still closes real vectors: plugin/object injection, <base> tag
+            // hijacking, clickjacking, form-action hijacking, and mixed content.
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "frame-ancestors 'none'",
+              "form-action 'self'",
+              'upgrade-insecure-requests',
+            ].join('; '),
+          },
         ],
       },
     ];

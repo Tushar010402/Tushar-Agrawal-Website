@@ -98,3 +98,6 @@ yarn-error.log*
 backend/*.db
 backend/*.db-journal
 backend/*.log
+
+# Local-only runtime data (waitlist writes — Vercel FS is ephemeral anyway)
+/data/

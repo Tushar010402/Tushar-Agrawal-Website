@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getBlogIndex } from '@/lib/blog-index';
 import { buildSystemPrompt } from '@/lib/chat-context';
+import { isSameOrigin } from '@/lib/origin-guard';
 
 export const runtime = 'nodejs';
 
@@ -38,6 +39,12 @@ setInterval(() => {
 }, 60_000);
 
 export async function POST(request: NextRequest) {
+  // Reject cross-site callers — this endpoint spends real Gemini quota, so it
+  // must only be usable from our own pages, not as a public LLM proxy.
+  if (!isSameOrigin(request)) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   // Rate limit by IP
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || request.headers.get('x-real-ip')

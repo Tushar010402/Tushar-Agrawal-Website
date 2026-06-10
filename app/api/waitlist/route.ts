@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { isSameOrigin } from "@/lib/origin-guard";
 
 const DATA_FILE = path.join(process.cwd(), "data", "waitlist.json");
 
@@ -58,21 +59,28 @@ export async function GET() {
 
 // POST: Add email to waitlist
 export async function POST(request: NextRequest) {
+  // Only our own pages may submit — blocks scripted spam from other origins.
+  if (!isSameOrigin(request)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
   try {
     const body = await request.json();
     const { email } = body;
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || typeof email !== "string" || !emailRegex.test(email)) {
+    // Validate email format (length-bounded; single @, no spaces, real TLD).
+    const normalizedEmail = typeof email === "string" ? email.toLowerCase().trim() : "";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/;
+    if (
+      !normalizedEmail ||
+      normalizedEmail.length > 254 ||
+      (normalizedEmail.match(/@/g) || []).length !== 1 ||
+      !emailRegex.test(normalizedEmail)
+    ) {
       return NextResponse.json(
         { error: "Please enter a valid email address." },
         { status: 400 }
       );
     }
-
-    // Normalize email
-    const normalizedEmail = email.toLowerCase().trim();
 
     // Load existing data
     const data = ensureDataFile();
