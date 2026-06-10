@@ -1,7 +1,14 @@
 name: IndexNow Submit
 
-# Ping IndexNow (Bing, Yandex, Seznam, Naver) whenever blog content or routes change
-# on the default branch. Runs after Vercel has had time to deploy the new build.
+# Stream changed URLs to IndexNow (Bing, Yandex, Seznam, Naver) whenever blog
+# content or routes change on the default branch. Runs after Vercel has had time
+# to deploy the new build.
+#
+# STREAMING, not batch: Bing Webmaster Tools flags repeated full-site submissions
+# as "batch mode" (server overload + indexing delays). This workflow diffs the
+# push and submits only the URLs that actually changed. Use workflow_dispatch
+# for a one-off full resync (no body -> the API falls back to the full list).
+#
 # Note: Google does NOT use IndexNow — for Google, use Search Console's
 # sitemap resubmission + URL Inspection (see SEO_INDEXING_CHECKLIST.md).
 
@@ -20,17 +27,87 @@ concurrency:
   group: indexnow
   cancel-in-progress: false
 
+env:
+  SITE_URL: https://www.tusharagrawal.in
+
 jobs:
   submit:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout (with previous commit for diff)
+        if: github.event_name == 'push'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute changed URLs
+        if: github.event_name == 'push'
+        id: changed
+        run: |
+          BEFORE="${{ github.event.before }}"
+          AFTER="${{ github.sha }}"
+          # First push / force push: fall back to diffing the head commit only.
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BEFORE" 2>/dev/null; then
+            BEFORE="${AFTER}^"
+          fi
+          changed_files=$(git diff --name-only "$BEFORE" "$AFTER")
+          echo "Changed files:"
+          echo "$changed_files"
+
+          urls=""
+          # Added/modified posts -> their canonical URLs (skip deletions: file gone).
+          while IFS= read -r f; do
+            case "$f" in
+              content/blog/*.md|content/blog/*.mdx)
+                if [ -f "$f" ]; then
+                  slug=$(basename "$f" | sed 's/\.mdx\?$//')
+                  urls="$urls $SITE_URL/blog/$slug"
+                fi
+                # Any post change also refreshes the blog index.
+                urls="$urls $SITE_URL/blog"
+                ;;
+              app/blog/*|app/sitemap.ts|next.config.ts)
+                urls="$urls $SITE_URL/blog"
+                ;;
+            esac
+          done <<< "$changed_files"
+
+          unique_urls=$(echo "$urls" | tr ' ' '\n' | grep -v '^$' | sort -u)
+          echo "URLs to submit:"
+          echo "$unique_urls"
+
+          json=$(echo "$unique_urls" | jq -R -s 'split("\n") | map(select(length > 0)) | {urls: .}')
+          echo "payload<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$json" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          count=$(echo "$unique_urls" | grep -c . || true)
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+
       - name: Wait for deployment to propagate
+        if: github.event_name == 'workflow_dispatch' || steps.changed.outputs.count != '0'
         run: sleep 120
 
-      - name: Trigger IndexNow submission
+      - name: Submit changed URLs (streaming)
+        if: github.event_name == 'push' && steps.changed.outputs.count != '0'
         run: |
-          echo "Submitting URLs to IndexNow via the production endpoint..."
-          response=$(curl -s -w "\n%{http_code}" -X POST https://www.tusharagrawal.in/api/indexnow)
+          echo "Streaming ${{ steps.changed.outputs.count }} changed URL(s) to IndexNow..."
+          response=$(curl -s -w "\n%{http_code}" -X POST "$SITE_URL/api/indexnow" \
+            -H "Content-Type: application/json" \
+            -d '${{ steps.changed.outputs.payload }}')
+          body=$(echo "$response" | head -n -1)
+          status=$(echo "$response" | tail -n 1)
+          echo "HTTP $status"
+          echo "$body"
+          if [ "$status" -ge 400 ]; then
+            echo "IndexNow submission failed"
+            exit 1
+          fi
+
+      - name: Full resync (manual dispatch only)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "Manual full-site IndexNow resync..."
+          response=$(curl -s -w "\n%{http_code}" -X POST "$SITE_URL/api/indexnow")
           body=$(echo "$response" | head -n -1)
           status=$(echo "$response" | tail -n 1)
           echo "HTTP $status"
