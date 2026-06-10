@@ -25,6 +25,10 @@ interface BlogReaderProps {
   content: string;
   description: string;
   author?: string;
+  /** Pre-generated narration MP3 (neural TTS). When set, the player uses it
+   *  instead of browser speech synthesis — real seeking, consistent voice. */
+  audioUrl?: string;
+  audioDuration?: number;
 }
 
 type ChunkType = 'intro' | 'heading' | 'text' | 'data' | 'diagram' | 'transition' | 'conclusion';
@@ -446,7 +450,8 @@ function CoverArt({ playing, size = 'lg' }: { playing: boolean; size?: 'sm' | 'l
 // Component
 // ═══════════════════════════════════════
 
-export function BlogReader({ title, content, description, author }: BlogReaderProps) {
+export function BlogReader({ title, content, description, author, audioUrl, audioDuration }: BlogReaderProps) {
+  const hasFile = Boolean(audioUrl);
   // ── State ──
   const [isActive, setIsActive] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -463,6 +468,7 @@ export function BlogReader({ title, content, description, author }: BlogReaderPr
   const [currentText, setCurrentText] = useState('');
   const [ambientOn, setAmbientOn] = useState(true);
   const [ambientVol, setAmbientVol] = useState(40); // 0–100 → 0–0.12 gain
+  const [fileDur, setFileDur] = useState(audioDuration || 0);
 
   // ── Refs ──
   const chunksRef = useRef<SpeechChunk[]>([]);
@@ -474,6 +480,7 @@ export function BlogReader({ title, content, description, author }: BlogReaderPr
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const ambientRef = useRef<AmbientPad | null>(null);
   const ambientOnRef = useRef(true);
+  const audioElRef = useRef<HTMLAudioElement | null>(null);
 
   const ambientGain = (v: number) => (v / 100) * 0.12;
 
@@ -510,17 +517,22 @@ export function BlogReader({ title, content, description, author }: BlogReaderPr
     window.speechSynthesis?.cancel();
     if (timerRef.current) clearInterval(timerRef.current);
     ambientRef.current?.stop();
+    if (audioElRef.current) {
+      audioElRef.current.pause();
+      audioElRef.current.src = '';
+      audioElRef.current = null;
+    }
   }, []);
 
-  // ── Timer ──
+  // ── Timer (synth mode only — file mode gets time from `timeupdate`) ──
   useEffect(() => {
-    if (isPlaying && !isPaused) {
+    if (isPlaying && !isPaused && !hasFile) {
       timerRef.current = setInterval(() => setElapsed((p) => p + 1), 1000);
     } else {
       if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
     }
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [isPlaying, isPaused]);
+  }, [isPlaying, isPaused, hasFile]);
 
   // ── Speech engine ──
   const speak = useCallback((idx: number) => {
@@ -575,8 +587,46 @@ export function BlogReader({ title, content, description, author }: BlogReaderPr
     });
   }, [title, author]);
 
-  // ── Controls ──
+  // ── Audio-file engine ──
+  const ensureAudioEl = useCallback((): HTMLAudioElement | null => {
+    if (!audioUrl) return null;
+    if (audioElRef.current) return audioElRef.current;
+    const a = new Audio(audioUrl);
+    a.preload = 'metadata';
+    a.playbackRate = speedRef.current;
+    a.muted = mutedRef.current;
+    a.addEventListener('loadedmetadata', () => {
+      if (Number.isFinite(a.duration)) setFileDur(Math.round(a.duration));
+    });
+    a.addEventListener('timeupdate', () => {
+      setElapsed(Math.floor(a.currentTime));
+      if (a.duration) setProgress((a.currentTime / a.duration) * 100);
+    });
+    a.addEventListener('ended', () => {
+      ambientRef.current?.stop(); ambientRef.current = null;
+      setIsPlaying(false); setIsPaused(false); playingRef.current = false;
+      setProgress(100); setElapsed(0);
+      a.currentTime = 0;
+    });
+    audioElRef.current = a;
+    return a;
+  }, [audioUrl]);
+
+  // ── Controls (branch: real audio file vs speech synthesis) ──
   const play = useCallback(() => {
+    if (hasFile) {
+      const a = ensureAudioEl();
+      if (!a) return;
+      a.play().catch(() => {});
+      if (ambientRef.current) {
+        ambientRef.current.resume();
+      } else {
+        startAmbient();
+      }
+      setIsActive(true); setIsPlaying(true); setIsPaused(false); playingRef.current = true;
+      setupMediaSession();
+      return;
+    }
     const synth = window.speechSynthesis;
     if (!synth) return;
     if (isPaused) {
@@ -591,35 +641,53 @@ export function BlogReader({ title, content, description, author }: BlogReaderPr
     startAmbient();
     setupMediaSession();
     speak(chunkRef.current);
-  }, [isPaused, speak, startAmbient, setupMediaSession]);
+  }, [hasFile, ensureAudioEl, isPaused, speak, startAmbient, setupMediaSession]);
 
   const pause = useCallback(() => {
-    window.speechSynthesis?.pause();
+    if (hasFile) {
+      audioElRef.current?.pause();
+    } else {
+      window.speechSynthesis?.pause();
+    }
     ambientRef.current?.suspend();
     setIsPaused(true);
-  }, []);
+  }, [hasFile]);
 
   const stop = useCallback(() => {
+    if (hasFile && audioElRef.current) {
+      audioElRef.current.pause();
+      audioElRef.current.currentTime = 0;
+    }
     window.speechSynthesis?.cancel();
     ambientRef.current?.stop(); ambientRef.current = null;
     setIsPlaying(false); setIsPaused(false); playingRef.current = false;
     setProgress(0); setCurrentChunk(0); chunkRef.current = 0;
     setElapsed(0); setCurrentText(''); setIsActive(false); setIsExpanded(false);
-  }, []);
+  }, [hasFile]);
 
   const skipFwd = useCallback(() => {
+    if (hasFile && audioElRef.current) {
+      const a = audioElRef.current;
+      a.currentTime = Math.min(a.currentTime + 15, a.duration || a.currentTime + 15);
+      return;
+    }
     const n = Math.min(chunkRef.current + 3, chunksRef.current.length - 1);
     window.speechSynthesis?.cancel(); chunkRef.current = n; setCurrentChunk(n);
     setProgress(Math.round((n / chunksRef.current.length) * 100));
     if (playingRef.current) speak(n);
-  }, [speak]);
+  }, [hasFile, speak]);
 
   const skipBack = useCallback(() => {
+    if (hasFile && audioElRef.current) {
+      const a = audioElRef.current;
+      a.currentTime = Math.max(a.currentTime - 15, 0);
+      return;
+    }
     const n = Math.max(chunkRef.current - 3, 0);
     window.speechSynthesis?.cancel(); chunkRef.current = n; setCurrentChunk(n);
     setProgress(Math.round((n / chunksRef.current.length) * 100));
     if (playingRef.current) speak(n);
-  }, [speak]);
+  }, [hasFile, speak]);
 
   // Media key handlers (Spotify-style hardware/lock-screen control)
   useEffect(() => {
@@ -643,13 +711,21 @@ export function BlogReader({ title, content, description, author }: BlogReaderPr
   const setSpeedVal = useCallback((v: number) => {
     const c = Math.max(0.25, Math.min(3, v));
     setSpeed(c); speedRef.current = c;
+    if (hasFile) {
+      if (audioElRef.current) audioElRef.current.playbackRate = c;
+      return;
+    }
     if (playingRef.current) { window.speechSynthesis?.cancel(); speak(chunkRef.current); }
-  }, [speak]);
+  }, [hasFile, speak]);
 
   const toggleMute = useCallback(() => {
     mutedRef.current = !mutedRef.current; setIsMuted(mutedRef.current);
+    if (hasFile) {
+      if (audioElRef.current) audioElRef.current.muted = mutedRef.current;
+      return;
+    }
     if (playingRef.current) { window.speechSynthesis?.cancel(); speak(chunkRef.current); }
-  }, [speak]);
+  }, [hasFile, speak]);
 
   const toggleAmbient = useCallback(() => {
     const next = !ambientOnRef.current;
@@ -676,21 +752,30 @@ export function BlogReader({ title, content, description, author }: BlogReaderPr
 
   const seekTo = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const ratio = (e.clientX - rect.left) / rect.width;
+    const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    if (hasFile) {
+      const a = ensureAudioEl();
+      if (a && Number.isFinite(a.duration) && a.duration > 0) {
+        a.currentTime = ratio * a.duration;
+        setProgress(ratio * 100);
+      }
+      return;
+    }
     const t = Math.max(0, Math.min(Math.floor(ratio * chunksRef.current.length), chunksRef.current.length - 1));
     window.speechSynthesis?.cancel(); chunkRef.current = t; setCurrentChunk(t);
     setProgress(Math.round((t / chunksRef.current.length) * 100));
     if (playingRef.current) speak(t);
-  }, [speak]);
+  }, [hasFile, ensureAudioEl, speak]);
 
   const fmt = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
 
-  const dur = totalDuration();
+  const dur = hasFile ? (fileDur || audioDuration || 0) : totalDuration();
   const adjDur = Math.ceil(dur / speed);
   const presets = [0.75, 1, 1.25, 1.5, 2];
   const playingNow = isPlaying && !isPaused;
 
-  if (!isSupported) return null;
+  // With a pre-generated file the player works even without speechSynthesis.
+  if (!isSupported && !hasFile) return null;
 
   const surface = { background: 'var(--surface)', border: '1px solid var(--border)' } as const;
 
@@ -759,7 +844,7 @@ export function BlogReader({ title, content, description, author }: BlogReaderPr
                 <div className="px-6 text-center">
                   <h3 className="text-base font-semibold text-theme line-clamp-2">{title}</h3>
                   <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-                    {author || 'Tushar Agrawal'} · {Math.ceil(dur / 60)} min listen
+                    {author || 'Tushar Agrawal'} · {Math.ceil(dur / 60)} min listen{hasFile ? ' · HD voice' : ''}
                   </p>
                 </div>
 
@@ -781,7 +866,7 @@ export function BlogReader({ title, content, description, author }: BlogReaderPr
                   </div>
                   <div className="flex justify-between text-[10px] mt-1.5 font-mono" style={{ color: 'var(--text-muted)' }}>
                     <span>{fmt(elapsed)}</span>
-                    <span>{currentChunk + 1}/{chunksRef.current.length}</span>
+                    <span>{hasFile ? 'HD narration' : `${currentChunk + 1}/${chunksRef.current.length}`}</span>
                     <span>{fmt(adjDur)}</span>
                   </div>
                 </div>
@@ -859,7 +944,11 @@ export function BlogReader({ title, content, description, author }: BlogReaderPr
                   >
                     {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                   </button>
-                  {voices.length > 1 && (
+                  {hasFile ? (
+                    <span className="flex-1 text-xs rounded-lg px-3 py-2 truncate" style={{ ...surface, color: 'var(--text-secondary)' }}>
+                      Studio neural voice
+                    </span>
+                  ) : voices.length > 1 && (
                     <select
                       value={selectedVoice}
                       onChange={(e) => changeVoice(e.target.value)}

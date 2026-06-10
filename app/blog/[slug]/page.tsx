@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import BlogPostClient from './blog-post-client';
 import { getPostBySlug, getRelatedPosts, getAllSlugs, getAllPosts, getAllTagSlugs } from '@/lib/blog';
 import { renderMarkdownToHtml } from '@/lib/markdown';
+import { getAudioForSlug } from '@/lib/audio-manifest';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
 
@@ -223,6 +224,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         relatedBlogs={relatedBlogs}
         allBlogs={allBlogs}
         tagHubSlugs={getAllTagSlugs()}
+        audio={getAudioForSlug(post.slug)}
       />
     </>
   );

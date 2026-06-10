@@ -1,0 +1,74 @@
+{
+  "redis-cache-stampede-p99-latency-war-story": {
+    "file": "/audio/redis-cache-stampede-p99-latency-war-story.mp3",
+    "duration": 449,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1753
+  },
+  "kafka-consumer-lag-2-million-debugging-war-story": {
+    "file": "/audio/kafka-consumer-lag-2-million-debugging-war-story.mp3",
+    "duration": 382,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1493
+  },
+  "database-connection-pooling-performance-guide": {
+    "file": "/audio/database-connection-pooling-performance-guide.mp3",
+    "duration": 304,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1186
+  },
+  "building-scalable-microservices-with-go-and-fastapi": {
+    "file": "/audio/building-scalable-microservices-with-go-and-fastapi.mp3",
+    "duration": 354,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1384
+  },
+  "post-quantum-cryptography-migration-guide-2026": {
+    "file": "/audio/post-quantum-cryptography-migration-guide-2026.mp3",
+    "duration": 548,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2142
+  },
+  "qauth-post-quantum-authentication-protocol": {
+    "file": "/audio/qauth-post-quantum-authentication-protocol.mp3",
+    "duration": 541,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2113
+  },
+  "python-asyncio-complete-guide": {
+    "file": "/audio/python-asyncio-complete-guide.mp3",
+    "duration": 156,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 610
+  },
+  "building-backends-for-ai-agents-idempotency-retries-state": {
+    "file": "/audio/building-backends-for-ai-agents-idempotency-retries-state.mp3",
+    "duration": 501,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1959
+  },
+  "technical-seo-nextjs-developers-complete-guide-2026": {
+    "file": "/audio/technical-seo-nextjs-developers-complete-guide-2026.mp3",
+    "duration": 611,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2386
+  },
+  "llms-txt-generative-engine-optimization-developers-2026": {
+    "file": "/audio/llms-txt-generative-engine-optimization-developers-2026.mp3",
+    "duration": 621,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2425
+  },
+  "core-web-vitals-backend-engineers-server-performance-2026": {
+    "file": "/audio/core-web-vitals-backend-engineers-server-performance-2026.mp3",
+    "duration": 607,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2372
+  },
+  "google-june-2026-ai-search-updates-developers-guide": {
+    "file": "/audio/google-june-2026-ai-search-updates-developers-guide.mp3",
+    "duration": 448,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1751
+  }
+}

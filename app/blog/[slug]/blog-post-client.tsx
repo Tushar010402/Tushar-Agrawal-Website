@@ -27,9 +27,11 @@ interface BlogPostClientProps {
   allBlogs: Blog[];
   /** Tag slugs that have a hub page — only these get linked (non-hub tag URLs redirect). */
   tagHubSlugs?: string[];
+  /** Pre-generated neural narration (from public/audio/manifest.json), if available. */
+  audio?: { file: string; duration?: number } | null;
 }
 
-export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlugs = [] }: BlogPostClientProps) {
+export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlugs = [], audio }: BlogPostClientProps) {
   const [copied, setCopied] = useState(false);
 
   // Format date
@@ -211,6 +213,8 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlu
                   content={blog.content}
                   description={blog.description}
                   author={blog.author || undefined}
+                  audioUrl={audio?.file}
+                  audioDuration={audio?.duration}
                 />
               </div>
 
