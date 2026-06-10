@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import QuantumShieldClient from './quantum-shield-client';
+import { breadcrumbJsonLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'QuantumShield - Post-Quantum Cryptography Library',
@@ -59,6 +60,12 @@ export default function QuantumShieldPage() {
               url: 'https://www.tusharagrawal.in',
             },
           }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd([{ name: 'QuantumShield', path: '/quantum-shield' }])),
         }}
       />
       <QuantumShieldClient />

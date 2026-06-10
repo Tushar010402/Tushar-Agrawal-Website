@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import QAuthClient from './qauth-client';
+import { breadcrumbJsonLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'QAuth - Post-Quantum Authentication Protocol',
@@ -59,6 +60,12 @@ export default function QAuthPage() {
               url: 'https://www.tusharagrawal.in',
             },
           }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd([{ name: 'QAuth', path: '/qauth' }])),
         }}
       />
       <QAuthClient />

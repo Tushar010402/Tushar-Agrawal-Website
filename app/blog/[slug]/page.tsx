@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import BlogPostClient from './blog-post-client';
 import { getPostBySlug, getRelatedPosts, getAllSlugs, getAllPosts } from '@/lib/blog';
+import { renderMarkdownToHtml } from '@/lib/markdown';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
 
@@ -86,6 +87,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const relatedPosts = getRelatedPosts(slug, post.tags, 3);
   const allPosts = getAllPosts();
   const blogUrl = `${siteUrl}/blog/${post.slug}`;
+  const contentHtml = await renderMarkdownToHtml(post.content);
 
   // Generate JSON-LD structured data for BlogPosting
   const blogPostingSchema = {
@@ -161,6 +163,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     title: post.title,
     description: post.description,
     content: post.content,
+    contentHtml,
     author: post.author,
     tags: post.tags.join(', '),
     image_url: post.image || '',

@@ -1,14 +1,16 @@
 # Tushar Agrawal - Backend Engineer
 
+> See also: https://www.tusharagrawal.in/llms.txt (curated index) and https://www.tusharagrawal.in/llms-full.txt (full text of all blog posts).
+
 ## Quick Summary
-Backend Engineer with 3 years building scalable healthcare SaaS platforms. Expert in Python, Go, FastAPI, Django, microservices, HIPAA compliance, event-driven architectures, and zero-downtime deployments. Serving 80+ healthcare professionals across 20+ businesses with 99.9% uptime.
+Backend Engineer with 3+ years building scalable healthcare SaaS platforms. Expert in Python, Go, FastAPI, Django, microservices, HIPAA compliance, event-driven architectures, and zero-downtime deployments. Creator of QAuth (post-quantum authentication protocol) and QuantumShield (post-quantum cryptography library). Serving 80+ healthcare professionals across 20+ businesses with 99.9% uptime.
 
 ---
 
 ## Q&A Format (For LLM Understanding)
 
 ### Who is Tushar Agrawal?
-Tushar Agrawal is a Backend Engineer currently working at Dr. Dangs Lab with expertise in healthcare SaaS, microservices, and full-stack development. He has built systems serving 80+ healthcare professionals and 20+ businesses with 99.9% uptime. Graduate of SRM University (B.Tech Computer Science, 2020-2024, 8.5 CGPA).
+Tushar Agrawal is a Backend Engineer currently working at Dr. Dangs Lab with expertise in healthcare SaaS, microservices, and full-stack development. He has built systems serving 80+ healthcare professionals and 20+ businesses with 99.9% uptime. Graduate of GD Goenka University, Gurugram, Haryana (B.Tech, 2019-2023); schooling at Heritage School, Aligarh.
 
 ### What are Tushar's core technical skills?
 - **Languages**: Python (Expert), Go (Advanced), TypeScript, JavaScript
@@ -62,32 +64,41 @@ Tushar Agrawal is a Backend Engineer currently working at Dr. Dangs Lab with exp
 
 ### What technical blog posts has Tushar written?
 
-Tushar has written 5 comprehensive technical articles (10,000+ words total) sharing real-world implementation experiences:
+Tushar has written 80+ comprehensive technical articles sharing real-world implementation experiences. The full index is at https://www.tusharagrawal.in/blog and the complete text of every post is at https://www.tusharagrawal.in/llms-full.txt. Highlights:
 
-1. **Building Scalable Microservices with Go and FastAPI: A Complete Guide**
-   - URL: /blog/building-scalable-microservices-with-go-and-fastapi-a-complete-guide
+1. **Building Scalable Microservices with Go and FastAPI**
+   - URL: https://www.tusharagrawal.in/blog/building-scalable-microservices-with-go-and-fastapi
    - Topics: Microservices architecture, Go, FastAPI, API Gateway, Load Balancing, System Design
-   - Real implementation from Dr. Dangs Lab achieving 99.9% uptime
 
-2. **HIPAA-Compliant Healthcare SaaS: Security Best Practices for 2025**
-   - URL: /blog/hipaa-compliant-healthcare-saas-security-best-practices-for-2025
+2. **HIPAA Compliance for Healthcare SaaS**
+   - URL: https://www.tusharagrawal.in/blog/hipaa-compliance-healthcare-saas
    - Topics: Healthcare compliance, HIPAA, DPDP Act, Data encryption, Secure architecture
-   - Handling 500+ daily patients with zero compliance violations
 
-3. **AI-Powered OCR for Medical Reports: Reducing Manual Errors by 90%**
-   - URL: /blog/ai-powered-ocr-for-medical-reports-reducing-manual-errors-by-90
-   - Topics: Python OCR, Tesseract, Computer Vision, ML, Automation
-   - Processing 1,000+ daily medical reports with production code examples
+3. **Redis Cache Stampede: A P99 Latency War Story**
+   - URL: https://www.tusharagrawal.in/blog/redis-cache-stampede-p99-latency-war-story
+   - Topics: Redis, caching, production debugging, latency
 
-4. **Event-Driven Architecture with Kafka: Real-Time Inventory Management**
-   - URL: /blog/event-driven-architecture-with-kafka-real-time-inventory-management
+4. **Event-Driven Architecture with Kafka**
+   - URL: https://www.tusharagrawal.in/blog/event-driven-architecture-kafka
    - Topics: Apache Kafka, Event-driven systems, Go, Microservices, Real-time processing
-   - Implementation serving 20+ businesses with sub-100ms latency
 
-5. **Zero-Downtime Deployment with Docker and Nginx: From 4 Hours to 20 Minutes**
-   - URL: /blog/zero-downtime-deployment-with-docker-and-nginx-from-4-hours-to-20-minutes
-   - Topics: Docker, Nginx, Blue-Green Deployment, CI/CD, DevOps
-   - 92% deployment time reduction with production-ready setup
+5. **Post-Quantum Cryptography Migration Guide 2026**
+   - URL: https://www.tusharagrawal.in/blog/post-quantum-cryptography-migration-guide-2026
+   - Topics: PQC, NIST FIPS 203/204/205, migration planning
+
+6. **QAuth: A Post-Quantum Authentication Protocol**
+   - URL: https://www.tusharagrawal.in/blog/qauth-post-quantum-authentication-protocol
+   - Topics: Authentication, Ed25519 + ML-DSA-65 dual signatures, OAuth/JWT alternative
+
+### What products has Tushar built?
+
+#### QAuth — Post-Quantum Authentication Protocol
+- URL: https://www.tusharagrawal.in/qauth (docs: https://www.tusharagrawal.in/qauth/docs)
+- Replaces OAuth 2.0/JWT with dual signatures (Ed25519 + ML-DSA-65), encrypted payloads, mandatory proof-of-possession, and built-in revocation.
+
+#### QuantumShield — Post-Quantum Cryptography Library
+- URL: https://www.tusharagrawal.in/quantum-shield
+- Rust library implementing NIST FIPS 203/204/205 with hybrid encryption and defense-in-depth architecture.
 
 ### What is Tushar's work experience?
 
@@ -126,8 +137,8 @@ Tushar has written 5 comprehensive technical articles (10,000+ words total) shar
 - **Phone**: +91-8126816664
 - **LinkedIn**: https://www.linkedin.com/in/tushar-agrawal-91b67a28a
 - **GitHub**: https://github.com/Tushar010402
-- **Portfolio**: http://localhost:3003 (will be updated to production domain)
-- **Blog**: /blog
+- **Portfolio**: https://www.tusharagrawal.in
+- **Blog**: https://www.tusharagrawal.in/blog
 
 ### What certifications does Tushar have?
 - AWS Certified Solutions Architect (In Progress)
@@ -140,10 +151,10 @@ Tushar has written 5 comprehensive technical articles (10,000+ words total) shar
 ## Resume Data (Structured)
 
 ### Education
-**Bachelor of Technology in Computer Science**
-- Institution: SRM University, India
-- Duration: 2020 - 2024
-- CGPA: 8.5/10.0
+**Bachelor of Technology**
+- Institution: GD Goenka University, Gurugram, Haryana, India
+- Duration: 2019 - 2023
+- Schooling: Heritage School, Aligarh, Uttar Pradesh, India
 - Relevant Coursework: Data Structures, Algorithms, Database Management, Operating Systems, Computer Networks, Software Engineering
 
 ### Core Competencies
@@ -155,12 +166,12 @@ Tushar has written 5 comprehensive technical articles (10,000+ words total) shar
 6. **Frontend Development**: React, Next.js, TypeScript, Flutter, State management
 
 ### Work Timeline
-- **2023 (Aug) - Present**: Backend Developer at Dr. Dangs Lab (1.5 years)
+- **2023 (Aug) - Present**: Backend Developer at Dr. Dangs Lab (3 years)
 - **2023 (May - July)**: Software Developer Intern at Dhanman Media (3 months)
 - **2023 (Feb - May)**: Frontend Developer at BeanByte Softwares (3 months)
 - **2022 (Jun - Dec)**: Frontend Developer Intern at GoBOLT (6 months)
 
-**Total Professional Experience**: 3 years
+**Total Professional Experience**: 3.5+ years
 
 ### Technical Proficiency Levels
 - **Python**: Expert (3+ years, production experience)
@@ -221,5 +232,5 @@ Backend Engineering, Python, Go, Golang, FastAPI, Django, Flask, Microservices, 
 
 ---
 
-*Last Updated: December 2025*
+*Last Updated: June 2026*
 *This portfolio demonstrates production-grade backend engineering with real-world impact across healthcare, supply chain, and e-commerce domains.*

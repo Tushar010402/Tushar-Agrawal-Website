@@ -6,6 +6,8 @@ export interface Blog {
   slug: string;
   description: string;
   content: string;
+  /** Pre-rendered HTML (server-side, shiki-highlighted). `content` stays raw for the audio reader. */
+  contentHtml?: string;
   author: string | null;
   tags: string;
   image_url: string | null;

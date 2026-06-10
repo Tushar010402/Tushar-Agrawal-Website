@@ -411,7 +411,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
                 <Link href={`/blog/${blog.slug}`}>
-                  <article className="group rounded-xl overflow-hidden hover:border-[--accent-muted] transition-all duration-300 h-full flex flex-col" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+                  <article className="group clay-card-hover rounded-xl overflow-hidden h-full flex flex-col" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
                     {/* Image */}
                     {blog.image_url && (
                       <div className="relative h-44 overflow-hidden">
@@ -479,7 +479,7 @@ export default function BlogListingClient({ initialBlogs }: BlogListingClientPro
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
                 <Link href={`/blog/${blog.slug}`}>
-                  <article className="group flex gap-4 rounded-xl p-4 hover:border-[--accent-muted] transition-all duration-300" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
+                  <article className="group clay-card-hover flex gap-4 rounded-xl p-4" style={{ background: "color-mix(in srgb, var(--surface) 50%, transparent)", border: "1px solid var(--border)" }}>
                     {/* Image */}
                     {blog.image_url && (
                       <div className="relative w-32 h-24 md:w-48 md:h-32 flex-shrink-0 rounded-lg overflow-hidden">

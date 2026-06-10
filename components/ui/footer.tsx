@@ -9,11 +9,28 @@ export const Footer = () => {
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Blog", href: "/blog" },
+    { name: "Privacy", href: "/privacy" },
   ];
 
   const productLinks = [
     { name: "QuantumShield", href: "/quantum-shield" },
     { name: "QAuth", href: "/qauth" },
+    { name: "QAuth Docs", href: "/qauth/docs" },
+  ];
+
+  const topicLinks = [
+    { name: "Backend", href: "/blog/tag/backend" },
+    { name: "Performance", href: "/blog/tag/performance" },
+    { name: "Python", href: "/blog/tag/python" },
+    { name: "Security", href: "/blog/tag/security" },
+    { name: "Microservices", href: "/blog/tag/microservices" },
+    { name: "DevOps", href: "/blog/tag/devops" },
+  ];
+
+  const resourceLinks = [
+    { name: "Résumé (PDF)", href: "/Tushar_Agrawal_Resume.pdf" },
+    { name: "RSS Feed", href: "/rss.xml" },
+    { name: "llms.txt", href: "/llms.txt" },
   ];
 
   const socialLinks = [
@@ -64,13 +81,27 @@ export const Footer = () => {
         <hr className="clay-rule my-16" />
 
         {/* Columns */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="col-span-2 md:col-span-1">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
+          <div className="col-span-2 md:col-span-2">
             <Link href="/" className="text-lg font-semibold text-theme">Tushar Agrawal</Link>
             <p className="mt-3 text-theme-secondary text-sm max-w-xs">
               Full-Stack Engineer — New Delhi, India. Python, Go, distributed systems, and
               post-quantum security.
             </p>
+            <div className="flex gap-4 mt-5">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="text-theme-secondary hover:text-theme transition-colors"
+                  aria-label={link.name}
+                >
+                  {link.icon}
+                </a>
+              ))}
+            </div>
           </div>
           <div>
             <h3 className="clay-eyebrow mb-4">Navigation</h3>
@@ -93,21 +124,24 @@ export const Footer = () => {
             </ul>
           </div>
           <div>
-            <h3 className="clay-eyebrow mb-4">Elsewhere</h3>
-            <div className="flex gap-4">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target={link.href.startsWith("http") ? "_blank" : undefined}
-                  rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="text-theme-secondary hover:text-theme transition-colors"
-                  aria-label={link.name}
-                >
-                  {link.icon}
-                </a>
+            <h3 className="clay-eyebrow mb-4">Topics</h3>
+            <ul className="space-y-3">
+              {topicLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-theme-secondary hover:text-theme transition-colors text-sm">{link.name}</Link>
+                </li>
               ))}
-            </div>
+            </ul>
+          </div>
+          <div>
+            <h3 className="clay-eyebrow mb-4">Resources</h3>
+            <ul className="space-y-3">
+              {resourceLinks.map((link) => (
+                <li key={link.name}>
+                  <a href={link.href} className="text-theme-secondary hover:text-theme transition-colors text-sm">{link.name}</a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 

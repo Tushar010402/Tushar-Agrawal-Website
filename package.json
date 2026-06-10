@@ -22,6 +22,7 @@
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "reading-time": "^1.5.0",
+    "shiki": "^4.2.0",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {

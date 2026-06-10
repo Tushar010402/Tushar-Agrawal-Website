@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, Mail, Phone, MapPin } from "lucide-react";
 import { AnimatedHeroBg } from "@/components/ui/visuals/animated-hero-bg";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "About Tushar Agrawal - Full-Stack Engineer | Software Developer India",
@@ -123,6 +124,10 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen" style={{ background: "var(--background)", color: "var(--text-primary)" }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd([{ name: "About", path: "/about" }])) }}
+      />
 
       {/* ===== Hero ===== */}
       <section className="relative overflow-hidden pt-36 pb-20 md:pt-44 md:pb-28">
@@ -320,7 +325,7 @@ export default function AboutPage() {
             <div className="clay-reveal">
               <h3 className="text-lg font-semibold mb-3">Education</h3>
               <hr className="clay-rule mb-3" />
-              <p className="text-theme-secondary">B.Tech, Computer Science — GD Goenka University (2019–2023)</p>
+              <p className="text-theme-secondary">B.Tech, Computer Science — GD Goenka University, Gurugram (2019–2023) · Heritage School, Aligarh</p>
             </div>
           </div>
         </div>

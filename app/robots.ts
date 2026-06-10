@@ -75,6 +75,10 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
       {
+        userAgent: 'OAI-SearchBot', // powers ChatGPT search citations
+        allow: '/',
+      },
+      {
         userAgent: 'anthropic-ai',
         allow: '/',
       },
@@ -83,11 +87,63 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
       {
+        userAgent: 'Claude-User',
+        allow: '/',
+      },
+      {
+        userAgent: 'Claude-SearchBot',
+        allow: '/',
+      },
+      {
         userAgent: 'PerplexityBot',
         allow: '/',
       },
       {
+        userAgent: 'Perplexity-User',
+        allow: '/',
+      },
+      {
+        userAgent: 'Google-Extended', // Gemini grounding/training
+        allow: '/',
+      },
+      {
         userAgent: 'Applebot',
+        allow: '/',
+      },
+      {
+        userAgent: 'Applebot-Extended',
+        allow: '/',
+      },
+      {
+        userAgent: 'Meta-ExternalAgent',
+        allow: '/',
+      },
+      {
+        userAgent: 'Meta-ExternalFetcher',
+        allow: '/',
+      },
+      {
+        userAgent: 'Amazonbot', // Alexa / Rufus
+        allow: '/',
+      },
+      {
+        userAgent: 'cohere-ai',
+        allow: '/',
+      },
+      {
+        userAgent: 'DuckAssistBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'YouBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'MistralAI-User',
+        allow: '/',
+      },
+      {
+        userAgent: 'Bytespider', // ByteDance / Doubao
         allow: '/',
       },
       // Block aggressive SEO bots

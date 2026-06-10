@@ -71,103 +71,6 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Simple markdown-to-HTML converter
-  const renderMarkdown = (markdown: string) => {
-    let html = markdown;
-
-    // Helper to escape HTML entities in code blocks
-    const escapeHtml = (text: string) => {
-      return text
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    };
-
-    // Phase 1: Extract code blocks and inline code, replace with placeholders
-    // This prevents HTML in code examples from being parsed as live DOM elements
-    const codeBlocks: string[] = [];
-    html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (_match, _lang, code) => {
-      const index = codeBlocks.length;
-      codeBlocks.push(`<pre style="background: var(--surface); border: 1px solid var(--border);" class="rounded-lg p-4 my-4 overflow-x-auto"><code class="text-sm" style="color: var(--text-secondary);">${escapeHtml(code)}</code></pre>`);
-      return `%%CODEBLOCK_${index}%%`;
-    });
-
-    const inlineCodeBlocks: string[] = [];
-    html = html.replace(/`([^`]+)`/g, (_match, code) => {
-      const index = inlineCodeBlocks.length;
-      inlineCodeBlocks.push(`<code style="background: var(--surface);" class="text-theme-accent px-2 py-1 rounded text-sm">${escapeHtml(code)}</code>`);
-      return `%%INLINECODE_${index}%%`;
-    });
-
-    // Phase 2: Apply markdown transformations (code is safely extracted)
-    // Headers
-    html = html.replace(/^### (.*$)/gim, '<h3 class="text-2xl font-bold mt-8 mb-4 text-theme">$1</h3>');
-    html = html.replace(/^## (.*$)/gim, '<h2 class="text-3xl font-bold mt-10 mb-6 text-theme">$1</h2>');
-    html = html.replace(/^# (.*$)/gim, '<h1 class="text-4xl font-bold mt-12 mb-8 text-theme">$1</h1>');
-
-    // Bold
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-theme">$1</strong>');
-
-    // Italic
-    html = html.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
-
-    // Links — internal links (starting with / or #) stay in-tab; external open in a new tab
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_m, text, url) => {
-      const isInternal = url.startsWith('/') || url.startsWith('#');
-      const attrs = isInternal ? '' : ' target="_blank" rel="noopener noreferrer"';
-      return `<a href="${url}" class="text-theme-accent hover:opacity-80 underline"${attrs}>${text}</a>`;
-    });
-
-    // GFM tables — header row, separator row, then body rows (inline formatting already applied)
-    const tableBlocks: string[] = [];
-    html = html.replace(
-      /^[ \t]*\|(.+)\|[ \t]*\n[ \t]*\|[ \t]*:?-+:?[ \t]*(?:\|[ \t]*:?-+:?[ \t]*)*\|[ \t]*\n((?:[ \t]*\|.*\|[ \t]*\n?)+)/gm,
-      (_match, headerLine, bodyLines) => {
-        const parseCells = (line: string) =>
-          line.replace(/^[ \t]*\|/, '').replace(/\|[ \t]*$/, '').split('|').map((c) => c.trim());
-        const headers: string[] = parseCells(headerLine);
-        const rows: string[][] = (bodyLines as string).trim().split('\n').filter(Boolean).map(parseCells);
-        const thead =
-          '<thead><tr>' +
-          headers.map((h: string) => `<th style="border:1px solid var(--border);" class="px-3 py-2 text-left font-semibold text-theme">${h}</th>`).join('') +
-          '</tr></thead>';
-        const tbody =
-          '<tbody>' +
-          rows.map((r: string[]) => '<tr>' + r.map((c: string) => `<td style="border:1px solid var(--border);" class="px-3 py-2 text-theme-secondary align-top">${c}</td>`).join('') + '</tr>').join('') +
-          '</tbody>';
-        const index = tableBlocks.length;
-        tableBlocks.push(`<div class="overflow-x-auto my-6"><table class="w-full border-collapse text-sm">${thead}${tbody}</table></div>`);
-        return `%%TABLE_${index}%%\n\n`;
-      }
-    );
-
-    // Bullet lists
-    html = html.replace(/^\- (.*$)/gim, '<li class="ml-6 mb-2 list-disc text-theme-secondary">$1</li>');
-    html = html.replace(/(<li class="ml-6 mb-2 list-disc text-theme-secondary">.*<\/li>\n?)+/g, '<ul class="my-4">$&</ul>');
-
-    // Ordered lists
-    html = html.replace(/^\d+\. (.*$)/gim, '<li class="ml-6 mb-2 list-decimal text-theme-secondary">$1</li>');
-    html = html.replace(/(<li class="ml-6 mb-2 list-decimal text-theme-secondary">.*<\/li>\n?)+/g, '<ol class="my-4">$&</ol>');
-
-    // Paragraphs
-    html = html.replace(/\n\n/g, '</p><p class="text-theme-secondary leading-relaxed mb-4">');
-    html = `<p class="text-theme-secondary leading-relaxed mb-4">${html}</p>`;
-
-    // Phase 3: Restore tables and code blocks from placeholders
-    tableBlocks.forEach((block, index) => {
-      html = html.replace(`%%TABLE_${index}%%`, block);
-    });
-    codeBlocks.forEach((block, index) => {
-      html = html.replace(`%%CODEBLOCK_${index}%%`, block);
-    });
-    inlineCodeBlocks.forEach((block, index) => {
-      html = html.replace(`%%INLINECODE_${index}%%`, block);
-    });
-
-    return html;
-  };
-
   return (
     <div className="min-h-screen text-theme" style={{ background: "var(--background)" }}>
       <div className="max-w-[1400px] mx-auto px-4 pt-24 pb-20">
@@ -317,14 +220,26 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs }: BlogPos
                 ))}
               </div>
 
-              {/* Description */}
-              <p className="text-lg md:text-xl text-theme-secondary mb-8 leading-relaxed">{blog.description}</p>
+              {/* TL;DR — explicit summary block (also aids AI answer extraction) */}
+              <div
+                className="mb-10 rounded-xl p-5 md:p-6"
+                style={{
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
+                  borderLeft: "3px solid var(--accent)",
+                }}
+              >
+                <p className="clay-eyebrow mb-2">TL;DR</p>
+                <p className="text-base md:text-lg text-theme-secondary leading-relaxed m-0">
+                  {blog.description}
+                </p>
+              </div>
 
               {/* Content */}
               <div
                 className="prose clay-prose max-w-none"
                 style={{ color: "var(--text-secondary)" }}
-                dangerouslySetInnerHTML={{ __html: renderMarkdown(blog.content) }}
+                dangerouslySetInnerHTML={{ __html: blog.contentHtml ?? '' }}
               />
 
               {/* Social Sharing */}

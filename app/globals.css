@@ -872,3 +872,75 @@ html.lenis body {
   line-height: 1.7;
   color: var(--text-primary);
 }
+
+/* Callout blockquotes (Note/Warning/Tip) read as cards, not pull-quotes */
+.clay-prose blockquote.callout {
+  font-style: normal;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+/* ---- Code blocks (shiki, server-rendered) ---- */
+.code-block {
+  position: relative;
+  margin: 1.5rem 0;
+}
+.code-block-lang {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.9rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  user-select: none;
+  pointer-events: none;
+}
+.code-block pre,
+pre.shiki {
+  background: var(--surface) !important;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.code-block code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  background: transparent;
+}
+/* Dual-theme shiki: warm + dark themes use the dark palette, light theme flips */
+.shiki,
+.shiki span {
+  color: var(--shiki-dark);
+}
+html.light .shiki,
+html.light .shiki span {
+  color: var(--shiki-light);
+}
+/* Plain-text fallback blocks have no shiki vars */
+.code-block pre.shiki > code:not(:has(span)) {
+  color: var(--text-secondary);
+}
+
+/* ---- Blog listing card hover (CSS-only premium lift) ---- */
+.clay-card-hover {
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.clay-card-hover:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-muted) !important;
+  box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.35);
+}
+@media (prefers-reduced-motion: reduce) {
+  .clay-card-hover,
+  .clay-card-hover:hover {
+    transition: none;
+    transform: none;
+  }
+}

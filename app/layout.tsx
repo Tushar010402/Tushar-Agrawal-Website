@@ -28,6 +28,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in'),
   verification: {
     google: 'QgpuL3dlMJxrVaZQ0j1KMx1cB3zVdoxU8lShWYEDc1s',
+    // Bing Webmaster Tools — set NEXT_PUBLIC_BING_VERIFICATION in Vercel env to emit the tag.
+    ...(process.env.NEXT_PUBLIC_BING_VERIFICATION
+      ? { other: { 'msvalidate.01': process.env.NEXT_PUBLIC_BING_VERIFICATION } }
+      : {}),
   },
   title: "Tushar Agrawal - Full-Stack Engineer | Backend & Distributed Systems",
   description: "Full-Stack Engineer with 3 years of experience building scalable healthcare SaaS platforms. Expertise in Python, Go, TypeScript, React, Next.js, Django, FastAPI, PostgreSQL, Redis, Docker, Nginx, and microservices architecture. Specialized in HIPAA-compliant systems, distributed systems, and AI automation.",
@@ -117,11 +121,29 @@ export default function RootLayout({
       "https://github.com/Tushar010402",
       "https://twitter.com/TusharAgrawal",
     ],
-    alumniOf: {
-      "@type": "EducationalOrganization",
-      name: "GD Goenka University",
-      sameAs: "https://www.gdgoenkauniversity.com/",
-    },
+    alumniOf: [
+      {
+        "@type": "EducationalOrganization",
+        name: "GD Goenka University",
+        sameAs: "https://www.gdgoenkauniversity.com/",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Gurugram",
+          addressRegion: "Haryana",
+          addressCountry: "IN",
+        },
+      },
+      {
+        "@type": "EducationalOrganization",
+        name: "Heritage School, Aligarh",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Aligarh",
+          addressRegion: "Uttar Pradesh",
+          addressCountry: "IN",
+        },
+      },
+    ],
     hasOccupation: {
       "@type": "Occupation",
       name: "Backend Engineer",

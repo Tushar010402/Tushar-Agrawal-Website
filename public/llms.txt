@@ -1,0 +1,42 @@
+# Tushar Agrawal
+
+> Tushar Agrawal is a Full-Stack/Backend Engineer based in New Delhi, India, specializing in Python, Go, TypeScript, distributed systems, and healthcare SaaS platforms. He is the creator of QAuth (a post-quantum authentication protocol) and QuantumShield (a post-quantum cryptography library), and writes an in-depth engineering blog covering backend architecture, performance, security, and post-quantum cryptography.
+
+Education: B.Tech, GD Goenka University, Gurugram, Haryana (2019–2023); schooling at Heritage School, Aligarh. Currently building healthcare technology at Dr. Dangs Lab, New Delhi.
+
+## About
+
+- [About Tushar Agrawal](https://www.tusharagrawal.in/about): Experience, skills, and featured projects
+- [Résumé (PDF)](https://www.tusharagrawal.in/Tushar_Agrawal_Resume.pdf): Full professional résumé
+- [GitHub](https://github.com/Tushar010402): Open-source work and code
+- [LinkedIn](https://www.linkedin.com/in/tushar-agrawal-91b67a28a): Professional profile
+- Contact: tusharagrawal0104@gmail.com
+
+## Products
+
+- [QAuth](https://www.tusharagrawal.in/qauth): Post-quantum authentication protocol replacing OAuth 2.0/JWT — dual signatures (Ed25519 + ML-DSA-65), encrypted payloads, mandatory proof-of-possession, built-in revocation
+- [QAuth Documentation](https://www.tusharagrawal.in/qauth/docs): Protocol overview, API reference, and full authentication flow
+- [QuantumShield](https://www.tusharagrawal.in/quantum-shield): Post-quantum cryptography library implementing NIST FIPS 203/204/205 with hybrid encryption
+
+## Blog
+
+- [Blog index](https://www.tusharagrawal.in/blog): 80+ in-depth engineering articles
+- [RSS feed](https://www.tusharagrawal.in/rss.xml): Subscribe for new posts
+- [Database Connection Pooling Performance Guide](https://www.tusharagrawal.in/blog/database-connection-pooling-performance-guide): Tuning connection pools for high-throughput backends
+- [Redis Cache Stampede: A P99 Latency War Story](https://www.tusharagrawal.in/blog/redis-cache-stampede-p99-latency-war-story): Debugging and fixing a production cache stampede
+- [Kafka Consumer Lag at 2 Million: A Debugging War Story](https://www.tusharagrawal.in/blog/kafka-consumer-lag-2-million-debugging-war-story): Diagnosing runaway consumer lag in production
+- [Building Scalable Microservices with Go and FastAPI](https://www.tusharagrawal.in/blog/building-scalable-microservices-with-go-and-fastapi): Polyglot microservice architecture in practice
+- [Post-Quantum Cryptography Migration Guide 2026](https://www.tusharagrawal.in/blog/post-quantum-cryptography-migration-guide-2026): How to plan a PQC migration before the 2027–2035 deadlines
+- [QAuth: A Post-Quantum Authentication Protocol](https://www.tusharagrawal.in/blog/qauth-post-quantum-authentication-protocol): Design rationale behind QAuth
+- [Hybrid Cryptography with Ed25519 + ML-DSA](https://www.tusharagrawal.in/blog/hybrid-cryptography-ed25519-ml-dsa-safe-migration): Safe migration with dual classical/post-quantum signatures
+- [HIPAA Compliance for Healthcare SaaS](https://www.tusharagrawal.in/blog/hipaa-compliance-healthcare-saas): Practical compliance engineering for health platforms
+- [System Design Interview Guide](https://www.tusharagrawal.in/blog/system-design-interview-guide): Structured approach to system design interviews
+- [Python asyncio Complete Guide](https://www.tusharagrawal.in/blog/python-asyncio-complete-guide): Concurrency in Python from first principles
+- [Building Backends for AI Agents: Idempotency, Retries, State](https://www.tusharagrawal.in/blog/building-backends-for-ai-agents-idempotency-retries-state): Designing agent-safe backend APIs
+- [FOMOA AI: Complete Guide & Features](https://www.tusharagrawal.in/blog/fomoa-ai-complete-guide-features-2026): India-first AI search engine project
+
+## Optional
+
+- [llms-full.txt](https://www.tusharagrawal.in/llms-full.txt): Full text of every published blog post
+- [llm.txt](https://www.tusharagrawal.in/llm.txt): Extended Q&A-format profile (skills, projects, experience, recruiter info)
+- [Sitemap](https://www.tusharagrawal.in/sitemap.xml): All indexed pages

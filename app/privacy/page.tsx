@@ -1,17 +1,35 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Tushar Agrawal",
   description: "Privacy policy for tusharagrawal.in — what data is collected, how cookies are used, and your choices.",
   alternates: { canonical: "/privacy" },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: "Privacy Policy | Tushar Agrawal",
+    description: "Privacy policy for tusharagrawal.in — what data is collected, how cookies are used, and your choices.",
+    url: "/privacy",
+    type: "website",
+    siteName: "Tushar Agrawal",
+  },
+  twitter: {
+    card: "summary",
+    title: "Privacy Policy | Tushar Agrawal",
+    description: "Privacy policy for tusharagrawal.in — what data is collected, how cookies are used, and your choices.",
+  },
 };
 
 export default function PrivacyPage() {
   const updated = "June 2026";
+  const breadcrumbSchema = breadcrumbJsonLd([{ name: "Privacy Policy", path: "/privacy" }]);
   return (
     <div className="min-h-screen" style={{ background: "var(--background)", color: "var(--text-primary)" }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="clay-container pt-32 pb-24 max-w-3xl">
         <p className="clay-eyebrow mb-4">Legal</p>
         <h1 className="clay-h2 mb-3">Privacy Policy</h1>
