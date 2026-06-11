@@ -525,10 +525,16 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
   }, []);
 
   // ── Ambient helpers ──
+  // Background music is strictly secondary — it must NEVER be able to throw and
+  // block narration, so every call into the audio engine is guarded.
   const startAmbient = useCallback(() => {
     if (!ambientOnRef.current) return;
-    if (!ambientRef.current) ambientRef.current = new AmbientEngine(presetRef.current);
-    ambientRef.current.start(ambientGain(ambientVol));
+    try {
+      if (!ambientRef.current) ambientRef.current = new AmbientEngine(presetRef.current);
+      ambientRef.current.start(ambientGain(ambientVol));
+    } catch {
+      ambientRef.current = null;
+    }
   }, [ambientVol]);
 
   // Switch the background soundtrack live (crossfades if playing).
@@ -536,7 +542,9 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
     setPreset(p);
     presetRef.current = p;
     try { localStorage.setItem('reader:preset', p.id); } catch { /* */ }
-    if (ambientRef.current && ambientOnRef.current) ambientRef.current.switchPreset(p);
+    try {
+      if (ambientRef.current && ambientOnRef.current) ambientRef.current.switchPreset(p);
+    } catch { /* music failure must not affect playback */ }
   }, []);
 
   // ── Media Session (lock screen / keyboard media keys) ──
@@ -620,9 +628,10 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
     synth.cancel();
     setIsPlaying(true); setIsPaused(false); playingRef.current = true; setElapsed(0);
     setIsActive(true);
-    startAmbient();
-    setupMediaSession();
+    // Speak FIRST so narration starts even if the optional music engine fails.
     speak(chunkRef.current);
+    setupMediaSession();
+    startAmbient();
   }, [hasFile, ensureAudioEl, isPaused, speak, startAmbient, setupMediaSession]);
 
   const pause = useCallback(() => {

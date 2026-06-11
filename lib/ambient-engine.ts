@@ -192,29 +192,35 @@ export class AmbientEngine {
       this.resume();
       return;
     }
-    const Ctx = window.AudioContext || (window as Win).webkitAudioContext;
-    if (!Ctx) return;
-    const ctx = new Ctx();
-    this.ctx = ctx;
-    const now = ctx.currentTime;
+    // Background music is best-effort; any Web Audio failure must degrade to
+    // silence, never bubble up and interrupt narration.
+    try {
+      const Ctx = window.AudioContext || (window as Win).webkitAudioContext;
+      if (!Ctx) return;
+      const ctx = new Ctx();
+      this.ctx = ctx;
+      const now = ctx.currentTime;
 
-    const master = ctx.createGain();
-    master.gain.setValueAtTime(0, now);
-    master.gain.linearRampToValueAtTime(this.level(), now + 4);
-    master.connect(ctx.destination);
-    this.master = master;
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0, now);
+      master.gain.linearRampToValueAtTime(this.level(), now + 4);
+      master.connect(ctx.destination);
+      this.master = master;
 
-    // breathing swell on the master
-    const swellLfo = ctx.createOscillator();
-    swellLfo.frequency.setValueAtTime(0.025, now);
-    const swellDepth = ctx.createGain();
-    swellDepth.gain.setValueAtTime(0.16, now);
-    swellLfo.connect(swellDepth);
-    swellDepth.connect(master.gain);
-    swellLfo.start();
-    this.stoppables.push(swellLfo);
+      // breathing swell on the master
+      const swellLfo = ctx.createOscillator();
+      swellLfo.frequency.setValueAtTime(0.025, now);
+      const swellDepth = ctx.createGain();
+      swellDepth.gain.setValueAtTime(0.16, now);
+      swellLfo.connect(swellDepth);
+      swellDepth.connect(master.gain);
+      swellLfo.start();
+      this.stoppables.push(swellLfo);
 
-    this.buildPresetGraph();
+      this.buildPresetGraph();
+    } catch {
+      this.stop();
+    }
   }
 
   private level() {
