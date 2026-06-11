@@ -64,6 +64,21 @@ interface SubtitleCue {
   text: string;
 }
 
+// Split text into sentences with their character offsets, so speech-synthesis
+// `boundary` events (which report a charIndex) can map to the exact sentence
+// being spoken — giving synced subtitles without a pre-generated SRT.
+function splitSentences(text: string): { text: string; start: number; end: number }[] {
+  const out: { text: string; start: number; end: number }[] = [];
+  const re = /[^.!?\n]+[.!?]*[\s\n]*/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    const t = m[0].trim();
+    if (t) out.push({ text: t, start: m.index, end: m.index + m[0].length });
+    if (m.index === re.lastIndex) re.lastIndex++;
+  }
+  return out.length ? out : [{ text, start: 0, end: text.length }];
+}
+
 function parseSrt(srt: string): SubtitleCue[] {
   const cues: SubtitleCue[] = [];
   const toSec = (h: string, m: string, s: string, ms: string) =>
@@ -500,7 +515,11 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
     const synth = window.speechSynthesis;
     const chunk = chunksRef.current[idx];
     const { rate, pitch } = getProsody(chunk.type, speedRef.current);
-    setCurrentText(chunk.text);
+
+    // Sentence-level subtitles: show the first sentence now, then follow the
+    // voice via boundary events (Chrome/Edge/Safari fire these per word).
+    const sentences = splitSentences(chunk.text);
+    setCurrentText(sentences[0]?.text || chunk.text);
 
     const u = new SpeechSynthesisUtterance(chunk.text);
     u.rate = Math.max(0.1, Math.min(10, rate));
@@ -509,6 +528,12 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
     u.lang = 'en-US';
     const v = synth.getVoices().find((x) => x.name === voiceRef.current);
     if (v) u.voice = v;
+
+    u.onboundary = (e) => {
+      const ci = e.charIndex ?? 0;
+      const s = sentences.find((sen) => ci >= sen.start && ci < sen.end);
+      if (s) setCurrentText(s.text);
+    };
 
     u.onend = () => {
       if (!playingRef.current) return;
@@ -586,8 +611,9 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
         if (i >= cues.length || cues[i].start > t) i = 0;
         while (i < cues.length - 1 && cues[i].end < t) i++;
         cueIdxRef.current = i;
-        const cue = cues[i];
-        setCurrentText(cue.start <= t && t <= cue.end + 0.3 ? cue.text : '');
+        // Keep the nearest sentence on screen (no flicker to blank in the small
+        // gaps between cues) until the very start, where we show the first cue.
+        setCurrentText(cues[i].text);
       }
     });
     a.addEventListener('ended', () => {
@@ -874,18 +900,18 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
                 </div>
 
                 {/* Synced subtitles — fixed height so the card never jumps */}
-                <div className="px-5 pt-3 min-h-[3.5rem] flex items-center justify-center">
+                <div className="px-5 pt-3 min-h-[5rem] flex items-center justify-center">
                   {currentText ? (
                     <p
                       key={currentText}
-                      className="subtitle-line text-sm text-center leading-relaxed line-clamp-2"
-                      style={{ color: 'var(--text-secondary)' }}
+                      className="subtitle-line text-center font-medium leading-snug line-clamp-3"
+                      style={{ color: 'var(--text-primary)', fontSize: '1.05rem' }}
                     >
                       {currentText.replace(/\.\.\./g, '').trim()}
                     </p>
                   ) : (
-                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                      {playingNow ? '…' : 'Press play to listen'}
+                    <p className="text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+                      {playingNow ? '♪' : 'Press play to listen'}
                     </p>
                   )}
                 </div>
