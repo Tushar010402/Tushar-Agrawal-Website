@@ -76,13 +76,21 @@ const nextConfig: NextConfig = {
             value: 'max-age=63072000; includeSubDomains; preload',
           },
           {
-            // Defense-in-depth that does NOT restrict scripts/styles/images
-            // (Next.js needs inline scripts), so it cannot break the app, but
-            // still closes real vectors: plugin/object injection, <base> tag
-            // hijacking, clickjacking, form-action hijacking, and mixed content.
+            // NOTE: this app relies on inline styles (the whole theme uses
+            // style={{}} with CSS vars) and Next.js injects inline bootstrap
+            // scripts — so script-src/style-src MUST allow 'unsafe-inline'.
+            // The hardening value is in the object/base/frame/form directives,
+            // which close real vectors without breaking anything.
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: https:",
+              "font-src 'self' data:",
+              "media-src 'self'",
+              "connect-src 'self' https:",
+              "frame-src 'self' https://giscus.app",
               "object-src 'none'",
               "base-uri 'self'",
               "frame-ancestors 'none'",
