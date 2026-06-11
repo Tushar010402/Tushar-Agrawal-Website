@@ -5,7 +5,8 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { Counter, Marquee, RotatingWord } from "@/components/ui/visuals/motion-bits";
-import { HeroBlobs } from "@/components/ui/visuals/hero-blobs";
+import { AuroraRidge } from "@/components/ui/visuals/aurora-ridge";
+import { CardSheen, FocusText, ParallaxCover } from "@/components/ui/visuals/cinematic-bits";
 
 // Chat is below-the-fold UX; keep its 400+ lines + framer-motion out of first-load JS.
 const AIChatFab = dynamic(() => import("@/components/ui/ai-chat-fab").then((m) => m.AIChatFab), {
@@ -163,9 +164,10 @@ export default function Home() {
 
       {/* ===== Hero ===== */}
       <section id="home" className="relative overflow-hidden pt-40 pb-24 md:pt-52 md:pb-32">
-        {/* Living, video-style animated gradient mesh */}
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ opacity: 0.5 }}>
-          <HeroBlobs />
+        {/* Live shader scene: layered ridgelines, fog and light rays, panned by scroll.
+            Falls back to the pure-CSS blobs when WebGL is unavailable. */}
+        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+          <AuroraRidge />
         </div>
         {/* Faint crisp grid backdrop — designed, not muddy */}
         <div
@@ -227,11 +229,11 @@ export default function Home() {
       <section id="about" className="clay-container py-16 md:py-24">
         <Reveal>
           <hr className="clay-rule mb-16" />
-          <p className="clay-statement max-w-5xl">
+          <FocusText as="p" className="clay-statement max-w-5xl">
             Full-Stack Engineer at <span className="text-theme">Dr. Dangs Lab</span>, building
             systems that serve <span className="text-theme">500+ daily patients</span> and{" "}
             <span className="text-theme">80+ businesses</span> — reliably, securely, at scale.
-          </p>
+          </FocusText>
         </Reveal>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-8 mt-20">
@@ -259,15 +261,18 @@ export default function Home() {
           {projects.map((p, i) => (
             <Reveal key={p.name} delay={(i % 2) * 0.1}>
               <Link href={p.href} className="clay-card group block h-full overflow-hidden">
-                {/* Poster cover art */}
-                <div className="relative h-48 md:h-56 overflow-hidden">
-                  <img
-                    src={p.image}
-                    alt={`${p.name} cover`}
-                    loading="lazy"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35), transparent 55%)" }} />
+                <CardSheen />
+                {/* Poster cover art — drifts against scroll like a camera move */}
+                <div className="relative h-48 md:h-56">
+                  <ParallaxCover className="absolute inset-0">
+                    <img
+                      src={p.image}
+                      alt={`${p.name} cover`}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  </ParallaxCover>
+                  <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35), transparent 55%)" }} />
                   <span className="absolute bottom-4 left-5 text-white/85 text-sm font-medium">{p.year}</span>
                   <ArrowUpRight className="absolute top-5 right-5 w-6 h-6 text-white/90 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </div>
@@ -349,6 +354,7 @@ export default function Home() {
             {writing.map((w, i) => (
               <Reveal key={w.href} delay={i * 0.1}>
                 <Link href={w.href} className="clay-card group block h-full p-7">
+                  <CardSheen />
                   <span className="clay-eyebrow">{w.tag}</span>
                   <h3 className="text-xl font-semibold mt-4 leading-snug tracking-tight group-hover:text-theme-accent transition-colors">
                     {w.title}
@@ -367,7 +373,9 @@ export default function Home() {
       <section id="contact" className="clay-container clay-section text-center">
         <Reveal>
           <p className="clay-eyebrow mb-8">Get in touch</p>
-          <h2 className="clay-display mb-10">Let&apos;s build something.</h2>
+          <h2 className="clay-display mb-10">
+            <FocusText>Let&apos;s build something.</FocusText>
+          </h2>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <a href="mailto:tusharagrawal0104@gmail.com" className="clay-btn clay-btn-dark">
               tusharagrawal0104@gmail.com <ArrowUpRight className="w-4 h-4" />
@@ -376,7 +384,7 @@ export default function Home() {
           <div className="flex items-center justify-center gap-8 mt-12 text-theme-secondary">
             <a href="https://www.linkedin.com/in/tushar-agrawal-91b67a28a" target="_blank" rel="noopener noreferrer" className="clay-link">LinkedIn</a>
             <a href="https://github.com/Tushar010402" target="_blank" rel="noopener noreferrer" className="clay-link">GitHub</a>
-            <a href="/blog" className="clay-link">Blog</a>
+            <Link href="/blog" className="clay-link">Blog</Link>
           </div>
         </Reveal>
       </section>

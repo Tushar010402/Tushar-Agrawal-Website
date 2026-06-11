@@ -56,29 +56,78 @@ export function Counter({ value, suffix = "", className }: { value: number; suff
   );
 }
 
-/** Seamless horizontal marquee. Renders the children twice for a loop. */
+/** Seamless horizontal marquee. Renders the children twice for a loop.
+ *  Coupled to scroll velocity: scrolling skews the track and scrubs the loop
+ *  faster (or backwards), so the ticker reads like a camera pan. The rAF loop
+ *  only runs while the marquee is visible AND velocity is non-zero. */
 export function Marquee({ children, className }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  // Pause the CSS animation when scrolled out of view — no reason to composite
-  // a moving layer nobody can see.
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
     const track = el.querySelector<HTMLElement>(".marquee-track");
-    if (!track) return;
+    const skewEl = el.querySelector<HTMLElement>(".marquee-skew");
+    if (!track || !skewEl) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const anim = typeof track.getAnimations === "function" ? track.getAnimations()[0] : undefined;
+    let visible = false;
+    let raf = 0;
+    let vel = 0;
+    let lastY = window.scrollY;
+
+    const loop = () => {
+      raf = 0;
+      if (!visible) return;
+      const y = window.scrollY;
+      const dy = Math.max(-120, Math.min(120, y - lastY));
+      lastY = y;
+      vel += (dy - vel) * 0.12;
+      vel *= 0.92;
+      if (Math.abs(vel) < 0.05 && dy === 0) {
+        skewEl.style.transform = "";
+        if (anim) {
+          anim.playbackRate = 1;
+          anim.play(); // clears a finished state if reverse playback hit time 0
+        }
+        return;
+      }
+      const skew = Math.max(-12, Math.min(12, vel * 0.5));
+      skewEl.style.transform = `skewX(${skew.toFixed(2)}deg)`;
+      if (anim) anim.playbackRate = Math.max(-2, Math.min(4, 1 + vel * 0.08));
+      raf = requestAnimationFrame(loop);
+    };
+    const kick = () => {
+      if (visible && !raf && !reduce) raf = requestAnimationFrame(loop);
+    };
+
+    // Pause the CSS animation when scrolled out of view — no reason to composite
+    // a moving layer nobody can see.
     const observer = new IntersectionObserver(([entry]) => {
-      track.style.animationPlayState = entry.isIntersecting ? "running" : "paused";
+      visible = entry.isIntersecting;
+      track.style.animationPlayState = visible ? "running" : "paused";
+      if (visible) {
+        lastY = window.scrollY;
+        kick();
+      }
     });
     observer.observe(el);
-    return () => observer.disconnect();
+    window.addEventListener("scroll", kick, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", kick);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
     <div ref={ref} className={`marquee-mask overflow-hidden ${className ?? ""}`}>
-      <div className="marquee-track">
-        <span className="flex items-center">{children}</span>
-        <span className="flex items-center" aria-hidden="true">{children}</span>
+      <div className="marquee-skew">
+        <div className="marquee-track">
+          <span className="flex items-center">{children}</span>
+          <span className="flex items-center" aria-hidden="true">{children}</span>
+        </div>
       </div>
     </div>
   );
