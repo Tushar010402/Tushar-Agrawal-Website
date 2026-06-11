@@ -60,7 +60,7 @@ export function Counter({ value, suffix = "", className }: { value: number; suff
  *  Coupled to scroll velocity: scrolling skews the track and scrubs the loop
  *  faster (or backwards), so the ticker reads like a camera pan. The rAF loop
  *  only runs while the marquee is visible AND velocity is non-zero. */
-export function Marquee({ children, className }: { children: ReactNode; className?: string }) {
+export function Marquee({ children, className, reverse = false }: { children: ReactNode; className?: string; reverse?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -124,7 +124,7 @@ export function Marquee({ children, className }: { children: ReactNode; classNam
   return (
     <div ref={ref} className={`marquee-mask overflow-hidden ${className ?? ""}`}>
       <div className="marquee-skew">
-        <div className="marquee-track">
+        <div className={`marquee-track ${reverse ? "marquee-track-reverse" : ""}`}>
           <span className="flex items-center">{children}</span>
           <span className="flex items-center" aria-hidden="true">{children}</span>
         </div>

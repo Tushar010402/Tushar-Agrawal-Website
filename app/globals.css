@@ -887,6 +887,88 @@ section[id],
   opacity: 1;
 }
 
+/* Lenis owns wheel smoothing when active — CSS smooth would double-handle */
+html.lenis {
+  scroll-behavior: auto !important;
+}
+
+/* Cursor aura: accent dot + trailing ring (desktop fine pointers only) */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 80;
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--accent);
+}
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border: 1px solid color-mix(in srgb, var(--accent) 65%, transparent);
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+/* Hero exit: the scene swells and dissolves as it scrolls away (zero JS) */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-exit {
+      animation: hero-exit linear both;
+      animation-timeline: scroll();
+      animation-range: 0 100vh;
+    }
+    .hero-content-exit {
+      animation: hero-content-exit linear both;
+      animation-timeline: scroll();
+      animation-range: 0 80vh;
+    }
+  }
+}
+@keyframes hero-exit {
+  to { transform: scale(1.12) translateY(7vh); opacity: 0.1; }
+}
+@keyframes hero-content-exit {
+  to { transform: translateY(-9vh); opacity: 0; }
+}
+
+/* Cards pop in: rise + settle from a slight scale as they enter the viewport */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .pop-reveal {
+      animation: pop-rise both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 26%;
+    }
+  }
+}
+@keyframes pop-rise {
+  from { opacity: 0; transform: translateY(38px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Big stat numbers in gradient ink */
+.stat-ink {
+  background: linear-gradient(115deg, var(--accent), var(--accent-hover) 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Reading-position hairline under the navbar — CSS scroll timeline, zero JS */
 .scroll-progress {
   display: none;
@@ -1047,6 +1129,10 @@ section[id],
   /* Own GPU layer: text rasterizes once, then only the transform changes per frame */
   will-change: transform;
   transform: translateZ(0);
+}
+.marquee-track-reverse {
+  animation-direction: reverse;
+  animation-duration: 36s;
 }
 /* Edge fades as static overlay layers — NOT mask-image: masking a continuously
    animating subtree forces a re-composite through the mask every frame, which

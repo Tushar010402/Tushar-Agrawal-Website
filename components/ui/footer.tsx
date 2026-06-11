@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  // The homepage ends on its own full-screen contact scene — repeating the
+  // same CTA in the footer right below it reads as a bug.
+  const showCta = usePathname() !== "/";
 
   const navigationLinks = [
     { name: "Home", href: "/" },
@@ -67,19 +71,23 @@ export const Footer = () => {
   return (
     <footer className="border-t transition-theme" style={{ borderColor: "var(--border)", background: "var(--background)" }}>
       <div className="clay-container py-20 md:py-28">
-        {/* Big CTA */}
-        <p className="clay-eyebrow mb-6">Get in touch</p>
-        <a href="mailto:tusharagrawal0104@gmail.com" className="clay-h2 inline-block group">
-          Let&apos;s build something
-          <span className="text-theme-tertiary group-hover:text-theme-accent transition-colors">.</span>
-        </a>
-        <div className="mt-10">
-          <a href="mailto:tusharagrawal0104@gmail.com" className="clay-btn clay-btn-dark">
-            tusharagrawal0104@gmail.com
-          </a>
-        </div>
+        {showCta && (
+          <>
+            {/* Big CTA */}
+            <p className="clay-eyebrow mb-6">Get in touch</p>
+            <a href="mailto:tusharagrawal0104@gmail.com" className="clay-h2 inline-block group">
+              Let&apos;s build something
+              <span className="text-theme-tertiary group-hover:text-theme-accent transition-colors">.</span>
+            </a>
+            <div className="mt-10">
+              <a href="mailto:tusharagrawal0104@gmail.com" className="clay-btn clay-btn-dark">
+                tusharagrawal0104@gmail.com
+              </a>
+            </div>
 
-        <hr className="clay-rule my-16" />
+            <hr className="clay-rule my-16" />
+          </>
+        )}
 
         {/* Columns */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8">

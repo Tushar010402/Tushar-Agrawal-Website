@@ -117,6 +117,131 @@ export function CardSheen() {
   return <div ref={ref} aria-hidden="true" className="card-sheen" />;
 }
 
+/* ---- 3D tilt ------------------------------------------------------------ */
+
+/**
+ * Perspective tilt that follows the pointer — cards become physical objects.
+ * Springs back to flat on leave. Hover-capable fine pointers only.
+ */
+export function Tilt3D({
+  children,
+  className = "",
+  max = 6,
+}: {
+  children: ReactNode;
+  className?: string;
+  /** max tilt in degrees */
+  max?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let raf = 0;
+    let rx = 0, ry = 0, tx = 0, ty = 0;
+    const update = () => {
+      raf = 0;
+      rx += (tx - rx) * 0.16;
+      ry += (ty - ry) * 0.16;
+      el.style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      if (Math.abs(tx - rx) > 0.04 || Math.abs(ty - ry) > 0.04) {
+        raf = requestAnimationFrame(update);
+      } else if (tx === 0 && ty === 0) {
+        el.style.transform = "";
+      }
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(update); };
+    const move = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      tx = -py * max * 2;
+      ty = px * max * 2;
+      kick();
+    };
+    const leave = () => { tx = 0; ty = 0; kick(); };
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerleave", leave);
+    return () => {
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerleave", leave);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [max]);
+
+  return (
+    <div ref={ref} className={`will-change-transform ${className}`} style={{ transformStyle: "preserve-3d" }}>
+      {children}
+    </div>
+  );
+}
+
+/* ---- Cursor aura ---------------------------------------------------------- */
+
+/**
+ * A soft accent dot + trailing ring that follows the pointer and swells over
+ * interactive elements. Accompanies (never replaces) the native cursor.
+ * Desktop fine-pointer only; the loop sleeps whenever the cursor settles.
+ */
+export function CursorAura() {
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const dot = dotRef.current;
+    const ring = ringRef.current;
+    if (!dot || !ring) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let x = -100, y = -100, rx = -100, ry = -100;
+    let scale = 1, tScale = 1;
+    let raf = 0;
+    const loop = () => {
+      raf = 0;
+      rx += (x - rx) * 0.16;
+      ry += (y - ry) * 0.16;
+      scale += (tScale - scale) * 0.18;
+      dot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) scale(${scale.toFixed(3)})`;
+      if (Math.abs(x - rx) > 0.2 || Math.abs(y - ry) > 0.2 || Math.abs(tScale - scale) > 0.01) {
+        raf = requestAnimationFrame(loop);
+      }
+    };
+    const move = (e: PointerEvent) => {
+      x = e.clientX;
+      y = e.clientY;
+      const t = e.target as HTMLElement | null;
+      tScale = t?.closest?.("a, button, [role='button'], input, select, textarea") ? 1.9 : 1;
+      dot.style.opacity = "1";
+      ring.style.opacity = "1";
+      if (!raf) raf = requestAnimationFrame(loop);
+    };
+    const out = () => {
+      dot.style.opacity = "0";
+      ring.style.opacity = "0";
+    };
+    window.addEventListener("pointermove", move, { passive: true });
+    document.documentElement.addEventListener("pointerleave", out);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      document.documentElement.removeEventListener("pointerleave", out);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  return (
+    <>
+      <div ref={dotRef} aria-hidden="true" className="cursor-dot" />
+      <div ref={ringRef} aria-hidden="true" className="cursor-ring" />
+    </>
+  );
+}
+
 /* ---- Parallax cover ----------------------------------------------------- */
 
 /**

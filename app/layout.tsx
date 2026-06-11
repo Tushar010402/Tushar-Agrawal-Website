@@ -5,6 +5,7 @@ import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/ui/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { CookieConsent } from "@/components/ui/cookie-consent";
+import { SmoothScroll } from "@/components/ui/visuals/smooth-scroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -299,6 +300,7 @@ export default function RootLayout({
         style={{ background: "var(--background)", color: "var(--text-primary)" }}
       >
         <ThemeProvider>
+          <SmoothScroll />
           <Navbar />
           <main className="flex-1">
             {children}

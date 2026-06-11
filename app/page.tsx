@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { Counter, Marquee, RotatingWord } from "@/components/ui/visuals/motion-bits";
 import { AuroraRidge } from "@/components/ui/visuals/aurora-ridge";
-import { CardSheen, FocusText, ParallaxCover } from "@/components/ui/visuals/cinematic-bits";
+import { CardSheen, CursorAura, FocusText, ParallaxCover, Tilt3D } from "@/components/ui/visuals/cinematic-bits";
 
 // Chat is below-the-fold UX; keep its 400+ lines + framer-motion out of first-load JS.
 const AIChatFab = dynamic(() => import("@/components/ui/ai-chat-fab").then((m) => m.AIChatFab), {
@@ -164,12 +164,14 @@ export default function Home() {
 
       {/* Reading-position hairline (CSS scroll timeline — zero JS) */}
       <div aria-hidden="true" className="scroll-progress" />
+      <CursorAura />
 
       {/* ===== Hero — full-screen live-rendered mountain scene ===== */}
       <section id="home" className="relative overflow-hidden min-h-[100svh] flex items-center pt-28 pb-24">
         {/* Live shader scene: layered ridgelines, fog and light rays, panned by scroll.
-            Falls back to the pure-CSS blobs when WebGL is unavailable. */}
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+            Falls back to the pure-CSS blobs when WebGL is unavailable.
+            .hero-exit: the scene swells + dissolves as you scroll past (scroll timeline). */}
+        <div aria-hidden="true" className="hero-exit absolute inset-0 pointer-events-none">
           <AuroraRidge />
         </div>
         {/* Legibility scrim — anchors the headline against the bright sky */}
@@ -181,7 +183,7 @@ export default function Home() {
               "linear-gradient(to bottom, color-mix(in srgb, var(--background) 72%, transparent) 0%, color-mix(in srgb, var(--background) 38%, transparent) 45%, transparent 72%)",
           }}
         />
-        <div className="clay-container relative w-full">
+        <div className="hero-content-exit clay-container relative w-full">
           <p className="clay-rise clay-eyebrow mb-8 inline-flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full" style={{ background: "var(--success)" }} />
             Tushar Agrawal — Full-Stack Engineer · New Delhi, India
@@ -223,13 +225,21 @@ export default function Home() {
         </a>
       </section>
 
-      {/* ===== Tech marquee ===== */}
-      <section aria-label="Technologies" className="py-6 border-y" style={{ borderColor: "var(--border)" }}>
+      {/* ===== Tech marquee — two counter-scrolling rows ===== */}
+      <section aria-label="Technologies" className="py-6 border-y space-y-3" style={{ borderColor: "var(--border)" }}>
         <Marquee>
           {techStack.map((t) => (
             <span key={t} className="mx-6 text-xl md:text-2xl font-medium text-theme-tertiary">
               {t}
               <span className="mx-6 text-theme-muted">/</span>
+            </span>
+          ))}
+        </Marquee>
+        <Marquee reverse>
+          {[...techStack].reverse().map((t) => (
+            <span key={t} className="mx-5 text-sm md:text-base font-medium text-theme-muted">
+              {t}
+              <span className="mx-5">·</span>
             </span>
           ))}
         </Marquee>
@@ -250,7 +260,7 @@ export default function Home() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-8 mt-20">
           {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
-              <Counter value={s.num} suffix={s.suffix} className="clay-stat block text-[var(--accent)]" />
+              <Counter value={s.num} suffix={s.suffix} className="clay-stat stat-ink block" />
               <div className="text-theme-secondary mt-2 text-sm md:text-base">{s.label}</div>
             </Reveal>
           ))}
@@ -270,9 +280,10 @@ export default function Home() {
 
         <div id="projects" className="grid md:grid-cols-2 gap-6 lg:gap-8">
           {projects.map((p, i) => (
-            <Reveal key={p.name} delay={(i % 2) * 0.1}>
-              <Link href={p.href} className="clay-card group block h-full overflow-hidden">
-                <CardSheen />
+            <Reveal key={p.name} delay={(i % 2) * 0.1} className="pop-reveal h-full">
+              <Tilt3D className="h-full" max={5}>
+                <Link href={p.href} className="clay-card group block h-full overflow-hidden">
+                  <CardSheen />
                 {/* Poster cover art — drifts against scroll like a camera move */}
                 <div className="relative h-48 md:h-56">
                   <ParallaxCover className="absolute inset-0">
@@ -302,7 +313,8 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-              </Link>
+                </Link>
+              </Tilt3D>
             </Reveal>
           ))}
         </div>
@@ -369,17 +381,19 @@ export default function Home() {
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {writing.map((w, i) => (
-              <Reveal key={w.href} delay={i * 0.1}>
-                <Link href={w.href} className="clay-card group block h-full p-7">
-                  <CardSheen />
-                  <span className="clay-eyebrow">{w.tag}</span>
+              <Reveal key={w.href} delay={i * 0.1} className="pop-reveal h-full">
+                <Tilt3D className="h-full" max={5}>
+                  <Link href={w.href} className="clay-card group block h-full p-7">
+                    <CardSheen />
+                    <span className="clay-eyebrow">{w.tag}</span>
                   <h3 className="text-xl font-semibold mt-4 leading-snug tracking-tight group-hover:text-theme-accent transition-colors">
                     {w.title}
                   </h3>
                   <span className="inline-flex items-center gap-1 mt-6 text-theme-secondary text-sm">
                     Read <ArrowUpRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </span>
-                </Link>
+                  </Link>
+                </Tilt3D>
               </Reveal>
             ))}
           </div>
