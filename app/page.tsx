@@ -162,27 +162,23 @@ export default function Home() {
     <div className="w-full" style={{ background: "var(--background)", color: "var(--text-primary)" }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* ===== Hero ===== */}
-      <section id="home" className="relative overflow-hidden pt-40 pb-24 md:pt-52 md:pb-32">
+      {/* ===== Hero — full-screen live-rendered mountain scene ===== */}
+      <section id="home" className="relative overflow-hidden min-h-[100svh] flex items-center pt-28 pb-24">
         {/* Live shader scene: layered ridgelines, fog and light rays, panned by scroll.
             Falls back to the pure-CSS blobs when WebGL is unavailable. */}
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
           <AuroraRidge />
         </div>
-        {/* Faint crisp grid backdrop — designed, not muddy */}
+        {/* Legibility scrim — anchors the headline against the bright sky */}
         <div
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage:
-              "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
-            backgroundSize: "clamp(48px, 7vw, 96px) clamp(48px, 7vw, 96px)",
-            maskImage: "radial-gradient(120% 90% at 30% 10%, #000 30%, transparent 80%)",
-            WebkitMaskImage: "radial-gradient(120% 90% at 30% 10%, #000 30%, transparent 80%)",
-            opacity: 0.6,
+            background:
+              "linear-gradient(to bottom, color-mix(in srgb, var(--background) 72%, transparent) 0%, color-mix(in srgb, var(--background) 38%, transparent) 45%, transparent 72%)",
           }}
         />
-        <div className="clay-container relative">
+        <div className="clay-container relative w-full">
           <p className="clay-rise clay-eyebrow mb-8 inline-flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full" style={{ background: "var(--success)" }} />
             Tushar Agrawal — Full-Stack Engineer · New Delhi, India
@@ -211,6 +207,17 @@ export default function Home() {
             </a>
           </div>
         </div>
+
+        {/* Scroll cue */}
+        <a
+          href="#about"
+          aria-label="Scroll to content"
+          className="clay-rise clay-rise-4 scroll-cue absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          style={{ color: "var(--text-tertiary)" }}
+        >
+          <span className="text-[10px] uppercase tracking-[0.2em]">Scroll</span>
+          <span className="scroll-cue-line" />
+        </a>
       </section>
 
       {/* ===== Tech marquee ===== */}

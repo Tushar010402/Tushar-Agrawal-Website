@@ -55,41 +55,44 @@ float ridge(float x, float seed) {
 void main() {
   vec2 uv = gl_FragCoord.xy / uRes;
   float aspect = uRes.x / uRes.y;
+  /* Angular x: peaks keep a consistent visual size on any screen — phones get
+     a few bold mountains instead of a squeezed busy ridgeline. */
+  float xx = uv.x * aspect;
 
-  vec3 sky = mix(uSkyA, uSkyB, pow(1.0 - uv.y, 1.7));
+  vec3 sky = mix(uSkyA, uSkyB, pow(1.0 - uv.y, 1.6));
 
-  vec2 sun = vec2(0.70, 0.52);
+  vec2 sun = vec2(0.68, 0.55);
   vec2 sv = vec2((uv.x - sun.x) * aspect, uv.y - sun.y);
   float d = length(sv);
-  sky += uGlow * exp(-d * 4.5) * 0.45;
-  sky += uGlow * exp(-d * 1.6) * 0.12;
+  sky += uGlow * exp(-d * 4.0) * 0.48;
+  sky += uGlow * exp(-d * 1.4) * 0.14;
 
   /* Light rays: two interfering angular waves rotating around the sun. */
   float ang = atan(sv.y, sv.x);
   float rays = (sin(ang * 13.0 - uTime * 0.30) * 0.5 + 0.5)
              * (sin(ang * 5.0 + uTime * 0.18) * 0.5 + 0.5);
-  sky += uGlow * rays * exp(-d * 2.4) * smoothstep(0.04, 0.30, d) * 0.35;
+  sky += uGlow * rays * exp(-d * 2.0) * smoothstep(0.04, 0.30, d) * 0.38;
 
   vec3 col = sky;
   for (int i = 0; i < 4; i++) {
     float depth = float(i) / 3.0; /* 0 = far, 1 = near */
     /* Scroll pans the camera: far layers drift slower than near ones. */
-    float x = uv.x * mix(0.9, 1.7, depth) + uScroll * mix(0.06, 0.22, depth);
-    float h = mix(0.60, 0.18, depth)
+    float x = xx * mix(0.9, 1.7, depth) + uScroll * mix(0.06, 0.22, depth);
+    float h = mix(0.52, 0.14, depth)
             + (ridge(x, float(i) + 1.0) - 0.5) * mix(0.30, 0.46, depth);
     float m = smoothstep(h + 0.004, h - 0.004, uv.y);
     vec3 rc = mix(uRidgeA, uRidgeB, depth);
     /* Fog rolls slowly through the valleys. */
     float breathe = 0.85 + 0.3 * noise(vec2(uv.x * 2.5 + uTime * 0.05, float(i) * 4.0));
-    float fog = mix(0.80, 0.10, depth) * smoothstep(h - 0.30, h + 0.05, uv.y) * breathe;
+    float fog = mix(0.72, 0.08, depth) * smoothstep(h - 0.30, h + 0.05, uv.y) * breathe;
     rc = mix(rc, sky, clamp(fog, 0.0, 1.0));
     /* Rim light along each crest. */
-    rc += uGlow * exp(-abs(uv.y - h) * 70.0) * (0.30 - depth * 0.16);
+    rc += uGlow * exp(-abs(uv.y - h) * 60.0) * (0.42 - depth * 0.2);
     col = mix(col, rc, m);
   }
 
-  float vig = smoothstep(1.35, 0.5, length(uv - vec2(0.5, 0.45)));
-  col *= mix(0.85, 1.0, vig);
+  float vig = smoothstep(1.4, 0.5, length(uv - vec2(0.5, 0.45)));
+  col *= mix(0.84, 1.0, vig);
   col += (hash(gl_FragCoord.xy * 0.7) - 0.5) * 0.012; /* dither kills banding */
   gl_FragColor = vec4(col, 1.0);
 }
@@ -129,18 +132,18 @@ function palette() {
   const lum = 0.2126 * bg[0] + 0.7152 * bg[1] + 0.0722 * bg[2];
   if (lum < 0.5) {
     return {
-      uSkyA: scale3(bg, 0.4),
-      uSkyB: mix3(bg, accent, 0.38),
-      uRidgeA: mix3(bg, accent, 0.18),
-      uRidgeB: scale3(bg, 0.3),
+      uSkyA: scale3(bg, 0.3),
+      uSkyB: mix3(bg, accent, 0.5),
+      uRidgeA: mix3(bg, accent, 0.22),
+      uRidgeB: scale3(bg, 0.22),
       uGlow: glow,
     };
   }
   return {
     uSkyA: bg,
-    uSkyB: mix3(bg, accent, 0.16),
-    uRidgeA: mix3(bg, accent, 0.12),
-    uRidgeB: scale3(mix3(bg, accent, 0.3), 0.92),
+    uSkyB: mix3(bg, accent, 0.2),
+    uRidgeA: mix3(bg, accent, 0.16),
+    uRidgeB: scale3(mix3(bg, accent, 0.34), 0.88),
     uGlow: accent,
   };
 }

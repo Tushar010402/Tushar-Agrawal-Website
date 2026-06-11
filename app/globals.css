@@ -884,7 +884,26 @@ section[id],
   mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
 }
 .aurora-ridge canvas.is-live {
-  opacity: 0.9;
+  opacity: 1;
+}
+
+/* Scroll cue: a thin line that draws itself downward, beckoning */
+.scroll-cue-line {
+  width: 1px;
+  height: 44px;
+  background: currentColor;
+  opacity: 0.7;
+  transform-origin: top;
+  animation: cue-draw 2.2s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+}
+@keyframes cue-draw {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-line { animation: none; }
 }
 
 /* ---- Focus-pull text: words sharpen out of a lens blur on first view ---- */
