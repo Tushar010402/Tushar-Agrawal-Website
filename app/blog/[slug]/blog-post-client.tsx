@@ -29,9 +29,13 @@ interface BlogPostClientProps {
   tagHubSlugs?: string[];
   /** Pre-generated neural narration (from public/audio/manifest.json), if available. */
   audio?: { file: string; duration?: number; captions?: string } | null;
+  /** Other narrated posts for "Up next" continuous listening. */
+  upNext?: { slug: string; title: string }[];
 }
 
-export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlugs = [], audio }: BlogPostClientProps) {
+export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlugs = [], audio, upNext }: BlogPostClientProps) {
+  // Auto-start narration when arriving from an "Up next" link (?play=1).
+  const autoPlay = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('play') === '1';
   const [copied, setCopied] = useState(false);
 
   // Format date
@@ -216,6 +220,9 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlu
                   audioUrl={audio?.file}
                   audioDuration={audio?.duration}
                   captionsUrl={audio?.captions}
+                  slug={blog.slug}
+                  upNext={upNext}
+                  autoPlay={autoPlay}
                 />
               </div>
 

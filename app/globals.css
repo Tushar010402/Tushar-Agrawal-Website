@@ -877,6 +877,15 @@ section[id],
   .subtitle-line { animation: none; }
 }
 
+/* ---- Horizontal scroller without a visible scrollbar (soundtrack picker) ---- */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* ---- Audio player EQ bars ---- */
 @keyframes eq-bounce {
   0%, 100% { transform: scaleY(0.4); }

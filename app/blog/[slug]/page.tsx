@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import BlogPostClient from './blog-post-client';
 import { getPostBySlug, getRelatedPosts, getAllSlugs, getAllPosts, getAllTagSlugs } from '@/lib/blog';
 import { renderMarkdownToHtml } from '@/lib/markdown';
-import { getAudioForSlug } from '@/lib/audio-manifest';
+import { getAudioForSlug, getNarratedSlugs } from '@/lib/audio-manifest';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tusharagrawal.in';
 
@@ -90,6 +90,16 @@ export default async function BlogPostPage({ params }: PageProps) {
   const blogUrl = `${siteUrl}/blog/${post.slug}`;
   const contentHtml = await renderMarkdownToHtml(post.content);
   const audio = getAudioForSlug(post.slug);
+
+  // "Up next" queue for continuous listening: other narrated posts, related first.
+  const narrated = new Set(getNarratedSlugs());
+  const upNext = [
+    ...relatedPosts.filter((p) => narrated.has(p.slug)),
+    ...allPosts.filter((p) => narrated.has(p.slug) && p.slug !== post.slug),
+  ]
+    .filter((p, i, arr) => p.slug !== post.slug && arr.findIndex((x) => x.slug === p.slug) === i)
+    .slice(0, 5)
+    .map((p) => ({ slug: p.slug, title: p.title }));
 
   // Generate JSON-LD structured data for BlogPosting
   const blogPostingSchema = {
@@ -240,6 +250,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         allBlogs={allBlogs}
         tagHubSlugs={getAllTagSlugs()}
         audio={audio}
+        upNext={upNext}
       />
     </>
   );

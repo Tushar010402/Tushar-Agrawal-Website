@@ -16,6 +16,13 @@ import {
   ChevronUp,
   ChevronDown,
 } from 'lucide-react';
+import {
+  AmbientEngine,
+  AMBIENT_PRESETS,
+  getPreset,
+  presetForSlug,
+  type AmbientPreset,
+} from '@/lib/ambient-engine';
 
 // ─────────────────────────────────────
 // Types
@@ -32,6 +39,12 @@ interface BlogReaderProps {
   audioDuration?: number;
   /** SRT file with sentence-level cues, displayed as synced subtitles. */
   captionsUrl?: string;
+  /** Stable slug — picks this post's default ambient soundtrack. */
+  slug?: string;
+  /** Other narrated posts, for "Up next" continuous listening. */
+  upNext?: { slug: string; title: string }[];
+  /** Auto-start playback on mount (set when arriving via ?play=1). */
+  autoPlay?: boolean;
 }
 
 type ChunkType = 'intro' | 'heading' | 'text' | 'data' | 'diagram' | 'transition' | 'conclusion';
@@ -39,158 +52,6 @@ type ChunkType = 'intro' | 'heading' | 'text' | 'data' | 'diagram' | 'transition
 interface SpeechChunk {
   text: string;
   type: ChunkType;
-}
-
-// ─────────────────────────────────────
-// Ambient background pad (Web Audio)
-// ─────────────────────────────────────
-// Calm, royalty-free ambience built like a meditation drone, not a synth:
-// pure sine drone (root + fifth) with one slowly rotating color tone,
-// a whisper of filtered noise for "air", and a slow breathing swell.
-// No audio files, ~zero CPU, starts only on user gesture.
-
-class AmbientPad {
-  private ctx: AudioContext | null = null;
-  private master: GainNode | null = null;
-  private nodes: AudioNode[] = [];
-  private stoppables: { stop(): void }[] = [];
-  private colorOsc: OscillatorNode | null = null;
-  private colorTimer: ReturnType<typeof setInterval> | null = null;
-  private colorIdx = 0;
-  private volume = 0.04;
-
-  // Color tones over an A drone — pentatonic-adjacent, no tense intervals.
-  private static COLORS = [277.18, 246.94, 329.63, 220.0]; // C#4, B3, E4, A3
-
-  start(volume: number) {
-    this.volume = volume;
-    if (this.ctx) {
-      this.resume();
-      return;
-    }
-    const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    if (!Ctx) return;
-    const ctx = new Ctx();
-    this.ctx = ctx;
-    const now = ctx.currentTime;
-
-    // master: long fade-in so it emerges rather than starts
-    const master = ctx.createGain();
-    master.gain.setValueAtTime(0, now);
-    master.gain.linearRampToValueAtTime(this.volume, now + 4);
-    master.connect(ctx.destination);
-    this.master = master;
-
-    // slow breathing swell (±22% over ~40s)
-    const swell = ctx.createGain();
-    swell.gain.setValueAtTime(0.85, now);
-    const swellLfo = ctx.createOscillator();
-    swellLfo.frequency.setValueAtTime(0.025, now);
-    const swellDepth = ctx.createGain();
-    swellDepth.gain.setValueAtTime(0.18, now);
-    swellLfo.connect(swellDepth);
-    swellDepth.connect(swell.gain);
-    swellLfo.start();
-    swell.connect(master);
-    this.stoppables.push(swellLfo);
-
-    // gentle master lowpass keeps everything soft
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(900, now);
-    filter.Q.setValueAtTime(0.4, now);
-    filter.connect(swell);
-    this.nodes.push(filter, swell);
-
-    const addSine = (freq: number, gain: number, fadeIn = 3) => {
-      const osc = ctx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now);
-      const g = ctx.createGain();
-      g.gain.setValueAtTime(0, now);
-      g.gain.linearRampToValueAtTime(gain, now + fadeIn);
-      osc.connect(g);
-      g.connect(filter);
-      osc.start();
-      this.stoppables.push(osc);
-      return osc;
-    };
-
-    // drone: root + fifth, plus a barely-detuned root double for natural width
-    addSine(110.0, 0.42);            // A2
-    addSine(110.5, 0.18, 5);         // A2 slightly detuned — slow natural beating
-    addSine(164.81, 0.22, 6);        // E3
-    this.colorOsc = addSine(AmbientPad.COLORS[0], 0.1, 10);
-
-    // "air": looped noise through a dark lowpass, barely audible
-    const noiseLen = 2 * ctx.sampleRate;
-    const noiseBuf = ctx.createBuffer(1, noiseLen, ctx.sampleRate);
-    const data = noiseBuf.getChannelData(0);
-    let last = 0;
-    for (let i = 0; i < noiseLen; i++) {
-      // brown-ish noise: integrate white noise for a softer spectrum
-      last = (last + (Math.random() * 2 - 1) * 0.02) * 0.998;
-      data[i] = last * 3.5;
-    }
-    const noise = ctx.createBufferSource();
-    noise.buffer = noiseBuf;
-    noise.loop = true;
-    const noiseFilter = ctx.createBiquadFilter();
-    noiseFilter.type = 'lowpass';
-    noiseFilter.frequency.setValueAtTime(320, now);
-    const noiseGain = ctx.createGain();
-    noiseGain.gain.setValueAtTime(0, now);
-    noiseGain.gain.linearRampToValueAtTime(0.05, now + 8);
-    noise.connect(noiseFilter);
-    noiseFilter.connect(noiseGain);
-    noiseGain.connect(filter);
-    noise.start();
-    this.stoppables.push(noise);
-
-    // rotate the color tone very slowly (8s glide every 20s)
-    this.colorTimer = setInterval(() => {
-      if (!this.ctx || !this.colorOsc) return;
-      this.colorIdx = (this.colorIdx + 1) % AmbientPad.COLORS.length;
-      this.colorOsc.frequency.setTargetAtTime(AmbientPad.COLORS[this.colorIdx], this.ctx.currentTime, 8);
-    }, 20000);
-  }
-
-  setVolume(v: number) {
-    this.volume = v;
-    if (this.ctx && this.master) {
-      this.master.gain.setTargetAtTime(v, this.ctx.currentTime, 0.3);
-    }
-  }
-
-  suspend() {
-    this.ctx?.suspend();
-  }
-
-  resume() {
-    this.ctx?.resume();
-    if (this.ctx && this.master) {
-      this.master.gain.setTargetAtTime(this.volume, this.ctx.currentTime, 0.5);
-    }
-  }
-
-  stop() {
-    if (!this.ctx) return;
-    const ctx = this.ctx;
-    this.master?.gain.setTargetAtTime(0, ctx.currentTime, 0.5);
-    if (this.colorTimer) clearInterval(this.colorTimer);
-    const stoppables = this.stoppables;
-    setTimeout(() => {
-      stoppables.forEach((s) => { try { s.stop(); } catch { /* already stopped */ } });
-      ctx.close().catch(() => {});
-    }, 1800);
-    this.ctx = null;
-    this.master = null;
-    this.nodes = [];
-    this.stoppables = [];
-    this.colorOsc = null;
-    this.colorTimer = null;
-    this.colorIdx = 0;
-  }
 }
 
 // ─────────────────────────────────────
@@ -510,7 +371,7 @@ function CoverArt({ playing, size = 'lg' }: { playing: boolean; size?: 'sm' | 'l
 // Component
 // ═══════════════════════════════════════
 
-export function BlogReader({ title, content, description, author, audioUrl, audioDuration, captionsUrl }: BlogReaderProps) {
+export function BlogReader({ title, content, description, author, audioUrl, audioDuration, captionsUrl, slug, upNext, autoPlay }: BlogReaderProps) {
   const hasFile = Boolean(audioUrl);
   // ── State ──
   const [isActive, setIsActive] = useState(false);
@@ -530,8 +391,24 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
   const [ambientVol, setAmbientVol] = useState(30); // 0–100 → 0–0.09 gain
   const [fileDur, setFileDur] = useState(audioDuration || 0);
   const [mounted, setMounted] = useState(false);
+  const [preset, setPreset] = useState<AmbientPreset>(() => presetForSlug(slug || title));
+  const [ended, setEnded] = useState(false);
 
   useEffect(() => setMounted(true), []);
+
+  // ── Restore saved preferences (soundtrack, ambience, speed) ──
+  useEffect(() => {
+    try {
+      const sp = localStorage.getItem('reader:preset');
+      if (sp) setPreset(getPreset(sp));
+      const av = localStorage.getItem('reader:ambvol');
+      if (av !== null) setAmbientVol(Number(av));
+      const ao = localStorage.getItem('reader:ambient');
+      if (ao !== null) { setAmbientOn(ao === '1'); ambientOnRef.current = ao === '1'; }
+      const sv = localStorage.getItem('reader:speed');
+      if (sv) { const n = Number(sv); setSpeed(n); speedRef.current = n; }
+    } catch { /* private mode */ }
+  }, []);
 
   // Keep page content clear of the fixed mini bar (replaces an in-article
   // spacer that sat in the wrong place).
@@ -550,11 +427,14 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
   const voiceRef = useRef('');
   const playingRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const ambientRef = useRef<AmbientPad | null>(null);
+  const ambientRef = useRef<AmbientEngine | null>(null);
   const ambientOnRef = useRef(true);
+  const presetRef = useRef<AmbientPreset>(preset);
   const audioElRef = useRef<HTMLAudioElement | null>(null);
   const cuesRef = useRef<SubtitleCue[] | null>(null);
   const cueIdxRef = useRef(0);
+
+  useEffect(() => { presetRef.current = preset; }, [preset]);
 
   const ambientGain = (v: number) => (v / 100) * 0.09;
 
@@ -647,9 +527,17 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
   // ── Ambient helpers ──
   const startAmbient = useCallback(() => {
     if (!ambientOnRef.current) return;
-    if (!ambientRef.current) ambientRef.current = new AmbientPad();
+    if (!ambientRef.current) ambientRef.current = new AmbientEngine(presetRef.current);
     ambientRef.current.start(ambientGain(ambientVol));
   }, [ambientVol]);
+
+  // Switch the background soundtrack live (crossfades if playing).
+  const changePreset = useCallback((p: AmbientPreset) => {
+    setPreset(p);
+    presetRef.current = p;
+    try { localStorage.setItem('reader:preset', p.id); } catch { /* */ }
+    if (ambientRef.current && ambientOnRef.current) ambientRef.current.switchPreset(p);
+  }, []);
 
   // ── Media Session (lock screen / keyboard media keys) ──
   const setupMediaSession = useCallback(() => {
@@ -697,7 +585,8 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
     a.addEventListener('ended', () => {
       ambientRef.current?.stop(); ambientRef.current = null;
       setIsPlaying(false); setIsPaused(false); playingRef.current = false;
-      setProgress(100); setElapsed(0);
+      setProgress(100); setElapsed(0); setCurrentText('');
+      setEnded(true); // surfaces the "Up next" card
       a.currentTime = 0;
     });
     audioElRef.current = a;
@@ -706,6 +595,7 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
 
   // ── Controls (branch: real audio file vs speech synthesis) ──
   const play = useCallback(() => {
+    setEnded(false);
     if (hasFile) {
       const a = ensureAudioEl();
       if (!a) return;
@@ -803,6 +693,7 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
   const setSpeedVal = useCallback((v: number) => {
     const c = Math.max(0.25, Math.min(3, v));
     setSpeed(c); speedRef.current = c;
+    try { localStorage.setItem('reader:speed', String(c)); } catch { /* */ }
     if (hasFile) {
       if (audioElRef.current) audioElRef.current.playbackRate = c;
       return;
@@ -823,8 +714,8 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
     const next = !ambientOnRef.current;
     ambientOnRef.current = next;
     setAmbientOn(next);
+    try { localStorage.setItem('reader:ambient', next ? '1' : '0'); } catch { /* */ }
     if (next) {
-      if (playingRef.current && !timerRef.current) { /* paused — will resume with play */ }
       if (playingRef.current) startAmbient();
     } else {
       ambientRef.current?.stop();
@@ -834,6 +725,7 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
 
   const changeAmbientVol = useCallback((v: number) => {
     setAmbientVol(v);
+    try { localStorage.setItem('reader:ambvol', String(v)); } catch { /* */ }
     ambientRef.current?.setVolume(ambientGain(v));
   }, []);
 
@@ -859,12 +751,42 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
     if (playingRef.current) speak(t);
   }, [hasFile, ensureAudioEl, speak]);
 
+  // ── Keyboard shortcuts (space, ←/→, ↑/↓ ambience) while a player is open ──
+  useEffect(() => {
+    if (!isActive) return;
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement;
+      if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || el.isContentEditable)) return;
+      switch (e.key) {
+        case ' ': case 'k': e.preventDefault(); (isPlaying && !isPaused) ? pause() : play(); break;
+        case 'ArrowRight': case 'l': e.preventDefault(); skipFwd(); break;
+        case 'ArrowLeft': case 'j': e.preventDefault(); skipBack(); break;
+        case 'ArrowUp': e.preventDefault(); changeAmbientVol(Math.min(100, ambientVol + 10)); break;
+        case 'ArrowDown': e.preventDefault(); changeAmbientVol(Math.max(0, ambientVol - 10)); break;
+        case 'm': toggleMute(); break;
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isActive, isPlaying, isPaused, play, pause, skipFwd, skipBack, toggleMute, changeAmbientVol, ambientVol]);
+
+  // ── Auto-start when arriving via "Up next" (?play=1) ──
+  const autoStartedRef = useRef(false);
+  useEffect(() => {
+    if (autoPlay && hasFile && mounted && !autoStartedRef.current) {
+      autoStartedRef.current = true;
+      const t = setTimeout(() => play(), 400);
+      return () => clearTimeout(t);
+    }
+  }, [autoPlay, hasFile, mounted, play]);
+
   const fmt = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
 
   const dur = hasFile ? (fileDur || audioDuration || 0) : totalDuration();
   const adjDur = Math.ceil(dur / speed);
-  const presets = [0.75, 1, 1.25, 1.5, 2];
+  const speedPresets = [0.75, 1, 1.25, 1.5, 2];
   const playingNow = isPlaying && !isPaused;
+  const next = upNext && upNext.length ? upNext[0] : null;
 
   // With a pre-generated file the player works even without speechSynthesis.
   if (!isSupported && !hasFile) return null;
@@ -995,10 +917,27 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
                   </button>
                 </div>
 
+                {/* Up next — continuous listening */}
+                {ended && next && (
+                  <div className="px-5 pb-3">
+                    <a
+                      href={`/blog/${next.slug}?play=1`}
+                      className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:opacity-90"
+                      style={{ background: 'var(--accent)', color: 'var(--background)' }}
+                    >
+                      <Play className="w-4 h-4 flex-shrink-0" />
+                      <span className="min-w-0">
+                        <span className="block text-[10px] uppercase tracking-wider opacity-80">Up next</span>
+                        <span className="block text-sm font-medium truncate">{next.title}</span>
+                      </span>
+                    </a>
+                  </div>
+                )}
+
                 {/* Speed pills */}
                 <div className="px-5 pb-3">
                   <div className="flex items-center gap-1 rounded-xl p-1.5" style={surface}>
-                    {presets.map((p) => (
+                    {speedPresets.map((p) => (
                       <button
                         key={p}
                         onClick={() => setSpeedVal(p)}
@@ -1035,6 +974,29 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
                       className="flex-1 h-1 accent-[var(--accent)] disabled:opacity-30"
                       aria-label="Ambience volume"
                     />
+                  </div>
+                </div>
+
+                {/* Soundtrack picker — different generative moods, Spotify-style */}
+                <div className="px-5 pb-3">
+                  <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--text-muted)' }}>
+                    Soundtrack
+                  </p>
+                  <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1 no-scrollbar">
+                    {AMBIENT_PRESETS.map((p) => (
+                      <button
+                        key={p.id}
+                        onClick={() => { if (!ambientOn) toggleAmbient(); changePreset(p); }}
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs whitespace-nowrap transition-all flex-shrink-0"
+                        style={preset.id === p.id && ambientOn
+                          ? { background: 'var(--accent)', color: 'var(--background)', fontWeight: 600 }
+                          : { ...surface, color: 'var(--text-secondary)' }}
+                        aria-pressed={preset.id === p.id}
+                      >
+                        <span aria-hidden="true">{p.emoji}</span>
+                        {p.name}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
@@ -1120,8 +1082,8 @@ export function BlogReader({ title, content, description, author, audioUrl, audi
 
                   <button
                     onClick={() => {
-                      const idx = presets.indexOf(speed);
-                      setSpeedVal(presets[(idx + 1) % presets.length]);
+                      const idx = speedPresets.indexOf(speed);
+                      setSpeedVal(speedPresets[(idx + 1) % speedPresets.length]);
                     }}
                     className="px-2 py-1 text-[10px] font-bold rounded-md transition-colors flex-shrink-0"
                     style={surface}
