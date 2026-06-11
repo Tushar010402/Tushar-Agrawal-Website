@@ -210,21 +210,20 @@ export default function BlogPostClient({ blog, relatedBlogs, allBlogs, tagHubSlu
                 )}
               </div>
 
-              {/* Audio Reader */}
-              <div className="mb-8">
-                <BlogReader
-                  title={blog.title}
-                  content={blog.content}
-                  description={blog.description}
-                  author={blog.author || undefined}
-                  audioUrl={audio?.file}
-                  audioDuration={audio?.duration}
-                  captionsUrl={audio?.captions}
-                  slug={blog.slug}
-                  upNext={upNext}
-                  autoPlay={autoPlay}
-                />
-              </div>
+              {/* Audio Reader — studio neural narration (renders only when generated) */}
+              {audio && (
+                <div className="mb-8">
+                  <BlogReader
+                    title={blog.title}
+                    author={blog.author || undefined}
+                    audioUrl={audio.file}
+                    audioDuration={audio.duration}
+                    captionsUrl={audio.captions}
+                    upNext={upNext}
+                    autoPlay={autoPlay}
+                  />
+                </div>
+              )}
 
               {/* Tags — only hub tags link out; thin tags render as plain chips so
                   crawlers never discover below-threshold tag URLs */}

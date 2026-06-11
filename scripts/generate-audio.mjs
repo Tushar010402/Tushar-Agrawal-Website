@@ -7,6 +7,11 @@
  *   node scripts/generate-audio.mjs <slug> [slug...]   # specific posts
  *   node scripts/generate-audio.mjs --flagship          # the curated flagship set
  *   node scripts/generate-audio.mjs --all               # every published post
+ *   --force                                             # regenerate even if present
+ *
+ * Already-generated posts (in the manifest with the mp3 on disk) are skipped,
+ * the manifest is written after every post, and a failing post doesn't stop
+ * the batch — so large runs are resumable.
  *
  * Requires: python3 + `pip3 install --user --break-system-packages edge-tts`, ffmpeg.
  * Output: public/audio/<slug>.mp3 (32kbps mono) + public/audio/manifest.json
@@ -133,10 +138,20 @@ if (args.includes('--all')) {
 fs.mkdirSync(OUT_DIR, { recursive: true });
 const manifest = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) : {};
 
+const force = args.includes('--force');
+const failed = [];
+
 for (const slug of slugs) {
+  if (slug.startsWith('--')) continue;
   const file = path.join(BLOG_DIR, `${slug}.md`);
   if (!fs.existsSync(file)) {
     console.error(`✗ no such post: ${slug}`);
+    continue;
+  }
+  const outFile = path.join(OUT_DIR, `${slug}.mp3`);
+  const srtFile = path.join(OUT_DIR, `${slug}.srt`);
+  if (!force && manifest[slug] && fs.existsSync(outFile)) {
+    console.log(`- already narrated: ${slug}`);
     continue;
   }
   const { data, content } = matter(fs.readFileSync(file, 'utf8'));
@@ -147,22 +162,39 @@ for (const slug of slugs) {
   const narration = toNarration(data.title || slug, data.description || '', content);
   const txtFile = path.join(os.tmpdir(), `${slug}.txt`);
   const rawFile = path.join(os.tmpdir(), `${slug}-raw.mp3`);
-  const outFile = path.join(OUT_DIR, `${slug}.mp3`);
-  const srtFile = path.join(OUT_DIR, `${slug}.srt`);
   fs.writeFileSync(txtFile, narration);
 
   console.log(`▸ generating ${slug} (${narration.split(/\s+/).length} words)…`);
-  execFileSync('python3', ['-m', 'edge_tts', '--file', txtFile, '--voice', VOICE, '--rate', RATE, '--write-media', rawFile, '--write-subtitles', srtFile], { stdio: ['ignore', 'ignore', 'inherit'] });
-  // 32kbps mono keeps voice quality while shrinking ~40%
-  execFileSync('ffmpeg', ['-y', '-i', rawFile, '-ac', '1', '-b:a', '32k', outFile], { stdio: ['ignore', 'ignore', 'pipe'] });
-  fs.unlinkSync(rawFile);
-  fs.unlinkSync(txtFile);
+  try {
+    execFileSync('python3', ['-m', 'edge_tts', '--file', txtFile, '--voice', VOICE, '--rate', RATE, '--write-media', rawFile, '--write-subtitles', srtFile], { stdio: ['ignore', 'ignore', 'inherit'] });
+    // 32kbps mono keeps voice quality while shrinking ~40%
+    execFileSync('ffmpeg', ['-y', '-i', rawFile, '-ac', '1', '-b:a', '32k', outFile], { stdio: ['ignore', 'ignore', 'pipe'] });
+  } catch (err) {
+    console.error(`  ✗ failed: ${slug} — ${err.message}`);
+    failed.push(slug);
+    continue;
+  } finally {
+    fs.rmSync(rawFile, { force: true });
+    fs.rmSync(txtFile, { force: true });
+  }
 
   const duration = ffprobeDuration(outFile);
   const sizeKB = Math.round(fs.statSync(outFile).size / 1024);
-  manifest[slug] = { file: `/audio/${slug}.mp3`, captions: `/audio/${slug}.srt`, duration, voice: VOICE, sizeKB };
+  saveManifestEntry(slug, { file: `/audio/${slug}.mp3`, captions: `/audio/${slug}.srt`, duration, voice: VOICE, sizeKB });
   console.log(`  ✓ ${sizeKB} KB, ${duration ? Math.round(duration / 60) + ' min' : '?'}, subtitles ✓`);
 }
 
-fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2));
+// Re-read + merge + atomic rename, so parallel script instances (and
+// interrupted batches) never clobber each other's manifest entries.
+function saveManifestEntry(slug, entry) {
+  let current = {};
+  try { current = JSON.parse(fs.readFileSync(MANIFEST, 'utf8')); } catch { /* fresh */ }
+  current[slug] = entry;
+  manifest[slug] = entry;
+  const sorted = Object.fromEntries(Object.entries(current).sort(([a], [b]) => a.localeCompare(b)));
+  const tmp = `${MANIFEST}.${process.pid}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(sorted, null, 2));
+  fs.renameSync(tmp, MANIFEST);
+}
+if (failed.length) console.error(`\nFailed (${failed.length}): ${failed.join(', ')} — re-run to retry.`);
 console.log(`\nManifest: ${Object.keys(manifest).length} posts with audio → public/audio/manifest.json`);
