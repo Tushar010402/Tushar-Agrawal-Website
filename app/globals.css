@@ -960,6 +960,97 @@ html.lenis {
   to { opacity: 1; transform: none; }
 }
 
+/* Scrub text: words light up as the paragraph scrolls through the viewport.
+   Dimming applies only once JS mounts (.scrub-ready) — no-JS keeps full text. */
+.scrub-text.scrub-ready .scrub-w {
+  opacity: 0.16;
+  transition: opacity 0.35s ease;
+}
+.scrub-text.scrub-ready .scrub-w.lit {
+  opacity: 1;
+}
+
+/* Work deck: stacked sticky panels need a real shadow to read as layers */
+.deck-card {
+  box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.3), 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* Directional reveals (view timeline; static everywhere else) */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal-left {
+      animation: slide-in-left both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 24%;
+    }
+    .reveal-right {
+      animation: slide-in-right both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 24%;
+    }
+  }
+}
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-44px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(44px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Experience timeline rail: muted spine + an accent line that draws itself */
+.exp-rail::before,
+.exp-rail::after {
+  content: "";
+  position: absolute;
+  left: 0.45rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+.exp-rail::before {
+  background: var(--border);
+}
+.exp-rail::after {
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .exp-rail::after {
+      animation: rail-draw linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 80%;
+    }
+  }
+}
+@keyframes rail-draw {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+.exp-dot {
+  position: absolute;
+  left: calc(-2rem + 0.45rem - 4px);
+  top: 2.55rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  background: var(--background);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+@media (min-width: 768px) {
+  .exp-dot {
+    left: calc(-3rem + 0.45rem - 4px);
+  }
+}
+.exp-row:hover .exp-dot {
+  background: var(--accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
 /* Big stat numbers in gradient ink */
 .stat-ink {
   background: linear-gradient(115deg, var(--accent), var(--accent-hover) 70%);

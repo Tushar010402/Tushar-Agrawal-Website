@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { Counter, Marquee, RotatingWord } from "@/components/ui/visuals/motion-bits";
 import { AuroraRidge } from "@/components/ui/visuals/aurora-ridge";
-import { CardSheen, CursorAura, FocusText, ParallaxCover, Tilt3D } from "@/components/ui/visuals/cinematic-bits";
+import { CardSheen, CursorAura, FocusText, ParallaxCover, ScrubText, Tilt3D } from "@/components/ui/visuals/cinematic-bits";
 
 // Chat is below-the-fold UX; keep its 400+ lines + framer-motion out of first-load JS.
 const AIChatFab = dynamic(() => import("@/components/ui/ai-chat-fab").then((m) => m.AIChatFab), {
@@ -250,11 +250,11 @@ export default function Home() {
         <Reveal>
           <p className="clay-eyebrow mb-4">01 — Profile</p>
           <hr className="clay-rule mb-16" />
-          <FocusText as="p" className="clay-statement max-w-5xl">
+          <ScrubText as="p" className="clay-statement max-w-5xl">
             Full-Stack Engineer at <span className="text-theme">Dr. Dangs Lab</span>, building
             systems that serve <span className="text-theme">500+ daily patients</span> and{" "}
             <span className="text-theme">80+ businesses</span> — reliably, securely, at scale.
-          </FocusText>
+          </ScrubText>
         </Reveal>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-8 mt-20">
@@ -278,44 +278,53 @@ export default function Home() {
           </div>
         </Reveal>
 
-        <div id="projects" className="grid md:grid-cols-2 gap-6 lg:gap-8">
+        {/* Sticky deck: each project is a full panel that slides over the
+            previous one as you scroll (plain position:sticky — every browser). */}
+        <div id="projects" className="md:pb-[4vh]">
           {projects.map((p, i) => (
-            <Reveal key={p.name} delay={(i % 2) * 0.1} className="pop-reveal h-full">
-              <Tilt3D className="h-full" max={5}>
-                <Link href={p.href} className="clay-card group block h-full overflow-hidden">
+            <div
+              key={p.name}
+              className="work-stack-item md:sticky mb-8 md:mb-[14vh]"
+              style={{ top: `calc(5.5rem + ${i * 1.9}rem)` }}
+            >
+              <Tilt3D max={3}>
+                <Link href={p.href} className="clay-card deck-card group grid md:grid-cols-2 overflow-hidden">
                   <CardSheen />
-                {/* Poster cover art — drifts against scroll like a camera move */}
-                <div className="relative h-48 md:h-56">
-                  <ParallaxCover className="absolute inset-0">
-                    <img
-                      src={p.image}
-                      alt={`${p.name} cover`}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
-                  </ParallaxCover>
-                  <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35), transparent 55%)" }} />
-                  <span className="absolute bottom-4 left-5 text-white/85 text-sm font-medium">{p.year}</span>
-                  <ArrowUpRight className="absolute top-5 right-5 w-6 h-6 text-white/90 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </div>
-                <div className="p-6 md:p-8">
-                  <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">{p.name}</h3>
-                  <p className="text-theme-secondary mt-3 leading-relaxed">{p.description}</p>
-                  <div className="flex flex-wrap gap-2 mt-6">
-                    {p.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="text-xs px-3 py-1 rounded-full text-theme-secondary"
-                        style={{ background: "var(--background-secondary)", border: "1px solid var(--border)" }}
-                      >
-                        {t}
-                      </span>
-                    ))}
+                  {/* Poster cover art — drifts against scroll like a camera move */}
+                  <div className="relative h-52 md:h-[24rem]">
+                    <ParallaxCover className="absolute inset-0">
+                      <img
+                        src={p.image}
+                        alt={`${p.name} cover`}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                    </ParallaxCover>
+                    <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35), transparent 55%)" }} />
+                    <span className="absolute bottom-4 left-5 text-white/85 text-sm font-medium">{p.year}</span>
+                    <ArrowUpRight className="absolute top-5 right-5 w-6 h-6 text-white/90 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </div>
-                </div>
+                  <div className="p-7 md:p-12 flex flex-col justify-center">
+                    <span className="clay-eyebrow" style={{ color: "var(--accent)" }}>
+                      {String(i + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+                    </span>
+                    <h3 className="text-2xl md:text-4xl font-semibold tracking-tight mt-3">{p.name}</h3>
+                    <p className="text-theme-secondary mt-4 leading-relaxed md:text-lg">{p.description}</p>
+                    <div className="flex flex-wrap gap-2 mt-6">
+                      {p.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="text-xs px-3 py-1 rounded-full text-theme-secondary"
+                          style={{ background: "var(--background-secondary)", border: "1px solid var(--border)" }}
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </Link>
               </Tilt3D>
-            </Reveal>
+            </div>
           ))}
         </div>
       </section>
@@ -329,17 +338,22 @@ export default function Home() {
           </Reveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {capabilities.map((c, i) => (
-              <Reveal key={c.title} delay={(i % 3) * 0.08} className="h-full">
-                <div className="clay-card h-full p-7">
-                  <CardSheen />
-                  <span className="clay-eyebrow" style={{ color: "var(--accent)" }}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="text-lg font-semibold mt-3 mb-3">{c.title}</h3>
-                  <hr className="clay-rule mb-3" />
-                  <p className="text-theme-secondary leading-relaxed">{c.items}</p>
-                </div>
-              </Reveal>
+              <div
+                key={c.title}
+                className={`h-full ${i % 3 === 0 ? "reveal-left" : i % 3 === 2 ? "reveal-right" : "pop-reveal"}`}
+              >
+                <Tilt3D className="h-full" max={4}>
+                  <div className="clay-card h-full p-7">
+                    <CardSheen />
+                    <span className="clay-eyebrow" style={{ color: "var(--accent)" }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="text-lg font-semibold mt-3 mb-3">{c.title}</h3>
+                    <hr className="clay-rule mb-3" />
+                    <p className="text-theme-secondary leading-relaxed">{c.items}</p>
+                  </div>
+                </Tilt3D>
+              </div>
             ))}
           </div>
         </div>
@@ -351,10 +365,13 @@ export default function Home() {
           <p className="clay-eyebrow mb-4">04 — Experience</p>
           <h2 className="clay-h2 mb-14"><FocusText>Where I&apos;ve worked.</FocusText></h2>
         </Reveal>
-        <div>
+        {/* Timeline rail: the accent line draws itself as you scroll; each
+            role has a node that fills on hover. */}
+        <div className="exp-rail relative pl-8 md:pl-12">
           {experience.map((e, i) => (
             <Reveal key={e.org} delay={i * 0.06}>
-              <div className="exp-row grid md:grid-cols-12 gap-2 md:gap-6 items-baseline py-7 px-4 -mx-4 rounded-2xl" style={{ borderTop: "1px solid var(--border)" }}>
+              <div className="exp-row relative grid md:grid-cols-12 gap-2 md:gap-6 items-baseline py-7 px-4 rounded-2xl" style={{ borderTop: "1px solid var(--border)" }}>
+                <span className="exp-dot" aria-hidden="true" />
                 <div className="md:col-span-5 text-2xl md:text-3xl font-semibold tracking-tight">{e.org}</div>
                 <div className="md:col-span-4 text-theme-secondary">{e.role}</div>
                 <div className="md:col-span-3 text-theme-tertiary md:text-right">
@@ -381,7 +398,7 @@ export default function Home() {
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {writing.map((w, i) => (
-              <Reveal key={w.href} delay={i * 0.1} className="pop-reveal h-full">
+              <Reveal key={w.href} delay={i * 0.1} className={`pop-reveal h-full ${i === 1 ? "md:mt-12" : ""}`}>
                 <Tilt3D className="h-full" max={5}>
                   <Link href={w.href} className="clay-card group block h-full p-7">
                     <CardSheen />

@@ -85,6 +85,85 @@ export function FocusText({
   );
 }
 
+/* ---- Scrub text ---------------------------------------------------------- */
+
+/**
+ * Words light up one by one as the paragraph scrolls through the viewport —
+ * reading pace tied to scroll position, scrubbing both ways. Text renders
+ * fully visible until JS mounts (and stays so under reduced motion).
+ */
+export function ScrubText({
+  children,
+  className = "",
+  as: Tag = "p",
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: ElementType;
+}) {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    el.classList.add("scrub-ready");
+    const spans = Array.from(el.querySelectorAll<HTMLElement>(".scrub-w"));
+    let lit = -1;
+    let raf = 0;
+    let active = false;
+
+    const update = () => {
+      raf = 0;
+      if (!active) return;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const start = vh * 0.85;
+      const span = r.height + vh * 0.45;
+      const p = Math.max(0, Math.min(1, (start - r.top) / span));
+      const n = Math.round(p * spans.length);
+      if (n !== lit) {
+        const [from, to] = n > lit ? [lit + 1, n] : [n + 1, lit];
+        for (let i = Math.max(0, from); i <= Math.min(spans.length - 1, to); i++) {
+          spans[i].classList.toggle("lit", i < n);
+        }
+        lit = n;
+      }
+    };
+    const kick = () => { if (active && !raf) raf = requestAnimationFrame(update); };
+    const io = new IntersectionObserver(([entry]) => {
+      active = entry.isIntersecting;
+      kick();
+    }, { rootMargin: "20% 0px" });
+    io.observe(el);
+    window.addEventListener("scroll", kick, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", kick);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  const wrap = (node: ReactNode): ReactNode => {
+    if (typeof node === "string") {
+      return node.split(/(\s+)/).map((part, k) =>
+        part.trim() === "" ? part : <span key={k} className="scrub-w">{part}</span>
+      );
+    }
+    if (isValidElement(node)) {
+      return <span className="scrub-w">{node}</span>;
+    }
+    return node;
+  };
+
+  return (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <Tag ref={ref as any} className={`scrub-text ${className}`}>
+      {Children.map(children, wrap)}
+    </Tag>
+  );
+}
+
 /* ---- Card sheen -------------------------------------------------------- */
 
 /**
