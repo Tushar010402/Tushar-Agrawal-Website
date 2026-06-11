@@ -162,6 +162,9 @@ export default function Home() {
     <div className="w-full" style={{ background: "var(--background)", color: "var(--text-primary)" }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
+      {/* Reading-position hairline (CSS scroll timeline — zero JS) */}
+      <div aria-hidden="true" className="scroll-progress" />
+
       {/* ===== Hero — full-screen live-rendered mountain scene ===== */}
       <section id="home" className="relative overflow-hidden min-h-[100svh] flex items-center pt-28 pb-24">
         {/* Live shader scene: layered ridgelines, fog and light rays, panned by scroll.
@@ -235,6 +238,7 @@ export default function Home() {
       {/* ===== Statement + stats ===== */}
       <section id="about" className="clay-container py-16 md:py-24">
         <Reveal>
+          <p className="clay-eyebrow mb-4">01 — Profile</p>
           <hr className="clay-rule mb-16" />
           <FocusText as="p" className="clay-statement max-w-5xl">
             Full-Stack Engineer at <span className="text-theme">Dr. Dangs Lab</span>, building
@@ -258,8 +262,8 @@ export default function Home() {
         <Reveal>
           <div className="flex items-end justify-between flex-wrap gap-4 mb-14">
             <div>
-              <p className="clay-eyebrow mb-4">Selected Work</p>
-              <h2 className="clay-h2">Things I&apos;ve built.</h2>
+              <p className="clay-eyebrow mb-4">02 — Selected Work</p>
+              <h2 className="clay-h2"><FocusText>Things I&apos;ve built.</FocusText></h2>
             </div>
           </div>
         </Reveal>
@@ -308,15 +312,21 @@ export default function Home() {
       <section id="skills" className="clay-section" style={{ background: "var(--background-secondary)" }}>
         <div className="clay-container">
           <Reveal>
-            <p className="clay-eyebrow mb-4">Capabilities</p>
-            <h2 className="clay-h2 mb-16">What I work with.</h2>
+            <p className="clay-eyebrow mb-4">03 — Capabilities</p>
+            <h2 className="clay-h2 mb-16"><FocusText>What I work with.</FocusText></h2>
           </Reveal>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {capabilities.map((c, i) => (
-              <Reveal key={c.title} delay={(i % 3) * 0.08}>
-                <h3 className="text-lg font-semibold mb-3">{c.title}</h3>
-                <hr className="clay-rule mb-3" />
-                <p className="text-theme-secondary leading-relaxed">{c.items}</p>
+              <Reveal key={c.title} delay={(i % 3) * 0.08} className="h-full">
+                <div className="clay-card h-full p-7">
+                  <CardSheen />
+                  <span className="clay-eyebrow" style={{ color: "var(--accent)" }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="text-lg font-semibold mt-3 mb-3">{c.title}</h3>
+                  <hr className="clay-rule mb-3" />
+                  <p className="text-theme-secondary leading-relaxed">{c.items}</p>
+                </div>
               </Reveal>
             ))}
           </div>
@@ -326,13 +336,13 @@ export default function Home() {
       {/* ===== Experience ===== */}
       <section className="clay-container clay-section">
         <Reveal>
-          <p className="clay-eyebrow mb-4">Experience</p>
-          <h2 className="clay-h2 mb-14">Where I&apos;ve worked.</h2>
+          <p className="clay-eyebrow mb-4">04 — Experience</p>
+          <h2 className="clay-h2 mb-14"><FocusText>Where I&apos;ve worked.</FocusText></h2>
         </Reveal>
         <div>
           {experience.map((e, i) => (
             <Reveal key={e.org} delay={i * 0.06}>
-              <div className="grid md:grid-cols-12 gap-2 md:gap-6 items-baseline py-7" style={{ borderTop: "1px solid var(--border)" }}>
+              <div className="exp-row grid md:grid-cols-12 gap-2 md:gap-6 items-baseline py-7 px-4 -mx-4 rounded-2xl" style={{ borderTop: "1px solid var(--border)" }}>
                 <div className="md:col-span-5 text-2xl md:text-3xl font-semibold tracking-tight">{e.org}</div>
                 <div className="md:col-span-4 text-theme-secondary">{e.role}</div>
                 <div className="md:col-span-3 text-theme-tertiary md:text-right">
@@ -351,8 +361,8 @@ export default function Home() {
           <Reveal>
             <div className="flex items-end justify-between flex-wrap gap-4 mb-14">
               <div>
-                <p className="clay-eyebrow mb-4">Writing</p>
-                <h2 className="clay-h2">From the blog.</h2>
+                <p className="clay-eyebrow mb-4">05 — Writing</p>
+                <h2 className="clay-h2"><FocusText>From the blog.</FocusText></h2>
               </div>
               <Link href="/blog" className="clay-link text-lg">All articles →</Link>
             </div>
@@ -376,24 +386,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Contact ===== */}
-      <section id="contact" className="clay-container clay-section text-center">
-        <Reveal>
-          <p className="clay-eyebrow mb-8">Get in touch</p>
-          <h2 className="clay-display mb-10">
-            <FocusText>Let&apos;s build something.</FocusText>
-          </h2>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a href="mailto:tusharagrawal0104@gmail.com" className="clay-btn clay-btn-dark">
-              tusharagrawal0104@gmail.com <ArrowUpRight className="w-4 h-4" />
-            </a>
-          </div>
-          <div className="flex items-center justify-center gap-8 mt-12 text-theme-secondary">
-            <a href="https://www.linkedin.com/in/tushar-agrawal-91b67a28a" target="_blank" rel="noopener noreferrer" className="clay-link">LinkedIn</a>
-            <a href="https://github.com/Tushar010402" target="_blank" rel="noopener noreferrer" className="clay-link">GitHub</a>
-            <Link href="/blog" className="clay-link">Blog</Link>
-          </div>
-        </Reveal>
+      {/* ===== Contact — dusk scene bookends the hero's dawn ===== */}
+      <section id="contact" className="relative overflow-hidden text-center min-h-[80svh] flex items-center">
+        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+          <AuroraRidge mood="dusk" />
+        </div>
+        {/* Blend the scene into the sections above and the footer below */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--background-secondary) 0%, transparent 28%, transparent 80%, var(--background) 100%)",
+          }}
+        />
+        <div className="clay-container relative w-full py-24">
+          <Reveal>
+            <p className="clay-eyebrow mb-8">06 — Get in touch</p>
+            <h2 className="clay-display mb-10">
+              <FocusText>Let&apos;s build something.</FocusText>
+            </h2>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <a href="mailto:tusharagrawal0104@gmail.com" className="clay-btn clay-btn-dark">
+                tusharagrawal0104@gmail.com <ArrowUpRight className="w-4 h-4" />
+              </a>
+            </div>
+            <div className="flex items-center justify-center gap-8 mt-12 text-theme-secondary">
+              <a href="https://www.linkedin.com/in/tushar-agrawal-91b67a28a" target="_blank" rel="noopener noreferrer" className="clay-link">LinkedIn</a>
+              <a href="https://github.com/Tushar010402" target="_blank" rel="noopener noreferrer" className="clay-link">GitHub</a>
+              <Link href="/blog" className="clay-link">Blog</Link>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       <AIChatFab onClick={() => setIsChatOpen(true)} />

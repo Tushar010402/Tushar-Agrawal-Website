@@ -33,6 +33,7 @@ uniform vec3 uSkyB;
 uniform vec3 uRidgeA;
 uniform vec3 uRidgeB;
 uniform vec3 uGlow;
+uniform vec2 uSun;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
 float noise(vec2 p) {
@@ -61,8 +62,7 @@ void main() {
 
   vec3 sky = mix(uSkyA, uSkyB, pow(1.0 - uv.y, 1.6));
 
-  vec2 sun = vec2(0.68, 0.55);
-  vec2 sv = vec2((uv.x - sun.x) * aspect, uv.y - sun.y);
+  vec2 sv = vec2((uv.x - uSun.x) * aspect, uv.y - uSun.y);
   float d = length(sv);
   sky += uGlow * exp(-d * 4.0) * 0.48;
   sky += uGlow * exp(-d * 1.4) * 0.14;
@@ -124,19 +124,39 @@ const mix3 = (a: Vec3, b: Vec3, t: number): Vec3 => [
 ];
 const scale3 = (a: Vec3, s: number): Vec3 => [a[0] * s, a[1] * s, a[2] * s];
 
+export type RidgeMood = "dawn" | "dusk";
+
 /** Two theme variables carry the whole mood: background + accent. */
-function palette() {
+function palette(mood: RidgeMood) {
   const bg = cssColor("--background");
   const accent = cssColor("--accent");
   const glow = cssColor("--accent-hover");
   const lum = 0.2126 * bg[0] + 0.7152 * bg[1] + 0.0722 * bg[2];
   if (lum < 0.5) {
+    if (mood === "dusk") {
+      return {
+        uSkyA: scale3(bg, 0.18),
+        uSkyB: mix3(bg, accent, 0.32),
+        uRidgeA: mix3(bg, accent, 0.13),
+        uRidgeB: scale3(bg, 0.14),
+        uGlow: scale3(accent, 0.78),
+      };
+    }
     return {
       uSkyA: scale3(bg, 0.3),
       uSkyB: mix3(bg, accent, 0.5),
       uRidgeA: mix3(bg, accent, 0.22),
       uRidgeB: scale3(bg, 0.22),
       uGlow: glow,
+    };
+  }
+  if (mood === "dusk") {
+    return {
+      uSkyA: scale3(bg, 0.97),
+      uSkyB: mix3(bg, accent, 0.26),
+      uRidgeA: mix3(bg, accent, 0.2),
+      uRidgeB: scale3(mix3(bg, accent, 0.4), 0.85),
+      uGlow: accent,
     };
   }
   return {
@@ -148,7 +168,12 @@ function palette() {
   };
 }
 
-export function AuroraRidge() {
+const SUN: Record<RidgeMood, [number, number]> = {
+  dawn: [0.68, 0.55],
+  dusk: [0.3, 0.4],
+};
+
+export function AuroraRidge({ mood = "dawn" }: { mood?: RidgeMood } = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [failed, setFailed] = useState(false);
   const [live, setLive] = useState(false);
@@ -211,12 +236,13 @@ export function AuroraRidge() {
     };
 
     const applyPalette = () => {
-      const p = palette();
+      const p = palette(mood);
       for (const [name, loc] of Object.entries(colorUniforms)) {
         gl.uniform3fv(loc, p[name as keyof typeof p]);
       }
     };
     applyPalette();
+    gl.uniform2fv(u("uSun"), SUN[mood]);
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const start = performance.now();
@@ -293,7 +319,7 @@ export function AuroraRidge() {
       if (raf) cancelAnimationFrame(raf);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
-  }, []);
+  }, [mood]);
 
   if (failed) {
     return (
