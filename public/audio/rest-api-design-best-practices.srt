@@ -1,0 +1,188 @@
+1
+00:00:00,050 --> 00:00:06,514
+You're listening to: REST API Design Best Practices: Building APIs That Developers Love.
+
+2
+00:00:06,514 --> 00:00:11,466
+Learn how to design clean, scalable, and developer-friendly REST APIs.
+
+3
+00:00:11,466 --> 00:00:20,492
+Covers URL structure, HTTP methods, status codes, pagination, versioning, error handling, and security best practices.
+
+4
+00:00:20,492 --> 00:00:21,538
+Let's get started.
+
+5
+00:00:21,538 --> 00:00:23,750
+Now, let's talk about Introduction.
+
+6
+00:00:23,750 --> 00:00:26,622
+A well-designed API is a joy to work with.
+
+7
+00:00:26,622 --> 00:00:32,500
+A poorly designed one causes frustration, bugs, and wasted developer hours.
+
+8
+00:00:32,500 --> 00:00:43,774
+Having built APIs consumed by mobile apps, third-party integrations, and internal services at Dr. Dangs Lab, I've learned what separates great APIs from mediocre ones.
+
+9
+00:00:43,774 --> 00:00:46,225
+Moving on to RESTful URL Design.
+
+10
+00:00:46,225 --> 00:00:48,377
+Resource Naming Conventions.
+
+11
+00:00:48,377 --> 00:00:50,480
+URL Structure Patterns.
+
+12
+00:00:50,480 --> 00:00:54,134
+Next up: HTTP Methods and Status Codes.
+
+13
+00:00:54,134 --> 00:00:56,045
+HTTP Methods.
+
+14
+00:00:56,045 --> 00:00:57,692
+Status Codes Cheat Sheet.
+
+15
+00:00:57,692 --> 00:01:00,432
+Let's explore Request and Response Design.
+
+16
+00:01:00,432 --> 00:01:02,235
+Consistent Response Format.
+
+17
+00:01:02,235 --> 00:01:03,750
+Error Response Format.
+
+18
+00:01:03,750 --> 00:01:05,516
+Now let's look at Pagination.
+
+19
+00:01:05,516 --> 00:01:07,992
+Cursor-Based Pagination (Recommended).
+
+20
+00:01:07,992 --> 00:01:10,588
+Offset-Based Pagination (Simple).
+
+21
+00:01:10,588 --> 00:01:14,711
+Now, let's talk about Filtering, Sorting, and Field Selection.
+
+22
+00:01:14,711 --> 00:01:16,911
+Moving on to API Versioning.
+
+23
+00:01:16,911 --> 00:01:19,855
+Next up: Authentication and Security.
+
+24
+00:01:19,855 --> 00:01:22,608
+Let's explore Documentation with OpenAPI.
+
+25
+00:01:22,608 --> 00:01:24,627
+Now let's look at Key Takeaways.
+
+26
+00:01:24,627 --> 00:01:30,336
+Use nouns, not verbs in URLs - let HTTP methods convey the action.
+
+27
+00:01:30,336 --> 00:01:34,326
+Be consistent with naming, casing, and response formats.
+
+28
+00:01:34,326 --> 00:01:38,377
+Use proper status codes - they communicate intent clearly.
+
+29
+00:01:38,377 --> 00:01:42,632
+Implement pagination - never return unbounded lists.
+
+30
+00:01:42,632 --> 00:01:46,057
+Version your API - breaking changes will happen.
+
+31
+00:01:46,057 --> 00:01:51,141
+Document thoroughly - OpenAPI/Swagger is your friend.
+
+32
+00:01:51,141 --> 00:01:55,168
+Handle errors gracefully - descriptive errors help debugging.
+
+33
+00:01:55,168 --> 00:02:00,432
+Secure by default - authentication, rate limiting, input validation.
+
+34
+00:02:00,432 --> 00:02:02,151
+Now, let's talk about Conclusion.
+
+35
+00:02:02,151 --> 00:02:06,887
+Great API design is about empathy for the developers who will use it.
+
+36
+00:02:06,887 --> 00:02:12,716
+Follow conventions, be consistent, document well, and handle edge cases gracefully.
+
+37
+00:02:12,716 --> 00:02:16,838
+Your future self (and your API consumers) will thank you.
+
+38
+00:02:16,838 --> 00:02:18,149
+Building APIs?
+
+39
+00:02:18,149 --> 00:02:20,516
+Let's discuss best practices on LinkedIn.
+
+40
+00:02:20,516 --> 00:02:22,391
+Moving on to Related Articles.
+
+41
+00:02:22,391 --> 00:02:31,165
+Authentication & Authorization: JWT, OAuth 2.0 Guide - Secure your APIs with proper authentication.
+
+42
+00:02:31,165 --> 00:02:34,495
+GraphQL vs REST: Which to Choose?
+
+43
+00:02:34,495 --> 00:02:36,742
+- Compare API paradigms.
+
+44
+00:02:36,742 --> 00:02:43,413
+Testing Strategies: Unit, Integration, E2E - Test your APIs effectively.
+
+45
+00:02:43,413 --> 00:02:47,283
+TypeScript Best Practices - Type-safe API development.
+
+46
+00:02:47,283 --> 00:02:48,966
+And that's the end of this article.
+
+47
+00:02:48,966 --> 00:02:50,060
+Thanks for listening.
+

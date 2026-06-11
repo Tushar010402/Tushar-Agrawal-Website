@@ -1,0 +1,192 @@
+1
+00:00:00,050 --> 00:00:05,829
+You're listening to: AWS Services for Backend Developers: Complete Infrastructure Guide.
+
+2
+00:00:05,829 --> 00:00:20,048
+Master essential AWS services for backend development including EC2, Lambda, S3, RDS, DynamoDB, SQS, SNS, API Gateway, and CloudFormation.
+
+3
+00:00:20,048 --> 00:00:23,701
+Learn cloud architecture patterns and best practices.
+
+4
+00:00:23,701 --> 00:00:24,747
+Let's get started.
+
+5
+00:00:24,747 --> 00:00:26,730
+Now, let's talk about Introduction.
+
+6
+00:00:26,730 --> 00:00:36,334
+Amazon Web Services (AWS) offers 200+ services, but backend developers typically use a core set of 15-20 services regularly.
+
+7
+00:00:36,334 --> 00:00:44,879
+This guide covers the essential AWS services every backend developer should master, with practical examples and architecture patterns.
+
+8
+00:00:44,879 --> 00:00:47,067
+Moving on to Compute Services.
+
+9
+00:00:47,067 --> 00:00:49,663
+EC2 (Elastic Compute Cloud).
+
+10
+00:00:49,663 --> 00:00:52,391
+Virtual servers for running applications.
+
+11
+00:00:52,391 --> 00:00:54,687
+Lambda (Serverless Functions).
+
+12
+00:00:54,687 --> 00:00:57,211
+Run code without managing servers.
+
+13
+00:00:57,211 --> 00:01:00,961
+ECS/Fargate (Container Orchestration).
+
+14
+00:01:00,961 --> 00:01:02,908
+Run Docker containers at scale.
+
+15
+00:01:02,908 --> 00:01:05,036
+Next up: Storage Services.
+
+16
+00:01:05,036 --> 00:01:07,644
+S3 (Simple Storage Service).
+
+17
+00:01:07,644 --> 00:01:11,622
+Object storage for files, backups, static assets.
+
+18
+00:01:11,622 --> 00:01:13,750
+Let's explore Database Services.
+
+19
+00:01:13,750 --> 00:01:16,694
+RDS (Relational Database Service).
+
+20
+00:01:16,694 --> 00:01:20,348
+Managed PostgreSQL, MySQL, and more.
+
+21
+00:01:20,348 --> 00:01:23,269
+DynamoDB (NoSQL Database).
+
+22
+00:01:23,269 --> 00:01:26,538
+Serverless, scalable NoSQL database.
+
+23
+00:01:26,538 --> 00:01:28,689
+Now let's look at Messaging Services.
+
+24
+00:01:28,689 --> 00:01:31,262
+SQS (Simple Queue Service).
+
+25
+00:01:31,262 --> 00:01:33,713
+Message queuing for async processing.
+
+26
+00:01:33,713 --> 00:01:36,610
+SNS (Simple Notification Service).
+
+27
+00:01:36,610 --> 00:01:39,819
+Pub/Sub messaging for notifications.
+
+28
+00:01:39,819 --> 00:01:42,572
+Now, let's talk about API Gateway.
+
+29
+00:01:42,572 --> 00:01:45,564
+Create REST and WebSocket APIs.
+
+30
+00:01:45,564 --> 00:01:47,656
+Moving on to Infrastructure as Code.
+
+31
+00:01:47,656 --> 00:01:50,757
+CloudFormation/CDK.
+
+32
+00:01:50,757 --> 00:01:52,716
+Next up: Best Practices.
+
+33
+00:01:52,716 --> 00:01:53,942
+1. Security.
+
+34
+00:01:53,942 --> 00:01:55,973
+2. Cost Optimization.
+
+35
+00:01:55,973 --> 00:01:57,548
+3. Monitoring.
+
+36
+00:01:57,548 --> 00:01:59,266
+Let's explore Conclusion.
+
+37
+00:01:59,266 --> 00:02:05,528
+Mastering these AWS services enables you to build scalable, reliable backend systems.
+
+38
+00:02:05,528 --> 00:02:17,908
+Start with the basics (EC2, S3, RDS), then progress to serverless (Lambda, DynamoDB) and event-driven architectures (SQS, SNS).
+
+39
+00:02:17,908 --> 00:02:19,423
+Building on AWS?
+
+40
+00:02:19,423 --> 00:02:23,581
+Connect on LinkedIn to discuss cloud architecture and best practices.
+
+41
+00:02:23,581 --> 00:02:25,420
+Now let's look at Related Articles.
+
+42
+00:02:25,420 --> 00:02:31,081
+Docker & Kubernetes Deployment Guide - Container orchestration on AWS.
+
+43
+00:02:31,081 --> 00:02:34,891
+System Design Interview Guide - Design cloud-native systems.
+
+44
+00:02:34,891 --> 00:02:39,807
+PostgreSQL Performance Optimization - Optimize RDS databases.
+
+45
+00:02:39,807 --> 00:02:44,110
+Redis Caching Strategies Complete Guide - ElastiCache patterns.
+
+46
+00:02:44,110 --> 00:02:51,177
+GitHub Actions CI/CD Complete Guide - Deploy to AWS with CI/CD.
+
+47
+00:02:51,177 --> 00:02:52,800
+And that's the end of this article.
+
+48
+00:02:52,800 --> 00:02:53,882
+Thanks for listening.
+

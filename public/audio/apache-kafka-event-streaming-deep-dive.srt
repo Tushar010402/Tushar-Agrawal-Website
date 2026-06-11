@@ -1,0 +1,188 @@
+1
+00:00:00,050 --> 00:00:05,192
+You're listening to: Apache Kafka Deep Dive: Event Streaming at Scale.
+
+2
+00:00:05,192 --> 00:00:15,781
+Comprehensive guide to Apache Kafka covering architecture, producers, consumers, Kafka Streams, and production best practices for building event-driven systems.
+
+3
+00:00:15,781 --> 00:00:16,838
+Let's get started.
+
+4
+00:00:16,838 --> 00:00:19,026
+Now, let's talk about Introduction.
+
+5
+00:00:19,026 --> 00:00:29,062
+Apache Kafka has become the backbone of modern event-driven architectures, processing trillions of messages daily at companies like LinkedIn, Netflix, and Uber.
+
+6
+00:00:29,062 --> 00:00:39,591
+Unlike traditional message queues, Kafka is designed as a distributed commit log that provides durability, scalability, and real-time data streaming capabilities.
+
+7
+00:00:39,591 --> 00:00:44,447
+In this guide, we'll explore: Kafka architecture and core concepts.
+
+8
+00:00:44,447 --> 00:00:46,814
+Producer and consumer patterns.
+
+9
+00:00:46,814 --> 00:00:49,387
+Kafka Streams for stream processing.
+
+10
+00:00:49,387 --> 00:00:51,550
+Production deployment and monitoring.
+
+11
+00:00:51,550 --> 00:00:54,026
+Common patterns and best practices.
+
+12
+00:00:54,026 --> 00:00:56,129
+Moving on to Kafka Architecture.
+
+13
+00:00:56,129 --> 00:00:57,415
+Core Concepts.
+
+14
+00:00:57,415 --> 00:00:59,387
+Next up: Producer Patterns.
+
+15
+00:00:59,387 --> 00:01:01,490
+Basic Producer (Python).
+
+16
+00:01:01,490 --> 00:01:02,680
+Producer (Go).
+
+17
+00:01:02,680 --> 00:01:04,735
+Let's explore Consumer Patterns.
+
+18
+00:01:04,735 --> 00:01:06,574
+Consumer Group (Python).
+
+19
+00:01:06,574 --> 00:01:08,810
+Batch Consumer with Error Handling.
+
+20
+00:01:08,810 --> 00:01:10,721
+Now let's look at Kafka Streams.
+
+21
+00:01:10,721 --> 00:01:13,557
+Now, let's talk about Schema Registry and Avro.
+
+22
+00:01:13,557 --> 00:01:16,117
+Moving on to Exactly-Once Semantics.
+
+23
+00:01:16,117 --> 00:01:18,521
+Next up: Production Configuration.
+
+24
+00:01:18,521 --> 00:01:21,286
+Let's explore Monitoring with Prometheus.
+
+25
+00:01:21,286 --> 00:01:23,942
+Now let's look at Kafka vs Alternatives.
+
+26
+00:01:23,942 --> 00:01:26,141
+Now, let's talk about Best Practices.
+
+27
+00:01:26,141 --> 00:01:30,612
+Partitioning Strategy: Choose keys that distribute load evenly.
+
+28
+00:01:30,612 --> 00:01:34,963
+Replication: Use replication factor of 3 for production.
+
+29
+00:01:34,963 --> 00:01:39,266
+Monitoring: Track consumer lag, throughput, and broker health.
+
+30
+00:01:39,266 --> 00:01:44,290
+Schema Evolution: Use Avro/Protobuf with Schema Registry.
+
+31
+00:01:44,290 --> 00:01:49,507
+Idempotency: Enable idempotent producers to prevent duplicates.
+
+32
+00:01:49,507 --> 00:01:53,653
+Error Handling: Implement Dead Letter Queues for failed messages.
+
+33
+00:01:53,653 --> 00:01:55,228
+Moving on to Conclusion.
+
+34
+00:01:55,228 --> 00:02:00,288
+Apache Kafka is essential for building scalable event-driven architectures.
+
+35
+00:02:00,288 --> 00:02:01,574
+Key takeaways:
+
+36
+00:02:01,574 --> 00:02:04,603
+Use partitions for parallelism and ordering.
+
+37
+00:02:04,603 --> 00:02:08,810
+Implement exactly-once semantics for critical workflows.
+
+38
+00:02:08,810 --> 00:02:12,343
+Monitor consumer lag to ensure timely processing.
+
+39
+00:02:12,343 --> 00:02:14,819
+Design schemas with evolution in mind.
+
+40
+00:02:14,819 --> 00:02:18,125
+Consider Kafka Streams for real-time processing.
+
+41
+00:02:18,125 --> 00:02:20,336
+Next up: Related Articles.
+
+42
+00:02:20,336 --> 00:02:24,495
+Event-Driven Architecture with Apache Kafka - Design patterns.
+
+43
+00:02:24,495 --> 00:02:29,843
+Microservices with Go and FastAPI - Build Kafka-powered services.
+
+44
+00:02:29,843 --> 00:02:33,557
+System Design Interview Guide - Design scalable systems.
+
+45
+00:02:33,557 --> 00:02:38,930
+Docker & Kubernetes Deployment Guide - Deploy Kafka on K8s.
+
+46
+00:02:38,930 --> 00:02:40,769
+And that's the end of this article.
+
+47
+00:02:40,769 --> 00:02:41,850
+Thanks for listening.
+

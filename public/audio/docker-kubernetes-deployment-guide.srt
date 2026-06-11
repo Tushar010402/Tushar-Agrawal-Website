@@ -1,0 +1,216 @@
+1
+00:00:00,050 --> 00:00:05,288
+You're listening to: Docker and Kubernetes: Complete Deployment Guide for Production.
+
+2
+00:00:05,288 --> 00:00:09,987
+Master containerization with Docker and orchestration with Kubernetes.
+
+3
+00:00:09,987 --> 00:00:17,704
+Learn to build, deploy, and scale applications with practical examples, best practices, and production-ready configurations.
+
+4
+00:00:17,704 --> 00:00:18,762
+Let's get started.
+
+5
+00:00:18,762 --> 00:00:20,937
+Now, let's talk about Introduction.
+
+6
+00:00:20,937 --> 00:00:26,093
+Containerization has revolutionized how we build, ship, and run applications.
+
+7
+00:00:26,093 --> 00:00:33,882
+At Dr. Dangs Lab, we've containerized over 50 microservices and manage them across multiple Kubernetes clusters.
+
+8
+00:00:33,882 --> 00:00:38,713
+In this guide, I'll share practical knowledge from deploying healthcare applications at scale.
+
+9
+00:00:38,713 --> 00:00:41,334
+Moving on to Why Docker + Kubernetes?.
+
+10
+00:00:41,334 --> 00:00:42,752
+The Problem They Solve.
+
+11
+00:00:42,752 --> 00:00:45,769
+Before Containers: "It works on my machine" syndrome.
+
+12
+00:00:45,769 --> 00:00:47,908
+Complex dependency management.
+
+13
+00:00:47,908 --> 00:00:49,819
+Inconsistent environments.
+
+14
+00:00:49,819 --> 00:00:52,019
+Slow, error-prone deployments.
+
+15
+00:00:52,019 --> 00:00:56,237
+With Docker + Kubernetes: Consistent environments everywhere.
+
+16
+00:00:56,237 --> 00:00:58,713
+Isolated, reproducible builds.
+
+17
+00:00:58,713 --> 00:01:00,997
+Automated scaling and healing.
+
+18
+00:01:00,997 --> 00:01:02,788
+Zero-downtime deployments.
+
+19
+00:01:02,788 --> 00:01:05,240
+Next up: Docker Fundamentals.
+
+20
+00:01:05,240 --> 00:01:07,584
+Writing Production-Ready Dockerfiles.
+
+21
+00:01:07,584 --> 00:01:09,603
+Docker Compose for Development.
+
+22
+00:01:09,603 --> 00:01:11,358
+Docker Best Practices.
+
+23
+00:01:11,358 --> 00:01:14,266
+Let's explore Kubernetes Fundamentals.
+
+24
+00:01:14,266 --> 00:01:15,504
+Core Concepts.
+
+25
+00:01:15,504 --> 00:01:17,343
+Deployment Configuration.
+
+26
+00:01:17,343 --> 00:01:18,786
+Service and Ingress.
+
+27
+00:01:18,786 --> 00:01:20,757
+ConfigMaps and Secrets.
+
+28
+00:01:20,757 --> 00:01:23,497
+Now let's look at Horizontal Pod Autoscaling.
+
+29
+00:01:23,497 --> 00:01:27,656
+Now, let's talk about CI/CD Pipeline Integration.
+
+30
+00:01:27,656 --> 00:01:30,384
+Moving on to Monitoring and Observability.
+
+31
+00:01:30,384 --> 00:01:32,127
+Prometheus Metrics.
+
+32
+00:01:32,127 --> 00:01:34,074
+Kubernetes Monitoring Stack.
+
+33
+00:01:34,074 --> 00:01:36,093
+Next up: Key Takeaways.
+
+34
+00:01:36,093 --> 00:01:39,603
+Use multi-stage builds to minimize image size.
+
+35
+00:01:39,603 --> 00:01:42,475
+Never run as root in containers.
+
+36
+00:01:42,475 --> 00:01:45,961
+Set resource limits to prevent noisy neighbors.
+
+37
+00:01:45,961 --> 00:01:49,302
+Implement proper health checks for reliable orchestration.
+
+38
+00:01:49,302 --> 00:01:51,971
+Use namespaces for environment isolation.
+
+39
+00:01:51,971 --> 00:01:54,903
+Enable HPA for automatic scaling.
+
+40
+00:01:54,903 --> 00:01:59,399
+Store secrets securely with Kubernetes Secrets or external vaults.
+
+41
+00:01:59,399 --> 00:02:02,836
+Implement proper logging and monitoring from day one.
+
+42
+00:02:02,836 --> 00:02:04,639
+Let's explore Conclusion.
+
+43
+00:02:04,639 --> 00:02:10,144
+Docker and Kubernetes form the backbone of modern cloud-native applications.
+
+44
+00:02:10,144 --> 00:02:17,151
+While the learning curve is steep, the benefits—consistency, scalability, and reliability—make it worthwhile.
+
+45
+00:02:17,151 --> 00:02:22,139
+Start with Docker locally, then graduate to Kubernetes as your needs grow.
+
+46
+00:02:22,139 --> 00:02:24,543
+Building containerized applications?
+
+47
+00:02:24,543 --> 00:02:27,632
+Connect on LinkedIn to discuss deployment strategies.
+
+48
+00:02:27,632 --> 00:02:29,651
+Now let's look at Related Articles.
+
+49
+00:02:29,651 --> 00:02:36,466
+AWS Services for Backend Developers - Deploy containers on AWS ECS/EKS.
+
+50
+00:02:36,466 --> 00:02:42,007
+GitHub Actions CI/CD Complete Guide - Automate your Docker builds.
+
+51
+00:02:42,007 --> 00:02:47,283
+Nginx Reverse Proxy & Load Balancing - Configure ingress for containers.
+
+52
+00:02:47,283 --> 00:02:51,983
+System Design Interview Guide - Design scalable containerized systems.
+
+53
+00:02:51,983 --> 00:02:53,593
+And that's the end of this article.
+
+54
+00:02:53,593 --> 00:02:54,699
+Thanks for listening.
+

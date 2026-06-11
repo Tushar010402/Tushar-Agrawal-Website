@@ -1,0 +1,852 @@
+1
+00:00:00,050 --> 00:00:07,295
+You're listening to: Quantum Computing Explained: Complete Beginner's Guide 2026 (How It Actually Works).
+
+2
+00:00:07,295 --> 00:00:09,783
+Learn quantum computing from zero.
+
+3
+00:00:09,783 --> 00:00:16,093
+Simple step-by-step explanation of qubits, superposition, entanglement, and quantum gates.
+
+4
+00:00:16,093 --> 00:00:21,442
+Understand the real power, current capabilities, and future of quantum computers.
+
+5
+00:00:21,442 --> 00:00:22,487
+Let's get started.
+
+6
+00:00:22,487 --> 00:00:25,036
+Now, let's talk about What Is a Quantum Computer?
+
+7
+00:00:25,036 --> 00:00:27,031
+(The Simplest Explanation).
+
+8
+00:00:27,031 --> 00:00:31,718
+Imagine you're looking for a specific book in a massive library with 1 million books.
+
+9
+00:00:31,718 --> 00:00:34,411
+Regular Computer: Checks books one by one.
+
+10
+00:00:34,411 --> 00:00:36,550
+Book 1, Book 2, Book 3...
+
+11
+00:00:36,550 --> 00:00:37,812
+This takes forever.
+
+12
+00:00:37,812 --> 00:00:41,899
+Quantum Computer: Checks ALL 1 million books at the SAME TIME.
+
+13
+00:00:41,899 --> 00:00:43,593
+Finds your book instantly.
+
+14
+00:00:43,593 --> 00:00:45,108
+That's the basic idea.
+
+15
+00:00:45,108 --> 00:00:46,754
+But how does this magic work?
+
+16
+00:00:46,754 --> 00:00:48,665
+Let's break it down step by step.
+
+17
+00:00:48,665 --> 00:00:53,473
+Moving on to 2025: The Year Quantum Computing Became Real.
+
+18
+00:00:53,473 --> 00:01:03,497
+Before we dive into basics, let's acknowledge what happened in 2025 - the year quantum computing transitioned from laboratory experiments to commercial reality.
+
+19
+00:01:03,497 --> 00:01:06,129
+Major Breakthroughs (Verified Facts).
+
+20
+00:01:06,129 --> 00:01:18,221
+2025 Nobel Prize in Physics: Three scientists received the Nobel Prize for their work on superconducting quantum circuits - the technology powering IBM and Google's quantum computers.
+
+21
+00:01:18,221 --> 00:01:22,764
+This recognition shows how important this technology has become.
+
+22
+00:01:22,764 --> 00:01:36,009
+Industry Investment Explosion: Quantum computing companies raised $3.77 billion in the first nine months of 2025 - nearly triple the $1.3 billion raised in all of 2024.
+
+23
+00:01:36,009 --> 00:01:38,064
+(Source: SpinQ Research)
+
+24
+00:01:38,064 --> 00:01:46,862
+Error Correction Achieved: Multiple teams achieved "below threshold" error correction - meaning errors decrease as you add more qubits.
+
+25
+00:01:46,862 --> 00:01:49,290
+This was previously thought to be years away.
+
+26
+00:01:49,290 --> 00:01:50,937
+(Source: Nature)
+
+27
+00:01:50,937 --> 00:02:05,540
+First Quantum Advantage in Real Applications: IonQ and Ansys achieved a 12% improvement over classical supercomputers in a medical device simulation - one of the first documented cases of practical quantum advantage.
+
+28
+00:02:05,540 --> 00:02:07,187
+(Source: SpinQ)
+
+29
+00:02:07,187 --> 00:02:10,600
+Now let's understand how this technology actually works.
+
+30
+00:02:10,600 --> 00:02:13,822
+Next up: Part 1: Understanding the Basics.
+
+31
+00:02:13,822 --> 00:02:16,262
+What Is a "Bit" in Regular Computers?.
+
+32
+00:02:16,262 --> 00:02:20,685
+Before understanding quantum computers, let's understand regular computers.
+
+33
+00:02:20,685 --> 00:02:22,716
+Regular computers use bits.
+
+34
+00:02:22,716 --> 00:02:24,399
+A bit is like a light switch:
+
+35
+00:02:24,399 --> 00:02:31,995
+Everything your computer does - videos, games, websites - is made of billions of these 0s and 1s.
+
+36
+00:02:31,995 --> 00:02:34,555
+What Is a "Qubit" in Quantum Computers?.
+
+37
+00:02:34,555 --> 00:02:37,487
+Quantum computers use qubits (quantum bits).
+
+38
+00:02:37,487 --> 00:02:39,062
+Here's where it gets interesting.
+
+39
+00:02:39,062 --> 00:02:40,276
+A qubit can be:
+
+40
+00:02:40,276 --> 00:02:43,004
+Simple Analogy: Think of a spinning coin.
+
+41
+00:02:43,004 --> 00:02:47,259
+When it lands: Heads (0) OR Tails (1).
+
+42
+00:02:47,259 --> 00:02:50,721
+While spinning: It's BOTH heads AND tails at the same time.
+
+43
+00:02:50,721 --> 00:02:56,045
+A qubit is like that spinning coin - it exists in multiple states until you look at it.
+
+44
+00:02:56,045 --> 00:02:59,795
+Let's explore Part 2: The Three Quantum Superpowers.
+
+45
+00:02:59,795 --> 00:03:03,954
+Quantum computers have three special abilities that make them powerful:
+
+46
+00:03:03,954 --> 00:03:08,533
+Superpower 1: Superposition (Being Multiple Things at Once).
+
+47
+00:03:08,533 --> 00:03:09,987
+Real-World Example:
+
+48
+00:03:09,987 --> 00:03:13,533
+Imagine finding the shortest route between 10 cities.
+
+49
+00:03:13,533 --> 00:03:19,158
+Regular computer: Tests each route one by one (3.6 million routes).
+
+50
+00:03:19,158 --> 00:03:22,764
+Quantum computer: Tests ALL routes at the same time.
+
+51
+00:03:22,764 --> 00:03:26,514
+Superpower 2: Entanglement (Spooky Connection).
+
+52
+00:03:26,514 --> 00:03:31,586
+When two qubits are "entangled," they become mysteriously connected.
+
+53
+00:03:31,586 --> 00:03:32,836
+Why This Matters:
+
+54
+00:03:32,836 --> 00:03:38,461
+Entanglement allows quantum computers to: Process information in parallel.
+
+55
+00:03:38,461 --> 00:03:41,334
+Solve problems that need correlated answers.
+
+56
+00:03:41,334 --> 00:03:44,903
+Enable quantum encryption (unhackable communication).
+
+57
+00:03:44,903 --> 00:03:49,771
+Superpower 3: Interference (Amplifying Right Answers).
+
+58
+00:03:49,771 --> 00:03:55,168
+Quantum computers use interference to boost correct answers and cancel wrong ones.
+
+59
+00:03:55,168 --> 00:04:00,216
+Now let's look at Part 3: How a Quantum Computer Actually Works (Step by Step).
+
+60
+00:04:00,216 --> 00:04:03,677
+Let's walk through exactly how a quantum calculation happens.
+
+61
+00:04:03,677 --> 00:04:06,502
+Step 1: Initialize the Qubits.
+
+62
+00:04:06,502 --> 00:04:09,615
+Step 2: Put Qubits into Superposition.
+
+63
+00:04:09,615 --> 00:04:13,750
+Step 3: Apply Quantum Gates (The Calculations).
+
+64
+00:04:13,750 --> 00:04:16,153
+Quantum gates manipulate qubits.
+
+65
+00:04:16,153 --> 00:04:21,682
+Think of them like operations (+, -, ×) but for quantum states.
+
+66
+00:04:21,682 --> 00:04:24,266
+Step 4: Create Entanglement.
+
+67
+00:04:24,266 --> 00:04:26,899
+Step 5: Run the Quantum Algorithm.
+
+68
+00:04:26,899 --> 00:04:30,084
+Step 6: Measurement (Getting the Answer).
+
+69
+00:04:30,084 --> 00:04:33,161
+Step 7: Repeat and Analyze.
+
+70
+00:04:33,161 --> 00:04:37,992
+Now, let's talk about Part 4: The Physical Hardware (What's Inside a Quantum Computer?).
+
+71
+00:04:37,946 --> 00:04:40,516
+Quantum computers look nothing like your laptop.
+
+72
+00:04:40,516 --> 00:04:41,694
+Here's what's inside:
+
+73
+00:04:41,694 --> 00:04:43,052
+The Cooling System.
+
+74
+00:04:43,052 --> 00:04:44,506
+The Physical Structure.
+
+75
+00:04:44,506 --> 00:04:45,816
+Types of Qubits.
+
+76
+00:04:45,816 --> 00:04:49,025
+Different companies use different qubit technologies:
+
+77
+00:04:49,025 --> 00:04:52,956
+Moving on to Part 5: Real Power of Quantum Computers.
+
+78
+00:04:52,956 --> 00:04:56,946
+What can quantum computers actually do better than regular computers?
+
+79
+00:04:56,946 --> 00:04:59,446
+Problems Quantum Computers Excel At.
+
+80
+00:04:59,446 --> 00:05:03,160
+Current Quantum Computer Capabilities (2026).
+
+81
+00:05:03,160 --> 00:05:06,177
+Quantum vs Classical: Head to Head.
+
+82
+00:05:06,177 --> 00:05:10,396
+Next up: Part 6: Step-by-Step How to Run a Quantum Program.
+
+83
+00:05:10,396 --> 00:05:12,980
+Let's actually write and run a quantum program!
+
+84
+00:05:12,980 --> 00:05:15,275
+Using IBM Qiskit (Free).
+
+85
+00:05:15,275 --> 00:05:16,706
+Understanding the Code.
+
+86
+00:05:16,706 --> 00:05:18,653
+Running on Real Quantum Hardware.
+
+87
+00:05:18,653 --> 00:05:23,148
+Let's explore Part 7: Key Quantum Algorithms (Simplified).
+
+88
+00:05:23,148 --> 00:05:24,987
+Grover's Search Algorithm.
+
+89
+00:05:24,987 --> 00:05:29,290
+Finds an item in an unsorted list quadratically faster.
+
+90
+00:05:29,290 --> 00:05:30,600
+Shor's Algorithm.
+
+91
+00:05:30,600 --> 00:05:35,143
+Factors large numbers exponentially faster (threatens encryption).
+
+92
+00:05:35,143 --> 00:05:38,929
+Post-Quantum Cryptography: The Defense Is Ready.
+
+93
+00:05:38,929 --> 00:05:40,311
+Quantum Simulation.
+
+94
+00:05:40,311 --> 00:05:43,064
+Simulating molecules and materials.
+
+95
+00:05:43,064 --> 00:05:48,040
+Now let's look at Part 8: Current Quantum Computers (2026 Landscape).
+
+96
+00:05:48,040 --> 00:05:52,835
+Major Players and Their Machines (Updated January 2026).
+
+97
+00:05:52,835 --> 00:05:57,222
+The Error Correction Breakthrough (Why 2025 Was Historic).
+
+98
+00:05:57,222 --> 00:05:59,662
+Comparing Quantum Metrics (Updated).
+
+99
+00:05:59,662 --> 00:06:03,304
+Now, let's talk about Part 9: Quantum Computing for India.
+
+100
+00:06:03,304 --> 00:06:07,619
+Current State in India (Updated: January 2026).
+
+101
+00:06:07,619 --> 00:06:14,037
+India has made significant strides in quantum computing with major announcements in 2025.
+
+102
+00:06:14,037 --> 00:06:17,234
+NQM Targets (Official Government Goals).
+
+103
+00:06:17,234 --> 00:06:19,795
+Opportunities for Indian Developers.
+
+104
+00:06:19,795 --> 00:06:23,220
+Moving on to Part 10: The Future of Quantum Computing.
+
+105
+00:06:23,220 --> 00:06:28,484
+Short-Term (2026-2028) - Based on Company Roadmaps.
+
+106
+00:06:28,484 --> 00:06:33,665
+Medium-Term (2028-2032) - Industry Projections.
+
+107
+00:06:33,665 --> 00:06:36,369
+Long-Term (2032+).
+
+108
+00:06:36,369 --> 00:06:37,475
+What Will NOT Happen.
+
+109
+00:06:37,475 --> 00:06:40,756
+Next up: Part 11: Best Practices and Tips.
+
+110
+00:06:40,756 --> 00:06:42,847
+For Learning Quantum Computing.
+
+111
+00:06:42,847 --> 00:06:45,167
+For Building Quantum Applications.
+
+112
+00:06:45,167 --> 00:06:48,833
+Let's explore Part 12: Frequently Asked Questions.
+
+113
+00:06:48,833 --> 00:06:50,155
+Basic Questions.
+
+114
+00:06:50,155 --> 00:06:52,799
+Q: Is quantum computing just hype?
+
+115
+00:06:52,799 --> 00:06:56,525
+A: No, but expectations need calibration.
+
+116
+00:06:56,525 --> 00:07:03,328
+Quantum computing is real and making progress, but we're still years away from broad practical applications.
+
+117
+00:07:03,328 --> 00:07:11,922
+Current machines are like 1950s classical computers - useful for research and specific problems, not general-purpose yet.
+
+118
+00:07:11,922 --> 00:07:14,771
+Q: Will quantum computers replace my laptop?
+
+119
+00:07:14,771 --> 00:07:15,564
+A: No.
+
+120
+00:07:15,564 --> 00:07:21,970
+Quantum computers are good at specific types of problems (optimization, simulation, cryptography).
+
+121
+00:07:21,970 --> 00:07:27,775
+Your laptop will always be better for everyday tasks like browsing, documents, and videos.
+
+122
+00:07:27,775 --> 00:07:31,345
+Q: Do I need a physics PhD to learn quantum computing?
+
+123
+00:07:31,345 --> 00:07:32,150
+A: No.
+
+124
+00:07:32,150 --> 00:07:34,999
+You need basic linear algebra and programming.
+
+125
+00:07:34,999 --> 00:07:40,840
+Many successful quantum developers come from computer science, engineering, or math backgrounds.
+
+126
+00:07:40,840 --> 00:07:43,052
+Physics helps but isn't required.
+
+127
+00:07:43,052 --> 00:07:46,297
+Q: When will quantum computers break encryption?
+
+128
+00:07:46,297 --> 00:07:54,903
+A: Current estimates suggest 10-20+ years for breaking strong encryption like RSA-2048.
+
+129
+00:07:54,903 --> 00:08:03,737
+However, "harvest now, decrypt later" attacks are a concern - organizations should start migrating to post-quantum cryptography now.
+
+130
+00:08:03,737 --> 00:08:05,119
+Technical Questions.
+
+131
+00:08:05,119 --> 00:08:08,821
+Q: What's the difference between qubits and classical bits?
+
+132
+00:08:08,821 --> 00:08:12,523
+A: Classical bits are either 0 or 1.
+
+133
+00:08:12,523 --> 00:08:17,487
+Qubits can be 0, 1, or both simultaneously (superposition).
+
+134
+00:08:17,487 --> 00:08:21,886
+This allows quantum computers to process many possibilities at once.
+
+135
+00:08:21,886 --> 00:08:24,758
+Q: Why do quantum computers need to be so cold?
+
+136
+00:08:24,758 --> 00:08:29,963
+A: Heat causes vibrations that destroy quantum states (decoherence).
+
+137
+00:08:29,963 --> 00:08:38,304
+Near absolute zero, atoms barely move, allowing qubits to maintain their quantum properties long enough for calculations.
+
+138
+00:08:38,304 --> 00:08:40,504
+Q: Can I run quantum programs at home?
+
+139
+00:08:40,504 --> 00:08:44,085
+A: You can run quantum simulators on your regular computer.
+
+140
+00:08:44,085 --> 00:08:51,153
+For real quantum hardware, you can access IBM, Amazon, or Microsoft's cloud quantum computers for free.
+
+141
+00:08:51,153 --> 00:08:54,494
+Q: What programming languages are used for quantum computing?
+
+142
+00:08:54,494 --> 00:09:00,143
+A: Python is most common, using libraries like: Qiskit (IBM).
+
+143
+00:09:00,143 --> 00:09:01,201
+Cirq (Google).
+
+144
+00:09:01,201 --> 00:09:03,208
+Q# (Microsoft).
+
+145
+00:09:03,208 --> 00:09:04,891
+PennyLane (Xanadu).
+
+146
+00:09:04,891 --> 00:09:06,165
+Career Questions.
+
+147
+00:09:06,165 --> 00:09:09,650
+Q: Is quantum computing a good career choice in India?
+
+148
+00:09:09,626 --> 00:09:11,426
+A: Yes, but it's early.
+
+149
+00:09:11,426 --> 00:09:15,309
+Demand is growing, especially with the National Quantum Mission.
+
+150
+00:09:15,309 --> 00:09:19,083
+Start learning now to be ready when the field expands.
+
+151
+00:09:19,083 --> 00:09:24,515
+Consider it as an addition to, not replacement for, traditional CS skills.
+
+152
+00:09:24,515 --> 00:09:28,097
+Q: What salary can I expect in quantum computing in India?
+
+153
+00:09:28,097 --> 00:09:32,688
+A: Entry-level: ₹8-15 LPA.
+
+154
+00:09:32,688 --> 00:09:36,967
+Mid-level: ₹15-35 LPA.
+
+155
+00:09:36,967 --> 00:09:42,701
+Senior/Research: ₹35-60+ LPA.
+
+156
+00:09:42,701 --> 00:09:46,547
+These are estimates and vary by company, role, and location.
+
+157
+00:09:46,547 --> 00:09:49,948
+Now let's look at Conclusion: The Quantum Future Is Coming.
+
+158
+00:09:49,948 --> 00:09:53,121
+Quantum computing isn't science fiction anymore.
+
+159
+00:09:53,121 --> 00:09:58,326
+It's real, it's growing, and it will transform certain industries in the coming decades.
+
+160
+00:09:58,326 --> 00:09:59,588
+Key Takeaways:
+
+161
+00:09:59,588 --> 00:10:07,256
+Quantum computers work differently - Using superposition, entanglement, and interference instead of classical bits..
+
+162
+00:10:07,256 --> 00:10:18,542
+They're not universally better - They excel at specific problems (optimization, simulation, cryptography) while classical computers remain superior for most everyday tasks..
+
+163
+00:10:18,542 --> 00:10:23,987
+We're in the early days - Current machines are like 1950s classical computers.
+
+164
+00:10:23,987 --> 00:10:27,400
+Noisy, limited, but improving rapidly..
+
+165
+00:10:27,400 --> 00:10:34,047
+The opportunity is now - Learning quantum computing today positions you for the future.
+
+166
+00:10:34,047 --> 00:10:37,580
+India is investing heavily through the National Quantum Mission..
+
+167
+00:10:37,580 --> 00:10:43,686
+Start simple - You don't need a physics PhD. Basic programming and linear algebra are enough to begin..
+
+168
+00:10:43,686 --> 00:10:44,744
+Next Steps:
+
+169
+00:10:44,744 --> 00:10:47,725
+Create a free IBM Quantum account.
+
+170
+00:10:47,725 --> 00:10:50,357
+Complete the Qiskit textbook basics.
+
+171
+00:10:50,357 --> 00:10:52,232
+Run your first quantum circuit.
+
+172
+00:10:52,232 --> 00:10:54,924
+Join quantum computing communities.
+
+173
+00:10:54,924 --> 00:10:56,631
+Keep learning and building.
+
+174
+00:10:56,631 --> 00:10:58,650
+The quantum revolution is coming.
+
+175
+00:10:58,650 --> 00:11:00,838
+The question is: will you be ready?
+
+176
+00:11:00,838 --> 00:11:03,289
+Now, let's talk about Related Articles.
+
+177
+00:11:03,289 --> 00:11:10,068
+AI Capabilities in 2026: Complete Guide - How AI and quantum computing intersect.
+
+178
+00:11:10,068 --> 00:11:15,765
+Backend Developer Roadmap India 2026 - Including quantum computing skills.
+
+179
+00:11:15,765 --> 00:11:21,126
+Future of Technology 2026 - Where quantum fits in the tech landscape.
+
+180
+00:11:21,126 --> 00:11:22,737
+Moving on to Resources.
+
+181
+00:11:22,737 --> 00:11:25,537
+Free Learning: IBM Quantum Learning.
+
+182
+00:11:25,537 --> 00:11:26,859
+Qiskit Textbook.
+
+183
+00:11:26,859 --> 00:11:29,119
+Microsoft Quantum Documentation.
+
+184
+00:11:29,119 --> 00:11:31,126
+Google Cirq Tutorials.
+
+185
+00:11:31,126 --> 00:11:35,453
+Books: "Quantum Computing: An Applied Approach" by Jack Hidary.
+
+186
+00:11:35,453 --> 00:11:38,494
+"Programming Quantum Computers" by Eric Johnston.
+
+187
+00:11:38,494 --> 00:11:43,938
+"Quantum Computation and Quantum Information" by Nielsen & Chuang (advanced).
+
+188
+00:11:43,938 --> 00:11:46,595
+Communities: Qiskit Slack community.
+
+189
+00:11:46,595 --> 00:11:48,842
+Quantum Computing Stack Exchange.
+
+190
+00:11:48,842 --> 00:11:51,150
+r/QuantumComputing on Reddit.
+
+191
+00:11:51,150 --> 00:11:53,061
+Quantum Open Source Foundation.
+
+192
+00:11:53,061 --> 00:11:55,549
+Next up: Sources and References.
+
+193
+00:11:55,549 --> 00:11:58,506
+This guide uses verified information from:
+
+194
+00:11:58,506 --> 00:12:02,136
+Official Company Sources: IBM Quantum Roadmap.
+
+195
+00:12:02,136 --> 00:12:05,741
+IBM Newsroom - November 2025 Announcements.
+
+196
+00:12:05,741 --> 00:12:08,590
+Google AI Blog - Willow Chip.
+
+197
+00:12:08,590 --> 00:12:11,138
+Google Willow Spec Sheet (PDF).
+
+198
+00:12:11,138 --> 00:12:13,987
+Microsoft Azure - Majorana 1.
+
+199
+00:12:13,987 --> 00:12:15,441
+IonQ Roadmap.
+
+200
+00:12:15,441 --> 00:12:21,006
+Scientific Publications: Nature - Quantum Error Correction Below Threshold.
+
+201
+00:12:21,006 --> 00:12:24,600
+Nature - Microsoft Claims (with editorial note).
+
+202
+00:12:24,600 --> 00:12:28,830
+Government Sources: India National Quantum Mission - DST.
+
+203
+00:12:28,830 --> 00:12:31,571
+PIB India - NQM Updates.
+
+204
+00:12:31,571 --> 00:12:33,674
+NIST Post-Quantum Cryptography.
+
+205
+00:12:33,674 --> 00:12:38,289
+Industry Analysis: The Quantum Insider - 2026 Predictions.
+
+206
+00:12:38,289 --> 00:12:41,763
+SpinQ - Industry Trends 2025.
+
+207
+00:12:41,763 --> 00:12:45,405
+MIT Technology Review - Quantinuum Helios.
+
+208
+00:12:45,405 --> 00:12:47,917
+TechCrunch - India QpiAI.
+
+209
+00:12:47,917 --> 00:12:50,765
+McKinsey - Quantum in Life Sciences.
+
+210
+00:12:50,765 --> 00:12:55,249
+This guide uses verified, factual information with sources cited.
+
+211
+00:12:55,249 --> 00:12:59,323
+Last updated: January 27, 2026.
+
+212
+00:12:59,323 --> 00:13:00,994
+And that's the end of this article.
+
+213
+00:13:00,994 --> 00:13:02,136
+Thanks for listening.
+

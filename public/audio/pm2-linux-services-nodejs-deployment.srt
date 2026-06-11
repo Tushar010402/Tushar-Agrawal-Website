@@ -1,0 +1,360 @@
+1
+00:00:00,050 --> 00:00:06,562
+You're listening to: PM2 & Linux Services: Production Node.js Deployment Guide.
+
+2
+00:00:06,562 --> 00:00:15,216
+Complete guide to deploying Node.js applications in production using PM2 process manager and Linux systemd services.
+
+3
+00:00:15,216 --> 00:00:19,507
+Learn cluster mode, zero-downtime deployments, and monitoring.
+
+4
+00:00:19,507 --> 00:00:20,540
+Let's get started.
+
+5
+00:00:20,540 --> 00:00:22,764
+Now, let's talk about Introduction.
+
+6
+00:00:22,764 --> 00:00:34,543
+Running Node.js applications in production requires robust process management to handle crashes, enable zero-downtime deployments, and utilize multiple CPU cores effectively.
+
+7
+00:00:34,543 --> 00:00:45,264
+Two primary approaches dominate the Linux ecosystem: PM2 (a Node.js-specific process manager) and systemd (the Linux system and service manager).
+
+8
+00:00:45,264 --> 00:00:51,129
+In this guide, we'll explore: PM2 fundamentals and advanced features.
+
+9
+00:00:51,129 --> 00:00:54,206
+Linux systemd service creation and management.
+
+10
+00:00:54,206 --> 00:00:56,237
+When to use each approach.
+
+11
+00:00:56,237 --> 00:00:58,750
+Production-ready configurations.
+
+12
+00:00:58,750 --> 00:01:01,177
+Monitoring and logging strategies.
+
+13
+00:01:01,177 --> 00:01:03,894
+Moving on to PM2 Fundamentals.
+
+14
+00:01:03,894 --> 00:01:06,237
+Installation and Basic Usage.
+
+15
+00:01:06,237 --> 00:01:07,752
+Starting Applications.
+
+16
+00:01:07,752 --> 00:01:09,555
+Process Management Commands.
+
+17
+00:01:09,555 --> 00:01:12,091
+Next up: PM2 Cluster Mode.
+
+18
+00:01:12,091 --> 00:01:20,925
+PM2's cluster mode allows you to run multiple instances of your Node.js application, utilizing all available CPU cores:
+
+19
+00:01:20,925 --> 00:01:22,391
+Starting in Cluster Mode.
+
+20
+00:01:22,391 --> 00:01:24,783
+Cluster Mode Application Example.
+
+21
+00:01:24,783 --> 00:01:28,040
+Let's explore PM2 Ecosystem File.
+
+22
+00:01:28,040 --> 00:01:36,682
+The ecosystem file (ecosystem.config.js) is the recommended way to configure PM2 applications:
+
+23
+00:01:36,682 --> 00:01:38,461
+Using the Ecosystem File.
+
+24
+00:01:38,461 --> 00:01:41,189
+Now let's look at Linux systemd Services.
+
+25
+00:01:41,189 --> 00:01:48,930
+systemd is the default init system on most modern Linux distributions and provides a powerful way to manage services.
+
+26
+00:01:48,930 --> 00:01:51,141
+systemd Service File Structure.
+
+27
+00:01:51,141 --> 00:01:53,353
+Managing systemd Services.
+
+28
+00:01:53,353 --> 00:01:55,781
+Running PM2 Under systemd.
+
+29
+00:01:55,781 --> 00:02:00,216
+The best practice is to run PM2 itself under systemd:
+
+30
+00:02:00,216 --> 00:02:03,341
+Generated systemd file for PM2:
+
+31
+00:02:03,341 --> 00:02:08,173
+Now, let's talk about PM2 vs systemd: When to Use Which.
+
+32
+00:02:08,173 --> 00:02:10,024
+Use PM2 When:.
+
+33
+00:02:10,024 --> 00:02:13,737
+Running Node.js applications exclusively.
+
+34
+00:02:13,737 --> 00:02:16,718
+Need cluster mode for multi-core utilization.
+
+35
+00:02:16,718 --> 00:02:19,459
+Want built-in zero-downtime reloads.
+
+36
+00:02:19,459 --> 00:02:21,850
+Prefer simple deployment workflows.
+
+37
+00:02:21,850 --> 00:02:24,170
+Need log rotation and management.
+
+38
+00:02:24,170 --> 00:02:27,151
+Want a web dashboard (PM2 Plus).
+
+39
+00:02:27,151 --> 00:02:29,014
+Use systemd When:.
+
+40
+00:02:29,014 --> 00:02:33,052
+Running multiple types of services (not just Node.js).
+
+41
+00:02:33,052 --> 00:02:35,432
+Need comprehensive security hardening.
+
+42
+00:02:35,432 --> 00:02:39,206
+Want tight resource controls (cgroups, memory limits).
+
+43
+00:02:39,206 --> 00:02:41,466
+Managing system-level services.
+
+44
+00:02:41,466 --> 00:02:43,786
+Need complex service dependencies.
+
+45
+00:02:43,786 --> 00:02:45,721
+Prefer native Linux tooling.
+
+46
+00:02:45,721 --> 00:02:48,521
+Use Both (PM2 under systemd):.
+
+47
+00:02:48,521 --> 00:02:50,000
+Best of both worlds.
+
+48
+00:02:50,000 --> 00:02:55,228
+PM2 handles Node.js specifics (clustering, reloads).
+
+49
+00:02:55,228 --> 00:02:58,858
+systemd handles boot persistence and supervision.
+
+50
+00:02:58,858 --> 00:03:00,673
+Most production-ready approach.
+
+51
+00:03:00,673 --> 00:03:03,185
+Moving on to Zero-Downtime Deployments.
+
+52
+00:03:03,185 --> 00:03:05,721
+PM2 Zero-Downtime Reload.
+
+53
+00:03:05,721 --> 00:03:06,814
+How it works:
+
+54
+00:03:06,814 --> 00:03:09,639
+Graceful Shutdown Implementation.
+
+55
+00:03:09,639 --> 00:03:12,980
+PM2 Configuration for Graceful Shutdown.
+
+56
+00:03:12,980 --> 00:03:14,771
+Next up: Log Management.
+
+57
+00:03:14,771 --> 00:03:16,718
+PM2 Log Commands.
+
+58
+00:03:16,718 --> 00:03:18,689
+systemd Journal Logging.
+
+59
+00:03:18,689 --> 00:03:21,105
+Structured Logging for Production.
+
+60
+00:03:21,105 --> 00:03:23,810
+Let's explore Monitoring and Metrics.
+
+61
+00:03:23,810 --> 00:03:25,901
+PM2 Built-in Monitoring.
+
+62
+00:03:25,901 --> 00:03:28,437
+PM2 Plus (Paid Service).
+
+63
+00:03:28,437 --> 00:03:30,576
+Custom Metrics with PM2.
+
+64
+00:03:30,576 --> 00:03:32,884
+Prometheus Metrics Export.
+
+65
+00:03:32,884 --> 00:03:35,588
+Now let's look at Running Multiple Applications.
+
+66
+00:03:35,588 --> 00:03:37,704
+PM2 Multiple Apps.
+
+67
+00:03:37,704 --> 00:03:39,843
+systemd Multiple Services.
+
+68
+00:03:39,843 --> 00:03:42,151
+Creating a target for all services:
+
+69
+00:03:42,151 --> 00:03:45,036
+Now, let's talk about Security Best Practices.
+
+70
+00:03:45,036 --> 00:03:46,802
+PM2 Security.
+
+71
+00:03:46,802 --> 00:03:48,870
+systemd Security Hardening.
+
+72
+00:03:48,870 --> 00:03:51,129
+Moving on to Complete Production Setup.
+
+73
+00:03:51,129 --> 00:03:55,192
+Here's a complete setup combining PM2 with systemd:
+
+74
+00:03:55,192 --> 00:03:56,862
+Next up: Conclusion.
+
+75
+00:03:56,862 --> 00:04:03,125
+Both PM2 and systemd are excellent tools for running Node.js applications in production.
+
+76
+00:04:03,125 --> 00:04:04,471
+The key takeaways:
+
+77
+00:04:04,471 --> 00:04:12,283
+PM2 excels at Node.js-specific features: clustering, zero-downtime reloads, and built-in monitoring.
+
+78
+00:04:12,283 --> 00:04:18,137
+systemd provides robust system-level service management with comprehensive security hardening.
+
+79
+00:04:18,137 --> 00:04:23,918
+The combination of both (PM2 under systemd) is the most production-ready approach.
+
+80
+00:04:23,918 --> 00:04:28,353
+Always implement graceful shutdown for zero-downtime deployments.
+
+81
+00:04:28,353 --> 00:04:31,706
+Use structured logging and metrics for observability.
+
+82
+00:04:31,706 --> 00:04:41,454
+At Dr Dangs Lab, we run our Node.js microservices using PM2 in cluster mode, supervised by systemd, with Nginx as a reverse proxy.
+
+83
+00:04:41,454 --> 00:04:47,223
+This stack has provided us with 99.9% uptime and seamless deployments.
+
+84
+00:04:47,223 --> 00:04:49,194
+Let's explore Related Articles.
+
+85
+00:04:49,154 --> 00:04:54,789
+Docker & Kubernetes Deployment Guide - Containerized Node.js deployments.
+
+86
+00:04:54,789 --> 00:05:00,570
+GitHub Actions CI/CD Complete Guide - Automate your deployments.
+
+87
+00:05:00,570 --> 00:05:06,964
+Nginx Reverse Proxy & Load Balancing Guide - Front your Node.js apps with Nginx.
+
+88
+00:05:06,964 --> 00:05:12,541
+Apache vs Nginx Web Server Comparison - Choose the right reverse proxy.
+
+89
+00:05:12,541 --> 00:05:14,152
+And that's the end of this article.
+
+90
+00:05:14,152 --> 00:05:15,257
+Thanks for listening.
+

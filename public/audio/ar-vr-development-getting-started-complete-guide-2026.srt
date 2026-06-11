@@ -1,0 +1,680 @@
+1
+00:00:00,050 --> 00:00:06,730
+You're listening to: AR/VR Development Getting Started: Complete Beginner's Guide 2026.
+
+2
+00:00:06,730 --> 00:00:17,235
+Learn AR/VR development from scratch - WebXR, Unity AR Foundation, Apple Vision Pro, Meta Quest 3, Samsung Galaxy XR.
+
+3
+00:00:17,235 --> 00:00:21,081
+Beginner-friendly guide for Indian developers with code examples.
+
+4
+00:00:21,081 --> 00:00:22,127
+Let's get started.
+
+5
+00:00:22,127 --> 00:00:27,944
+Now, let's talk about The XR Revolution: Why 2026 Is the Year to Start.
+
+6
+00:00:27,944 --> 00:00:29,350
+You've seen the headlines.
+
+7
+00:00:29,350 --> 00:00:31,274
+Apple released Vision Pro.
+
+8
+00:00:31,274 --> 00:00:33,858
+Meta keeps pushing Quest headsets.
+
+9
+00:00:33,858 --> 00:00:36,454
+Samsung announced Galaxy XR.
+
+10
+00:00:36,454 --> 00:00:39,975
+Everyone's talking about the "spatial computing" future.
+
+11
+00:00:39,975 --> 00:00:45,805
+But here's what most people miss: You don't need expensive hardware to start building XR experiences today.
+
+12
+00:00:45,805 --> 00:00:51,382
+This guide will take you from zero to building your first AR/VR application.
+
+13
+00:00:51,382 --> 00:00:57,704
+Whether you have a smartphone or a high-end headset, you'll be creating immersive experiences by the end of this article.
+
+14
+00:00:57,704 --> 00:01:02,752
+Moving on to What Is AR/VR/MR/XR?
+
+15
+00:01:02,752 --> 00:01:04,435
+(Simple Explanations).
+
+16
+00:01:04,435 --> 00:01:08,798
+Before we dive into code, let's understand what these acronyms actually mean.
+
+17
+00:01:08,798 --> 00:01:10,877
+Augmented Reality (AR).
+
+18
+00:01:10,877 --> 00:01:14,038
+Digital content overlaid on the real world.
+
+19
+00:01:14,038 --> 00:01:19,014
+Think Pokémon GO, Instagram filters, or IKEA's furniture placement app.
+
+20
+00:01:19,014 --> 00:01:23,076
+You still see the real world - just with digital elements added on top.
+
+21
+00:01:23,076 --> 00:01:25,108
+Virtual Reality (VR).
+
+22
+00:01:25,108 --> 00:01:28,930
+Completely digital environment that replaces the real world.
+
+23
+00:01:28,930 --> 00:01:32,920
+Put on a VR headset, and you're transported somewhere else entirely.
+
+24
+00:01:32,920 --> 00:01:36,117
+You see only the virtual world - full immersion.
+
+25
+00:01:36,117 --> 00:01:37,980
+Mixed Reality (MR).
+
+26
+00:01:37,980 --> 00:01:40,865
+Digital objects that interact with the real world.
+
+27
+00:01:40,865 --> 00:01:43,593
+A virtual ball bouncing off your real table.
+
+28
+00:01:43,593 --> 00:01:46,538
+A digital character sitting on your actual couch.
+
+29
+00:01:46,538 --> 00:01:50,492
+Real and digital worlds interact - most advanced form.
+
+30
+00:01:50,492 --> 00:01:52,716
+Extended Reality (XR).
+
+31
+00:01:52,716 --> 00:02:02,379
+The umbrella term covering AR, VR, and MR. When people say "XR development," they mean building for any or all of these platforms.
+
+32
+00:02:02,379 --> 00:02:06,177
+Next up: Why Learn XR Development in 2026?.
+
+33
+00:02:06,177 --> 00:02:07,752
+The numbers tell the story:
+
+34
+00:02:07,752 --> 00:02:10,793
+What's Changed in 2025-2026?.
+
+35
+00:02:10,793 --> 00:02:15,108
+Apple Vision Pro brought mainstream attention to spatial computing.
+
+36
+00:02:15,108 --> 00:02:19,879
+Meta Quest 3 made MR accessible at $499.
+
+37
+00:02:19,879 --> 00:02:23,701
+WebXR matured - build XR with just JavaScript.
+
+38
+00:02:23,701 --> 00:02:29,362
+Samsung Galaxy XR (October 2025) brought Android XR to market.
+
+39
+00:02:29,362 --> 00:02:33,641
+Unity and Unreal simplified cross-platform development.
+
+40
+00:02:33,641 --> 00:02:37,632
+Let's explore Hardware Landscape 2026: What Should You Buy?.
+
+41
+00:02:37,632 --> 00:02:40,937
+Here's an honest comparison of current XR hardware:
+
+42
+00:02:40,937 --> 00:02:43,545
+My Recommendation for Indian Developers.
+
+43
+00:02:43,545 --> 00:02:46,778
+Start with Meta Quest 3 or Quest 3S.
+
+44
+00:02:46,778 --> 00:02:47,680
+Here's why:
+
+45
+00:02:47,680 --> 00:02:49,855
+Best price-to-capability ratio.
+
+46
+00:02:49,855 --> 00:02:51,610
+Large developer community.
+
+47
+00:02:51,610 --> 00:02:54,663
+Mixed reality passthrough for AR testing.
+
+48
+00:02:54,663 --> 00:02:56,502
+WebXR support built-in.
+
+49
+00:02:56,502 --> 00:02:58,329
+Huge app store for reference.
+
+50
+00:02:58,329 --> 00:03:01,141
+Available in India through official channels.
+
+51
+00:03:01,141 --> 00:03:06,718
+You can also start with just your smartphone using WebXR or ARCore/ARKit!
+
+52
+00:03:06,718 --> 00:03:10,168
+Now let's look at Three Development Paths: Choose Your Journey.
+
+53
+00:03:10,168 --> 00:03:13,028
+There are three main approaches to XR development:
+
+54
+00:03:13,028 --> 00:03:14,759
+Decision Flowchart.
+
+55
+00:03:14,759 --> 00:03:19,435
+Now, let's talk about Path 1: WebXR Development (The Easiest Start).
+
+56
+00:03:19,435 --> 00:03:23,461
+WebXR is the most accessible way to start XR development.
+
+57
+00:03:23,461 --> 00:03:31,646
+You use JavaScript, HTML, and Three.js to create VR/AR experiences that run directly in the browser.
+
+58
+00:03:31,646 --> 00:03:32,920
+What Is WebXR?.
+
+59
+00:03:32,920 --> 00:03:35,528
+Setting Up Your WebXR Development Environment.
+
+60
+00:03:35,528 --> 00:03:38,485
+Step 1: Install Node.js
+
+61
+00:03:38,485 --> 00:03:41,418
+Step 2: Create Project Structure
+
+62
+00:03:41,418 --> 00:03:43,930
+Step 3: Create Files
+
+63
+00:03:43,930 --> 00:03:47,992
+Your First VR Scene (Three.js + WebXR).
+
+64
+00:03:47,992 --> 00:03:50,661
+Let's build a VR environment step by step.
+
+65
+00:03:50,661 --> 00:03:52,439
+index.html:
+
+66
+00:03:52,439 --> 00:03:53,581
+Run your project:
+
+67
+00:03:53,581 --> 00:03:56,189
+Open your browser to the local server address.
+
+68
+00:03:56,189 --> 00:03:59,435
+If you have a VR headset connected, click "Enter VR"!
+
+69
+00:03:59,435 --> 00:04:02,908
+A-Frame: Even Easier XR Development.
+
+70
+00:04:02,908 --> 00:04:08,737
+A-Frame is a web framework that makes XR development as simple as writing HTML.
+
+71
+00:04:08,737 --> 00:04:10,721
+Complete A-Frame Example:
+
+72
+00:04:10,721 --> 00:04:11,478
+That's it!
+
+73
+00:04:11,478 --> 00:04:16,646
+Save this as an HTML file, open it in a browser, and you have a VR scene.
+
+74
+00:04:16,646 --> 00:04:18,437
+No build tools required.
+
+75
+00:04:18,437 --> 00:04:21,069
+AR with A-Frame (Marker-based).
+
+76
+00:04:21,069 --> 00:04:29,939
+Print a HIRO marker (search "HIRO marker AR.js"), point your phone camera at it, and watch the 3D cube appear!
+
+77
+00:04:29,939 --> 00:04:34,591
+Testing Without Hardware: Meta Immersive Web Emulator.
+
+78
+00:04:34,591 --> 00:04:37,415
+You don't need a VR headset to test WebXR.
+
+79
+00:04:37,415 --> 00:04:41,718
+Install the Meta Immersive Web Emulator Chrome extension:
+
+80
+00:04:41,718 --> 00:04:46,574
+Moving on to Path 2: Unity AR Foundation (Cross-Platform Power).
+
+81
+00:04:46,538 --> 00:04:50,177
+Unity is the industry standard for XR development.
+
+82
+00:04:50,177 --> 00:04:58,495
+AR Foundation provides a unified API for ARCore (Android), ARKit (iOS), and other platforms.
+
+83
+00:04:58,495 --> 00:05:01,199
+Setting Up Unity for XR Development.
+
+84
+00:05:01,199 --> 00:05:04,084
+Understanding AR Foundation Architecture.
+
+85
+00:05:04,084 --> 00:05:06,836
+Essential AR Foundation Components.
+
+86
+00:05:06,836 --> 00:05:10,117
+Building Your First AR App: Object Placer.
+
+87
+00:05:10,117 --> 00:05:14,925
+Let's create an AR app that places 3D objects on detected surfaces.
+
+88
+00:05:14,925 --> 00:05:16,872
+Step 1: Scene Setup
+
+89
+00:05:16,872 --> 00:05:19,613
+Step 2: Create the Placement Script
+
+90
+00:05:19,613 --> 00:05:22,810
+Step 3: Plane Visualization Script
+
+91
+00:05:22,810 --> 00:05:25,406
+Face Tracking (iOS ARKit).
+
+92
+00:05:25,406 --> 00:05:29,396
+Next up: Path 3: Platform-Specific Development.
+
+93
+00:05:29,396 --> 00:05:35,346
+For maximum performance and access to cutting-edge features, native development is the way.
+
+94
+00:05:35,346 --> 00:05:39,444
+Meta Quest Development (Unity + Meta XR SDK).
+
+95
+00:05:39,444 --> 00:05:41,403
+Quest Hand Tracking Example:
+
+96
+00:05:41,403 --> 00:05:44,348
+Apple Vision Pro Development (visionOS).
+
+97
+00:05:44,348 --> 00:05:49,613
+Apple Vision Pro uses SwiftUI and RealityKit for native development.
+
+98
+00:05:49,613 --> 00:05:53,531
+Samsung Galaxy XR / Android XR.
+
+99
+00:05:53,531 --> 00:06:00,129
+Samsung Galaxy XR runs Android XR, Google's new operating system for headsets.
+
+100
+00:06:00,129 --> 00:06:03,326
+Let's explore Indian XR Ecosystem.
+
+101
+00:06:03,326 --> 00:06:05,802
+Indian XR Startups to Watch.
+
+102
+00:06:05,802 --> 00:06:07,701
+Job Market and Salaries.
+
+103
+00:06:07,701 --> 00:06:09,072
+Learning Resources.
+
+104
+00:06:09,072 --> 00:06:10,490
+Free Resources:
+
+105
+00:06:10,490 --> 00:06:15,129
+Meta Quest Developer Hub - Official tutorials and documentation.
+
+106
+00:06:15,129 --> 00:06:18,411
+Unity Learn - Free XR development courses.
+
+107
+00:06:18,411 --> 00:06:22,233
+A-Frame School - Interactive WebXR tutorials.
+
+108
+00:06:22,233 --> 00:06:26,812
+Google ARCore Codelabs - Step-by-step AR tutorials.
+
+109
+00:06:26,812 --> 00:06:27,954
+Paid Courses:
+
+110
+00:06:27,954 --> 00:06:36,007
+Udemy: Complete XR Development - ₹449-3,999.
+
+111
+00:06:36,007 --> 00:06:41,223
+Coursera: XR Specialization - ₹3,000/month.
+
+112
+00:06:41,223 --> 00:06:45,105
+Unity Certified Developer - $150 exam.
+
+113
+00:06:45,105 --> 00:06:47,185
+Indian XR Communities.
+
+114
+00:06:47,185 --> 00:06:50,069
+XR Association India - Industry body.
+
+115
+00:06:50,069 --> 00:06:54,240
+VRARA India - Virtual Reality AR Association.
+
+116
+00:06:54,240 --> 00:06:59,348
+XR Developers India (Discord) - 5,000+ members.
+
+117
+00:06:59,348 --> 00:07:02,677
+Bangalore XR Meetup - Monthly events.
+
+118
+00:07:02,677 --> 00:07:05,322
+Mumbai VR - Active community.
+
+119
+00:07:05,322 --> 00:07:08,326
+Now let's look at Project: AR Business Card.
+
+120
+00:07:08,326 --> 00:07:15,045
+Let's build a complete project - an AR business card that displays your portfolio when someone scans it.
+
+121
+00:07:15,045 --> 00:07:16,007
+Concept.
+
+122
+00:07:16,007 --> 00:07:18,963
+Implementation (A-Frame + AR.js).
+
+123
+00:07:18,963 --> 00:07:23,062
+Now, let's talk about VR Portfolio Gallery (Three.js).
+
+124
+00:07:23,062 --> 00:07:25,838
+For a more immersive portfolio experience:
+
+125
+00:07:25,838 --> 00:07:27,605
+Moving on to Deployment Guide.
+
+126
+00:07:27,605 --> 00:07:29,685
+Deploying WebXR to the Web.
+
+127
+00:07:29,685 --> 00:07:32,052
+Deploying to Meta Quest (Unity).
+
+128
+00:07:32,052 --> 00:07:35,646
+Deploying to iOS (Unity AR Foundation).
+
+129
+00:07:35,646 --> 00:07:40,177
+Next up: 2026-2027 XR Outlook.
+
+130
+00:07:40,177 --> 00:07:43,891
+Let's explore Quick Reference: XR Development Commands.
+
+131
+00:07:43,891 --> 00:07:47,245
+Now let's look at Common Beginner Mistakes (And How to Avoid Them).
+
+132
+00:07:47,245 --> 00:07:51,307
+Now, let's talk about Conclusion: Your XR Journey Starts Now.
+
+133
+00:07:51,307 --> 00:07:52,233
+You've learned:
+
+134
+00:07:52,233 --> 00:07:57,257
+What XR is - AR, VR, MR, and the umbrella term XR.
+
+135
+00:07:57,257 --> 00:08:02,125
+Hardware landscape - Quest 3, Vision Pro, Galaxy XR options.
+
+136
+00:08:02,125 --> 00:08:06,223
+Three development paths - WebXR, Unity, and Native.
+
+137
+00:08:06,223 --> 00:08:11,812
+WebXR basics - Three.js and A-Frame for browser-based XR.
+
+138
+00:08:11,812 --> 00:08:16,439
+Unity AR Foundation - Cross-platform mobile AR development.
+
+139
+00:08:16,439 --> 00:08:21,187
+Platform-specific features - Quest, Vision Pro, Android XR.
+
+140
+00:08:21,187 --> 00:08:24,949
+Indian ecosystem - Jobs, salaries, communities.
+
+141
+00:08:24,949 --> 00:08:28,927
+Complete projects - AR business card, VR portfolio.
+
+142
+00:08:28,927 --> 00:08:30,069
+Your next steps:
+
+143
+00:08:30,069 --> 00:08:35,298
+Today: Install development tools (Node.js for WebXR or Unity).
+
+144
+00:08:35,298 --> 00:08:40,682
+This week: Complete your first VR scene (use the Three.js code above).
+
+145
+00:08:40,682 --> 00:08:43,795
+This month: Build the AR business card project.
+
+146
+00:08:43,795 --> 00:08:47,557
+Next month: Deploy your first app to Quest or web.
+
+147
+00:08:47,557 --> 00:08:52,701
+The XR industry is growing fast, and there's never been a better time to start.
+
+148
+00:08:52,701 --> 00:08:58,399
+The barrier to entry is low (you can start with just a browser), but the ceiling is incredibly high.
+
+149
+00:08:58,399 --> 00:09:00,574
+Welcome to the future of computing.
+
+150
+00:09:00,574 --> 00:09:02,245
+Moving on to Resources.
+
+151
+00:09:02,245 --> 00:09:03,915
+Official Documentation.
+
+152
+00:09:03,915 --> 00:09:06,812
+WebXR Device API (MDN).
+
+153
+00:09:06,812 --> 00:09:09,144
+Three.js Documentation.
+
+154
+00:09:09,144 --> 00:09:10,826
+A-Frame Documentation.
+
+155
+00:09:10,826 --> 00:09:12,990
+Unity AR Foundation.
+
+156
+00:09:12,990 --> 00:09:15,009
+Meta Quest Developer.
+
+157
+00:09:15,009 --> 00:09:16,680
+Apple visionOS.
+
+158
+00:09:16,680 --> 00:09:18,122
+Learning Platforms.
+
+159
+00:09:18,122 --> 00:09:20,021
+Unity Learn - XR.
+
+160
+00:09:20,021 --> 00:09:22,088
+Meta Quest Developer Hub.
+
+161
+00:09:22,088 --> 00:09:23,687
+Immersive Web Working Group.
+
+162
+00:09:23,687 --> 00:09:24,805
+Communities.
+
+163
+00:09:24,805 --> 00:09:26,283
+WebXR Discord.
+
+164
+00:09:26,283 --> 00:09:28,230
+r/WebXR.
+
+165
+00:09:28,230 --> 00:09:29,961
+r/OculusQuest.
+
+166
+00:09:29,961 --> 00:09:31,632
+XR Developers India.
+
+167
+00:09:31,632 --> 00:09:36,560
+This guide is part of my series on emerging technologies for Indian developers.
+
+168
+00:09:36,560 --> 00:09:39,060
+Follow for more in-depth technical guides.
+
+169
+00:09:39,060 --> 00:09:40,742
+And that's the end of this article.
+
+170
+00:09:40,742 --> 00:09:41,824
+Thanks for listening.
+

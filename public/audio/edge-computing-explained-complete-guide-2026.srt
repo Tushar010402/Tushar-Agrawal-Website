@@ -1,0 +1,464 @@
+1
+00:00:00,050 --> 00:00:05,793
+You're listening to: Edge Computing Explained: Complete Beginner's Guide 2026.
+
+2
+00:00:05,793 --> 00:00:14,134
+Understand edge computing from scratch - Cloudflare Workers, AWS Lambda@Edge, IoT edge, latency reduction.
+
+3
+00:00:14,134 --> 00:00:18,088
+Beginner-friendly guide with code examples for Indian developers.
+
+4
+00:00:18,088 --> 00:00:19,134
+Let's get started.
+
+5
+00:00:19,134 --> 00:00:21,790
+Now, let's talk about What is Edge Computing?
+
+6
+00:00:21,790 --> 00:00:23,437
+(The Simple Explanation).
+
+7
+00:00:23,437 --> 00:00:26,526
+Imagine you're in Mumbai, ordering food from Swiggy.
+
+8
+00:00:26,526 --> 00:00:28,930
+The restaurant is 2 km away.
+
+9
+00:00:28,930 --> 00:00:37,512
+But what if, instead of the nearby restaurant preparing your food, Swiggy sent your order to a kitchen in New York, and then flew the prepared food back to you?
+
+10
+00:00:37,512 --> 00:00:39,038
+That would be insane, right?
+
+11
+00:00:39,038 --> 00:00:42,536
+But that's essentially what happens with traditional cloud computing.
+
+12
+00:00:42,536 --> 00:00:50,300
+When you use an app, your request often travels thousands of kilometers to a data center, gets processed, and travels back.
+
+13
+00:00:50,300 --> 00:00:53,930
+Edge computing brings the processing closer to you.
+
+14
+00:00:53,930 --> 00:00:55,096
+Why Does This Matter?.
+
+15
+00:00:55,096 --> 00:00:57,187
+Speed of Light is the Limit
+
+16
+00:00:57,187 --> 00:01:02,271
+Light travels at ~300,000 km/second.
+
+17
+00:01:02,271 --> 00:01:08,485
+That sounds fast, but: Mumbai to US-East: ~14,000 km.
+
+18
+00:01:08,485 --> 00:01:13,413
+One-way time: ~47ms (just light travel, no processing).
+
+19
+00:01:13,413 --> 00:01:18,064
+Real-world with network hops: ~100-150ms one-way.
+
+20
+00:01:18,064 --> 00:01:21,971
+For many applications, this delay is unacceptable.
+
+21
+00:01:21,971 --> 00:01:25,156
+Moving on to The Latency Problem (With Real Numbers).
+
+22
+00:01:25,156 --> 00:01:28,497
+Let me show you actual latency numbers that I've measured from India:
+
+23
+00:01:28,497 --> 00:01:30,697
+Where Edge Makes a Difference.
+
+24
+00:01:30,697 --> 00:01:33,233
+Next up: Edge Computing Market Growth.
+
+25
+00:01:33,233 --> 00:01:36,141
+Let's explore Edge Computing Platforms Compared.
+
+26
+00:01:36,141 --> 00:01:39,651
+Here's an honest comparison of the major edge platforms:
+
+27
+00:01:39,651 --> 00:01:41,310
+Which Platform Should You Choose?.
+
+28
+00:01:41,310 --> 00:01:44,134
+Now let's look at Cloudflare Workers Deep Dive.
+
+29
+00:01:44,134 --> 00:01:49,098
+Cloudflare Workers is my top recommendation for edge computing beginners.
+
+30
+00:01:49,098 --> 00:01:50,540
+Here's why and how to get started.
+
+31
+00:01:50,540 --> 00:01:52,752
+What Makes Cloudflare Workers Special?.
+
+32
+00:01:52,752 --> 00:01:54,951
+Setting Up Your First Cloudflare Worker.
+
+33
+00:01:54,951 --> 00:01:57,788
+Step 1: Install Wrangler CLI
+
+34
+00:01:57,788 --> 00:02:00,024
+Step 2: Project Structure
+
+35
+00:02:00,024 --> 00:02:02,475
+Step 3: Your First Worker
+
+36
+00:02:02,475 --> 00:02:05,312
+Step 4: Run Locally and Deploy
+
+37
+00:02:05,312 --> 00:02:08,185
+Geolocation-Based Routing for India.
+
+38
+00:02:08,185 --> 00:02:12,199
+Cloudflare KV: Key-Value Storage at the Edge.
+
+39
+00:02:12,199 --> 00:02:15,528
+Cloudflare D1: SQLite at the Edge.
+
+40
+00:02:15,528 --> 00:02:19,471
+Now, let's talk about AWS Lambda@Edge Tutorial.
+
+41
+00:02:19,471 --> 00:02:24,759
+Lambda@Edge runs your code at AWS CloudFront edge locations.
+
+42
+00:02:24,759 --> 00:02:27,776
+Understanding Lambda@Edge Triggers.
+
+43
+00:02:27,776 --> 00:02:29,579
+Setting Up Lambda@Edge.
+
+44
+00:02:29,579 --> 00:02:32,079
+Step 1: Create Lambda Function
+
+45
+00:02:32,079 --> 00:02:35,877
+Step 2: Add Security Headers (Origin Response)
+
+46
+00:02:35,877 --> 00:02:39,134
+Step 3: Image Optimization at Edge
+
+47
+00:02:39,134 --> 00:02:42,163
+Deploying Lambda@Edge with Terraform.
+
+48
+00:02:42,163 --> 00:02:46,189
+Moving on to Edge Computing + IoT: The Perfect Match.
+
+49
+00:02:46,189 --> 00:02:49,338
+IoT devices generate massive amounts of data.
+
+50
+00:02:49,338 --> 00:02:54,362
+Sending all this data to the cloud is: Expensive (bandwidth costs).
+
+51
+00:02:54,362 --> 00:02:55,649
+Slow (latency).
+
+52
+00:02:55,649 --> 00:02:58,016
+Unreliable (network outages).
+
+53
+00:02:58,016 --> 00:03:00,000
+Risky (data in transit).
+
+54
+00:03:00,000 --> 00:03:02,872
+Edge computing solves all these problems.
+
+55
+00:03:02,872 --> 00:03:06,021
+AWS IoT Greengrass Example.
+
+56
+00:03:06,021 --> 00:03:08,810
+Azure IoT Edge Example.
+
+57
+00:03:08,810 --> 00:03:11,466
+Next up: Microservices at the Edge.
+
+58
+00:03:11,466 --> 00:03:15,985
+Research shows significant benefits from edge microservices:
+
+59
+00:03:15,985 --> 00:03:18,257
+Hybrid Cloud-Edge Architecture.
+
+60
+00:03:18,257 --> 00:03:20,721
+Let's explore Real-World Use Cases.
+
+61
+00:03:20,721 --> 00:03:23,737
+Indian Fintech: Low-Latency Trading.
+
+62
+00:03:23,737 --> 00:03:26,286
+E-commerce: Personalization at Speed.
+
+63
+00:03:26,286 --> 00:03:28,521
+Healthcare: Patient Monitoring.
+
+64
+00:03:28,521 --> 00:03:31,382
+Now let's look at Indian Edge Computing Landscape.
+
+65
+00:03:31,382 --> 00:03:33,293
+Infrastructure Availability.
+
+66
+00:03:33,293 --> 00:03:34,891
+Career Opportunities.
+
+67
+00:03:34,891 --> 00:03:39,362
+Now, let's talk about Hands-On Project: Build a Geo-Aware API.
+
+68
+00:03:39,362 --> 00:03:45,540
+Let's build a complete edge API with caching, geolocation, and database access.
+
+69
+00:03:45,540 --> 00:03:46,899
+Project Structure.
+
+70
+00:03:46,899 --> 00:03:48,617
+Complete Implementation.
+
+71
+00:03:48,617 --> 00:03:49,987
+wrangler.toml:
+
+72
+00:03:49,987 --> 00:03:52,848
+src/index.ts:
+
+73
+00:03:52,848 --> 00:03:57,259
+src/middleware/cache.ts:
+
+74
+00:03:57,259 --> 00:04:01,634
+src/middleware/rateLimit.ts:
+
+75
+00:04:01,634 --> 00:04:05,264
+src/routes/weather.ts:
+
+76
+00:04:05,264 --> 00:04:08,906
+src/routes/health.ts:
+
+77
+00:04:08,906 --> 00:04:10,420
+Deploy and Test.
+
+78
+00:04:10,420 --> 00:04:14,338
+Moving on to Monitoring and Debugging Edge Applications.
+
+79
+00:04:14,338 --> 00:04:18,125
+Next up: Conclusion: The Edge is the Future.
+
+80
+00:04:18,125 --> 00:04:19,086
+You've learned:
+
+81
+00:04:19,086 --> 00:04:23,834
+What edge computing is - Processing data closer to users.
+
+82
+00:04:23,834 --> 00:04:28,329
+Why latency matters - Real numbers showing the speed of light problem.
+
+83
+00:04:28,329 --> 00:04:33,377
+Platform comparison - Cloudflare Workers, Lambda@Edge, and more.
+
+84
+00:04:33,377 --> 00:04:37,980
+Cloudflare Workers deep dive - From hello world to production.
+
+85
+00:04:37,980 --> 00:04:42,800
+AWS Lambda@Edge - CloudFront integration and use cases.
+
+86
+00:04:42,800 --> 00:04:45,937
+Edge + IoT - The perfect combination.
+
+87
+00:04:45,937 --> 00:04:50,096
+Real-world use cases - Fintech, e-commerce, healthcare.
+
+88
+00:04:50,096 --> 00:04:53,365
+Indian landscape - Infrastructure and careers.
+
+89
+00:04:53,365 --> 00:04:57,427
+Complete project - Geo-aware API with caching.
+
+90
+00:04:57,427 --> 00:04:58,701
+Key takeaways:
+
+91
+00:04:58,682 --> 00:05:04,629
+Start with Cloudflare Workers - Best developer experience, 0ms cold starts.
+
+92
+00:05:04,629 --> 00:05:08,031
+Think "edge-first" for latency-sensitive features.
+
+93
+00:05:08,031 --> 00:05:12,778
+Use hybrid architecture - Edge for speed, cloud for complexity.
+
+94
+00:05:12,778 --> 00:05:16,432
+Cache aggressively - Most requests can be served from cache.
+
+95
+00:05:16,432 --> 00:05:21,107
+Monitor everything - Edge debugging is different from traditional.
+
+96
+00:05:21,107 --> 00:05:23,523
+The edge is not replacing the cloud.
+
+97
+00:05:23,523 --> 00:05:26,228
+It's extending it to be closer to your users.
+
+98
+00:05:26,228 --> 00:05:35,567
+In 2026, developers who understand edge computing will have a significant advantage in building fast, reliable, global applications.
+
+99
+00:05:35,567 --> 00:05:37,333
+Let's explore Resources.
+
+100
+00:05:37,333 --> 00:05:39,004
+Official Documentation.
+
+101
+00:05:39,004 --> 00:05:40,759
+Cloudflare Workers Docs.
+
+102
+00:05:40,759 --> 00:05:42,706
+AWS Lambda@Edge.
+
+103
+00:05:42,706 --> 00:05:44,761
+Vercel Edge Functions.
+
+104
+00:05:44,761 --> 00:05:45,843
+Deno Deploy.
+
+105
+00:05:45,843 --> 00:05:47,225
+Learning Resources.
+
+106
+00:05:47,225 --> 00:05:49,317
+Cloudflare Developer Discord.
+
+107
+00:05:49,317 --> 00:05:52,538
+AWS re:Invent Edge Sessions.
+
+108
+00:05:52,538 --> 00:05:55,170
+Edge Computing Patterns (Microsoft).
+
+109
+00:05:55,170 --> 00:05:56,684
+Indian Communities.
+
+110
+00:05:56,684 --> 00:05:58,872
+AWS User Group India.
+
+111
+00:05:58,872 --> 00:06:00,963
+Cloudflare India Meetups.
+
+112
+00:06:00,963 --> 00:06:02,886
+r/developersIndia.
+
+113
+00:06:02,886 --> 00:06:07,838
+This guide is part of my series on emerging technologies for Indian developers.
+
+114
+00:06:07,838 --> 00:06:10,386
+Follow for more in-depth technical guides.
+
+115
+00:06:10,386 --> 00:06:12,021
+And that's the end of this article.
+
+116
+00:06:12,021 --> 00:06:13,127
+Thanks for listening.
+

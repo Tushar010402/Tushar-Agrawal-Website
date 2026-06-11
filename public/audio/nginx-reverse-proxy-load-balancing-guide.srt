@@ -1,0 +1,200 @@
+1
+00:00:00,050 --> 00:00:05,492
+You're listening to: Nginx Reverse Proxy and Load Balancing: Complete Production Guide.
+
+2
+00:00:05,492 --> 00:00:12,956
+Master Nginx configuration for reverse proxy, load balancing, SSL termination, caching, and rate limiting.
+
+3
+00:00:12,956 --> 00:00:18,509
+Learn production-ready configurations with practical examples and performance optimization.
+
+4
+00:00:18,509 --> 00:00:19,555
+Let's get started.
+
+5
+00:00:19,555 --> 00:00:21,634
+Now, let's talk about Introduction.
+
+6
+00:00:21,634 --> 00:00:28,858
+Nginx powers over 30% of all websites and is the go-to solution for reverse proxying and load balancing.
+
+7
+00:00:28,858 --> 00:00:36,129
+At Dr. Dangs Lab, Nginx handles millions of requests daily, routing traffic across our microservices.
+
+8
+00:00:36,129 --> 00:00:41,033
+This guide covers everything from basics to production-ready configurations.
+
+9
+00:00:41,033 --> 00:00:43,088
+Moving on to Nginx Architecture.
+
+10
+00:00:43,088 --> 00:00:45,444
+Next up: Basic Reverse Proxy.
+
+11
+00:00:45,444 --> 00:00:47,007
+Simple Configuration.
+
+12
+00:00:47,007 --> 00:00:49,182
+Reverse Proxy Configuration.
+
+13
+00:00:49,182 --> 00:00:51,021
+Let's explore Load Balancing.
+
+14
+00:00:51,021 --> 00:00:52,427
+Round Robin (Default).
+
+15
+00:00:52,427 --> 00:00:53,834
+Weighted Load Balancing.
+
+16
+00:00:53,834 --> 00:00:55,132
+Least Connections.
+
+17
+00:00:55,132 --> 00:00:57,632
+IP Hash (Session Persistence).
+
+18
+00:00:57,632 --> 00:00:59,699
+Health Checks and Failover.
+
+19
+00:00:59,699 --> 00:01:02,451
+Now let's look at Advanced Configurations.
+
+20
+00:01:02,451 --> 00:01:03,569
+Rate Limiting.
+
+21
+00:01:03,569 --> 00:01:04,399
+Caching.
+
+22
+00:01:04,399 --> 00:01:05,721
+WebSocket Support.
+
+23
+00:01:05,721 --> 00:01:07,319
+Static File Serving.
+
+24
+00:01:07,319 --> 00:01:08,689
+Security Headers.
+
+25
+00:01:08,689 --> 00:01:11,250
+Now, let's talk about Microservices Routing.
+
+26
+00:01:11,250 --> 00:01:13,737
+Moving on to Docker and Kubernetes.
+
+27
+00:01:13,737 --> 00:01:15,552
+Docker Compose Example.
+
+28
+00:01:15,552 --> 00:01:17,115
+Kubernetes Ingress.
+
+29
+00:01:17,115 --> 00:01:19,831
+Next up: Monitoring and Debugging.
+
+30
+00:01:19,831 --> 00:01:21,526
+Enable Status Module.
+
+31
+00:01:21,526 --> 00:01:22,740
+Debug Logging.
+
+32
+00:01:22,740 --> 00:01:24,471
+Testing Configuration.
+
+33
+00:01:24,471 --> 00:01:26,706
+Let's explore Performance Optimization.
+
+34
+00:01:26,706 --> 00:01:28,810
+Now let's look at Key Takeaways.
+
+35
+00:01:28,810 --> 00:01:32,211
+Use upstream blocks for load balancing flexibility.
+
+36
+00:01:32,211 --> 00:01:35,576
+Enable keepalive between Nginx and backends.
+
+37
+00:01:35,576 --> 00:01:38,870
+Configure health checks for automatic failover.
+
+38
+00:01:38,870 --> 00:01:42,007
+Implement rate limiting to protect services.
+
+39
+00:01:42,007 --> 00:01:44,122
+Cache static content aggressively.
+
+40
+00:01:44,122 --> 00:01:47,211
+Use SSL termination at Nginx level.
+
+41
+00:01:47,211 --> 00:01:50,408
+Monitor with stub_status and logs.
+
+42
+00:01:50,408 --> 00:01:52,764
+Test configuration before reload.
+
+43
+00:01:52,764 --> 00:01:54,531
+Now, let's talk about Conclusion.
+
+44
+00:01:54,531 --> 00:01:59,927
+Nginx is an incredibly powerful tool for reverse proxying and load balancing.
+
+45
+00:01:59,927 --> 00:02:07,355
+Start with basic configurations, then add features like caching, rate limiting, and health checks as your needs grow.
+
+46
+00:02:07,355 --> 00:02:11,442
+The key is to understand your traffic patterns and optimize accordingly.
+
+47
+00:02:11,442 --> 00:02:13,353
+Building scalable infrastructure?
+
+48
+00:02:13,353 --> 00:02:16,682
+Connect on LinkedIn to discuss architecture patterns.
+
+49
+00:02:16,682 --> 00:02:18,329
+And that's the end of this article.
+
+50
+00:02:18,329 --> 00:02:19,447
+Thanks for listening.
+

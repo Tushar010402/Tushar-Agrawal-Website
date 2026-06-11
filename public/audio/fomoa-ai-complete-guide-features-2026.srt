@@ -1,0 +1,504 @@
+1
+00:00:00,050 --> 00:00:08,040
+You're listening to: FOMOA AI: The Complete Guide to India's Free AI Search Engine (2026).
+
+2
+00:00:08,040 --> 00:00:13,112
+Everything about FOMOA AI — India's free AI search engine.
+
+3
+00:00:13,112 --> 00:00:26,225
+Native Hindi/Hinglish support, 150+ Indian sources, a 4-signal credibility ranking system, government scheme search, and how it was trained on 86,000 India-centric samples.
+
+4
+00:00:26,225 --> 00:00:27,295
+Let's get started.
+
+5
+00:00:27,295 --> 00:00:30,168
+Generic AI models were not built for India.
+
+6
+00:00:30,168 --> 00:00:39,158
+Ask one "मेरी सैलरी 12 लाख है, टैक्स कितना लगेगा?" and it stumbles on the number format before it even gets to the tax slabs.
+
+7
+00:00:39,158 --> 00:00:44,519
+Ask it which government scheme a small farmer qualifies for and it confidently invents one.
+
+8
+00:00:44,519 --> 00:00:56,911
+That gap is exactly why I got interested in FOMOA — an India-first AI search engine that is free to use, understands Hindi and Hinglish natively, and ranks answers by how trustworthy the source actually is.
+
+9
+00:00:56,911 --> 00:01:06,634
+This is the complete guide: what FOMOA is, why an India-first engine matters, the features that make it different, how it ranks results, and how it was actually trained.
+
+10
+00:01:06,634 --> 00:01:10,312
+If you only read one FOMOA article, read this one.
+
+11
+00:01:10,312 --> 00:01:13,293
+Now, let's talk about What is FOMOA AI?.
+
+12
+00:01:13,293 --> 00:01:19,447
+FOMOA is a free AI search engine optimised for Indian users and Indian context.
+
+13
+00:01:19,447 --> 00:01:27,752
+Instead of bolting an "India mode" onto a global model, it was built from the ground up around three things global tools get wrong:
+
+14
+00:01:27,752 --> 00:01:34,146
+Language — Indians search in Hindi, English, and a constant code-mix of both ("Hinglish").
+
+15
+00:01:34,146 --> 00:01:38,389
+FOMOA detects the language automatically and answers in kind..
+
+16
+00:01:38,389 --> 00:01:51,670
+Sources — it draws on 150+ authoritative Indian sources (government portals, regulators, major Indian publications) instead of treating a random blog as equal to an official notification..
+
+17
+00:01:51,670 --> 00:01:59,951
+Format — it understands the Indian number system (lakhs, crores), Indian dates, and the structure of Indian government schemes..
+
+18
+00:01:59,951 --> 00:02:06,406
+You can use it as a normal web search assistant, or — if you are a developer — through an OpenAI-compatible API.
+
+19
+00:02:06,406 --> 00:02:11,418
+I cover the developer side in depth in the companion guide, FOMOA for Developers.
+
+20
+00:02:11,418 --> 00:02:14,134
+Moving on to Why an India-First Engine Matters.
+
+21
+00:02:14,134 --> 00:02:19,170
+Here is where global AI models consistently fail Indian users:
+
+22
+00:02:19,170 --> 00:02:21,262
+1. The Indian number system.
+
+23
+00:02:21,262 --> 00:02:24,675
+"12 lakh" is 1,200,000.
+
+24
+00:02:24,675 --> 00:02:27,704
+"2.5 crore" is 25,000,000.
+
+25
+00:02:27,704 --> 00:02:35,300
+Global models frequently misread these, and a single misread digit destroys a tax, loan, or salary answer.
+
+26
+00:02:35,300 --> 00:02:39,350
+FOMOA treats lakh/crore as first-class units.
+
+27
+00:02:39,350 --> 00:02:42,007
+2. Source credibility blindness.
+
+28
+00:02:42,007 --> 00:02:49,903
+Most AI search treats Wikipedia, a government circular, and an SEO content farm as roughly equal text.
+
+29
+00:02:49,903 --> 00:02:53,365
+For "what documents do I need for a passport," that is dangerous.
+
+30
+00:02:53,365 --> 00:02:58,076
+FOMOA scores sources explicitly (more on the ranking system below).
+
+31
+00:02:58,076 --> 00:03:00,817
+3. Hindi and Hinglish queries.
+
+32
+00:03:00,817 --> 00:03:06,045
+Roughly half of India's internet users are more comfortable in Hindi than English.
+
+33
+00:03:06,045 --> 00:03:13,377
+A query like "PM Kisan ka paisa kab aayega" should just work — no translation, no language toggle.
+
+34
+00:03:13,377 --> 00:03:15,841
+4. Government scheme navigation.
+
+35
+00:03:15,841 --> 00:03:21,225
+India runs 100+ central schemes and 1000+ state schemes.
+
+36
+00:03:21,225 --> 00:03:27,764
+Finding the one you qualify for, with the right documents and the official application link, is genuinely hard.
+
+37
+00:03:27,764 --> 00:03:36,682
+This is one of FOMOA's strongest use cases — covered in detail in FOMOA vs Exa.ai and India Use-Cases.
+
+38
+00:03:36,682 --> 00:03:40,204
+Next up: FOMOA's Core Features in 2026.
+
+39
+00:03:40,204 --> 00:03:42,403
+Native Hindi and Hinglish support.
+
+40
+00:03:42,403 --> 00:03:46,310
+FOMOA handles three modes with zero manual switching:
+
+41
+00:03:46,310 --> 00:03:51,466
+Pure Hindi (शुद्ध हिंदी) — full Devanagari queries and answers..
+
+42
+00:03:51,466 --> 00:03:56,009
+Hinglish — "Mujhe ek accha SIP plan batao for long term.".
+
+43
+00:03:56,009 --> 00:03:59,290
+Code-mixed — a sentence that swaps scripts mid-way..
+
+44
+00:03:59,290 --> 00:04:09,158
+It auto-detects the language and, importantly, expands Hindi queries to also search high-quality English sources, then answers back in the user's language.
+
+45
+00:04:09,158 --> 00:04:18,161
+On internal Hindi factual-query benchmarks this reached around 89% accuracy — a number that comes directly from how the model was trained (below).
+
+46
+00:04:18,161 --> 00:04:21,442
+150+ Indian authoritative sources.
+
+47
+00:04:21,434 --> 00:04:34,220
+FOMOA maintains a curated index of Indian government domains, regulators, and reputable publications, with Indian government domains (.gov.in, .nic.in) getting automatic trust.
+
+48
+00:04:34,220 --> 00:04:39,617
+So a scheme question is answered from the actual ministry page, not a third-party aggregator.
+
+49
+00:04:39,617 --> 00:04:42,141
+Indian number and format understanding.
+
+50
+00:04:42,141 --> 00:04:49,268
+Lakhs, crores, Indian financial-year dates, GST/PAN context — handled natively.
+
+51
+00:04:49,268 --> 00:04:57,045
+This sounds small until you watch a global model turn "₹2.5 crore" into "$2.5 million."
+
+52
+00:04:57,045 --> 00:04:58,811
+Government scheme navigator.
+
+53
+00:04:58,811 --> 00:05:10,073
+Ask in plain language ("schemes for women entrepreneurs in Maharashtra") and get eligibility, required documents, benefits, and the official application link — sourced from official portals.
+
+54
+00:05:10,073 --> 00:05:11,420
+Deep research mode.
+
+55
+00:05:11,420 --> 00:05:20,494
+For harder questions, FOMOA can follow leads across multiple "hops," detect conflicts between sources, and synthesise a cited report.
+
+56
+00:05:20,494 --> 00:05:27,477
+There are three depths — quick (~5s), normal (~15s), and deep (~60s).
+
+57
+00:05:27,477 --> 00:05:30,783
+The mechanics are explained in FOMOA for Developers.
+
+58
+00:05:30,783 --> 00:05:32,177
+Real-time information.
+
+59
+00:05:32,177 --> 00:05:41,612
+FOMOA pulls fresh data from its Indian source set rather than relying only on a training snapshot, so exam dates, scheme deadlines, and prices stay current.
+
+60
+00:05:41,612 --> 00:05:44,352
+Free, OpenAI-compatible API.
+
+61
+00:05:44,352 --> 00:05:52,201
+Developers can point the standard OpenAI SDK at FOMOA by changing the base_url — no rewrite required.
+
+62
+00:05:52,201 --> 00:05:56,672
+This is the feature that makes FOMOA interesting beyond consumer search.
+
+63
+00:05:56,672 --> 00:06:00,734
+Let's explore How FOMOA Ranks Results: The 4-Signal System.
+
+64
+00:06:00,734 --> 00:06:08,487
+The single most important thing separating FOMOA from "ask a chatbot" is that it ranks sources explicitly before answering.
+
+65
+00:06:08,487 --> 00:06:10,771
+Four signals combine into a score:
+
+66
+00:06:10,771 --> 00:06:13,018
+Signal, Weight, What it measures.
+
+67
+00:06:13,018 --> 00:06:18,343
+Semantic relevance, 50%, How well the source actually answers the query.
+
+68
+00:06:18,343 --> 00:06:26,263
+Source credibility, 25%, Authority of the domain (gov/regulator/established publisher → high).
+
+69
+00:06:26,263 --> 00:06:30,807
+Content freshness, 20%, How recent the information is.
+
+70
+00:06:30,807 --> 00:06:35,975
+Domain expertise, 5%, Topical match between source and query.
+
+71
+00:06:35,975 --> 00:06:38,319
+A couple of things make this practical:
+
+72
+00:06:38,319 --> 00:06:41,480
+Indian government domains get automatic trust.
+
+73
+00:06:41,480 --> 00:06:45,674
+A gov.in notification outranks a blog summarising it..
+
+74
+00:06:45,674 --> 00:06:47,513
+Weighting is query-adaptive.
+
+75
+00:06:47,513 --> 00:06:56,359
+For "latest NEET 2026 date," freshness matters more; for "what is compound interest," credibility and relevance dominate..
+
+76
+00:06:56,359 --> 00:06:59,052
+Conflicts are surfaced, not hidden.
+
+77
+00:06:59,052 --> 00:07:07,045
+When sources disagree, FOMOA shows the disagreement and the more authoritative source, instead of silently picking one..
+
+78
+00:07:07,045 --> 00:07:16,107
+This is the same instinct behind good engineering: don't treat all inputs as equal — score them, weight them, and make the decision auditable.
+
+79
+00:07:16,107 --> 00:07:23,246
+If you are interested in the broader landscape of AI search tools, I compared the options in the best free AI search engine for India.
+
+80
+00:07:23,246 --> 00:07:28,655
+Now let's look at How FOMOA Was Trained (86,000 India-Centric Samples).
+
+81
+00:07:28,655 --> 00:07:34,172
+FOMOA's India fluency is not a prompt trick — it is baked into the model weights.
+
+82
+00:07:34,172 --> 00:07:36,311
+The training approach, briefly:
+
+83
+00:07:36,311 --> 00:07:40,674
+Base model: Qwen2.5-7B-Instruct.
+
+84
+00:07:40,674 --> 00:07:49,557
+A 7B model was a deliberate choice — large enough to reason well, small enough to serve cheaply and stay free for users..
+
+85
+00:07:49,557 --> 00:07:59,713
+Method: QLoRA fine-tuning (4-bit quantised base + low-rank adapters), which makes fine-tuning a 7B model feasible on modest hardware..
+
+86
+00:07:59,713 --> 00:08:04,208
+Training data (≈86,000 samples):.
+
+87
+00:08:04,208 --> 00:08:15,266
+56,760 Hindi/Hinglish samples (about 65% of the mix) — this is why Hindi works natively rather than via translation..
+
+88
+00:08:15,266 --> 00:08:19,653
+20,000 analytical-reasoning samples..
+
+89
+00:08:19,653 --> 00:08:23,234
+10,000 diverse-knowledge samples..
+
+90
+00:08:23,234 --> 00:08:26,768
+Compute: roughly 113 hours of training..
+
+91
+00:08:26,768 --> 00:08:29,869
+The key lesson: native beats translated.
+
+92
+00:08:29,869 --> 00:08:38,066
+A model trained on real Hindi and Hinglish understands idiom and code-mixing in a way that a translate-then-answer pipeline never will.
+
+93
+00:08:38,066 --> 00:08:43,078
+That is the difference between "technically supports Hindi" and "actually feels Indian."
+
+94
+00:08:43,078 --> 00:08:45,879
+Now, let's talk about Who FOMOA Is For.
+
+95
+00:08:45,866 --> 00:08:52,991
+Students — exam dates, syllabus, cutoffs, and scholarships from official NTA/government sources..
+
+96
+00:08:52,991 --> 00:08:59,301
+Professionals — tax, finance, and policy questions answered in Indian units with cited sources..
+
+97
+00:08:59,301 --> 00:09:05,599
+Business owners — scheme and compliance discovery (MUDRA, GST, registrations)..
+
+98
+00:09:05,599 --> 00:09:11,909
+General users — government services, healthcare schemes, and everyday queries in their own language..
+
+99
+00:09:11,909 --> 00:09:21,693
+The student and government-scheme workflows are deep enough that I gave them their own guide: FOMOA vs Exa.ai and India Use-Cases.
+
+100
+00:09:21,693 --> 00:09:23,123
+Moving on to Getting Started.
+
+101
+00:09:23,123 --> 00:09:27,474
+Open FOMOA and ask a question in Hindi, English, or Hinglish..
+
+102
+00:09:27,474 --> 00:09:32,342
+Read the cited answer — every claim links back to its source so you can verify..
+
+103
+00:09:32,342 --> 00:09:35,551
+For deeper questions, switch to deep research mode..
+
+104
+00:09:35,551 --> 00:09:39,566
+Developers: grab an API key and read the developer guide..
+
+105
+00:09:39,566 --> 00:09:42,198
+Next up: Frequently Asked Questions.
+
+106
+00:09:42,198 --> 00:09:44,457
+Is FOMOA really completely free?
+
+107
+00:09:44,457 --> 00:09:53,340
+Yes — both the web interface and the developer API are free to use, which is the headline difference versus paid AI-search APIs.
+
+108
+00:09:53,340 --> 00:09:56,441
+How accurate is FOMOA for government information?
+
+109
+00:09:56,441 --> 00:10:06,717
+Government questions are answered from official gov.in/nic.in sources with citations, and those domains are automatically trusted in the ranking system.
+
+110
+00:10:06,717 --> 00:10:12,053
+Always verify deadlines and amounts against the linked official page before acting.
+
+111
+00:10:12,053 --> 00:10:13,844
+Does FOMOA work in Hindi?
+
+112
+00:10:13,844 --> 00:10:14,710
+Natively.
+
+113
+00:10:14,710 --> 00:10:24,686
+About 65% of its training data was Hindi/Hinglish, with ~89% accuracy on Hindi factual queries in internal benchmarks.
+
+114
+00:10:24,686 --> 00:10:26,176
+Can developers use it?
+
+115
+00:10:26,176 --> 00:10:27,017
+Yes.
+
+116
+00:10:27,017 --> 00:10:35,299
+It exposes an OpenAI-compatible endpoint plus India-specific endpoints for research, crawling, and entity search.
+
+117
+00:10:35,299 --> 00:10:36,669
+See the developer guide.
+
+118
+00:10:36,669 --> 00:10:38,616
+Let's explore The Takeaway.
+
+119
+00:10:38,616 --> 00:10:48,255
+FOMOA's bet is simple: India deserves AI that speaks its languages, trusts the right sources, and reads its numbers correctly — for free.
+
+120
+00:10:48,255 --> 00:10:53,628
+The credibility ranking and native Hindi training are what make that more than a marketing line.
+
+121
+00:10:53,628 --> 00:11:00,936
+Keep reading: FOMOA for Developers: OpenAI-Compatible API, Deep Research & Ethical Crawling.
+
+122
+00:11:00,936 --> 00:11:08,412
+FOMOA vs Exa.ai + India Use-Cases: Schemes, Students & Startups.
+
+123
+00:11:08,412 --> 00:11:12,246
+The Best Free AI Search Engine for India in 2026.
+
+124
+00:11:12,246 --> 00:11:16,020
+AI Capabilities in 2026: A Complete Guide.
+
+125
+00:11:16,020 --> 00:11:17,666
+And that's the end of this article.
+
+126
+00:11:17,666 --> 00:11:18,796
+Thanks for listening.
+

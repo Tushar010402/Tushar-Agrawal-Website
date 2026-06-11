@@ -1,0 +1,216 @@
+1
+00:00:00,050 --> 00:00:05,925
+You're listening to: Docker Tutorial for Beginners 2026: Complete Guide with Examples.
+
+2
+00:00:05,925 --> 00:00:08,617
+Learn Docker from scratch in 2026.
+
+3
+00:00:08,617 --> 00:00:15,000
+Step-by-step tutorial covering containers, images, Dockerfile, Docker Compose, and deployment.
+
+4
+00:00:15,000 --> 00:00:18,617
+Perfect for Indian developers starting with containerization.
+
+5
+00:00:18,617 --> 00:00:19,663
+Let's get started.
+
+6
+00:00:19,663 --> 00:00:22,872
+Now, let's talk about Why Learn Docker in 2026?.
+
+7
+00:00:22,872 --> 00:00:25,985
+Docker has become an essential skill for developers.
+
+8
+00:00:25,985 --> 00:00:34,050
+Whether you're deploying to AWS, working with Kubernetes, or just want consistent development environments, Docker is the foundation.
+
+9
+00:00:34,050 --> 00:00:35,697
+Moving on to What is Docker?.
+
+10
+00:00:35,697 --> 00:00:45,396
+Docker is a platform that packages your application and all its dependencies into a container - a lightweight, standalone unit that runs consistently anywhere.
+
+11
+00:00:45,396 --> 00:00:47,391
+Next up: Docker Concepts.
+
+12
+00:00:47,391 --> 00:00:49,819
+Containers vs Virtual Machines.
+
+13
+00:00:49,819 --> 00:00:50,949
+Key Terms.
+
+14
+00:00:50,949 --> 00:00:52,980
+Let's explore Installing Docker.
+
+15
+00:00:52,980 --> 00:00:55,480
+On Ubuntu/Debian.
+
+16
+00:00:55,480 --> 00:00:56,730
+On macOS.
+
+17
+00:00:56,730 --> 00:00:57,824
+On Windows.
+
+18
+00:00:57,824 --> 00:01:00,192
+Now let's look at Your First Docker Commands.
+
+19
+00:01:00,192 --> 00:01:01,538
+Running Containers.
+
+20
+00:01:01,538 --> 00:01:03,028
+Managing Containers.
+
+21
+00:01:03,028 --> 00:01:04,495
+Managing Images.
+
+22
+00:01:04,495 --> 00:01:07,644
+Now, let's talk about Writing Your First Dockerfile.
+
+23
+00:01:07,644 --> 00:01:09,050
+Python Application.
+
+24
+00:01:09,050 --> 00:01:10,168
+Build and Run.
+
+25
+00:01:10,168 --> 00:01:12,211
+Node.js Application.
+
+26
+00:01:12,211 --> 00:01:14,543
+Multi-Stage Build (Optimized).
+
+27
+00:01:14,543 --> 00:01:17,175
+Moving on to Dockerfile Best Practices.
+
+28
+00:01:17,175 --> 00:01:19,146
+Next up: Docker Compose.
+
+29
+00:01:19,146 --> 00:01:23,028
+Docker Compose manages multi-container applications.
+
+30
+00:01:23,028 --> 00:01:25,456
+Basic docker-compose.yml.
+
+31
+00:01:25,456 --> 00:01:27,271
+Docker Compose Commands.
+
+32
+00:01:27,271 --> 00:01:28,701
+Full-Stack Example.
+
+33
+00:01:28,701 --> 00:01:30,600
+Let's explore Docker Networking.
+
+34
+00:01:30,600 --> 00:01:32,692
+Now let's look at Docker Volumes.
+
+35
+00:01:32,692 --> 00:01:35,781
+Now, let's talk about Deploying Docker to Production.
+
+36
+00:01:35,781 --> 00:01:36,947
+Push to Docker Hub.
+
+37
+00:01:36,947 --> 00:01:39,471
+Deploy to AWS EC2.
+
+38
+00:01:39,471 --> 00:01:41,298
+Deploy with Docker Compose.
+
+39
+00:01:41,298 --> 00:01:44,158
+Moving on to Common Docker Commands Cheat Sheet.
+
+40
+00:01:44,158 --> 00:01:45,937
+Next up: Troubleshooting.
+
+41
+00:01:45,937 --> 00:01:47,512
+Let's explore Next Steps.
+
+42
+00:01:47,512 --> 00:01:49,230
+Now let's look at Conclusion.
+
+43
+00:01:49,230 --> 00:01:52,704
+Docker is a foundational skill for modern development.
+
+44
+00:01:52,704 --> 00:02:00,901
+Start with simple containers, progress to Docker Compose, and eventually explore Kubernetes for production orchestration.
+
+45
+00:02:00,901 --> 00:02:04,567
+Practice Project: Dockerize your existing project today!
+
+46
+00:02:04,567 --> 00:02:05,576
+Learning Docker?
+
+47
+00:02:05,576 --> 00:02:08,305
+Connect with me on LinkedIn for more DevOps tips.
+
+48
+00:02:08,305 --> 00:02:10,793
+Now, let's talk about Related Articles.
+
+49
+00:02:10,793 --> 00:02:13,846
+Backend Developer Roadmap 2026.
+
+50
+00:02:13,846 --> 00:02:15,949
+System Design Interview Questions.
+
+51
+00:02:15,949 --> 00:02:18,221
+FastAPI vs Django.
+
+52
+00:02:18,221 --> 00:02:20,036
+Database Connection Pooling.
+
+53
+00:02:20,036 --> 00:02:21,598
+And that's the end of this article.
+
+54
+00:02:21,598 --> 00:02:22,668
+Thanks for listening.
+

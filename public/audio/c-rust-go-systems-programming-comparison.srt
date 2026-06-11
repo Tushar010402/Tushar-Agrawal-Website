@@ -1,0 +1,140 @@
+1
+00:00:00,050 --> 00:00:06,057
+You're listening to: C vs Rust vs Go: Systems Programming Language Comparison.
+
+2
+00:00:06,057 --> 00:00:09,663
+Compare C, Rust, and Go for systems programming.
+
+3
+00:00:09,663 --> 00:00:16,562
+Analyze memory safety, performance, concurrency, and use cases to choose the right language for your project.
+
+4
+00:00:16,562 --> 00:00:17,608
+Let's get started.
+
+5
+00:00:17,608 --> 00:00:19,651
+Now, let's talk about Introduction.
+
+6
+00:00:19,651 --> 00:00:26,442
+Systems programming requires languages that provide control over hardware resources while maintaining performance.
+
+7
+00:00:26,442 --> 00:00:33,425
+C has dominated this space for 50 years, but Rust and Go offer modern alternatives with different trade-offs.
+
+8
+00:00:33,425 --> 00:00:42,512
+C provides raw power, Rust guarantees memory safety without garbage collection, and Go prioritizes simplicity and fast development.
+
+9
+00:00:42,512 --> 00:00:44,483
+Moving on to Language Philosophy.
+
+10
+00:00:44,483 --> 00:00:46,574
+C: Maximum Control.
+
+11
+00:00:46,574 --> 00:00:49,483
+Rust: Safety Without Sacrifice.
+
+12
+00:00:49,483 --> 00:00:52,271
+Go: Simplicity and Productivity.
+
+13
+00:00:52,271 --> 00:00:54,326
+Next up: Memory Management.
+
+14
+00:00:54,326 --> 00:00:56,081
+Rust Ownership Example.
+
+15
+00:00:56,081 --> 00:00:58,317
+Let's explore Performance Benchmarks.
+
+16
+00:00:58,317 --> 00:00:59,831
+Now let's look at Concurrency.
+
+17
+00:00:59,831 --> 00:01:01,406
+C with pthreads.
+
+18
+00:01:01,406 --> 00:01:03,750
+Rust with async/await.
+
+19
+00:01:03,750 --> 00:01:05,252
+Go with goroutines.
+
+20
+00:01:05,252 --> 00:01:07,584
+Now, let's talk about Error Handling.
+
+21
+00:01:07,584 --> 00:01:09,819
+Moving on to Use Cases.
+
+22
+00:01:09,819 --> 00:01:11,862
+Next up: Decision Matrix.
+
+23
+00:01:11,862 --> 00:01:13,750
+Let's explore Conclusion.
+
+24
+00:01:13,750 --> 00:01:19,591
+C: Maximum control, best for OS/embedded, requires expertise.
+
+25
+00:01:19,591 --> 00:01:24,615
+Rust: Modern C replacement with safety guarantees, steeper learning curve.
+
+26
+00:01:24,615 --> 00:01:29,459
+Go: Productive systems programming, excellent for services and tools.
+
+27
+00:01:29,459 --> 00:01:34,603
+Choose based on your project's safety requirements, performance needs, and team expertise.
+
+28
+00:01:34,603 --> 00:01:40,432
+Many organizations use multiple languages, selecting the right tool for each component.
+
+29
+00:01:40,432 --> 00:01:42,175
+Now let's look at Related Articles.
+
+30
+00:01:42,175 --> 00:01:46,394
+Go vs Java Backend Comparison - Compare Go with Java.
+
+31
+00:01:46,394 --> 00:01:50,709
+Python vs Go Backend Comparison - Go vs Python.
+
+32
+00:01:50,709 --> 00:01:54,002
+System Design Interview Guide - Architecture patterns.
+
+33
+00:01:54,002 --> 00:01:58,221
+Docker & Kubernetes Deployment Guide - Deploy your applications.
+
+34
+00:01:58,221 --> 00:01:59,939
+And that's the end of this article.
+
+35
+00:01:59,939 --> 00:02:01,069
+Thanks for listening.
+

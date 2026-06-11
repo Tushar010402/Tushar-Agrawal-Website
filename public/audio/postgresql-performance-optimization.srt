@@ -1,0 +1,192 @@
+1
+00:00:00,050 --> 00:00:05,673
+You're listening to: PostgreSQL Performance Optimization: Complete Guide for Production.
+
+2
+00:00:05,673 --> 00:00:13,725
+Master PostgreSQL performance tuning with indexing strategies, query optimization, configuration tuning, and monitoring.
+
+3
+00:00:13,725 --> 00:00:19,747
+Learn techniques that helped us handle 10M+ daily transactions in healthcare systems.
+
+4
+00:00:19,747 --> 00:00:20,793
+Let's get started.
+
+5
+00:00:20,793 --> 00:00:22,956
+Now, let's talk about Introduction.
+
+6
+00:00:22,956 --> 00:00:31,742
+PostgreSQL is the database of choice for many production systems, but poor configuration and unoptimized queries can cripple performance.
+
+7
+00:00:31,742 --> 00:00:37,896
+At Dr. Dangs Lab, we process over 10 million healthcare transactions daily with PostgreSQL.
+
+8
+00:00:37,896 --> 00:00:40,588
+Here's everything I've learned about making it fast.
+
+9
+00:00:40,588 --> 00:00:43,966
+Moving on to Understanding PostgreSQL Performance.
+
+10
+00:00:43,966 --> 00:00:46,081
+The Query Execution Pipeline.
+
+11
+00:00:46,081 --> 00:00:47,728
+Key Performance Metrics.
+
+12
+00:00:47,728 --> 00:00:50,156
+Next up: Indexing Strategies.
+
+13
+00:00:50,156 --> 00:00:52,043
+B-Tree Indexes (Default).
+
+14
+00:00:52,043 --> 00:00:53,954
+Specialized Index Types.
+
+15
+00:00:53,954 --> 00:00:55,372
+Index Analysis.
+
+16
+00:00:55,372 --> 00:00:57,896
+Let's explore Query Optimization.
+
+17
+00:00:57,896 --> 00:01:00,144
+Using EXPLAIN ANALYZE.
+
+18
+00:01:00,144 --> 00:01:02,439
+Common Query Optimizations.
+
+19
+00:01:02,439 --> 00:01:04,819
+CTEs vs Subqueries.
+
+20
+00:01:04,819 --> 00:01:06,899
+Now let's look at Configuration Tuning.
+
+21
+00:01:06,899 --> 00:01:08,221
+Memory Settings.
+
+22
+00:01:08,221 --> 00:01:10,913
+Connection Pooling with PgBouncer.
+
+23
+00:01:10,913 --> 00:01:13,305
+Application-Side Connection Management.
+
+24
+00:01:13,305 --> 00:01:16,694
+Now, let's talk about Partitioning for Large Tables.
+
+25
+00:01:16,694 --> 00:01:19,086
+Moving on to Maintenance and Monitoring.
+
+26
+00:01:19,086 --> 00:01:20,649
+Automated Maintenance.
+
+27
+00:01:20,649 --> 00:01:22,043
+Monitoring Queries.
+
+28
+00:01:22,043 --> 00:01:24,062
+Next up: Key Takeaways.
+
+29
+00:01:24,062 --> 00:01:29,915
+Index strategically - Not all columns need indexes, but missing indexes kill performance.
+
+30
+00:01:29,915 --> 00:01:34,050
+Use EXPLAIN ANALYZE - Always understand what your queries are doing.
+
+31
+00:01:34,050 --> 00:01:39,855
+Configure memory properly - shared_buffers and work_mem have huge impact.
+
+32
+00:01:39,855 --> 00:01:45,228
+Use connection pooling - PgBouncer is essential for high-concurrency apps.
+
+33
+00:01:45,228 --> 00:01:50,372
+Partition large tables - Time-series data benefits greatly from partitioning.
+
+34
+00:01:50,372 --> 00:01:56,634
+Monitor constantly - pg_stat_statements and slow query logs are your friends.
+
+35
+00:01:56,634 --> 00:02:01,586
+Maintain regularly - VACUUM and ANALYZE keep the database healthy.
+
+36
+00:02:01,586 --> 00:02:03,329
+Let's explore Conclusion.
+
+37
+00:02:03,329 --> 00:02:07,415
+PostgreSQL performance optimization is a continuous process.
+
+38
+00:02:07,415 --> 00:02:16,802
+Start with proper indexing and query optimization, then tune configuration, and finally implement advanced features like partitioning as your data grows.
+
+39
+00:02:16,802 --> 00:02:20,276
+The key is to measure, optimize, and measure again.
+
+40
+00:02:20,276 --> 00:02:23,473
+Need help optimizing your PostgreSQL database?
+
+41
+00:02:23,473 --> 00:02:24,795
+Connect on LinkedIn.
+
+42
+00:02:24,795 --> 00:02:26,574
+Now let's look at Related Articles.
+
+43
+00:02:26,574 --> 00:02:32,860
+MongoDB vs PostgreSQL: Database Comparison - Choose the right database.
+
+44
+00:02:32,860 --> 00:02:37,560
+Redis Caching Strategies Complete Guide - Cache for faster queries.
+
+45
+00:02:37,560 --> 00:02:41,658
+System Design Interview Guide - Design scalable data systems.
+
+46
+00:02:41,658 --> 00:02:47,211
+AWS Services for Backend Developers - Managed RDS on AWS.
+
+47
+00:02:47,211 --> 00:02:48,882
+And that's the end of this article.
+
+48
+00:02:48,882 --> 00:02:50,012
+Thanks for listening.
+

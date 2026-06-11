@@ -1,0 +1,180 @@
+1
+00:00:00,050 --> 00:00:06,021
+You're listening to: Observability Stack: Prometheus, Grafana & Jaeger Complete Guide.
+
+2
+00:00:06,021 --> 00:00:13,161
+Build production-grade observability with Prometheus metrics, Grafana dashboards, and Jaeger distributed tracing.
+
+3
+00:00:13,161 --> 00:00:18,173
+Complete setup guide with alerting, custom metrics, and troubleshooting patterns.
+
+4
+00:00:18,173 --> 00:00:19,254
+Let's get started.
+
+5
+00:00:19,254 --> 00:00:21,430
+Now, let's talk about Introduction.
+
+6
+00:00:21,430 --> 00:00:23,100
+You can't fix what you can't see.
+
+7
+00:00:23,100 --> 00:00:28,257
+In distributed systems, observability isn't a luxury—it's survival.
+
+8
+00:00:28,257 --> 00:00:37,403
+When a healthcare platform serving millions of patients experiences a latency spike at 2 AM, you need answers in seconds, not hours.
+
+9
+00:00:37,403 --> 00:00:46,911
+This guide covers the three pillars of observability: Metrics (Prometheus), Visualization (Grafana), and Distributed Tracing (Jaeger).
+
+10
+00:00:46,911 --> 00:00:53,870
+I'll share production patterns from building HIPAA-compliant systems that demand 99.99% uptime.
+
+11
+00:00:53,870 --> 00:00:57,187
+Moving on to The Three Pillars of Observability.
+
+12
+00:00:57,187 --> 00:00:59,675
+Next up: Setting Up Prometheus.
+
+13
+00:00:59,675 --> 00:01:01,286
+Docker Compose Setup.
+
+14
+00:01:01,286 --> 00:01:03,485
+Prometheus Configuration.
+
+15
+00:01:03,485 --> 00:01:06,610
+Let's explore Instrumenting Python Applications.
+
+16
+00:01:06,610 --> 00:01:09,519
+FastAPI with Prometheus Metrics.
+
+17
+00:01:09,519 --> 00:01:10,925
+Business Metrics.
+
+18
+00:01:10,925 --> 00:01:13,593
+Now let's look at Distributed Tracing with Jaeger.
+
+19
+00:01:13,593 --> 00:01:15,396
+OpenTelemetry Setup.
+
+20
+00:01:15,396 --> 00:01:17,295
+Trace Context Propagation.
+
+21
+00:01:17,295 --> 00:01:19,771
+Now, let's talk about Grafana Dashboards.
+
+22
+00:01:19,771 --> 00:01:21,694
+API Performance Dashboard.
+
+23
+00:01:21,694 --> 00:01:23,798
+Database Dashboard Queries.
+
+24
+00:01:23,798 --> 00:01:25,721
+Moving on to Alerting Rules.
+
+25
+00:01:25,721 --> 00:01:27,968
+AlertManager Configuration.
+
+26
+00:01:27,968 --> 00:01:31,670
+Next up: SLO/SLI Implementation.
+
+27
+00:01:31,670 --> 00:01:33,425
+Let's explore Conclusion.
+
+28
+00:01:33,425 --> 00:01:39,146
+A robust observability stack is essential for operating reliable distributed systems:
+
+29
+00:01:39,146 --> 00:01:42,343
+Prometheus for time-series metrics and alerting.
+
+30
+00:01:42,343 --> 00:01:45,745
+Grafana for visualization and dashboards.
+
+31
+00:01:45,745 --> 00:01:49,242
+Jaeger for distributed tracing across services.
+
+32
+00:01:49,242 --> 00:01:53,437
+Key takeaways: Instrument early, not after problems occur.
+
+33
+00:01:53,437 --> 00:01:56,670
+Use business metrics alongside technical metrics.
+
+34
+00:01:56,670 --> 00:01:59,651
+Set up SLOs and error budgets.
+
+35
+00:01:59,651 --> 00:02:02,367
+Create runbooks linked to alerts.
+
+36
+00:02:02,367 --> 00:02:05,204
+Practice observability-driven development.
+
+37
+00:02:05,204 --> 00:02:13,485
+This stack has helped me maintain 99.99% uptime for healthcare systems where reliability isn't optional.
+
+38
+00:02:13,485 --> 00:02:15,300
+Now let's look at Related Articles.
+
+39
+00:02:15,300 --> 00:02:19,399
+Docker Kubernetes Deployment Guide - Container orchestration.
+
+40
+00:02:19,399 --> 00:02:23,233
+Building Scalable Microservices - Service architecture.
+
+41
+00:02:23,233 --> 00:02:26,634
+Redis Caching Strategies - Performance optimization.
+
+42
+00:02:26,634 --> 00:02:30,817
+GitHub Actions CI/CD Guide - Deployment pipelines.
+
+43
+00:02:30,817 --> 00:02:34,903
+PostgreSQL Performance Optimization - Database monitoring.
+
+44
+00:02:34,903 --> 00:02:36,574
+And that's the end of this article.
+
+45
+00:02:36,574 --> 00:02:37,644
+Thanks for listening.
+

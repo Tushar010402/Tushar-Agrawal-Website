@@ -1,0 +1,348 @@
+1
+00:00:00,050 --> 00:00:06,250
+You're listening to: FastAPI Interview Questions for Indian Backend Roles (2026).
+
+2
+00:00:06,250 --> 00:00:20,697
+The FastAPI questions that actually come up in Indian backend interviews in 2026 — async vs sync, dependency injection, Pydantic validation, background tasks, and the production-depth follow-ups that separate juniors from mid-level hires.
+
+3
+00:00:20,697 --> 00:00:22,055
+With model answers.
+
+4
+00:00:22,055 --> 00:00:23,100
+Let's get started.
+
+5
+00:00:23,100 --> 00:00:32,536
+FastAPI has become the default Python framework in Indian backend interviews — most product companies and startups hiring for Python roles now expect it.
+
+6
+00:00:32,536 --> 00:00:35,973
+But the questions have moved past "what is FastAPI."
+
+7
+00:00:35,973 --> 00:00:47,668
+Interviewers in 2026 probe whether you understand the async model, dependency injection, and production concerns — because that's what separates someone who followed a tutorial from someone who has shipped.
+
+8
+00:00:47,668 --> 00:00:53,064
+Here are the questions that actually come up, grouped by depth, with the kind of answers that land offers.
+
+9
+00:00:53,064 --> 00:01:00,600
+For framework context, see FastAPI vs Django; for the broader interview, the system design questions for India.
+
+10
+00:01:00,600 --> 00:01:03,209
+Now, let's talk about Level 1: The warm-ups.
+
+11
+00:01:03,209 --> 00:01:05,793
+These filter out people who've never touched it.
+
+12
+00:01:05,793 --> 00:01:07,764
+Answer crisply and move on.
+
+13
+00:01:07,764 --> 00:01:11,129
+Q: What is FastAPI and why is it fast?
+
+14
+00:01:11,129 --> 00:01:16,346
+A modern Python web framework built on Starlette (ASGI) and Pydantic.
+
+15
+00:01:16,346 --> 00:01:27,956
+It's fast for two reasons: it's async-native (ASGI lets it handle many concurrent I/O-bound requests without blocking), and Pydantic does validation in highly optimized code.
+
+16
+00:01:27,956 --> 00:01:34,182
+The third "fast" is developer speed — automatic OpenAPI docs and type-based validation.
+
+17
+00:01:34,182 --> 00:01:38,293
+Q: How does FastAPI generate API docs automatically?
+
+18
+00:01:38,293 --> 00:01:48,293
+From your type hints and Pydantic models, it builds an OpenAPI schema, served as interactive Swagger UI (/docs) and ReDoc (/redoc).
+
+19
+00:01:48,293 --> 00:01:53,545
+The same type hints drive validation and documentation — define once, get both.
+
+20
+00:01:53,545 --> 00:01:56,538
+Q: What's a Pydantic model and why use one?
+
+21
+00:01:56,538 --> 00:01:59,387
+A class that declares the shape and types of data.
+
+22
+00:01:59,387 --> 00:02:05,036
+FastAPI uses it to validate and parse request bodies and serialize responses.
+
+23
+00:02:05,036 --> 00:02:12,776
+Invalid input is rejected with a structured 422 before your handler runs — you never hand-write validation boilerplate.
+
+24
+00:02:12,776 --> 00:02:17,572
+Moving on to Level 2: The async model (where most candidates stumble).
+
+25
+00:02:17,572 --> 00:02:22,656
+This is the single most important area, and the most common place people get exposed.
+
+26
+00:02:22,656 --> 00:02:26,610
+Q: What's the difference between def and async def for a route?
+
+27
+00:02:26,610 --> 00:02:28,665
+This is the FastAPI gotcha.
+
+28
+00:02:28,665 --> 00:02:36,502
+A route defined with async def runs on the event loop — great for await-ing I/O (DB, HTTP calls).
+
+29
+00:02:36,502 --> 00:02:41,286
+A route defined with plain def is run in a threadpool so it doesn't block the loop.
+
+30
+00:02:41,286 --> 00:02:42,115
+The trap:
+
+31
+00:02:42,115 --> 00:02:54,014
+If you write async def and then call a blocking function inside it (a synchronous DB driver, time.sleep, requests.get), you block the entire event loop — every concurrent request stalls.
+
+32
+00:02:54,014 --> 00:02:59,314
+Strong answer: "Use async def only when everything inside is awaitable.
+
+33
+00:02:59,314 --> 00:03:08,329
+If I must call a blocking library, either use a sync def route (FastAPI threadpools it) or push the work off the loop with run_in_executor."
+
+34
+00:03:08,329 --> 00:03:11,406
+Saying this out loud signals real experience.
+
+35
+00:03:11,406 --> 00:03:16,502
+Q: How do you run a blocking/CPU-bound task without killing throughput?
+
+36
+00:03:16,502 --> 00:03:35,817
+Three options, by case: a plain def route (auto-threadpooled), await loop.run_in_executor(...) for a blocking call inside an async route, or — for genuinely heavy CPU work — offload to a background worker (Celery, Dramatiq, or an external queue) rather than doing it in the request at all.
+
+37
+00:03:35,817 --> 00:03:39,362
+Next up: Level 3: Dependency injection.
+
+38
+00:03:39,362 --> 00:03:44,399
+DI is FastAPI's signature feature and a favourite interview topic.
+
+39
+00:03:44,399 --> 00:03:47,307
+Q: How does FastAPI's Depends work?
+
+40
+00:03:47,307 --> 00:03:53,569
+You declare a dependency as a function; FastAPI calls it and injects its result into your handler.
+
+41
+00:03:53,569 --> 00:04:00,661
+Dependencies can have their own dependencies (a tree), are resolved per-request, and are cached within a request.
+
+42
+00:04:00,661 --> 00:04:05,216
+It's how you wire DB sessions, auth, and shared config cleanly.
+
+43
+00:04:05,216 --> 00:04:07,560
+Q: Why use yield in a dependency?
+
+44
+00:04:07,560 --> 00:04:16,153
+Code before yield runs on the way in (acquire a DB session); code after yield runs on the way out (close it) — even if the handler raised.
+
+45
+00:04:16,153 --> 00:04:26,634
+It's FastAPI's clean equivalent of setup/teardown, perfect for resource lifecycle like DB connections — which ties straight into connection pooling.
+
+46
+00:04:26,666 --> 00:04:31,796
+Let's explore Level 4: Production depth (the mid-level differentiators).
+
+47
+00:04:31,796 --> 00:04:34,825
+These follow-ups are where the mid-level offer is won.
+
+48
+00:04:34,825 --> 00:04:40,053
+They're rarely about FastAPI syntax and mostly about whether you've operated a service.
+
+49
+00:04:40,053 --> 00:04:43,515
+Q: A FastAPI endpoint is slow under load.
+
+50
+00:04:43,515 --> 00:04:44,572
+How do you debug it?
+
+51
+00:04:44,572 --> 00:04:56,700
+Walk the layers out loud: confirm with p95/p99 metrics (not averages); check whether a blocking call is stalling the event loop; inspect the database (slow query?
+
+52
+00:04:56,700 --> 00:04:57,878
+pool exhausted?
+
+53
+00:04:57,878 --> 00:05:05,438
+— see connection pooling); look for an N+1 query; check whether a cache stampede hits the DB at TTL boundaries.
+
+54
+00:05:05,438 --> 00:05:08,971
+Structured reasoning beats a single guessed answer.
+
+55
+00:05:08,971 --> 00:05:13,647
+Q: How do you handle background work — say, sending an email after signup?
+
+56
+00:05:13,647 --> 00:05:20,137
+For light, fire-and-forget work, FastAPI's BackgroundTasks runs it after the response is sent.
+
+57
+00:05:20,137 --> 00:05:30,894
+For anything that can fail, retry, or is heavy, use a real task queue (Celery/Dramatiq) so the work is durable and the web process stays responsive.
+
+58
+00:05:30,894 --> 00:05:35,185
+Knowing when BackgroundTasks is not enough is the senior signal.
+
+59
+00:05:35,185 --> 00:05:37,733
+Q: How do you make a POST safe to retry?
+
+60
+00:05:37,733 --> 00:05:45,834
+Idempotency keys — accept a client-generated key, claim it atomically, replay the stored result on duplicates.
+
+61
+00:05:45,834 --> 00:05:54,212
+This is a great moment to reference real experience; I wrote it up in idempotency keys: how we stopped double-charging customers.
+
+62
+00:05:54,212 --> 00:05:57,902
+Q: How do you structure a large FastAPI project?
+
+63
+00:05:57,902 --> 00:06:10,606
+Routers per domain (APIRouter), a settings module (Pydantic BaseSettings), dependencies for DB/auth, a service layer separating business logic from HTTP, and Alembic for migrations.
+
+64
+00:06:10,606 --> 00:06:16,039
+Emphasize separation of concerns — handlers thin, logic in services.
+
+65
+00:06:16,039 --> 00:06:23,767
+Q: Sync framework (Django/Flask) vs FastAPI — when would you not pick FastAPI?
+
+66
+00:06:23,767 --> 00:06:25,089
+Maturity signal.
+
+67
+00:06:25,089 --> 00:06:30,774
+FastAPI shines for async, I/O-bound, API-first services.
+
+68
+00:06:30,774 --> 00:06:39,103
+Django still wins when you want batteries-included (admin, ORM, auth) and a large team moving fast on a CRUD-heavy product.
+
+69
+00:06:39,103 --> 00:06:45,353
+The honest "it depends" with reasons beats fanboying — expanded in FastAPI vs Django.
+
+70
+00:06:45,353 --> 00:06:47,325
+Now let's look at How to actually prepare.
+
+71
+00:06:47,325 --> 00:06:57,132
+Build one real async service end to end — routes, DI, Pydantic models, an async DB driver, auth, and background tasks.
+
+72
+00:06:57,132 --> 00:07:00,894
+Interviewers smell tutorial-only knowledge instantly..
+
+73
+00:07:00,894 --> 00:07:04,091
+Be able to explain the event loop in your own words.
+
+74
+00:07:04,091 --> 00:07:09,260
+The async def + blocking-call trap is asked constantly; nail it..
+
+75
+00:07:09,260 --> 00:07:17,012
+Connect FastAPI to production stories — a slow endpoint you fixed, a retry bug you solved, a pool you tuned.
+
+76
+00:07:17,012 --> 00:07:18,839
+Specifics win offers..
+
+77
+00:07:18,839 --> 00:07:23,334
+Practice the "it depends" answers with real trade-offs, not opinions..
+
+78
+00:07:23,334 --> 00:07:25,402
+Now, let's talk about The takeaway.
+
+79
+00:07:25,402 --> 00:07:32,505
+In 2026, FastAPI interviews for Indian backend roles reward systems understanding over syntax.
+
+80
+00:07:32,505 --> 00:07:40,894
+Know the async model cold, explain dependency injection cleanly, and back every production question with something you've actually debugged.
+
+81
+00:07:40,894 --> 00:07:47,204
+Do that, and you'll clear the bar that filters out the tutorial crowd — and land in the higher salary bands.
+
+82
+00:07:47,204 --> 00:07:53,863
+Related reading: FastAPI vs Django: Choosing a Python Framework (2026).
+
+83
+00:07:53,863 --> 00:07:57,805
+System Design Interview Questions for India (2026).
+
+84
+00:07:57,805 --> 00:08:01,495
+Backend Developer Salary in India 2026.
+
+85
+00:08:01,495 --> 00:08:05,870
+Idempotency Keys: How We Stopped Double-Charging Customers.
+
+86
+00:08:05,870 --> 00:08:07,613
+And that's the end of this article.
+
+87
+00:08:07,613 --> 00:08:08,743
+Thanks for listening.
+

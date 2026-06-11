@@ -1,0 +1,500 @@
+1
+00:00:00,050 --> 00:00:05,901
+You're listening to: Building Healthcare Technology at Dr. Dangs Lab: What They Don't Teach You.
+
+2
+00:00:05,901 --> 00:00:13,353
+3 years of building lab management systems taught me that healthcare software is nothing like regular SaaS.
+
+3
+00:00:13,353 --> 00:00:16,790
+Here's what actually matters when patient care depends on your code.
+
+4
+00:00:16,790 --> 00:00:17,836
+Let's get started.
+
+5
+00:00:17,836 --> 00:00:20,997
+Now, let's talk about My First Week Was a Reality Check.
+
+6
+00:00:20,997 --> 00:00:24,543
+I joined Dr. Dangs Lab thinking I knew how to build software.
+
+7
+00:00:24,543 --> 00:00:28,125
+I'd worked on e-commerce, fintech, the usual stuff.
+
+8
+00:00:28,125 --> 00:00:30,228
+Healthcare would be just another domain, right?
+
+9
+00:00:30,228 --> 00:00:33,870
+On my third day, a doctor called our support line furious.
+
+10
+00:00:33,870 --> 00:00:40,588
+A patient's critical test result was delayed by 4 hours because our notification system silently failed.
+
+11
+00:00:40,588 --> 00:00:44,543
+The patient had a serious condition that needed immediate attention.
+
+12
+00:00:44,543 --> 00:00:46,418
+Nobody was hurt, thankfully.
+
+13
+00:00:46,418 --> 00:00:48,786
+But I went home that night and couldn't sleep.
+
+14
+00:00:48,786 --> 00:00:52,656
+In my previous jobs, a bug meant someone's shopping cart didn't work.
+
+15
+00:00:52,656 --> 00:00:54,975
+Here, it could mean something much worse.
+
+16
+00:00:54,975 --> 00:00:59,002
+That's when I understood: healthcare software isn't about features.
+
+17
+00:00:59,002 --> 00:01:05,180
+It's about reliability, accuracy, and the weight of responsibility that comes with every line of code.
+
+18
+00:01:05,180 --> 00:01:06,875
+Moving on to What We Were Dealing With.
+
+19
+00:01:06,875 --> 00:01:10,877
+Dr. Dangs Lab is one of India's leading pathology centers.
+
+20
+00:01:10,877 --> 00:01:13,377
+When I arrived, the situation was:
+
+21
+00:01:13,377 --> 00:01:18,822
+15+ collection centers across Delhi NCR sending samples to central labs.
+
+22
+00:01:18,822 --> 00:01:23,341
+Thousands of patients daily expecting accurate, timely reports.
+
+23
+00:01:23,341 --> 00:01:27,439
+80+ doctors and lab technicians depending on our systems.
+
+24
+00:01:27,439 --> 00:01:30,528
+Legacy software that crashed during peak hours.
+
+25
+00:01:30,528 --> 00:01:35,504
+Paper-based workflows causing 2-3 hour delays in report delivery.
+
+26
+00:01:35,504 --> 00:01:40,444
+No real-time tracking - patients calling repeatedly asking "where's my report?".
+
+27
+00:01:40,444 --> 00:01:44,338
+The previous system was a PHP monolith from 2010.
+
+28
+00:01:44,338 --> 00:01:45,576
+It worked... mostly.
+
+29
+00:01:45,576 --> 00:01:48,581
+But as patient volume grew, it started buckling.
+
+30
+00:01:48,581 --> 00:01:49,807
+Reports got delayed.
+
+31
+00:01:49,807 --> 00:01:51,069
+Data got lost.
+
+32
+00:01:51,069 --> 00:01:52,439
+Staff were frustrated.
+
+33
+00:01:52,439 --> 00:01:55,504
+My job: rebuild it without breaking anything.
+
+34
+00:01:55,504 --> 00:01:59,879
+Next up: The Architecture We Built (After 3 Rewrites).
+
+35
+00:01:59,879 --> 00:02:02,475
+I'm not going to pretend we got it right the first time.
+
+36
+00:02:02,475 --> 00:02:08,413
+The current system is version 3, and each previous version taught us something painful.
+
+37
+00:02:08,413 --> 00:02:10,228
+Why These Specific Choices.
+
+38
+00:02:10,228 --> 00:02:14,699
+FastAPI for most services: Our team knew Python well.
+
+39
+00:02:14,699 --> 00:02:18,834
+Healthcare has complex business logic that changes frequently.
+
+40
+00:02:18,834 --> 00:02:21,406
+We needed to move fast on new features.
+
+41
+00:02:21,406 --> 00:02:26,165
+The auto-generated API docs saved hours of documentation work.
+
+42
+00:02:26,165 --> 00:02:31,694
+Go for report processing: Generating 500 PDFs simultaneously in Python?
+
+43
+00:02:31,694 --> 00:02:32,548
+Forget it.
+
+44
+00:02:32,548 --> 00:02:37,103
+Memory usage was unpredictable with Python's PDF libraries.
+
+45
+00:02:37,103 --> 00:02:42,560
+Go gave us 15x performance improvement (I wrote about this in my microservices article).
+
+46
+00:02:42,560 --> 00:02:50,060
+PostgreSQL, not MySQL or MongoDB: ACID compliance isn't optional when dealing with medical data.
+
+47
+00:02:50,060 --> 00:02:56,033
+The JSONB columns let us handle semi-structured lab results without schema migrations every week.
+
+48
+00:02:56,033 --> 00:03:00,108
+Row-level security for multi-tenant data isolation.
+
+49
+00:03:00,108 --> 00:03:05,060
+Redis for more than just caching: Real-time sample tracking (pub/sub).
+
+50
+00:03:05,060 --> 00:03:08,509
+Rate limiting (patients refreshing "where's my report?"
+
+51
+00:03:08,509 --> 00:03:09,699
+50 times).
+
+52
+00:03:09,699 --> 00:03:12,295
+Session management with automatic expiry.
+
+53
+00:03:12,295 --> 00:03:14,591
+Task queues for async processing.
+
+54
+00:03:14,591 --> 00:03:17,307
+Let's explore The Hardest Problems We Solved.
+
+55
+00:03:17,307 --> 00:03:21,213
+Problem 1: Sample Tracking Without Losing Anything.
+
+56
+00:03:21,213 --> 00:03:25,997
+A sample travels through multiple hands: Collected at a center.
+
+57
+00:03:25,997 --> 00:03:28,473
+Transported to lab (could take hours).
+
+58
+00:03:28,473 --> 00:03:29,663
+Received at lab.
+
+59
+00:03:29,663 --> 00:03:30,625
+Processed.
+
+60
+00:03:30,625 --> 00:03:31,947
+Results entered.
+
+61
+00:03:31,947 --> 00:03:33,257
+Report generated.
+
+62
+00:03:33,257 --> 00:03:34,759
+Delivered to patient.
+
+63
+00:03:34,759 --> 00:03:39,326
+If ANY step fails silently, someone's diagnosis gets delayed.
+
+64
+00:03:39,326 --> 00:03:42,451
+Problem 2: Report Generation at Scale.
+
+65
+00:03:42,451 --> 00:03:47,668
+On busy days, we generate 3,000+ reports.
+
+66
+00:03:47,668 --> 00:03:52,331
+Each report is a multi-page PDF with: Patient demographics.
+
+67
+00:03:52,331 --> 00:03:54,627
+Test results with reference ranges.
+
+68
+00:03:54,627 --> 00:03:56,262
+Interpretation notes.
+
+69
+00:03:56,262 --> 00:03:58,149
+Doctor's signature (digital).
+
+70
+00:03:58,149 --> 00:04:00,396
+QR code for verification.
+
+71
+00:04:00,396 --> 00:04:05,685
+Our first approach (synchronous, one-by-one) took 6 hours on peak days.
+
+72
+00:04:05,685 --> 00:04:07,271
+Patients were furious.
+
+73
+00:04:07,271 --> 00:04:10,132
+Problem 3: The "Where's My Report?"
+
+74
+00:04:10,132 --> 00:04:10,889
+Problem.
+
+75
+00:04:10,889 --> 00:04:15,060
+Patients would call 10-20 times asking for their report status.
+
+76
+00:04:15,060 --> 00:04:17,355
+Our support team was overwhelmed.
+
+77
+00:04:17,355 --> 00:04:19,230
+We built real-time tracking:
+
+78
+00:04:19,230 --> 00:04:22,704
+Now let's look at Healthcare-Specific Lessons (The Hard Way).
+
+79
+00:04:22,704 --> 00:04:24,411
+1. Audit Everything.
+
+80
+00:04:24,411 --> 00:04:25,913
+No, Really, Everything..
+
+81
+00:04:25,913 --> 00:04:29,230
+2. Lab Equipment Integration is a Nightmare.
+
+82
+00:04:29,186 --> 00:04:34,508
+Modern analyzers speak HL7 (a healthcare data format from the 1980s).
+
+83
+00:04:34,508 --> 00:04:36,876
+Parsing it is... an experience.
+
+84
+00:04:36,876 --> 00:04:39,640
+3. Downtime is Not an Option.
+
+85
+00:04:39,640 --> 00:04:42,212
+Now, let's talk about The Results After 2 Years.
+
+86
+00:04:42,212 --> 00:04:44,172
+What Changed, Before, After.
+
+87
+00:04:44,172 --> 00:04:51,095
+Report delivery time, 24-48 hours, 4-6 hours (90% under 2 hrs).
+
+88
+00:04:51,095 --> 00:04:54,087
+Daily support calls, 200+, ~30.
+
+89
+00:04:54,087 --> 00:04:58,859
+System downtime/month, 4-5 hours, <5 minutes.
+
+90
+00:04:58,859 --> 00:05:03,907
+Data entry errors, ~5%, <0.5%.
+
+91
+00:05:03,907 --> 00:05:08,511
+Patient satisfaction score, No data, 4.6/5.
+
+92
+00:05:08,511 --> 00:05:15,926
+But the number I'm most proud of: zero data breaches, zero lost samples, zero incorrect reports in production.
+
+93
+00:05:15,926 --> 00:05:18,042
+Moving on to What I Wish Someone Had Told Me.
+
+94
+00:05:18,042 --> 00:05:20,938
+Healthcare moves slowly for good reasons.
+
+95
+00:05:20,938 --> 00:05:25,662
+Doctors and lab techs have workflows burned into muscle memory.
+
+96
+00:05:25,662 --> 00:05:27,417
+Change needs to be gradual..
+
+97
+00:05:27,417 --> 00:05:30,566
+Regulations aren't obstacles, they're guardrails.
+
+98
+00:05:30,566 --> 00:05:36,119
+HIPAA-like requirements forced us to build better systems than we would have otherwise..
+
+99
+00:05:36,119 --> 00:05:37,585
+Paper isn't going away.
+
+100
+00:05:37,585 --> 00:05:40,145
+Many doctors still want printed reports.
+
+101
+00:05:40,145 --> 00:05:42,020
+Design for hybrid workflows..
+
+102
+00:05:42,020 --> 00:05:45,205
+Every error message might be read by a panicking patient.
+
+103
+00:05:45,205 --> 00:05:48,571
+"Report generation failed" causes anxiety.
+
+104
+00:05:48,571 --> 00:05:53,258
+"Your report is being prepared and will be ready in 30 minutes" is better..
+
+105
+00:05:53,258 --> 00:05:55,698
+The people using your software are exhausted.
+
+106
+00:05:55,698 --> 00:05:57,645
+Lab techs work 10-hour shifts.
+
+107
+00:05:57,645 --> 00:05:59,160
+Make the UI obvious.
+
+108
+00:05:59,160 --> 00:06:00,422
+Reduce clicks.
+
+109
+00:06:00,422 --> 00:06:01,684
+Don't make them think..
+
+110
+00:06:01,684 --> 00:06:05,530
+Building healthcare software changed how I think about engineering.
+
+111
+00:06:05,530 --> 00:06:08,342
+Speed matters, but accuracy matters more.
+
+112
+00:06:08,342 --> 00:06:11,936
+Features are nice, but reliability is essential.
+
+113
+00:06:11,936 --> 00:06:16,852
+And at the end of the day, there's a patient waiting for results that might change their life.
+
+114
+00:06:16,852 --> 00:06:22,525
+If you're considering healthcare tech, know that it's harder than regular SaaS - but also more meaningful.
+
+115
+00:06:22,525 --> 00:06:26,407
+Every optimization you make helps real people get better care.
+
+116
+00:06:26,407 --> 00:06:28,282
+Working on healthcare systems?
+
+117
+00:06:28,282 --> 00:06:30,398
+I'd love to hear about your experiences.
+
+118
+00:06:30,398 --> 00:06:33,523
+Connect on LinkedIn or check out my other technical articles.
+
+119
+00:06:33,523 --> 00:06:35,722
+Next up: Related Articles.
+
+120
+00:06:35,722 --> 00:06:39,857
+Building Scalable Microservices - The technical deep-dive.
+
+121
+00:06:39,857 --> 00:06:44,448
+PostgreSQL Performance Optimization - How we handle millions of records.
+
+122
+00:06:44,448 --> 00:06:48,523
+WebSocket Real-time Applications - The patient tracking system.
+
+123
+00:06:48,523 --> 00:06:52,753
+Event-Driven Architecture with Kafka - Decoupling our services.
+
+124
+00:06:52,753 --> 00:06:54,424
+And that's the end of this article.
+
+125
+00:06:54,424 --> 00:06:55,554
+Thanks for listening.
+

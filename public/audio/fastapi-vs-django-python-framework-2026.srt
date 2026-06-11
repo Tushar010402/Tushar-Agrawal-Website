@@ -1,0 +1,168 @@
+1
+00:00:00,050 --> 00:00:07,283
+You're listening to: FastAPI vs Django in 2026: Which Python Framework Should You Choose?.
+
+2
+00:00:07,283 --> 00:00:13,906
+Complete comparison of FastAPI and Django for Python web development in 2026.
+
+3
+00:00:13,906 --> 00:00:21,862
+Performance benchmarks, use cases, code examples, and recommendations for Indian developers building APIs and web applications.
+
+4
+00:00:21,862 --> 00:00:22,920
+Let's get started.
+
+5
+00:00:22,920 --> 00:00:27,235
+Now, let's talk about The Python Framework Decision in 2026.
+
+6
+00:00:27,235 --> 00:00:33,161
+Choosing between FastAPI and Django is one of the most common decisions Python developers face.
+
+7
+00:00:33,161 --> 00:00:37,451
+Both are excellent frameworks, but they're designed for different purposes.
+
+8
+00:00:37,451 --> 00:00:47,451
+After using both extensively at Dr. Dangs Lab (Django for LIMS, FastAPI for microservices), here's my comprehensive comparison.
+
+9
+00:00:47,451 --> 00:00:49,687
+Moving on to Performance Benchmarks.
+
+10
+00:00:49,687 --> 00:00:52,235
+Real-World API Performance.
+
+11
+00:00:52,235 --> 00:00:53,737
+When Performance Matters.
+
+12
+00:00:53,737 --> 00:00:55,709
+Next up: Feature Comparison.
+
+13
+00:00:55,709 --> 00:00:57,367
+FastAPI Strengths.
+
+14
+00:00:57,367 --> 00:00:58,713
+Django Strengths.
+
+15
+00:00:58,713 --> 00:01:02,187
+Let's explore Code Comparison: Same API.
+
+16
+00:01:02,187 --> 00:01:03,774
+FastAPI Version.
+
+17
+00:01:03,774 --> 00:01:04,951
+Django Version.
+
+18
+00:01:04,951 --> 00:01:07,367
+Now let's look at Use Case Recommendations.
+
+19
+00:01:07,367 --> 00:01:09,146
+Choose FastAPI For:.
+
+20
+00:01:09,146 --> 00:01:10,661
+Choose Django For:.
+
+21
+00:01:10,661 --> 00:01:13,810
+Now, let's talk about When to Use Both Together.
+
+22
+00:01:13,810 --> 00:01:15,420
+Moving on to Learning Path.
+
+23
+00:01:15,420 --> 00:01:17,560
+If You're New to Python Web Development.
+
+24
+00:01:17,560 --> 00:01:21,838
+Next up: Salary and Job Market (India 2026).
+
+25
+00:01:21,838 --> 00:01:23,882
+Let's explore My Recommendation.
+
+26
+00:01:23,882 --> 00:01:25,625
+Now let's look at Conclusion.
+
+27
+00:01:25,625 --> 00:01:28,088
+There's no universally "better" framework.
+
+28
+00:01:28,088 --> 00:01:32,187
+FastAPI and Django serve different purposes:
+
+29
+00:01:32,187 --> 00:01:37,644
+FastAPI: Optimized for API performance and modern async Python.
+
+30
+00:01:37,644 --> 00:01:41,526
+Django: Optimized for rapid full-stack web development.
+
+31
+00:01:41,526 --> 00:01:47,848
+The best Python developers in 2026 know both and choose based on project requirements.
+
+32
+00:01:47,848 --> 00:01:55,456
+My recommendation: Start with Django to understand web fundamentals, then learn FastAPI for API-focused work.
+
+33
+00:01:55,456 --> 00:01:58,100
+This combination makes you highly employable.
+
+34
+00:01:58,100 --> 00:02:00,228
+Building Python applications?
+
+35
+00:02:00,228 --> 00:02:02,355
+Let's discuss architecture on LinkedIn.
+
+36
+00:02:02,355 --> 00:02:04,783
+Now, let's talk about Related Articles.
+
+37
+00:02:04,783 --> 00:02:07,884
+Backend Developer Roadmap 2026.
+
+38
+00:02:07,884 --> 00:02:09,819
+Python vs Go for Backend.
+
+39
+00:02:09,819 --> 00:02:12,067
+Database Connection Pooling Guide.
+
+40
+00:02:12,067 --> 00:02:14,086
+Building AI-Native Backends.
+
+41
+00:02:14,086 --> 00:02:15,745
+And that's the end of this article.
+
+42
+00:02:15,745 --> 00:02:16,899
+Thanks for listening.
+

@@ -1,0 +1,136 @@
+1
+00:00:00,050 --> 00:00:06,574
+You're listening to: Top 15 System Design Interview Questions for Indian Tech Companies (2026).
+
+2
+00:00:06,574 --> 00:00:13,233
+Prepare for system design interviews at Flipkart, Razorpay, Google, Amazon, and Indian startups.
+
+3
+00:00:13,233 --> 00:00:18,870
+Complete guide with solutions for URL shortener, payment systems, chat apps, and more.
+
+4
+00:00:18,870 --> 00:00:19,927
+Let's get started.
+
+5
+00:00:19,927 --> 00:00:24,194
+Now, let's talk about System Design Interviews in India (2026).
+
+6
+00:00:24,194 --> 00:00:28,906
+System design interviews are now mandatory at most product companies in India.
+
+7
+00:00:28,906 --> 00:00:36,899
+Whether you're interviewing at Flipkart, Razorpay, Google, or a well-funded startup, you'll face at least one system design round.
+
+8
+00:00:36,899 --> 00:00:39,915
+Moving on to How to Approach System Design Questions.
+
+9
+00:00:39,915 --> 00:00:41,526
+The RESHADED Framework.
+
+10
+00:00:41,526 --> 00:00:44,867
+Next up: Top 15 System Design Questions.
+
+11
+00:00:44,867 --> 00:00:50,012
+1. Design a URL Shortener (like Bit.ly).
+
+12
+00:00:50,012 --> 00:00:53,401
+2. Design WhatsApp/Messaging System.
+
+13
+00:00:53,401 --> 00:00:56,850
+3. Design Razorpay/Payment System.
+
+14
+00:00:56,850 --> 00:01:00,396
+4. Design Swiggy/Food Delivery System.
+
+15
+00:01:00,396 --> 00:01:04,110
+5. Design BookMyShow/Ticket Booking.
+
+16
+00:01:04,110 --> 00:01:07,211
+6. Design Twitter/Social Feed.
+
+17
+00:01:07,211 --> 00:01:10,673
+7. Design Uber/Ride Sharing.
+
+18
+00:01:10,673 --> 00:01:14,038
+8. Design YouTube/Video Streaming.
+
+19
+00:01:14,038 --> 00:01:17,043
+9. Design Flipkart/E-commerce.
+
+20
+00:01:17,043 --> 00:01:19,062
+10. Design Google Search.
+
+21
+00:01:19,062 --> 00:01:21,658
+Let's explore Common Follow-up Questions.
+
+22
+00:01:21,658 --> 00:01:23,629
+Now let's look at Preparation Strategy.
+
+23
+00:01:23,629 --> 00:01:25,336
+Now, let's talk about Conclusion.
+
+24
+00:01:25,336 --> 00:01:30,060
+System design interviews test your ability to think at scale and make trade-offs.
+
+25
+00:01:30,060 --> 00:01:35,817
+Practice the framework, understand the patterns, and you'll be well-prepared for any system design question.
+
+26
+00:01:35,817 --> 00:01:38,209
+Preparing for system design interviews?
+
+27
+00:01:38,209 --> 00:01:39,747
+Let's discuss on LinkedIn.
+
+28
+00:01:39,747 --> 00:01:41,658
+Moving on to Related Articles.
+
+29
+00:01:41,658 --> 00:01:44,975
+Backend Developer Roadmap 2026.
+
+30
+00:01:44,975 --> 00:01:46,826
+Python vs Go for Backend.
+
+31
+00:01:46,826 --> 00:01:48,846
+Database Connection Pooling.
+
+32
+00:01:48,846 --> 00:01:50,889
+Microservices Architecture.
+
+33
+00:01:50,889 --> 00:01:52,584
+And that's the end of this article.
+
+34
+00:01:52,584 --> 00:01:53,750
+Thanks for listening.
+

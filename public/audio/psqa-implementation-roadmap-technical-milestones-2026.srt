@@ -1,0 +1,148 @@
+1
+00:00:00,050 --> 00:00:06,298
+You're listening to: PSQA Implementation Roadmap: Technical Milestones and First Steps.
+
+2
+00:00:06,298 --> 00:00:16,310
+A detailed technical roadmap for implementing the Phonon-mediated Silicon Carbide Quantum Architecture, from first experiments to million-qubit systems.
+
+3
+00:00:16,310 --> 00:00:17,391
+Let's get started.
+
+4
+00:00:17,391 --> 00:00:20,757
+Now, let's talk about PSQA Implementation Roadmap.
+
+5
+00:00:20,757 --> 00:00:24,543
+Moving on to From First Experiment to Million Qubits.
+
+6
+00:00:24,543 --> 00:00:33,076
+This document provides a detailed technical roadmap for implementing PSQA (Phonon-mediated Silicon Carbide Quantum Architecture).
+
+7
+00:00:33,076 --> 00:00:41,814
+Unlike high-level business plans, this focuses on the actual experiments, equipment, and milestones needed to build a room-temperature quantum computer.
+
+8
+00:00:41,814 --> 00:00:46,971
+Next up: Phase 1: Foundation Experiments (Months 1-18).
+
+9
+00:00:46,971 --> 00:00:49,074
+1.1 Initial Lab Setup.
+
+10
+00:00:49,074 --> 00:00:54,194
+1.2 First Experiments: Single V_Si Characterization.
+
+11
+00:00:54,194 --> 00:00:56,983
+1.3 Spin Readout Experiments.
+
+12
+00:00:56,983 --> 00:00:59,579
+1.4 Coherent Spin Control.
+
+13
+00:00:59,579 --> 00:01:04,975
+Let's explore Phase 2: Phononic Coupling (Months 18-36).
+
+14
+00:01:04,975 --> 00:01:07,968
+2.1 Phononic Crystal Fabrication.
+
+15
+00:01:07,968 --> 00:01:11,081
+2.2 Phonon-Spin Coupling Measurement.
+
+16
+00:01:11,081 --> 00:01:14,915
+2.3 Two-Qubit Gate via Phonon Exchange.
+
+17
+00:01:14,915 --> 00:01:21,021
+Now let's look at Phase 3: Scaling and Error Correction (Months 36-72).
+
+18
+00:01:21,021 --> 00:01:23,185
+3.1 Multi-Qubit Arrays.
+
+19
+00:01:23,185 --> 00:01:25,961
+3.2 Error Correction Implementation.
+
+20
+00:01:25,961 --> 00:01:32,007
+Now, let's talk about Phase 4: Million-Qubit System (Months 72-120).
+
+21
+00:01:32,007 --> 00:01:35,192
+4.1 Multi-Chip Optical Interconnect.
+
+22
+00:01:35,192 --> 00:01:37,836
+4.2 Final System Integration.
+
+23
+00:01:37,836 --> 00:01:39,687
+Moving on to Risk Mitigation.
+
+24
+00:01:39,687 --> 00:01:41,298
+Next up: Conclusion.
+
+25
+00:01:41,298 --> 00:01:47,524
+This roadmap provides a concrete path from first experiments to a million-qubit quantum computer.
+
+26
+00:01:47,524 --> 00:01:49,038
+The key milestones are:
+
+27
+00:01:49,038 --> 00:01:54,783
+Month 18: Single V_Si qubit control (validates basic physics).
+
+28
+00:01:54,783 --> 00:01:59,819
+Month 36: Two-qubit phonon-mediated gate (validates architecture).
+
+29
+00:01:59,819 --> 00:02:05,132
+Month 60: 100-qubit chip with error correction (validates scaling).
+
+30
+00:02:05,132 --> 00:02:10,805
+Month 120: Million-qubit system (validates practical QC).
+
+31
+00:02:10,805 --> 00:02:15,637
+Each phase builds on the previous, with clear go/no-go criteria.
+
+32
+00:02:15,637 --> 00:02:25,240
+The total investment required is approximately $100M over 10 years - a fraction of what competitors are spending on less scalable approaches.
+
+33
+00:02:25,240 --> 00:02:27,908
+The path is challenging but achievable.
+
+34
+00:02:27,908 --> 00:02:28,810
+Let's build it.
+
+35
+00:02:28,810 --> 00:02:35,432
+Document Version: 1.0 Date: February 2026 Author: Tushar Agrawal
+
+36
+00:02:35,432 --> 00:02:37,103
+And that's the end of this article.
+
+37
+00:02:37,103 --> 00:02:38,233
+Thanks for listening.
+

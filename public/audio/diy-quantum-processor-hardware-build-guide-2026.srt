@@ -1,0 +1,504 @@
+1
+00:00:00,050 --> 00:00:05,060
+You're listening to: DIY Quantum Processor: Complete Hardware Build Guide.
+
+2
+00:00:05,060 --> 00:00:10,444
+Step-by-step guide to building a room-temperature NV-center quantum processor.
+
+3
+00:00:10,444 --> 00:00:16,959
+Complete bill of materials, optical setup, microwave system, and assembly instructions.
+
+4
+00:00:16,959 --> 00:00:18,016
+Let's get started.
+
+5
+00:00:18,016 --> 00:00:22,752
+Now, let's talk about From Theory to Reality: Building Your Quantum Processor.
+
+6
+00:00:22,752 --> 00:00:26,947
+In Part 1, we introduced room-temperature quantum computing.
+
+7
+00:00:26,947 --> 00:00:30,540
+In Part 2, we explored the physics of NV centers.
+
+8
+00:00:30,540 --> 00:00:32,439
+Now it's time to build the hardware.
+
+9
+00:00:32,439 --> 00:00:37,572
+This guide provides everything you need to construct a working NV-center quantum processor.
+
+10
+00:00:37,572 --> 00:00:43,870
+We'll cover component selection, optical design, microwave systems, and step-by-step assembly.
+
+11
+00:00:43,870 --> 00:00:52,608
+Safety Warning: This build involves Class 3B lasers that can cause permanent eye damage and RF equipment that requires careful handling.
+
+12
+00:00:52,608 --> 00:00:55,516
+Review all safety sections before proceeding.
+
+13
+00:00:55,516 --> 00:00:58,677
+Moving on to Part 1: Complete System Architecture.
+
+14
+00:00:58,677 --> 00:01:00,024
+High-Level Overview.
+
+15
+00:01:00,024 --> 00:01:03,497
+Next up: Part 2: Complete Bill of Materials.
+
+16
+00:01:03,497 --> 00:01:04,939
+Optical Components.
+
+17
+00:01:04,939 --> 00:01:06,478
+Microwave Components.
+
+18
+00:01:06,478 --> 00:01:08,245
+Diamond Sample and Mounting.
+
+19
+00:01:08,245 --> 00:01:09,771
+Control Electronics.
+
+20
+00:01:09,771 --> 00:01:11,298
+Complete Cost Summary.
+
+21
+00:01:11,298 --> 00:01:14,975
+Let's explore Part 3: Detailed Optical Setup.
+
+22
+00:01:14,975 --> 00:01:16,502
+Optical Path Design.
+
+23
+00:01:16,502 --> 00:01:19,350
+Detailed Optical Alignment Procedure.
+
+24
+00:01:19,350 --> 00:01:22,644
+Now let's look at Part 4: Microwave System Setup.
+
+25
+00:01:22,644 --> 00:01:24,531
+Microwave Antenna Design.
+
+26
+00:01:24,531 --> 00:01:26,430
+Microwave System Assembly.
+
+27
+00:01:26,430 --> 00:01:30,096
+Now, let's talk about Part 5: Diamond Sample Preparation.
+
+28
+00:01:30,096 --> 00:01:31,250
+Handling Your Diamond.
+
+29
+00:01:31,250 --> 00:01:34,675
+Moving on to Part 6: Control Electronics Setup.
+
+30
+00:01:34,675 --> 00:01:37,247
+Arduino-Based Timing Controller.
+
+31
+00:01:37,247 --> 00:01:46,105
+// NV Center Quantum Control - Basic // Timing resolution: ~1 microsecond
+
+32
+00:01:46,105 --> 00:01:55,120
+const int LASER_PIN = 2; const int MW_GATE_PIN = 3; const int DETECTION_PIN = 5; const int PHOTON_PIN = 18;
+
+33
+00:01:55,120 --> 00:01:58,725
+volatile long photon_count = 0;
+
+34
+00:01:58,725 --> 00:02:14,146
+void setup() { pinMode(LASER_PIN, OUTPUT); pinMode(MW_GATE_PIN, OUTPUT); pinMode(DETECTION_PIN, OUTPUT); pinMode(PHOTON_PIN, INPUT);
+
+35
+00:02:14,146 --> 00:02:20,877
+attachInterrupt(digitalPinToInterrupt(PHOTON_PIN), countPhoton, RISING);
+
+36
+00:02:20,877 --> 00:02:24,675
+Serial.begin(115200); }
+
+37
+00:02:24,675 --> 00:02:29,326
+void countPhoton() { photon_count++; }
+
+38
+00:02:29,326 --> 00:02:44,278
+// Initialize qubit to |0> state void initialize(int duration_us) { digitalWrite(LASER_PIN, HIGH); delayMicroseconds(duration_us); digitalWrite(LASER_PIN, LOW); }
+
+39
+00:02:44,278 --> 00:03:12,379
+// Apply microwave pulse void mw_pulse(int duration_ns) { // Note: delayMicroseconds minimum is 3us on Arduino // For ns precision, need Teensy or FPGA digitalWrite(MW_GATE_PIN, HIGH); delayMicroseconds(max(1, duration_ns/1000)); digitalWrite(MW_GATE_PIN, LOW); }
+
+40
+00:03:12,379 --> 00:03:34,230
+// Read out qubit state long readout(int duration_us) { photon_count = 0; digitalWrite(LASER_PIN, HIGH); digitalWrite(DETECTION_PIN, HIGH); delayMicroseconds(duration_us); digitalWrite(DETECTION_PIN, LOW); digitalWrite(LASER_PIN, LOW); return photon_count; }
+
+41
+00:03:34,230 --> 00:03:44,435
+void loop() { // Example: Rabi oscillation measurement // Vary MW pulse duration and measure result
+
+42
+00:03:44,435 --> 00:03:55,516
+for (int pulse_us = 0; pulse_us < 200; pulse_us += 5) { long counts = 0; int shots = 100;
+
+43
+00:03:55,516 --> 00:04:18,137
+for (int i = 0; i < shots; i++) { initialize(1000);        // 1ms init mw_pulse(pulse_us * 1000); // MW pulse (in ns) counts += readout(300);   // 300us readout }
+
+44
+00:04:18,137 --> 00:04:24,831
+Serial.print(pulse_us); Serial.print(","); Serial.println(counts); }
+
+45
+00:04:24,831 --> 00:04:26,802
+delay(1000); }
+
+46
+00:04:26,802 --> 00:04:30,156
+TEENSY 4.0 UPGRADE (RECOMMENDED
+
+47
+00:04:30,156 --> 00:04:33,750
+Teensy provides ~10ns timing resolution:
+
+48
+00:04:33,750 --> 00:04:35,637
+Photon Counting Setup.
+
+49
+00:04:35,637 --> 00:04:50,697
+// Analog readout long readout_analog(int duration_us) { long total = 0; int samples = duration_us / 10; // 10us per sample
+
+50
+00:04:50,697 --> 00:05:00,637
+for (int i = 0; i < samples; i++) { total += analogRead(A0); delayMicroseconds(10); }
+
+51
+00:05:00,637 --> 00:05:01,947
+return total; }
+
+52
+00:05:01,947 --> 00:05:05,372
+Next up: Part 7: Assembly Procedure.
+
+53
+00:05:05,372 --> 00:05:06,983
+Step-by-Step Assembly.
+
+54
+00:05:06,983 --> 00:05:10,180
+Let's explore Part 8: Safety Protocols.
+
+55
+00:05:10,180 --> 00:05:11,406
+Laser Safety.
+
+56
+00:05:11,406 --> 00:05:12,620
+RF Safety.
+
+57
+00:05:12,620 --> 00:05:14,194
+General Lab Safety.
+
+58
+00:05:14,194 --> 00:05:17,764
+Now let's look at Part 9: Testing and Calibration.
+
+59
+00:05:17,764 --> 00:05:19,555
+Initial System Tests.
+
+60
+00:05:19,555 --> 00:05:21,526
+Finding NV Resonance.
+
+61
+00:05:21,526 --> 00:05:27,800
+import serial import numpy as np import matplotlib.pyplot as plt
+
+62
+00:05:27,800 --> 00:05:30,877
+Now, let's talk about Connect to signal generator.
+
+63
+00:05:30,877 --> 00:05:39,927
+sig_gen = serial.Serial('/dev/ttyUSB0', 115200)
+
+64
+00:05:39,927 --> 00:05:43,305
+Moving on to Connect to Arduino for photon counting.
+
+65
+00:05:43,305 --> 00:05:51,370
+arduino = serial.Serial('/dev/ttyACM0', 115200)
+
+66
+00:05:51,362 --> 00:06:04,557
+def set_frequency(freq_hz): """Set signal generator frequency""" cmd = f"FREQ {freq_hz}\n" sig_gen.write(cmd.encode())
+
+67
+00:06:04,557 --> 00:06:20,410
+def count_photons(duration_ms=100): """Count photons for given duration""" arduino.write(f"COUNT {duration_ms}\n".encode()) result = arduino.readline().decode().strip() return int(result)
+
+68
+00:06:20,410 --> 00:06:22,658
+Next up: Sweep parameters.
+
+69
+00:06:22,658 --> 00:06:48,848
+freq_start = 2.75e9  # 2.75 GHz freq_stop = 2.95e9   # 2.95 GHz freq_step = 5e6      # 5 MHz num_points = int((freq_stop - freq_start) / freq_step)
+
+70
+00:06:48,848 --> 00:06:50,723
+Let's explore Perform sweep.
+
+71
+00:06:50,723 --> 00:06:53,631
+frequencies = [] fluorescence = []
+
+72
+00:06:53,631 --> 00:07:09,160
+for i in range(num_points): freq = freq_start + i * freq_step set_frequency(freq) time.sleep(0.05)  # Wait for frequency to settle
+
+73
+00:07:09,160 --> 00:07:12,393
+counts = count_photons(100)
+
+74
+00:07:12,393 --> 00:07:21,780
+frequencies.append(freq / 1e9)  # Convert to GHz fluorescence.append(counts)
+
+75
+00:07:21,780 --> 00:07:29,509
+print(f"Freq: {freq/1e9:.3f} GHz, Counts: {counts}")
+
+76
+00:07:29,509 --> 00:07:31,011
+Now let's look at Plot result.
+
+77
+00:07:31,011 --> 00:07:55,578
+plt.figure(figsize=(10, 6)) plt.plot(frequencies, fluorescence, 'b.-') plt.xlabel('Frequency (GHz)') plt.ylabel('Fluorescence (counts)') plt.title('ODMR Spectrum of NV Center') plt.grid(True) plt.savefig('odmr_spectrum.png') plt.show()
+
+78
+00:07:55,578 --> 00:07:57,766
+RABI OSCILLATION CALIBRATION
+
+79
+00:07:57,766 --> 00:08:04,388
+Once you find the resonance frequency, calibrate the pulse duration for π and π/2 rotations.
+
+80
+00:08:04,388 --> 00:08:05,398
+PROCEDURE:
+
+81
+00:08:05,398 --> 00:08:09,232
+Set MW to resonance frequency (from ODMR).
+
+82
+00:08:09,232 --> 00:08:10,879
+Fix MW power.
+
+83
+00:08:10,879 --> 00:08:13,271
+Vary MW pulse duration.
+
+84
+00:08:13,271 --> 00:08:16,143
+Measure fluorescence after each pulse.
+
+85
+00:08:16,143 --> 00:08:17,453
+PULSE SEQUENCE:
+
+86
+00:08:17,453 --> 00:08:24,136
+Init          MW Pulse         Readout │               │                │ ────────┼───────────────┼────────────────┼────────► │               │                │ Laser:  ████████████████░░░░░░░░░░░░░░░░░████████ │←── 1-2 μs ──→│               │← 300ns →│ │               │                │ MW:     ░░░░░░░░░░░░░░░░████░░░░░░░░░░░░░░░░░░░░░ │← τ →│ varied
+
+87
+00:08:24,136 --> 00:08:25,927
+Detect: ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░████████ count here
+
+88
+00:08:25,927 --> 00:08:27,153
+EXPECTED RESULT:
+
+89
+00:08:27,153 --> 00:08:33,860
+Fluorescence ▲ │ |0⟩│● │ ╲ │  ╲ │   ╲ │    ╲ │     ● │      ╲ |1⟩│       ●─────● │              ╲     ● = π pulse │               ╲ │                ● │ └──────────────────────────────────────────► τ 0      τ_π/2    τ_π    3τ_π/2   2τ_π
+
+90
+00:08:33,860 --> 00:08:39,304
+Oscillation continues with decreasing amplitude due to decoherence (T2).
+
+91
+00:08:39,304 --> 00:08:48,235
+From this plot: • τ_π = pulse duration for full inversion • τ_π/2 = τ_π / 2 = Hadamard-like operation • Rabi frequency Ω = π / τ_π
+
+92
+00:08:48,235 --> 00:08:49,641
+TYPICAL VALUES:
+
+93
+00:08:49,641 --> 00:08:56,071
+For +30 dBm at antenna: • τ_π ≈ 50-200 ns • Ω ≈ 5-20 MHz
+
+94
+00:08:56,071 --> 00:08:58,427
+Higher power → shorter τ_π
+
+95
+00:08:58,427 --> 00:09:00,182
+RABI CALIBRATION CODE:
+
+96
+00:09:00,182 --> 00:09:03,235
+Now, let's talk about Part 10: Troubleshooting Guide.
+
+97
+00:09:03,235 --> 00:09:05,855
+Moving on to Conclusion and Next Steps.
+
+98
+00:09:05,855 --> 00:09:11,191
+You now have a complete guide to building a room-temperature NV-center quantum processor.
+
+99
+00:09:11,191 --> 00:09:17,658
+The total cost is $2,000-$5,000, compared to millions for a superconducting system.
+
+100
+00:09:17,658 --> 00:09:22,429
+What you've built: Optical system for NV initialization and readout.
+
+101
+00:09:22,429 --> 00:09:25,638
+Microwave system for qubit manipulation.
+
+102
+00:09:25,638 --> 00:09:28,427
+Control electronics for pulse sequences.
+
+103
+00:09:28,427 --> 00:09:30,963
+Software interface for experiments.
+
+104
+00:09:30,963 --> 00:09:34,857
+In Part 4, we'll cover: Complete software architecture.
+
+105
+00:09:34,857 --> 00:09:36,588
+Implementing quantum gates.
+
+106
+00:09:36,588 --> 00:09:38,559
+Running your first quantum algorithm.
+
+107
+00:09:38,559 --> 00:09:41,492
+Integration with Qiskit and other frameworks.
+
+108
+00:09:41,492 --> 00:09:43,379
+Next up: Related Articles.
+
+109
+00:09:43,394 --> 00:09:47,490
+Part 1: Room-Temperature Quantum Computing Introduction.
+
+110
+00:09:47,490 --> 00:09:50,351
+Part 2: NV-Center Diamond Physics.
+
+111
+00:09:50,351 --> 00:09:54,389
+Part 4: Quantum Processor Software & First Algorithm.
+
+112
+00:09:54,389 --> 00:09:59,305
+Quantum Computing Explained: Complete Beginner's Guide 2026.
+
+113
+00:09:59,305 --> 00:10:02,755
+Let's explore Component Suppliers Quick Reference.
+
+114
+00:10:02,755 --> 00:10:05,122
+Category, Supplier, Website.
+
+115
+00:10:05,122 --> 00:10:08,139
+Optics, Thorlabs, thorlabs.com.
+
+116
+00:10:08,139 --> 00:10:11,420
+Optics, Edmund Optics, edmundoptics.com.
+
+117
+00:10:11,420 --> 00:10:14,894
+Filters, Semrock, semrock.com.
+
+118
+00:10:14,894 --> 00:10:19,341
+RF/MW, Mini-Circuits, minicircuits.com.
+
+119
+00:10:19,341 --> 00:10:23,187
+Signal Gen, Windfreak, windfreaktech.com.
+
+120
+00:10:23,187 --> 00:10:25,976
+Diamond, Element Six, e6.com.
+
+121
+00:10:25,976 --> 00:10:29,257
+Electronics, Digikey, digikey.com.
+
+122
+00:10:29,257 --> 00:10:34,077
+PCB Fab, JLCPCB, jlcpcb.com.
+
+123
+00:10:34,077 --> 00:10:38,283
+Part 3 of 4 in the Room-Temperature Quantum Computing series.
+
+124
+00:10:38,283 --> 00:10:42,081
+Last updated: February 2, 2026.
+
+125
+00:10:42,081 --> 00:10:43,728
+And that's the end of this article.
+
+126
+00:10:43,728 --> 00:10:44,822
+Thanks for listening.
+

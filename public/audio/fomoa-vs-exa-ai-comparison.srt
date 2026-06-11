@@ -1,0 +1,316 @@
+1
+00:00:00,050 --> 00:00:09,675
+You're listening to: FOMOA vs Exa.ai + India Use-Cases: Schemes, Students & Startups (2026).
+
+2
+00:00:09,675 --> 00:00:20,516
+Exa.ai charges ~$5 per 1,000 requests; FOMOA offers the same core capabilities free, with native Hindi and 150+ Indian sources.
+
+3
+00:00:20,516 --> 00:00:29,375
+Full comparison plus real India use-cases — government schemes, JEE/NEET/UPSC students, and startup data.
+
+4
+00:00:29,375 --> 00:00:30,420
+Let's get started.
+
+5
+00:00:30,420 --> 00:00:33,521
+There are two questions people actually ask about FOMOA.
+
+6
+00:00:33,521 --> 00:00:39,723
+The first is "how does it compare to the paid AI-search APIs like Exa.ai?"
+
+7
+00:00:39,723 --> 00:00:42,644
+The second is "what can I actually do with it in India?"
+
+8
+00:00:42,644 --> 00:00:52,463
+This guide answers both — the comparison first, then three concrete India use-cases: government schemes, student exam prep, and startup/company data.
+
+9
+00:00:52,463 --> 00:00:58,966
+For the product overview and developer reference, see the complete FOMOA guide and FOMOA for developers.
+
+10
+00:00:58,966 --> 00:01:02,956
+Now, let's talk about FOMOA vs Exa.ai.
+
+11
+00:01:02,956 --> 00:01:08,064
+Exa.ai is a strong, general-purpose AI-search API.
+
+12
+00:01:08,064 --> 00:01:12,463
+The two differences that matter for Indian builders are cost and India-tuning.
+
+13
+00:01:12,463 --> 00:01:16,694
+Capability, Exa.ai, FOMOA.
+
+14
+00:01:16,694 --> 00:01:20,576
+Pricing, ~$5 / 1,000 requests, Free.
+
+15
+00:01:20,576 --> 00:01:27,115
+Direct answers, ✅, ✅ (/api/answer).
+
+16
+00:01:27,115 --> 00:01:34,903
+Deep research, ✅, ✅ (/api/research, 3 hops).
+
+17
+00:01:34,903 --> 00:01:41,802
+Web crawling, ✅, ✅ (/api/crawl, robots-aware).
+
+18
+00:01:41,802 --> 00:01:48,689
+Entity search, ✅, ✅ (/api/entities).
+
+19
+00:01:48,689 --> 00:01:53,437
+Collections / websets, ✅, ✅.
+
+20
+00:01:53,437 --> 00:01:57,824
+Native Hindi/Hinglish, ❌, ✅.
+
+21
+00:01:57,824 --> 00:02:02,199
+150+ Indian sources, ❌, ✅.
+
+22
+00:02:02,199 --> 00:02:06,814
+Indian number/format awareness, ❌, ✅.
+
+23
+00:02:06,814 --> 00:02:08,473
+What this means in practice.
+
+24
+00:02:08,473 --> 00:02:09,639
+Cost at scale.
+
+25
+00:02:09,639 --> 00:02:20,829
+A startup running a news/research aggregator that makes, say, 100,000 requests a month pays real money on a per-request API and ₹0 on FOMOA.
+
+26
+00:02:20,829 --> 00:02:25,721
+For a student project or an early-stage product, free is decisive..
+
+27
+00:02:25,721 --> 00:02:28,750
+India context is built in, not bolted on.
+
+28
+00:02:28,750 --> 00:02:45,048
+Exa returns excellent general results; FOMOA additionally understands lakhs/crores, prioritises gov.in sources, and answers Hindi natively (about 65% of its training was Hindi/Hinglish — see the training breakdown)..
+
+29
+00:02:45,048 --> 00:02:47,776
+Migrating from Exa to FOMOA.
+
+30
+00:02:47,776 --> 00:02:54,939
+Because FOMOA's chat endpoint is OpenAI-compatible, migration is mostly URL and endpoint mapping:
+
+31
+00:02:54,939 --> 00:02:57,968
+Point your client at FOMOA's base_url..
+
+32
+00:02:57,968 --> 00:03:07,740
+Map Exa's search/contents calls to /api/answer, /api/research, and /api/crawl..
+
+33
+00:03:07,740 --> 00:03:09,963
+Adjust parameter names where they differ..
+
+34
+00:03:09,963 --> 00:03:16,766
+The full code-level walkthrough (LangChain, LlamaIndex, streaming) is in FOMOA for developers.
+
+35
+00:03:16,766 --> 00:03:18,149
+When to choose which.
+
+36
+00:03:18,149 --> 00:03:25,156
+Choose Exa.ai if you need a mature global index and your queries are not India-centric.
+
+37
+00:03:25,156 --> 00:03:32,151
+Choose FOMOA if your users are Indian, your budget is tight, or you need Hindi and government-source accuracy.
+
+38
+00:03:32,151 --> 00:03:36,887
+For most Indian products, FOMOA wins on both cost and relevance.
+
+39
+00:03:36,887 --> 00:03:41,778
+Now the part that makes FOMOA genuinely useful day-to-day: India use-cases.
+
+40
+00:03:41,778 --> 00:03:44,891
+Moving on to Use-Case 1: Government Schemes.
+
+41
+00:03:44,891 --> 00:03:50,228
+India runs 100+ central schemes and 1000+ state schemes.
+
+42
+00:03:50,228 --> 00:03:57,992
+The hard part is not the schemes — it is discovering which one you qualify for, with the right documents and the official link.
+
+43
+00:03:57,992 --> 00:04:05,649
+FOMOA's entity search and gov.in source priority make this its single strongest consumer workflow.
+
+44
+00:04:05,649 --> 00:04:08,545
+Ask in plain language (Hindi works best here
+
+45
+00:04:08,545 --> 00:04:13,064
+"Main ek chhota kisan hoon, mere liye kaun si scheme hai?".
+
+46
+00:04:13,064 --> 00:04:15,925
+"Schemes for women entrepreneurs in Maharashtra".
+
+47
+00:04:15,925 --> 00:04:20,204
+"Senior citizen pension scheme eligibility and documents".
+
+48
+00:04:20,204 --> 00:04:27,668
+You get eligibility, required documents, benefits, and the official application URL — pulled from official portals.
+
+49
+00:04:27,668 --> 00:04:29,867
+The major schemes people search for:
+
+50
+00:04:29,867 --> 00:04:33,221
+PM-KISAN — income support for farmers..
+
+51
+00:04:33,221 --> 00:04:37,500
+Ayushman Bharat (PM-JAY) — health cover for eligible families..
+
+52
+00:04:37,500 --> 00:04:42,463
+MUDRA loans — collateral-free business loans (Shishu/Kishore/Tarun)..
+
+53
+00:04:42,463 --> 00:04:45,961
+PM Awas Yojana — housing assistance..
+
+54
+00:04:45,961 --> 00:04:59,314
+Pro tips: ask state-specific questions (schemes differ by state), check eligibility before applying, and always confirm amounts and deadlines against the linked official page — FOMOA cites it precisely so you can.
+
+55
+00:04:59,314 --> 00:05:06,165
+Next up: Use-Case 2: Students (JEE, NEET, UPSC & Scholarships).
+
+56
+00:05:06,165 --> 00:05:12,091
+Exam information online is a minefield of outdated dates and coaching-center SEO.
+
+57
+00:05:12,091 --> 00:05:18,858
+FOMOA answers from official NTA and government sources, with citations, so students get the current number.
+
+58
+00:05:18,842 --> 00:05:25,570
+JEE Main 2026 — exam dates, session details, syllabus and pattern, and college cutoffs..
+
+59
+00:05:25,570 --> 00:05:30,234
+NEET 2026 — exam details and medical-college queries..
+
+60
+00:05:30,234 --> 00:05:36,243
+UPSC Civil Services 2026 — the exam calendar and optional-subject information..
+
+61
+00:05:36,243 --> 00:05:42,433
+Scholarships — national (NSP) and state scholarships with eligibility and deadlines..
+
+62
+00:05:42,433 --> 00:05:55,005
+How students should use it: ask specific questions ("NEET 2026 application last date"), verify every deadline against the cited official source, and use Hindi/Hinglish freely.
+
+63
+00:05:55,005 --> 00:06:00,294
+Set up a few recurring queries during application season so you never miss a window.
+
+64
+00:06:00,294 --> 00:06:04,092
+Let's explore Use-Case 3: Startup & Company Data.
+
+65
+00:06:04,092 --> 00:06:20,042
+For investors, job-seekers, and market researchers, FOMOA's /api/entities is a free window into 50,000+ Indian companies and startups, searchable by industry, location, and funding stage.
+
+66
+00:06:20,042 --> 00:06:23,719
+Investors — screen startups by sector and stage..
+
+67
+00:06:23,719 --> 00:06:27,445
+Job seekers — find funded companies hiring in a city..
+
+68
+00:06:27,445 --> 00:06:32,337
+Journalists & researchers — pull market and funding data with sources..
+
+69
+00:06:32,337 --> 00:06:38,960
+You can combine filters ("fintech, Bengaluru, Series A") or just ask in natural language.
+
+70
+00:06:38,960 --> 00:06:42,469
+The API mechanics are in FOMOA for developers.
+
+71
+00:06:42,469 --> 00:06:44,032
+Now let's look at The Bottom Line.
+
+72
+00:06:44,032 --> 00:06:50,979
+Against paid APIs, FOMOA's pitch is "the same core capabilities, free, and tuned for India."
+
+73
+00:06:50,979 --> 00:07:00,630
+Against doing nothing, its pitch is the three workflows above — schemes, exams, and company data — that are genuinely painful without it.
+
+74
+00:07:00,630 --> 00:07:04,429
+If your users are in India, it is worth the five-minute integration.
+
+75
+00:07:04,429 --> 00:07:09,945
+Keep reading: FOMOA AI: The Complete Guide (2026).
+
+76
+00:07:09,945 --> 00:07:15,102
+FOMOA for Developers: API, Deep Research & Ethical Crawling.
+
+77
+00:07:15,102 --> 00:07:19,417
+The Best Free AI Search Engine for India in 2026.
+
+78
+00:07:19,417 --> 00:07:21,039
+And that's the end of this article.
+
+79
+00:07:21,039 --> 00:07:22,193
+Thanks for listening.
+

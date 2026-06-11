@@ -1,0 +1,176 @@
+1
+00:00:00,050 --> 00:00:05,528
+You're listening to: Event-Driven Architecture with Apache Kafka: A Practical Guide.
+
+2
+00:00:05,528 --> 00:00:10,625
+Learn how to design and implement event-driven systems using Apache Kafka.
+
+3
+00:00:10,625 --> 00:00:17,740
+Covers event schemas, consumer patterns, exactly-once semantics, and real-world patterns from healthcare data pipelines.
+
+4
+00:00:17,740 --> 00:00:18,822
+Let's get started.
+
+5
+00:00:18,822 --> 00:00:21,009
+Now, let's talk about Introduction.
+
+6
+00:00:21,009 --> 00:00:34,915
+At Dr. Dangs Lab, we process over 100,000 lab reports daily, each triggering a cascade of events—notifications to patients, updates to medical records, billing operations, and analytics pipelines.
+
+7
+00:00:34,915 --> 00:00:40,168
+Traditional request-response architectures couldn't handle this scale efficiently.
+
+8
+00:00:40,168 --> 00:00:44,002
+Enter Apache Kafka and event-driven architecture.
+
+9
+00:00:44,002 --> 00:00:45,733
+Moving on to Why Event-Driven?.
+
+10
+00:00:45,733 --> 00:00:48,461
+Traditional vs Event-Driven.
+
+11
+00:00:48,461 --> 00:00:50,769
+Traditional (Request-Response
+
+12
+00:00:50,769 --> 00:00:51,814
+Event-Driven:
+
+13
+00:00:51,814 --> 00:00:52,836
+Benefits.
+
+14
+00:00:52,836 --> 00:00:56,250
+Loose coupling: Services don't need to know about each other.
+
+15
+00:00:56,250 --> 00:01:00,444
+Scalability: Add consumers without modifying producers.
+
+16
+00:01:00,444 --> 00:01:03,665
+Resilience: Services can fail independently.
+
+17
+00:01:03,665 --> 00:01:07,992
+Replay ability: Events can be replayed for debugging or recovery.
+
+18
+00:01:07,992 --> 00:01:09,927
+Next up: Setting Up Kafka.
+
+19
+00:01:09,927 --> 00:01:12,175
+Docker Compose Configuration.
+
+20
+00:01:12,175 --> 00:01:13,461
+Creating Topics.
+
+21
+00:01:13,461 --> 00:01:15,576
+Let's explore Event Schema Design.
+
+22
+00:01:15,576 --> 00:01:18,245
+Using Avro for Schema Evolution.
+
+23
+00:01:18,245 --> 00:01:20,336
+Now let's look at Producer Implementation.
+
+24
+00:01:20,336 --> 00:01:22,596
+Async Producer with Retries.
+
+25
+00:01:22,596 --> 00:01:25,444
+Now, let's talk about Consumer Implementation.
+
+26
+00:01:25,444 --> 00:01:28,040
+Resilient Consumer with Error Handling.
+
+27
+00:01:28,040 --> 00:01:30,060
+Moving on to Advanced Patterns.
+
+28
+00:01:30,060 --> 00:01:32,800
+Saga Pattern for Distributed Transactions.
+
+29
+00:01:32,800 --> 00:01:34,819
+Consumer Groups for Scaling.
+
+30
+00:01:34,819 --> 00:01:37,776
+Next up: Monitoring and Observability.
+
+31
+00:01:37,776 --> 00:01:39,362
+Key Metrics to Track.
+
+32
+00:01:39,362 --> 00:01:41,935
+Let's explore Key Takeaways.
+
+33
+00:01:41,935 --> 00:01:46,838
+Design events, not APIs: Think about what happened, not what to do.
+
+34
+00:01:46,838 --> 00:01:51,742
+Use schemas: Avro or Protobuf for type safety and evolution.
+
+35
+00:01:51,742 --> 00:01:56,177
+Partition wisely: Choose partition keys that ensure ordering where needed.
+
+36
+00:01:56,177 --> 00:02:00,781
+Handle failures: Implement DLQs and retry mechanisms.
+
+37
+00:02:00,781 --> 00:02:05,108
+Monitor everything: Consumer lag is your early warning system.
+
+38
+00:02:05,108 --> 00:02:06,838
+Now let's look at Conclusion.
+
+39
+00:02:06,838 --> 00:02:12,127
+Event-driven architecture with Kafka has transformed how we handle data at scale.
+
+40
+00:02:12,127 --> 00:02:22,487
+The decoupling it provides allows us to add new features without touching existing services, and the replay capability has saved us countless times during incident recovery.
+
+41
+00:02:22,487 --> 00:02:24,507
+Building event-driven systems?
+
+42
+00:02:24,507 --> 00:02:28,461
+Let's connect on LinkedIn to discuss patterns and best practices.
+
+43
+00:02:28,461 --> 00:02:30,024
+And that's the end of this article.
+
+44
+00:02:30,024 --> 00:02:31,129
+Thanks for listening.
+

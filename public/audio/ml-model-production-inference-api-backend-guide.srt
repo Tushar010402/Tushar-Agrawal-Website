@@ -1,0 +1,292 @@
+1
+00:00:00,050 --> 00:00:06,899
+You're listening to: Putting an ML Model in Production: A Backend Engineer's Guide to Inference APIs.
+
+2
+00:00:06,899 --> 00:00:10,769
+Serving a model is a backend problem, not a data-science one.
+
+3
+00:00:10,769 --> 00:00:23,593
+A practical guide to production inference APIs — latency vs throughput, batching, GPU concurrency, caching, autoscaling cold starts, and the failure modes that don't exist in a notebook.
+
+4
+00:00:23,593 --> 00:00:24,651
+Let's get started.
+
+5
+00:00:24,651 --> 00:00:34,963
+There's a moment every team hits: the data scientist's model works beautifully in a notebook, and now someone has to make it answer 500 requests a second without falling over.
+
+6
+00:00:34,963 --> 00:00:41,550
+That someone is a backend engineer, and the skills involved are 80% backend engineering and 20% ML.
+
+7
+00:00:41,550 --> 00:00:52,487
+In 2026 this is one of the highest-paid intersections in the field — production ML integration commands a real salary premium precisely because the talent is scarce.
+
+8
+00:00:52,487 --> 00:00:59,963
+This is the backend engineer's guide to serving a model: the concerns that don't exist in a notebook and the patterns that handle them.
+
+9
+00:00:59,963 --> 00:01:07,235
+It leans on the same fundamentals as the rest of my backend writing — caching, rate limiting, and async APIs.
+
+10
+00:01:07,235 --> 00:01:11,021
+Now, let's talk about A model is just a very expensive function.
+
+11
+00:01:11,021 --> 00:01:19,326
+Strip away the mystique and an inference endpoint is a function call that happens to be slow, memory-hungry, and often GPU-bound.
+
+12
+00:01:19,326 --> 00:01:29,915
+That reframing is useful, because it tells you the problems are the ones you already know — latency, throughput, concurrency, caching, failure handling — just with sharper constraints.
+
+13
+00:01:29,915 --> 00:01:34,879
+Everything interesting is in making that middle line survive production traffic.
+
+14
+00:01:34,879 --> 00:01:38,737
+Moving on to Latency vs throughput: pick your master.
+
+15
+00:01:38,737 --> 00:01:41,730
+The first decision shapes everything else.
+
+16
+00:01:41,730 --> 00:01:54,555
+Are you optimizing for latency (one user waiting on one prediction — fraud check, autocomplete) or throughput (maximizing predictions per second — batch scoring, recommendations)?
+
+17
+00:01:54,555 --> 00:01:56,358
+They pull in opposite directions:
+
+18
+00:01:56,358 --> 00:02:04,411
+Latency-first: process each request immediately, keep the model warm, accept lower GPU utilization..
+
+19
+00:02:04,411 --> 00:02:14,254
+Throughput-first: batch requests together, because GPUs are dramatically more efficient processing 32 inputs at once than 32 inputs one at a time..
+
+20
+00:02:14,254 --> 00:02:17,175
+Dynamic batching: the highest-leverage trick.
+
+21
+00:02:17,175 --> 00:02:28,125
+The single biggest throughput win is dynamic batching — hold incoming requests for a few milliseconds, group them, run one batched inference, then fan the results back out.
+
+22
+00:02:28,125 --> 00:02:36,646
+You trade a tiny, bounded latency increase for a multiple-X throughput gain because the GPU stops sitting idle between single requests.
+
+23
+00:02:36,646 --> 00:02:45,192
+This is conceptually the same move as request coalescing in a cache stampede: collapse many concurrent calls into one expensive operation.
+
+24
+00:02:45,192 --> 00:02:50,180
+Most serving frameworks give you dynamic batching as a config knob — use it.
+
+25
+00:02:50,180 --> 00:02:55,588
+Next up: Concurrency: the GPU is a single, precious resource.
+
+26
+00:02:55,588 --> 00:03:00,216
+In a normal web service you scale by adding threads/workers.
+
+27
+00:03:00,216 --> 00:03:05,949
+With a GPU model, the GPU is the bottleneck and it doesn't parallelize like CPU.
+
+28
+00:03:05,949 --> 00:03:15,612
+Fire 50 concurrent requests at one model instance and you don't get 50× — you get contention, memory pressure, and possibly an out-of-memory crash.
+
+29
+00:03:15,612 --> 00:03:20,685
+The pattern: put a concurrency limit / queue in front of the GPU.
+
+30
+00:03:20,685 --> 00:03:25,709
+Accept requests, queue them, and feed the model at the rate it can actually sustain.
+
+31
+00:03:25,709 --> 00:03:33,774
+Past a threshold, shed load with a 429 (the rate-limiting patterns apply directly) rather than letting everything degrade.
+
+32
+00:03:33,774 --> 00:03:38,497
+A bounded queue with backpressure beats an unbounded one that OOMs.
+
+33
+00:03:38,497 --> 00:03:42,776
+Let's explore Cache aggressively — many inputs repeat.
+
+34
+00:03:42,776 --> 00:03:46,442
+Inference is expensive; identical inputs are common.
+
+35
+00:03:46,442 --> 00:03:54,867
+Cache predictions keyed by a hash of the (normalized) input, with a TTL appropriate to how often the model or data changes.
+
+36
+00:03:54,867 --> 00:04:03,581
+For a recommendation or classification endpoint, a cache hit turns a 200ms GPU call into a 2ms Redis lookup.
+
+37
+00:04:03,581 --> 00:04:10,949
+The Redis caching strategies — including jittered TTLs to avoid synchronized expiry — apply unchanged.
+
+38
+00:04:10,949 --> 00:04:17,139
+Just be careful to include the model version in the cache key, so a model update doesn't serve stale predictions.
+
+39
+00:04:17,139 --> 00:04:20,168
+Now let's look at Autoscaling and the cold-start tax.
+
+40
+00:04:20,186 --> 00:04:23,297
+Model servers don't scale like stateless web pods.
+
+41
+00:04:23,297 --> 00:04:29,967
+A new replica must load the model into GPU memory — often several seconds to tens of seconds.
+
+42
+00:04:29,967 --> 00:04:32,203
+That cold start has consequences:
+
+43
+00:04:32,203 --> 00:04:33,681
+Scale on the right signal.
+
+44
+00:04:33,681 --> 00:04:38,573
+Queue depth or GPU utilization predicts saturation better than CPU..
+
+45
+00:04:38,573 --> 00:04:39,859
+Keep a warm floor.
+
+46
+00:04:39,859 --> 00:04:45,268
+Don't scale to zero if latency matters; the cold start will hit a real user..
+
+47
+00:04:45,268 --> 00:04:46,734
+Scale ahead of demand.
+
+48
+00:04:46,734 --> 00:04:53,994
+Because spin-up is slow, react early — reactive scaling arrives after the spike has already caused timeouts..
+
+49
+00:04:53,994 --> 00:04:57,828
+Now, let's talk about Long or huge jobs: go async.
+
+50
+00:04:57,828 --> 00:05:04,054
+Some inference is genuinely slow — large generative models, video, big batch scoring.
+
+51
+00:05:04,054 --> 00:05:06,506
+Don't hold an HTTP connection for it.
+
+52
+00:05:06,506 --> 00:05:16,253
+Use the async job pattern: accept the request, return 202 with a job ID, process on a worker, let the client poll or get a webhook.
+
+53
+00:05:16,253 --> 00:05:25,111
+This is exactly the design in async, long-running APIs for AI agents, and it's how you keep a slow model from exhausting your web tier.
+
+54
+00:05:25,111 --> 00:05:28,501
+Moving on to Failure modes a notebook never shows you.
+
+55
+00:05:28,501 --> 00:05:32,251
+Production surfaces problems that don't exist offline.
+
+56
+00:05:32,251 --> 00:05:33,261
+Budget for them:
+
+57
+00:05:33,261 --> 00:05:38,861
+GPU OOM under concurrency — fix with the queue/concurrency limit above..
+
+58
+00:05:38,861 --> 00:05:46,482
+Model/version skew — preprocessing in serving must exactly match training, or predictions silently degrade.
+
+59
+00:05:46,482 --> 00:05:47,876
+Pin and test it..
+
+60
+00:05:47,876 --> 00:05:56,133
+Input drift — real inputs diverge from training data over time; monitor input distributions, not just latency..
+
+61
+00:05:56,133 --> 00:06:01,301
+Silent quality decay — the endpoint returns 200s with worse answers.
+
+62
+00:06:01,301 --> 00:06:06,602
+Log predictions and sample them; latency dashboards won't catch this..
+
+63
+00:06:06,602 --> 00:06:16,746
+Instrument it like any service — the Prometheus/Grafana/Jaeger stack — plus model-specific signals (prediction distribution, confidence, cache hit rate).
+
+64
+00:06:16,746 --> 00:06:18,465
+Next up: The takeaway.
+
+65
+00:06:18,465 --> 00:06:23,705
+Serving an ML model in production is a backend discipline wearing an ML hat.
+
+66
+00:06:23,705 --> 00:06:37,167
+The model is an expensive function; your job is to make it fast (batching, warm instances), safe under load (concurrency limits, backpressure, caching), and observable (drift and quality, not just latency).
+
+67
+00:06:37,167 --> 00:06:48,405
+Master that and you sit at one of 2026's scarcest, best-paid intersections — which, for Indian engineers especially, is exactly the skill that moves you up a salary band.
+
+68
+00:06:48,405 --> 00:06:53,982
+Related reading: Vector Databases for Backend Engineers: RAG Without the Hype.
+
+69
+00:06:53,982 --> 00:07:01,193
+The AI/ML Skills That Add 25% to a Backend Salary in India (2026).
+
+70
+00:07:01,193 --> 00:07:06,109
+Designing Async, Long-Running APIs for AI Agents.
+
+71
+00:07:06,109 --> 00:07:08,898
+Redis Caching Strategies: A Complete Guide.
+
+72
+00:07:08,898 --> 00:07:10,496
+And that's the end of this article.
+
+73
+00:07:10,496 --> 00:07:11,626
+Thanks for listening.
+

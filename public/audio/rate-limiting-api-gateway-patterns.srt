@@ -1,0 +1,172 @@
+1
+00:00:00,050 --> 00:00:06,057
+You're listening to: Rate Limiting & API Gateway Patterns: Production Implementation Guide.
+
+2
+00:00:06,057 --> 00:00:12,127
+Master API rate limiting with token bucket, sliding window, and distributed algorithms.
+
+3
+00:00:12,127 --> 00:00:18,437
+Implement Kong, Nginx, and custom rate limiters with Redis for high-traffic production systems.
+
+4
+00:00:18,437 --> 00:00:19,483
+Let's get started.
+
+5
+00:00:19,483 --> 00:00:21,658
+Now, let's talk about Introduction.
+
+6
+00:00:21,658 --> 00:00:28,100
+When your API goes viral or faces a DDoS attack, rate limiting is your first line of defense.
+
+7
+00:00:28,100 --> 00:00:35,396
+It protects backend services from overload, ensures fair usage, and maintains system stability under pressure.
+
+8
+00:00:35,396 --> 00:00:46,093
+Having built rate limiting systems for healthcare APIs handling millions of requests, I've learned that the algorithm choice and implementation details matter enormously.
+
+9
+00:00:46,093 --> 00:00:51,442
+This guide covers everything from basic concepts to distributed rate limiting at scale.
+
+10
+00:00:51,442 --> 00:00:54,062
+Moving on to Rate Limiting Algorithms.
+
+11
+00:00:54,062 --> 00:00:56,153
+1. Token Bucket Algorithm.
+
+12
+00:00:56,153 --> 00:01:02,151
+The token bucket is the most versatile algorithm, allowing bursts while maintaining average rate limits.
+
+13
+00:01:02,151 --> 00:01:04,591
+2. Sliding Window Algorithm.
+
+14
+00:01:04,591 --> 00:01:08,665
+More accurate than fixed windows, prevents the "boundary problem."
+
+15
+00:01:08,665 --> 00:01:10,949
+3. Leaky Bucket Algorithm.
+
+16
+00:01:10,949 --> 00:01:14,278
+Smooths out bursty traffic for consistent throughput.
+
+17
+00:01:14,278 --> 00:01:17,728
+Next up: FastAPI Rate Limiting Middleware.
+
+18
+00:01:17,728 --> 00:01:21,490
+Let's explore API Gateway Configuration.
+
+19
+00:01:21,490 --> 00:01:22,884
+Kong Rate Limiting.
+
+20
+00:01:22,884 --> 00:01:24,627
+Nginx Rate Limiting.
+
+21
+00:01:24,627 --> 00:01:27,487
+Now let's look at Distributed Rate Limiting Patterns.
+
+22
+00:01:27,487 --> 00:01:29,543
+Cluster-Wide Rate Limiting.
+
+23
+00:01:29,543 --> 00:01:31,802
+Circuit Breaker with Rate Limiting.
+
+24
+00:01:31,802 --> 00:01:34,218
+Now, let's talk about Monitoring Rate Limits.
+
+25
+00:01:34,218 --> 00:01:35,817
+Moving on to Conclusion.
+
+26
+00:01:35,817 --> 00:01:41,862
+Effective rate limiting protects your APIs from abuse while ensuring fair resource allocation:
+
+27
+00:01:41,862 --> 00:01:45,504
+Token Bucket for APIs needing burst tolerance.
+
+28
+00:01:45,504 --> 00:01:49,651
+Sliding Window for accurate counting without boundary issues.
+
+29
+00:01:49,651 --> 00:01:52,632
+Leaky Bucket for traffic shaping and smoothing.
+
+30
+00:01:52,632 --> 00:01:57,019
+Distributed implementations with Redis for multi-instance deployments.
+
+31
+00:01:57,019 --> 00:01:59,879
+Tiered limits for different customer segments.
+
+32
+00:01:59,879 --> 00:02:06,887
+Remember to: Always return proper 429 responses with Retry-After headers.
+
+33
+00:02:06,887 --> 00:02:10,552
+Monitor rate limit metrics to tune thresholds.
+
+34
+00:02:10,552 --> 00:02:13,954
+Implement graceful degradation with circuit breakers.
+
+35
+00:02:13,954 --> 00:02:17,235
+Use consistent hashing for distributed rate limiting.
+
+36
+00:02:17,235 --> 00:02:19,338
+Next up: Related Articles.
+
+37
+00:02:19,338 --> 00:02:23,569
+Nginx Reverse Proxy Load Balancing Guide - Traffic management.
+
+38
+00:02:23,569 --> 00:02:26,430
+Redis Caching Strategies - Redis patterns.
+
+39
+00:02:26,430 --> 00:02:30,396
+Building Scalable Microservices - Service architecture.
+
+40
+00:02:30,396 --> 00:02:34,062
+REST API Design Best Practices - API design.
+
+41
+00:02:34,062 --> 00:02:37,632
+System Design Interview Guide - Architecture patterns.
+
+42
+00:02:37,632 --> 00:02:39,350
+And that's the end of this article.
+
+43
+00:02:39,350 --> 00:02:40,504
+Thanks for listening.
+

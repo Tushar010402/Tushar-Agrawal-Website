@@ -1,52 +1,108 @@
 {
-  "redis-cache-stampede-p99-latency-war-story": {
-    "file": "/audio/redis-cache-stampede-p99-latency-war-story.mp3",
-    "captions": "/audio/redis-cache-stampede-p99-latency-war-story.srt",
-    "duration": 448,
+  "5g-applications-developers-complete-guide-2026": {
+    "file": "/audio/5g-applications-developers-complete-guide-2026.mp3",
+    "captions": "/audio/5g-applications-developers-complete-guide-2026.srt",
+    "duration": 363,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 1751
+    "sizeKB": 1417
   },
-  "kafka-consumer-lag-2-million-debugging-war-story": {
-    "file": "/audio/kafka-consumer-lag-2-million-debugging-war-story.mp3",
-    "captions": "/audio/kafka-consumer-lag-2-million-debugging-war-story.srt",
-    "duration": 382,
+  "6g-technology-complete-guide-developers-2026": {
+    "file": "/audio/6g-technology-complete-guide-developers-2026.mp3",
+    "captions": "/audio/6g-technology-complete-guide-developers-2026.srt",
+    "duration": 1242,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 1493
+    "sizeKB": 4852
   },
-  "database-connection-pooling-performance-guide": {
-    "file": "/audio/database-connection-pooling-performance-guide.mp3",
-    "captions": "/audio/database-connection-pooling-performance-guide.srt",
-    "duration": 303,
+  "ai-capabilities-2026-complete-guide": {
+    "file": "/audio/ai-capabilities-2026-complete-guide.mp3",
+    "captions": "/audio/ai-capabilities-2026-complete-guide.srt",
+    "duration": 2203,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 1184
+    "sizeKB": 8607
   },
-  "building-scalable-microservices-with-go-and-fastapi": {
-    "file": "/audio/building-scalable-microservices-with-go-and-fastapi.mp3",
-    "captions": "/audio/building-scalable-microservices-with-go-and-fastapi.srt",
-    "duration": 354,
+  "ai-ml-skills-backend-salary-premium-india-2026": {
+    "file": "/audio/ai-ml-skills-backend-salary-premium-india-2026.mp3",
+    "captions": "/audio/ai-ml-skills-backend-salary-premium-india-2026.srt",
+    "duration": 417,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 1384
+    "sizeKB": 1629
   },
-  "post-quantum-cryptography-migration-guide-2026": {
-    "file": "/audio/post-quantum-cryptography-migration-guide-2026.mp3",
-    "captions": "/audio/post-quantum-cryptography-migration-guide-2026.srt",
+  "ai-native-backend-architecture-2026": {
+    "file": "/audio/ai-native-backend-architecture-2026.mp3",
+    "captions": "/audio/ai-native-backend-architecture-2026.srt",
+    "duration": 290,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1132
+  },
+  "apache-kafka-event-streaming-deep-dive": {
+    "file": "/audio/apache-kafka-event-streaming-deep-dive.mp3",
+    "captions": "/audio/apache-kafka-event-streaming-deep-dive.srt",
+    "duration": 162,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 633
+  },
+  "apache-vs-nginx-web-server-comparison": {
+    "file": "/audio/apache-vs-nginx-web-server-comparison.mp3",
+    "captions": "/audio/apache-vs-nginx-web-server-comparison.srt",
+    "duration": 334,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1304
+  },
+  "ar-vr-development-getting-started-complete-guide-2026": {
+    "file": "/audio/ar-vr-development-getting-started-complete-guide-2026.mp3",
+    "captions": "/audio/ar-vr-development-getting-started-complete-guide-2026.srt",
+    "duration": 582,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2273
+  },
+  "async-long-running-apis-for-ai-agents": {
+    "file": "/audio/async-long-running-apis-for-ai-agents.mp3",
+    "captions": "/audio/async-long-running-apis-for-ai-agents.srt",
+    "duration": 435,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1699
+  },
+  "authentication-authorization-jwt-oauth-guide": {
+    "file": "/audio/authentication-authorization-jwt-oauth-guide.mp3",
+    "captions": "/audio/authentication-authorization-jwt-oauth-guide.srt",
+    "duration": 167,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 654
+  },
+  "aws-services-backend-developers-guide": {
+    "file": "/audio/aws-services-backend-developers-guide.mp3",
+    "captions": "/audio/aws-services-backend-developers-guide.srt",
+    "duration": 174,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 680
+  },
+  "backend-developer-roadmap-india-2026": {
+    "file": "/audio/backend-developer-roadmap-india-2026.mp3",
+    "captions": "/audio/backend-developer-roadmap-india-2026.srt",
+    "duration": 170,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 666
+  },
+  "backend-developer-salary-india-2026": {
+    "file": "/audio/backend-developer-salary-india-2026.mp3",
+    "captions": "/audio/backend-developer-salary-india-2026.srt",
+    "duration": 485,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1894
+  },
+  "backend-trends-2025-developer-guide": {
+    "file": "/audio/backend-trends-2025-developer-guide.mp3",
+    "captions": "/audio/backend-trends-2025-developer-guide.srt",
+    "duration": 226,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 882
+  },
+  "best-free-ai-search-engine-india-2026": {
+    "file": "/audio/best-free-ai-search-engine-india-2026.mp3",
+    "captions": "/audio/best-free-ai-search-engine-india-2026.srt",
     "duration": 548,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 2142
-  },
-  "qauth-post-quantum-authentication-protocol": {
-    "file": "/audio/qauth-post-quantum-authentication-protocol.mp3",
-    "captions": "/audio/qauth-post-quantum-authentication-protocol.srt",
-    "duration": 540,
-    "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 2110
-  },
-  "python-asyncio-complete-guide": {
-    "file": "/audio/python-asyncio-complete-guide.mp3",
-    "captions": "/audio/python-asyncio-complete-guide.srt",
-    "duration": 155,
-    "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 606
+    "sizeKB": 2139
   },
   "building-backends-for-ai-agents-idempotency-retries-state": {
     "file": "/audio/building-backends-for-ai-agents-idempotency-retries-state.mp3",
@@ -55,19 +111,26 @@
     "voice": "en-US-AndrewMultilingualNeural",
     "sizeKB": 1962
   },
-  "technical-seo-nextjs-developers-complete-guide-2026": {
-    "file": "/audio/technical-seo-nextjs-developers-complete-guide-2026.mp3",
-    "captions": "/audio/technical-seo-nextjs-developers-complete-guide-2026.srt",
-    "duration": 611,
+  "building-scalable-microservices-with-go-and-fastapi": {
+    "file": "/audio/building-scalable-microservices-with-go-and-fastapi.mp3",
+    "captions": "/audio/building-scalable-microservices-with-go-and-fastapi.srt",
+    "duration": 354,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 2386
+    "sizeKB": 1384
   },
-  "llms-txt-generative-engine-optimization-developers-2026": {
-    "file": "/audio/llms-txt-generative-engine-optimization-developers-2026.mp3",
-    "captions": "/audio/llms-txt-generative-engine-optimization-developers-2026.srt",
-    "duration": 620,
+  "c-rust-go-systems-programming-comparison": {
+    "file": "/audio/c-rust-go-systems-programming-comparison.mp3",
+    "captions": "/audio/c-rust-go-systems-programming-comparison.srt",
+    "duration": 121,
     "voice": "en-US-AndrewMultilingualNeural",
-    "sizeKB": 2422
+    "sizeKB": 473
+  },
+  "cloud-microservices-backend-skills-india-hiring-2026": {
+    "file": "/audio/cloud-microservices-backend-skills-india-hiring-2026.mp3",
+    "captions": "/audio/cloud-microservices-backend-skills-india-hiring-2026.srt",
+    "duration": 406,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1587
   },
   "core-web-vitals-backend-engineers-server-performance-2026": {
     "file": "/audio/core-web-vitals-backend-engineers-server-performance-2026.mp3",
@@ -76,11 +139,480 @@
     "voice": "en-US-AndrewMultilingualNeural",
     "sizeKB": 2378
   },
+  "cryptographic-bill-of-materials-cbom-pqc-migration": {
+    "file": "/audio/cryptographic-bill-of-materials-cbom-pqc-migration.mp3",
+    "captions": "/audio/cryptographic-bill-of-materials-cbom-pqc-migration.srt",
+    "duration": 420,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1640
+  },
+  "database-connection-pooling-performance-guide": {
+    "file": "/audio/database-connection-pooling-performance-guide.mp3",
+    "captions": "/audio/database-connection-pooling-performance-guide.srt",
+    "duration": 303,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1184
+  },
+  "database-sharding-partitioning-advanced-guide": {
+    "file": "/audio/database-sharding-partitioning-advanced-guide.mp3",
+    "captions": "/audio/database-sharding-partitioning-advanced-guide.srt",
+    "duration": 249,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 975
+  },
+  "diy-quantum-processor-hardware-build-guide-2026": {
+    "file": "/audio/diy-quantum-processor-hardware-build-guide-2026.mp3",
+    "captions": "/audio/diy-quantum-processor-hardware-build-guide-2026.srt",
+    "duration": 645,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2519
+  },
+  "docker-kubernetes-deployment-guide": {
+    "file": "/audio/docker-kubernetes-deployment-guide.mp3",
+    "captions": "/audio/docker-kubernetes-deployment-guide.srt",
+    "duration": 175,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 683
+  },
+  "docker-tutorial-beginners-2026": {
+    "file": "/audio/docker-tutorial-beginners-2026.mp3",
+    "captions": "/audio/docker-tutorial-beginners-2026.srt",
+    "duration": 143,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 558
+  },
+  "edge-computing-explained-complete-guide-2026": {
+    "file": "/audio/edge-computing-explained-complete-guide-2026.mp3",
+    "captions": "/audio/edge-computing-explained-complete-guide-2026.srt",
+    "duration": 373,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1458
+  },
+  "event-driven-architecture-kafka": {
+    "file": "/audio/event-driven-architecture-kafka.mp3",
+    "captions": "/audio/event-driven-architecture-kafka.srt",
+    "duration": 151,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 591
+  },
+  "fastapi-interview-questions-indian-backend-roles-2026": {
+    "file": "/audio/fastapi-interview-questions-indian-backend-roles-2026.mp3",
+    "captions": "/audio/fastapi-interview-questions-indian-backend-roles-2026.srt",
+    "duration": 489,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1909
+  },
+  "fastapi-vs-django-python-framework-2026": {
+    "file": "/audio/fastapi-vs-django-python-framework-2026.mp3",
+    "captions": "/audio/fastapi-vs-django-python-framework-2026.srt",
+    "duration": 137,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 535
+  },
+  "fomoa-ai-complete-guide-features-2026": {
+    "file": "/audio/fomoa-ai-complete-guide-features-2026.mp3",
+    "captions": "/audio/fomoa-ai-complete-guide-features-2026.srt",
+    "duration": 679,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2652
+  },
+  "fomoa-openai-compatible-api-developers": {
+    "file": "/audio/fomoa-openai-compatible-api-developers.mp3",
+    "captions": "/audio/fomoa-openai-compatible-api-developers.srt",
+    "duration": 366,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1431
+  },
+  "fomoa-vs-exa-ai-comparison": {
+    "file": "/audio/fomoa-vs-exa-ai-comparison.mp3",
+    "captions": "/audio/fomoa-vs-exa-ai-comparison.srt",
+    "duration": 442,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1728
+  },
+  "github-actions-cicd-complete-guide": {
+    "file": "/audio/github-actions-cicd-complete-guide.mp3",
+    "captions": "/audio/github-actions-cicd-complete-guide.srt",
+    "duration": 135,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 529
+  },
+  "go-vs-java-backend-comparison-2025": {
+    "file": "/audio/go-vs-java-backend-comparison-2025.mp3",
+    "captions": "/audio/go-vs-java-backend-comparison-2025.srt",
+    "duration": 189,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 739
+  },
   "google-june-2026-ai-search-updates-developers-guide": {
     "file": "/audio/google-june-2026-ai-search-updates-developers-guide.mp3",
     "captions": "/audio/google-june-2026-ai-search-updates-developers-guide.srt",
     "duration": 448,
     "voice": "en-US-AndrewMultilingualNeural",
     "sizeKB": 1751
+  },
+  "graphql-vs-rest-api-comparison": {
+    "file": "/audio/graphql-vs-rest-api-comparison.mp3",
+    "captions": "/audio/graphql-vs-rest-api-comparison.srt",
+    "duration": 192,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 752
+  },
+  "green-coding-sustainable-software-complete-guide-2026": {
+    "file": "/audio/green-coding-sustainable-software-complete-guide-2026.mp3",
+    "captions": "/audio/green-coding-sustainable-software-complete-guide-2026.srt",
+    "duration": 323,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1261
+  },
+  "grpc-rest-graphql-performance-comparison": {
+    "file": "/audio/grpc-rest-graphql-performance-comparison.mp3",
+    "captions": "/audio/grpc-rest-graphql-performance-comparison.srt",
+    "duration": 191,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 748
+  },
+  "healthcare-technology-dr-dangs-lab": {
+    "file": "/audio/healthcare-technology-dr-dangs-lab.mp3",
+    "captions": "/audio/healthcare-technology-dr-dangs-lab.srt",
+    "duration": 416,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1624
+  },
+  "hipaa-compliance-healthcare-saas": {
+    "file": "/audio/hipaa-compliance-healthcare-saas.mp3",
+    "captions": "/audio/hipaa-compliance-healthcare-saas.srt",
+    "duration": 678,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2648
+  },
+  "hybrid-cryptography-ed25519-ml-dsa-safe-migration": {
+    "file": "/audio/hybrid-cryptography-ed25519-ml-dsa-safe-migration.mp3",
+    "captions": "/audio/hybrid-cryptography-ed25519-ml-dsa-safe-migration.srt",
+    "duration": 456,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1781
+  },
+  "idempotency-keys-preventing-double-charges": {
+    "file": "/audio/idempotency-keys-preventing-double-charges.mp3",
+    "captions": "/audio/idempotency-keys-preventing-double-charges.srt",
+    "duration": 402,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1569
+  },
+  "kafka-consumer-lag-2-million-debugging-war-story": {
+    "file": "/audio/kafka-consumer-lag-2-million-debugging-war-story.mp3",
+    "captions": "/audio/kafka-consumer-lag-2-million-debugging-war-story.srt",
+    "duration": 382,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1493
+  },
+  "kubernetes-advanced-operators-helm-service-mesh": {
+    "file": "/audio/kubernetes-advanced-operators-helm-service-mesh.mp3",
+    "captions": "/audio/kubernetes-advanced-operators-helm-service-mesh.srt",
+    "duration": 129,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 506
+  },
+  "lims-laboratory-information-management-system": {
+    "file": "/audio/lims-laboratory-information-management-system.mp3",
+    "captions": "/audio/lims-laboratory-information-management-system.srt",
+    "duration": 135,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 526
+  },
+  "llms-txt-generative-engine-optimization-developers-2026": {
+    "file": "/audio/llms-txt-generative-engine-optimization-developers-2026.mp3",
+    "captions": "/audio/llms-txt-generative-engine-optimization-developers-2026.srt",
+    "duration": 620,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2422
+  },
+  "mcp-vs-direct-api-calls-token-efficiency-2026": {
+    "file": "/audio/mcp-vs-direct-api-calls-token-efficiency-2026.mp3",
+    "captions": "/audio/mcp-vs-direct-api-calls-token-efficiency-2026.srt",
+    "duration": 402,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1570
+  },
+  "message-queues-rabbitmq-redis-kafka-comparison": {
+    "file": "/audio/message-queues-rabbitmq-redis-kafka-comparison.mp3",
+    "captions": "/audio/message-queues-rabbitmq-redis-kafka-comparison.srt",
+    "duration": 204,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 797
+  },
+  "microservices-security-zero-trust-architecture": {
+    "file": "/audio/microservices-security-zero-trust-architecture.mp3",
+    "captions": "/audio/microservices-security-zero-trust-architecture.srt",
+    "duration": 161,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 629
+  },
+  "ml-kem-vs-ml-dsa-nist-post-quantum-standards": {
+    "file": "/audio/ml-kem-vs-ml-dsa-nist-post-quantum-standards.mp3",
+    "captions": "/audio/ml-kem-vs-ml-dsa-nist-post-quantum-standards.srt",
+    "duration": 492,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1923
+  },
+  "ml-model-production-inference-api-backend-guide": {
+    "file": "/audio/ml-model-production-inference-api-backend-guide.mp3",
+    "captions": "/audio/ml-model-production-inference-api-backend-guide.srt",
+    "duration": 432,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1687
+  },
+  "mongodb-vs-postgresql-database-comparison": {
+    "file": "/audio/mongodb-vs-postgresql-database-comparison.mp3",
+    "captions": "/audio/mongodb-vs-postgresql-database-comparison.srt",
+    "duration": 189,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 740
+  },
+  "nginx-reverse-proxy-load-balancing-guide": {
+    "file": "/audio/nginx-reverse-proxy-load-balancing-guide.mp3",
+    "captions": "/audio/nginx-reverse-proxy-load-balancing-guide.srt",
+    "duration": 139,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 545
+  },
+  "nv-center-diamond-physics-quantum-qubits-2026": {
+    "file": "/audio/nv-center-diamond-physics-quantum-qubits-2026.mp3",
+    "captions": "/audio/nv-center-diamond-physics-quantum-qubits-2026.srt",
+    "duration": 421,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1646
+  },
+  "observability-prometheus-grafana-jaeger-guide": {
+    "file": "/audio/observability-prometheus-grafana-jaeger-guide.mp3",
+    "captions": "/audio/observability-prometheus-grafana-jaeger-guide.srt",
+    "duration": 158,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 616
+  },
+  "pathology-lab-management-system-guide": {
+    "file": "/audio/pathology-lab-management-system-guide.mp3",
+    "captions": "/audio/pathology-lab-management-system-guide.srt",
+    "duration": 111,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 435
+  },
+  "phonon-mediated-sic-quantum-architecture-2026": {
+    "file": "/audio/phonon-mediated-sic-quantum-architecture-2026.mp3",
+    "captions": "/audio/phonon-mediated-sic-quantum-architecture-2026.srt",
+    "duration": 295,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1153
+  },
+  "pm2-linux-services-nodejs-deployment": {
+    "file": "/audio/pm2-linux-services-nodejs-deployment.mp3",
+    "captions": "/audio/pm2-linux-services-nodejs-deployment.srt",
+    "duration": 315,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1232
+  },
+  "post-quantum-cryptography-deadlines-2027-2030-2035": {
+    "file": "/audio/post-quantum-cryptography-deadlines-2027-2030-2035.mp3",
+    "captions": "/audio/post-quantum-cryptography-deadlines-2027-2030-2035.srt",
+    "duration": 443,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1732
+  },
+  "post-quantum-cryptography-migration-guide-2026": {
+    "file": "/audio/post-quantum-cryptography-migration-guide-2026.mp3",
+    "captions": "/audio/post-quantum-cryptography-migration-guide-2026.srt",
+    "duration": 548,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2142
+  },
+  "postgresql-index-bloat-vacuum-deep-dive": {
+    "file": "/audio/postgresql-index-bloat-vacuum-deep-dive.mp3",
+    "captions": "/audio/postgresql-index-bloat-vacuum-deep-dive.srt",
+    "duration": 459,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1792
+  },
+  "postgresql-performance-optimization": {
+    "file": "/audio/postgresql-performance-optimization.mp3",
+    "captions": "/audio/postgresql-performance-optimization.srt",
+    "duration": 170,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 664
+  },
+  "postgresql-vs-mysql-database-2026": {
+    "file": "/audio/postgresql-vs-mysql-database-2026.mp3",
+    "captions": "/audio/postgresql-vs-mysql-database-2026.srt",
+    "duration": 127,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 496
+  },
+  "psqa-implementation-roadmap-technical-milestones-2026": {
+    "file": "/audio/psqa-implementation-roadmap-technical-milestones-2026.mp3",
+    "captions": "/audio/psqa-implementation-roadmap-technical-milestones-2026.srt",
+    "duration": 158,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 619
+  },
+  "python-asyncio-complete-guide": {
+    "file": "/audio/python-asyncio-complete-guide.mp3",
+    "captions": "/audio/python-asyncio-complete-guide.srt",
+    "duration": 155,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 606
+  },
+  "python-vs-go-backend-development-2026": {
+    "file": "/audio/python-vs-go-backend-development-2026.mp3",
+    "captions": "/audio/python-vs-go-backend-development-2026.srt",
+    "duration": 145,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 565
+  },
+  "python-vs-go-backend-language-comparison": {
+    "file": "/audio/python-vs-go-backend-language-comparison.mp3",
+    "captions": "/audio/python-vs-go-backend-language-comparison.srt",
+    "duration": 218,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 851
+  },
+  "qauth-post-quantum-authentication-protocol": {
+    "file": "/audio/qauth-post-quantum-authentication-protocol.mp3",
+    "captions": "/audio/qauth-post-quantum-authentication-protocol.srt",
+    "duration": 540,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2110
+  },
+  "quantum-computing-complete-guide-beginners-2026": {
+    "file": "/audio/quantum-computing-complete-guide-beginners-2026.mp3",
+    "captions": "/audio/quantum-computing-complete-guide-beginners-2026.srt",
+    "duration": 782,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 3055
+  },
+  "quantum-computing-part-2-applications-careers-2026": {
+    "file": "/audio/quantum-computing-part-2-applications-careers-2026.mp3",
+    "captions": "/audio/quantum-computing-part-2-applications-careers-2026.srt",
+    "duration": 264,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1032
+  },
+  "quantum-computing-part-3-hands-on-guide-2026": {
+    "file": "/audio/quantum-computing-part-3-hands-on-guide-2026.mp3",
+    "captions": "/audio/quantum-computing-part-3-hands-on-guide-2026.srt",
+    "duration": 308,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1205
+  },
+  "quantum-processor-software-first-algorithm-2026": {
+    "file": "/audio/quantum-processor-software-first-algorithm-2026.mp3",
+    "captions": "/audio/quantum-processor-software-first-algorithm-2026.srt",
+    "duration": 261,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1021
+  },
+  "quantum-shield-post-quantum-cryptography": {
+    "file": "/audio/quantum-shield-post-quantum-cryptography.mp3",
+    "captions": "/audio/quantum-shield-post-quantum-cryptography.srt",
+    "duration": 798,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 3118
+  },
+  "rate-limiting-api-gateway-patterns": {
+    "file": "/audio/rate-limiting-api-gateway-patterns.mp3",
+    "captions": "/audio/rate-limiting-api-gateway-patterns.srt",
+    "duration": 160,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 627
+  },
+  "react-server-components-security-vulnerabilities": {
+    "file": "/audio/react-server-components-security-vulnerabilities.mp3",
+    "captions": "/audio/react-server-components-security-vulnerabilities.srt",
+    "duration": 335,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1310
+  },
+  "redis-cache-stampede-p99-latency-war-story": {
+    "file": "/audio/redis-cache-stampede-p99-latency-war-story.mp3",
+    "captions": "/audio/redis-cache-stampede-p99-latency-war-story.srt",
+    "duration": 448,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1751
+  },
+  "redis-caching-strategies-complete-guide": {
+    "file": "/audio/redis-caching-strategies-complete-guide.mp3",
+    "captions": "/audio/redis-caching-strategies-complete-guide.srt",
+    "duration": 176,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 686
+  },
+  "rest-api-design-best-practices": {
+    "file": "/audio/rest-api-design-best-practices.mp3",
+    "captions": "/audio/rest-api-design-best-practices.srt",
+    "duration": 170,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 665
+  },
+  "room-temperature-quantum-computing-introduction-2026": {
+    "file": "/audio/room-temperature-quantum-computing-introduction-2026.mp3",
+    "captions": "/audio/room-temperature-quantum-computing-introduction-2026.srt",
+    "duration": 442,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1727
+  },
+  "software-developer-job-india-2026": {
+    "file": "/audio/software-developer-job-india-2026.mp3",
+    "captions": "/audio/software-developer-job-india-2026.srt",
+    "duration": 127,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 496
+  },
+  "system-design-interview-guide": {
+    "file": "/audio/system-design-interview-guide.mp3",
+    "captions": "/audio/system-design-interview-guide.srt",
+    "duration": 285,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1112
+  },
+  "system-design-interview-questions-india-2026": {
+    "file": "/audio/system-design-interview-questions-india-2026.mp3",
+    "captions": "/audio/system-design-interview-questions-india-2026.srt",
+    "duration": 114,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 445
+  },
+  "technical-seo-nextjs-developers-complete-guide-2026": {
+    "file": "/audio/technical-seo-nextjs-developers-complete-guide-2026.mp3",
+    "captions": "/audio/technical-seo-nextjs-developers-complete-guide-2026.srt",
+    "duration": 611,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 2386
+  },
+  "testing-strategies-unit-integration-e2e-guide": {
+    "file": "/audio/testing-strategies-unit-integration-e2e-guide.mp3",
+    "captions": "/audio/testing-strategies-unit-integration-e2e-guide.srt",
+    "duration": 160,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 626
+  },
+  "typescript-best-practices-guide": {
+    "file": "/audio/typescript-best-practices-guide.mp3",
+    "captions": "/audio/typescript-best-practices-guide.srt",
+    "duration": 146,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 569
+  },
+  "vector-databases-for-backend-engineers-rag": {
+    "file": "/audio/vector-databases-for-backend-engineers-rag.mp3",
+    "captions": "/audio/vector-databases-for-backend-engineers-rag.srt",
+    "duration": 413,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 1613
+  },
+  "websocket-real-time-applications-guide": {
+    "file": "/audio/websocket-real-time-applications-guide.mp3",
+    "captions": "/audio/websocket-real-time-applications-guide.srt",
+    "duration": 143,
+    "voice": "en-US-AndrewMultilingualNeural",
+    "sizeKB": 558
   }
 }

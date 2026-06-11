@@ -1,0 +1,308 @@
+1
+00:00:00,050 --> 00:00:05,805
+You're listening to: Quantum Processor Software: Integration & Your First Algorithm.
+
+2
+00:00:05,805 --> 00:00:09,278
+Complete software guide for your NV-center quantum processor.
+
+3
+00:00:09,278 --> 00:00:15,288
+Python control code, quantum gate implementation, Deutsch's algorithm, and Qiskit integration.
+
+4
+00:00:15,288 --> 00:00:16,346
+Let's get started.
+
+5
+00:00:16,346 --> 00:00:20,204
+Now, let's talk about The Software Behind Your Quantum Processor.
+
+6
+00:00:20,204 --> 00:00:26,370
+In the previous parts of this series, we built the hardware for a room-temperature NV-center quantum processor.
+
+7
+00:00:26,370 --> 00:00:28,978
+Now it's time to bring it to life with software.
+
+8
+00:00:28,978 --> 00:00:32,836
+This guide covers: Complete Python control software.
+
+9
+00:00:32,836 --> 00:00:35,144
+Quantum gate implementation.
+
+10
+00:00:35,144 --> 00:00:38,233
+Running Deutsch's algorithm on real hardware.
+
+11
+00:00:38,233 --> 00:00:40,264
+Integration with Qiskit.
+
+12
+00:00:40,264 --> 00:00:43,473
+Future directions for multi-qubit systems.
+
+13
+00:00:43,473 --> 00:00:48,858
+By the end, you'll have run your first quantum algorithm on hardware you built yourself.
+
+14
+00:00:48,858 --> 00:00:52,295
+Moving on to Part 1: Software Architecture Overview.
+
+15
+00:00:52,295 --> 00:00:53,641
+The Complete Stack.
+
+16
+00:00:53,641 --> 00:00:54,819
+File Structure.
+
+17
+00:00:54,819 --> 00:00:57,956
+Next up: Part 2: Hardware Driver Layer.
+
+18
+00:00:57,956 --> 00:00:59,206
+Laser Control.
+
+19
+00:00:59,206 --> 00:01:00,540
+Microwave Control.
+
+20
+00:01:00,540 --> 00:01:01,826
+Photon Detection.
+
+21
+00:01:01,826 --> 00:01:03,064
+Timing Controller.
+
+22
+00:01:03,064 --> 00:01:06,694
+Let's explore Part 3: The Quantum Processor Class.
+
+23
+00:01:06,694 --> 00:01:07,908
+Main Interface.
+
+24
+00:01:07,908 --> 00:01:11,538
+Now let's look at Part 4: Quantum Gate Implementation.
+
+25
+00:01:11,538 --> 00:01:13,293
+Gate Definitions.
+
+26
+00:01:13,293 --> 00:01:15,528
+Gate Implementation Details.
+
+27
+00:01:15,528 --> 00:01:20,432
+Now, let's talk about Part 5: Deutsch's Algorithm - Your First Quantum Program.
+
+28
+00:01:20,432 --> 00:01:21,442
+Theory Review.
+
+29
+00:01:21,442 --> 00:01:22,584
+Implementation.
+
+30
+00:01:22,584 --> 00:01:23,882
+Running the Algorithm.
+
+31
+00:01:23,882 --> 00:01:27,247
+Moving on to Part 6: Additional Experiments.
+
+32
+00:01:27,247 --> 00:01:29,110
+Rabi Oscillation Measurement.
+
+33
+00:01:29,110 --> 00:01:32,487
+Ramsey Experiment (T2* Measurement).
+
+34
+00:01:32,487 --> 00:01:35,853
+Next up: Part 7: Qiskit Integration.
+
+35
+00:01:35,853 --> 00:01:36,971
+Custom Backend.
+
+36
+00:01:36,971 --> 00:01:38,257
+Using with Qiskit.
+
+37
+00:01:38,257 --> 00:01:41,382
+Let's explore Part 8: Future Directions.
+
+38
+00:01:41,382 --> 00:01:43,197
+Multi-Qubit Systems.
+
+39
+00:01:43,197 --> 00:01:45,432
+Code for Multi-Qubit Extension.
+
+40
+00:01:45,432 --> 00:01:48,365
+Now let's look at Conclusion: Your Quantum Journey.
+
+41
+00:01:48,365 --> 00:01:57,163
+You've now completed the full journey from understanding room-temperature quantum computing to building and programming your own quantum processor.
+
+42
+00:01:57,163 --> 00:02:00,673
+What you've accomplished: Understood NV-center physics.
+
+43
+00:02:00,673 --> 00:02:03,365
+Built the optical and microwave hardware.
+
+44
+00:02:03,365 --> 00:02:05,745
+Developed control software in Python.
+
+45
+00:02:05,745 --> 00:02:07,391
+Implemented quantum gates.
+
+46
+00:02:07,391 --> 00:02:10,649
+Ran Deutsch's algorithm on real quantum hardware.
+
+47
+00:02:10,649 --> 00:02:14,014
+Integrated with Qiskit for broader algorithm access.
+
+48
+00:02:14,014 --> 00:02:15,408
+This is just the beginning.
+
+49
+00:02:15,408 --> 00:02:19,423
+Your system can be extended to: Quantum sensing experiments.
+
+50
+00:02:19,423 --> 00:02:22,175
+Two-qubit operations with nuclear spins.
+
+51
+00:02:22,175 --> 00:02:24,507
+Integration with quantum networks.
+
+52
+00:02:24,507 --> 00:02:26,478
+Educational demonstrations.
+
+53
+00:02:26,478 --> 00:02:29,771
+Key resources for continuing: Qiskit Textbook.
+
+54
+00:02:29,771 --> 00:02:33,088
+NV center research papers on arXiv.
+
+55
+00:02:33,088 --> 00:02:35,072
+Quantum Open Source Foundation.
+
+56
+00:02:35,072 --> 00:02:38,125
+Now, let's talk about Complete Code Repository Structure.
+
+57
+00:02:38,125 --> 00:02:40,060
+Moving on to Related Articles.
+
+58
+00:02:40,060 --> 00:02:44,098
+Part 1: Room-Temperature Quantum Computing Introduction.
+
+59
+00:02:44,098 --> 00:02:46,754
+Part 2: NV-Center Diamond Physics.
+
+60
+00:02:46,754 --> 00:02:49,831
+Part 3: DIY Hardware Build Guide.
+
+61
+00:02:49,831 --> 00:02:54,831
+Quantum Computing Explained: Complete Beginner's Guide 2026.
+
+62
+00:02:54,831 --> 00:02:56,766
+Next up: References.
+
+63
+00:02:56,766 --> 00:03:07,079
+Software and Frameworks: Qiskit Documentation: https://qiskit.org/documentation/.
+
+64
+00:03:07,079 --> 00:03:17,980
+NumPy and SciPy: https://numpy.org/, https://scipy.org/.
+
+65
+00:03:17,980 --> 00:03:25,997
+NV Center Control: Childress, L., & Hanson, R. "Diamond NV centers for quantum computing and networks."
+
+66
+00:03:25,997 --> 00:03:30,625
+MRS Bulletin 38.2 (2013)..
+
+67
+00:03:30,625 --> 00:03:36,538
+Degen, C.L., Reinhard, F., & Cappellaro, P. "Quantum sensing."
+
+68
+00:03:36,538 --> 00:03:41,141
+Reviews of Modern Physics 89.3 (2017)..
+
+69
+00:03:41,141 --> 00:03:48,882
+Open-Source Quantum: Quantum Open Source Foundation: https://qosf.org/.
+
+70
+00:03:48,882 --> 00:03:54,483
+PennyLane: https://pennylane.ai/.
+
+71
+00:03:54,483 --> 00:04:01,237
+Cirq: https://quantumai.google/cirq.
+
+72
+00:04:01,237 --> 00:04:05,372
+Part 4 of 4 in the Room-Temperature Quantum Computing series.
+
+73
+00:04:05,372 --> 00:04:09,062
+Last updated: February 2, 2026.
+
+74
+00:04:09,062 --> 00:04:16,538
+With this guide, you have everything needed to build, program, and run quantum algorithms on your own room-temperature quantum processor.
+
+75
+00:04:16,538 --> 00:04:18,701
+Welcome to the quantum revolution.
+
+76
+00:04:18,701 --> 00:04:20,336
+And that's the end of this article.
+
+77
+00:04:20,336 --> 00:04:21,466
+Thanks for listening.
+

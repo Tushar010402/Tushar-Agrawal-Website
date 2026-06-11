@@ -1,0 +1,168 @@
+1
+00:00:00,050 --> 00:00:06,658
+You're listening to: GitHub Actions CI/CD: Complete Pipeline Setup Guide.
+
+2
+00:00:06,658 --> 00:00:11,862
+Build robust CI/CD pipelines with GitHub Actions.
+
+3
+00:00:11,862 --> 00:00:22,271
+Learn workflow syntax, testing automation, Docker builds, deployments to AWS/Vercel, secrets management, and advanced patterns for production systems.
+
+4
+00:00:22,271 --> 00:00:23,305
+Let's get started.
+
+5
+00:00:23,305 --> 00:00:25,516
+Now, let's talk about Introduction.
+
+6
+00:00:25,516 --> 00:00:32,163
+GitHub Actions has become the go-to CI/CD solution for modern development teams.
+
+7
+00:00:32,163 --> 00:00:39,230
+At Dr. Dangs Lab, we've built pipelines that automatically test, build, and deploy across multiple environments.
+
+8
+00:00:39,230 --> 00:00:43,137
+This guide covers everything from basics to advanced patterns.
+
+9
+00:00:43,137 --> 00:00:45,072
+Moving on to Workflow Basics.
+
+10
+00:00:45,072 --> 00:00:46,899
+Anatomy of a Workflow.
+
+11
+00:00:46,899 --> 00:00:48,076
+Trigger Events.
+
+12
+00:00:48,076 --> 00:00:50,576
+Next up: Complete CI Pipeline.
+
+13
+00:00:50,576 --> 00:00:52,115
+Testing and Linting.
+
+14
+00:00:52,115 --> 00:00:54,663
+Let's explore Docker Build and Push.
+
+15
+00:00:54,663 --> 00:00:56,694
+Now let's look at Deployment Workflows.
+
+16
+00:00:56,694 --> 00:00:59,254
+Deploy to AWS ECS.
+
+17
+00:00:59,254 --> 00:01:00,685
+Deploy to Vercel.
+
+18
+00:01:00,685 --> 00:01:02,944
+Now, let's talk about Matrix Builds.
+
+19
+00:01:02,944 --> 00:01:05,420
+Moving on to Reusable Workflows.
+
+20
+00:01:05,420 --> 00:01:07,668
+Creating a Reusable Workflow.
+
+21
+00:01:07,668 --> 00:01:09,723
+Using the Reusable Workflow.
+
+22
+00:01:09,723 --> 00:01:12,704
+Next up: Secrets and Environment Management.
+
+23
+00:01:12,704 --> 00:01:14,699
+Let's explore Advanced Patterns.
+
+24
+00:01:14,699 --> 00:01:16,069
+Conditional Jobs.
+
+25
+00:01:16,069 --> 00:01:17,572
+Caching Dependencies.
+
+26
+00:01:17,572 --> 00:01:19,567
+Notification on Failure.
+
+27
+00:01:19,567 --> 00:01:21,694
+Now let's look at Key Takeaways.
+
+28
+00:01:21,694 --> 00:01:24,603
+Start simple - Add complexity as needed.
+
+29
+00:01:24,603 --> 00:01:27,512
+Use caching - Speed up builds significantly.
+
+30
+00:01:27,512 --> 00:01:31,069
+Leverage matrix builds - Test across environments.
+
+31
+00:01:31,069 --> 00:01:34,375
+Create reusable workflows - DRY principle.
+
+32
+00:01:34,375 --> 00:01:38,401
+Secure secrets - Use environments and OIDC.
+
+33
+00:01:38,401 --> 00:01:41,502
+Monitor and alert - Know when things break.
+
+34
+00:01:41,502 --> 00:01:45,036
+Optimize for speed - Parallel jobs, caching.
+
+35
+00:01:45,036 --> 00:01:46,730
+Now, let's talk about Conclusion.
+
+36
+00:01:46,730 --> 00:01:55,432
+GitHub Actions provides a powerful, flexible CI/CD platform integrated directly into your repository.
+
+37
+00:01:55,432 --> 00:02:02,403
+Start with basic workflows, then gradually adopt advanced patterns like reusable workflows and matrix builds.
+
+38
+00:02:02,403 --> 00:02:05,865
+The key is to automate everything that can be automated.
+
+39
+00:02:05,865 --> 00:02:09,074
+Building CI/CD pipelines?
+
+40
+00:02:09,074 --> 00:02:12,403
+Connect on LinkedIn to discuss automation strategies.
+
+41
+00:02:12,403 --> 00:02:14,134
+And that's the end of this article.
+
+42
+00:02:14,134 --> 00:02:15,264
+Thanks for listening.
+

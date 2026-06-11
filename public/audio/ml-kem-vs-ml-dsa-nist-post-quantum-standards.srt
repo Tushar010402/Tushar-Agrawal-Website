@@ -1,0 +1,360 @@
+1
+00:00:00,050 --> 00:00:06,923
+You're listening to: ML-KEM vs ML-DSA: NIST's Post-Quantum Standards Explained.
+
+2
+00:00:06,923 --> 00:00:17,932
+ML-KEM (FIPS 203) and ML-DSA (FIPS 204) solve two different problems — key exchange vs digital signatures.
+
+3
+00:00:17,932 --> 00:00:26,274
+A clear, developer-focused explainer on what each does, their security levels, key and signature sizes, and when to use which.
+
+4
+00:00:26,274 --> 00:00:27,319
+Let's get started.
+
+5
+00:00:27,319 --> 00:00:36,057
+When teams start their post-quantum journey, the first confusion is almost always the same: "Do I need ML-KEM or ML-DSA?"
+
+6
+00:00:36,057 --> 00:00:41,045
+The short answer is usually both — because they solve two completely different problems.
+
+7
+00:00:41,045 --> 00:00:44,411
+ML-KEM gets two parties a shared secret.
+
+8
+00:00:44,411 --> 00:00:46,887
+ML-DSA proves who signed something.
+
+9
+00:00:46,887 --> 00:00:53,641
+Confusing them is like confusing Diffie-Hellman with RSA signatures: related field, different jobs.
+
+10
+00:00:53,641 --> 00:00:56,093
+This is the developer-focused explainer.
+
+11
+00:00:56,093 --> 00:01:01,610
+For the bigger picture of how to migrate, read the practical PQC migration guide first.
+
+12
+00:01:01,610 --> 00:01:05,048
+Now, let's talk about The two problems cryptography has to solve.
+
+13
+00:01:05,048 --> 00:01:09,783
+Almost all public-key cryptography exists to do one of two things:
+
+14
+00:01:09,783 --> 00:01:17,187
+Agree on a shared secret over an insecure channel — so two parties can then use fast symmetric encryption (AES).
+
+15
+00:01:17,187 --> 00:01:22,812
+Classically: Diffie-Hellman / ECDH, or RSA key transport..
+
+16
+00:01:22,812 --> 00:01:29,375
+Prove authenticity and integrity — that a message came from a specific party and wasn't tampered with.
+
+17
+00:01:29,375 --> 00:01:36,658
+Classically: RSA or ECDSA/Ed25519 signatures..
+
+18
+00:01:36,658 --> 00:01:41,730
+Quantum computers (via Shor's algorithm) break the classical answer to both.
+
+19
+00:01:41,730 --> 00:01:44,507
+NIST standardized a replacement for each:
+
+20
+00:01:44,507 --> 00:01:49,591
+ML-KEM (FIPS 203) → problem 1, key exchange..
+
+21
+00:01:49,591 --> 00:01:54,879
+ML-DSA (FIPS 204) → problem 2, signatures..
+
+22
+00:01:54,879 --> 00:02:08,329
+Both are built on module lattices — the "ML" prefix — whose security rests on the hardness of lattice problems (Module-LWE / Module-SIS) believed to resist both classical and quantum attack.
+
+23
+00:02:08,329 --> 00:02:15,012
+Moving on to ML-KEM: the key exchange (FIPS 203, formerly Kyber).
+
+24
+00:02:15,012 --> 00:02:18,329
+ML-KEM is a Key Encapsulation Mechanism.
+
+25
+00:02:18,329 --> 00:02:22,067
+The flow is slightly different from Diffie-Hellman, so it's worth seeing:
+
+26
+00:02:22,067 --> 00:02:25,396
+Alice generates a keypair and sends Bob her public key..
+
+27
+00:02:25,396 --> 00:02:32,788
+Bob runs encapsulate(public_key), which produces two things: a shared secret and a ciphertext.
+
+28
+00:02:32,788 --> 00:02:36,670
+Bob keeps the secret, sends Alice the ciphertext..
+
+29
+00:02:36,670 --> 00:02:43,245
+Alice runs decapsulate(ciphertext, private_key) and recovers the same shared secret..
+
+30
+00:02:43,245 --> 00:02:51,646
+Now both sides hold an identical secret that never crossed the wire, and they switch to AES-256 for bulk encryption.
+
+31
+00:02:51,646 --> 00:02:56,742
+ML-KEM comes in three parameter sets keyed to NIST security categories:
+
+32
+00:02:56,742 --> 00:03:00,588
+Parameter set, NIST level, Roughly comparable to.
+
+33
+00:03:00,588 --> 00:03:06,141
+ML-KEM-512, Category 1, AES-128.
+
+34
+00:03:06,141 --> 00:03:12,463
+ML-KEM-768, Category 3, AES-192.
+
+35
+00:03:12,463 --> 00:03:18,581
+ML-KEM-1024, Category 5, AES-256.
+
+36
+00:03:18,581 --> 00:03:28,677
+ML-KEM-768 is the common default — a strong balance of security and size, and what many TLS hybrid deployments use today.
+
+37
+00:03:28,677 --> 00:03:35,540
+Next up: ML-DSA: the signature (FIPS 204, formerly Dilithium).
+
+38
+00:03:35,540 --> 00:03:46,298
+ML-DSA is a digital signature scheme — the quantum-safe replacement for ECDSA/Ed25519/RSA signatures.
+
+39
+00:03:46,298 --> 00:03:47,860
+The shape is familiar:
+
+40
+00:03:47,860 --> 00:03:51,454
+sign(private_key, message) → signature.
+
+41
+00:03:51,454 --> 00:03:57,608
+verify(public_key, message, signature) → valid / invalid.
+
+42
+00:03:57,608 --> 00:04:07,319
+You use it anywhere you sign today: tokens (this is what makes QAuth quantum-safe), certificates, code/firmware signing, and software releases.
+
+43
+00:04:07,319 --> 00:04:08,846
+Its parameter sets:
+
+44
+00:04:08,846 --> 00:04:11,141
+Parameter set, NIST level.
+
+45
+00:04:11,141 --> 00:04:14,531
+ML-DSA-44, Category 2.
+
+46
+00:04:14,531 --> 00:04:18,677
+ML-DSA-65, Category 3.
+
+47
+00:04:18,677 --> 00:04:22,620
+ML-DSA-87, Category 5.
+
+48
+00:04:22,620 --> 00:04:28,137
+ML-DSA-65 is the typical default for general-purpose signing.
+
+49
+00:04:28,137 --> 00:04:31,899
+Let's explore The thing that surprises everyone: the sizes.
+
+50
+00:04:31,899 --> 00:04:34,915
+Lattice cryptography is fast, but it is big.
+
+51
+00:04:34,915 --> 00:04:38,401
+This is the practical cost that shapes real deployments.
+
+52
+00:04:38,401 --> 00:04:39,951
+Approximate sizes:
+
+53
+00:04:39,951 --> 00:04:43,846
+Scheme, Public key, "Payload", vs classical.
+
+54
+00:04:43,846 --> 00:04:49,939
+Ed25519 (classical), 32 B, 64 B signature, baseline.
+
+55
+00:04:49,939 --> 00:04:57,355
+X25519 (classical KEM-ish), 32 B, 32 B, baseline.
+
+56
+00:04:57,355 --> 00:05:07,992
+ML-KEM-768, ~1,184 B, ~1,088 B ciphertext, ~30–40× larger.
+
+57
+00:05:07,992 --> 00:05:17,740
+ML-DSA-65, ~1,952 B, ~3,300 B signature, ~50× larger signature.
+
+58
+00:05:17,740 --> 00:05:27,331
+Read that again: an ML-DSA-65 signature is several kilobytes versus 64 bytes for Ed25519.
+
+59
+00:05:27,331 --> 00:05:36,141
+The algorithms are computationally fast — often competitive with RSA — but the bytes on the wire are the real engineering consideration.
+
+60
+00:05:36,141 --> 00:05:37,295
+It inflates:
+
+61
+00:05:37,322 --> 00:05:42,067
+Tokens — a signed token jumps from a few hundred bytes to several KB..
+
+62
+00:05:42,067 --> 00:05:46,442
+TLS handshakes — bigger key-exchange and certificate messages..
+
+63
+00:05:46,442 --> 00:05:50,288
+Certificates — larger public keys and signatures..
+
+64
+00:05:50,288 --> 00:05:58,485
+For high-QPS APIs or bandwidth-constrained clients (IoT, mobile in low-connectivity regions), measure this.
+
+65
+00:05:58,485 --> 00:06:04,195
+It rarely blocks adoption, but it absolutely changes your latency and bandwidth budgets.
+
+66
+00:06:04,195 --> 00:06:07,608
+Now let's look at When to use which — a decision cheat sheet.
+
+67
+00:06:07,608 --> 00:06:11,454
+Establishing a secure channel / session key?
+
+68
+00:06:11,454 --> 00:06:12,632
+ML-KEM.
+
+69
+00:06:12,632 --> 00:06:16,779
+(TLS, VPNs, encrypting data for a recipient.).
+
+70
+00:06:16,779 --> 00:06:19,074
+Proving who created or approved something?
+
+71
+00:06:19,074 --> 00:06:20,324
+ML-DSA.
+
+72
+00:06:20,324 --> 00:06:24,122
+(Tokens, certificates, code signing, document signing.).
+
+73
+00:06:24,122 --> 00:06:25,757
+Building auth like QAuth?
+
+74
+00:06:25,757 --> 00:06:32,139
+both: ML-KEM to protect the channel/payload, ML-DSA to sign the token..
+
+75
+00:06:32,139 --> 00:06:37,103
+Need maximum conservatism for a root of trust / firmware?
+
+76
+00:06:37,103 --> 00:06:47,560
+consider SLH-DSA (FIPS 205), a hash-based signature with very large signatures but a security argument resting only on hash functions..
+
+77
+00:06:47,560 --> 00:06:50,060
+Now, let's talk about A note on hybrids.
+
+78
+00:06:50,060 --> 00:06:54,171
+In practice you rarely deploy these alone in 2026.
+
+79
+00:06:54,171 --> 00:07:11,430
+The recommended rollout pairs each with a classical algorithm — X25519 + ML-KEM for key exchange, Ed25519 + ML-DSA for signatures — so you're protected if either the classical or the post-quantum scheme is later broken.
+
+80
+00:07:11,430 --> 00:07:18,582
+The reasoning is in why hybrid Ed25519 + ML-DSA is the safe path.
+
+81
+00:07:18,582 --> 00:07:20,180
+Moving on to The takeaway.
+
+82
+00:07:20,180 --> 00:07:27,969
+Keep the two jobs straight and the rest follows: ML-KEM = key exchange, ML-DSA = signatures.
+
+83
+00:07:27,969 --> 00:07:41,911
+Default to ML-KEM-768 and ML-DSA-65 unless you have a specific reason to go higher or lower, budget for kilobyte-scale keys and signatures, and deploy them in hybrid mode.
+
+84
+00:07:41,911 --> 00:07:46,767
+Get those choices right and you have the cryptographic core of a quantum-safe system.
+
+85
+00:07:46,767 --> 00:07:53,906
+Related reading: Migrating to Post-Quantum Cryptography: A Practical Developer Guide (2026).
+
+86
+00:07:53,906 --> 00:08:01,214
+Hybrid Cryptography: Why Ed25519 + ML-DSA Is the Safe Migration Path.
+
+87
+00:08:01,214 --> 00:08:05,925
+QuantumShield: Building a Post-Quantum Cryptography Library from Scratch.
+
+88
+00:08:05,925 --> 00:08:09,303
+QAuth: The Post-Quantum Authentication Protocol.
+
+89
+00:08:09,303 --> 00:08:11,022
+And that's the end of this article.
+
+90
+00:08:11,022 --> 00:08:12,175
+Thanks for listening.
+

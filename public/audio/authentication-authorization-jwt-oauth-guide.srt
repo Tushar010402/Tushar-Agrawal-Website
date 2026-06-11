@@ -1,0 +1,168 @@
+1
+00:00:00,050 --> 00:00:08,245
+You're listening to: Authentication & Authorization: Complete Guide to JWT, OAuth 2.0, and Security.
+
+2
+00:00:08,245 --> 00:00:12,355
+Master authentication and authorization in web applications.
+
+3
+00:00:12,355 --> 00:00:23,894
+Learn JWT tokens, OAuth 2.0 flows, session management, RBAC, and security best practices with Python and Node.js implementations.
+
+4
+00:00:23,894 --> 00:00:24,927
+Let's get started.
+
+5
+00:00:24,927 --> 00:00:27,055
+Now, let's talk about Introduction.
+
+6
+00:00:27,055 --> 00:00:32,512
+Authentication and authorization are the gatekeepers of every secure application.
+
+7
+00:00:32,512 --> 00:00:38,197
+At Dr. Dangs Lab, we handle sensitive healthcare data requiring robust security.
+
+8
+00:00:38,197 --> 00:00:43,461
+This guide covers everything from basic concepts to production-ready implementations.
+
+9
+00:00:43,461 --> 00:00:46,346
+Moving on to Authentication vs Authorization.
+
+10
+00:00:46,346 --> 00:00:49,855
+Next up: JWT (JSON Web Tokens).
+
+11
+00:00:49,855 --> 00:00:51,766
+JWT Structure.
+
+12
+00:00:51,766 --> 00:00:56,478
+JWT Implementation (Python/FastAPI).
+
+13
+00:00:56,478 --> 00:00:58,990
+Let's explore OAuth 2.0.
+
+14
+00:00:58,990 --> 00:01:01,045
+OAuth 2.0 Flows.
+
+15
+00:01:01,045 --> 00:01:02,079
+OAuth 2.
+
+16
+00:01:02,079 --> 00:01:04,639
+0 Implementation (Google Login).
+
+17
+00:01:04,639 --> 00:01:08,269
+Now let's look at Role-Based Access Control (RBAC).
+
+18
+00:01:08,269 --> 00:01:11,225
+Now, let's talk about Security Best Practices.
+
+19
+00:01:11,225 --> 00:01:14,302
+1. Secure Token Storage (Frontend).
+
+20
+00:01:14,302 --> 00:01:16,274
+2. Password Security.
+
+21
+00:01:16,274 --> 00:01:19,375
+3. Rate Limiting for Auth Endpoints.
+
+22
+00:01:19,375 --> 00:01:21,418
+Moving on to Key Takeaways.
+
+23
+00:01:21,418 --> 00:01:27,031
+Use JWT for stateless auth - Scalable and works with microservices.
+
+24
+00:01:27,031 --> 00:01:33,137
+Implement refresh tokens - Short-lived access tokens + long-lived refresh tokens.
+
+25
+00:01:33,137 --> 00:01:37,367
+Hash passwords properly - Use bcrypt or argon2.
+
+26
+00:01:37,367 --> 00:01:43,137
+Use HTTPS everywhere - Never transmit tokens over HTTP.
+
+27
+00:01:43,137 --> 00:01:47,235
+Implement RBAC - Fine-grained permission control.
+
+28
+00:01:47,235 --> 00:01:51,021
+Rate limit auth endpoints - Prevent brute force attacks.
+
+29
+00:01:51,021 --> 00:01:56,610
+Secure token storage - httpOnly cookies or in-memory for SPAs.
+
+30
+00:01:56,610 --> 00:01:58,100
+Next up: Conclusion.
+
+31
+00:01:58,100 --> 00:02:03,028
+Authentication and authorization are critical for application security.
+
+32
+00:02:03,028 --> 00:02:11,875
+Use JWT for scalable stateless authentication, implement OAuth for social logins, and always follow security best practices.
+
+33
+00:02:11,875 --> 00:02:17,668
+The key is defense in depth—multiple layers of security working together.
+
+34
+00:02:17,668 --> 00:02:20,036
+Building secure applications?
+
+35
+00:02:20,036 --> 00:02:23,401
+Connect on LinkedIn to discuss authentication strategies.
+
+36
+00:02:23,401 --> 00:02:25,408
+Let's explore Related Articles.
+
+37
+00:02:25,408 --> 00:02:30,937
+REST API Design Best Practices - Build secure, well-designed APIs.
+
+38
+00:02:30,937 --> 00:02:36,105
+React Server Components Security Vulnerabilities - Frontend security concerns.
+
+39
+00:02:36,105 --> 00:02:40,757
+HIPAA Compliance for Healthcare SaaS - Healthcare security standards.
+
+40
+00:02:40,757 --> 00:02:44,579
+TypeScript Best Practices - Type-safe authentication code.
+
+41
+00:02:44,579 --> 00:02:46,189
+And that's the end of this article.
+
+42
+00:02:46,189 --> 00:02:47,343
+Thanks for listening.
+

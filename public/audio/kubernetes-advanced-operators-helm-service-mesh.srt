@@ -1,0 +1,176 @@
+1
+00:00:00,050 --> 00:00:05,901
+You're listening to: Kubernetes Advanced: Operators, Helm, and Service Mesh Guide.
+
+2
+00:00:05,901 --> 00:00:15,625
+Master advanced Kubernetes concepts including Helm charts, custom operators, service mesh with Istio, GitOps patterns, and production best practices.
+
+3
+00:00:15,625 --> 00:00:16,682
+Let's get started.
+
+4
+00:00:16,682 --> 00:00:18,798
+Now, let's talk about Introduction.
+
+5
+00:00:18,798 --> 00:00:30,396
+Once you've mastered basic Kubernetes deployments, the next level involves Helm for package management, Operators for complex application lifecycle management, and Service Mesh for advanced networking.
+
+6
+00:00:30,396 --> 00:00:33,894
+These tools are essential for running production workloads at scale.
+
+7
+00:00:33,894 --> 00:00:38,521
+In this guide, we'll cover: Helm charts creation and best practices.
+
+8
+00:00:38,521 --> 00:00:41,514
+Kubernetes Operators with Operator SDK.
+
+9
+00:00:41,514 --> 00:00:43,473
+Service Mesh with Istio.
+
+10
+00:00:43,473 --> 00:00:45,336
+GitOps with ArgoCD.
+
+11
+00:00:45,336 --> 00:00:48,052
+Production patterns and optimization.
+
+12
+00:00:48,052 --> 00:00:50,360
+Moving on to Helm Charts Deep Dive.
+
+13
+00:00:50,360 --> 00:00:51,490
+Chart Structure.
+
+14
+00:00:51,490 --> 00:00:52,656
+Chart.yaml.
+
+15
+00:00:52,656 --> 00:00:54,711
+Templates with Best Practices.
+
+16
+00:00:54,711 --> 00:00:56,201
+values.yaml.
+
+17
+00:00:56,201 --> 00:00:57,391
+Helm Commands.
+
+18
+00:00:57,391 --> 00:00:59,639
+Next up: Kubernetes Operators.
+
+19
+00:00:59,639 --> 00:01:00,805
+Operator Pattern.
+
+20
+00:01:00,805 --> 00:01:02,836
+Custom Resource Definition.
+
+21
+00:01:02,836 --> 00:01:04,074
+Controller (Go).
+
+22
+00:01:04,074 --> 00:01:06,802
+Let's explore Service Mesh with Istio.
+
+23
+00:01:06,802 --> 00:01:07,836
+Architecture.
+
+24
+00:01:07,836 --> 00:01:09,098
+Traffic Management.
+
+25
+00:01:09,098 --> 00:01:11,370
+mTLS Configuration.
+
+26
+00:01:11,370 --> 00:01:13,882
+Now let's look at GitOps with ArgoCD.
+
+27
+00:01:13,882 --> 00:01:15,637
+Application Definition.
+
+28
+00:01:15,637 --> 00:01:18,425
+ApplicationSet for Multi-Environment.
+
+29
+00:01:18,425 --> 00:01:21,478
+Now, let's talk about Production Best Practices.
+
+30
+00:01:21,478 --> 00:01:22,836
+Resource Management.
+
+31
+00:01:22,836 --> 00:01:24,290
+Pod Disruption Budget.
+
+32
+00:01:24,290 --> 00:01:25,985
+Moving on to Conclusion.
+
+33
+00:01:25,985 --> 00:01:31,802
+Advanced Kubernetes features enable: Helm: Standardized, versioned deployments.
+
+34
+00:01:31,802 --> 00:01:34,903
+Operators: Automated application management.
+
+35
+00:01:34,903 --> 00:01:39,254
+Service Mesh: Secure, observable microservices.
+
+36
+00:01:39,254 --> 00:01:42,704
+GitOps: Declarative, auditable infrastructure.
+
+37
+00:01:42,704 --> 00:01:47,067
+Mastering these tools is essential for production Kubernetes at scale.
+
+38
+00:01:47,067 --> 00:01:49,290
+Next up: Related Articles.
+
+39
+00:01:49,290 --> 00:01:53,942
+Docker & Kubernetes Deployment Guide - K8s fundamentals.
+
+40
+00:01:53,942 --> 00:01:58,930
+GitHub Actions CI/CD Complete Guide - CI/CD pipelines.
+
+41
+00:01:58,930 --> 00:02:01,862
+Apache Kafka Deep Dive - Event streaming.
+
+42
+00:02:01,862 --> 00:02:06,814
+Microservices with Go and FastAPI - Build microservices.
+
+43
+00:02:06,814 --> 00:02:08,413
+And that's the end of this article.
+
+44
+00:02:08,413 --> 00:02:09,507
+Thanks for listening.
+

@@ -1,0 +1,280 @@
+1
+00:00:00,050 --> 00:00:08,593
+You're listening to: Post-Quantum Cryptography Deadlines: What 2027, 2030 & 2035 Mean for Your Stack.
+
+2
+00:00:08,593 --> 00:00:23,798
+NSA's CNSA 2.0 sets a 2027 acquisition deadline; NIST deprecates RSA-2048 and ECC P-256 by 2030 and disallows them by 2035.
+
+3
+00:00:23,798 --> 00:00:29,134
+A plain-English guide to the PQC timeline and what each date actually requires you to do.
+
+4
+00:00:29,134 --> 00:00:30,180
+Let's get started.
+
+5
+00:00:30,180 --> 00:00:34,026
+For years, "quantum threat" was a vague future problem.
+
+6
+00:00:34,026 --> 00:00:36,454
+In 2026 it has dates on it.
+
+7
+00:00:36,454 --> 00:00:46,141
+NIST's post-quantum standards are final, the NSA has published hard deadlines, and analysts are calling the enterprise transition a $15 billion migration.
+
+8
+00:00:46,141 --> 00:00:55,973
+If you build or run systems that use cryptography — which is to say, all of them — the timeline has moved from "someday" to a calendar you can plan against.
+
+9
+00:00:55,973 --> 00:01:04,987
+This is the plain-English version: what 2027, 2030, and 2035 actually mean, and what each date requires you to do.
+
+10
+00:01:04,987 --> 00:01:09,879
+For the engineering how-to, pair it with my practical PQC migration guide.
+
+11
+00:01:09,879 --> 00:01:13,185
+Now, let's talk about The two reasons the clock is already ticking.
+
+12
+00:01:13,185 --> 00:01:16,370
+Before the dates, the two facts that make them urgent:
+
+13
+00:01:16,370 --> 00:01:18,413
+Harvest-now, decrypt-later.
+
+14
+00:01:18,413 --> 00:01:24,783
+Adversaries can capture encrypted traffic today and decrypt it once a quantum computer arrives.
+
+15
+00:01:24,783 --> 00:01:33,605
+So for any data that must stay secret for 5–10+ years, the deadline isn't when quantum computers exist — it's now..
+
+16
+00:01:33,605 --> 00:01:36,550
+Migrations take 5–15 years.
+
+17
+00:01:36,550 --> 00:01:44,362
+NIST's own guidance describes the realistic horizon for a full cryptographic transition as five to fifteen years.
+
+18
+00:01:44,362 --> 00:01:48,870
+The "2035" date is not far away when the work takes that long..
+
+19
+00:01:48,870 --> 00:01:53,052
+Together these mean the comfortable-sounding deadlines are actually tight.
+
+20
+00:01:53,052 --> 00:01:54,627
+Moving on to The timeline.
+
+21
+00:01:54,627 --> 00:01:56,887
+Date, Who sets it, What it means.
+
+22
+00:01:56,887 --> 00:02:09,855
+Aug 2024, NIST, FIPS 203 (ML-KEM), 204 (ML-DSA), 205 (SLH-DSA) finalized — the standards exist.
+
+23
+00:02:09,855 --> 00:02:19,831
+Jan 1, 2027, NSA (CNSA 2.0), New US National Security System acquisitions must support PQC.
+
+24
+00:02:19,831 --> 00:02:31,298
+2030, NIST (IR 8547), RSA-2048 and ECC P-256 deprecated (discouraged, allowed with risk).
+
+25
+00:02:31,298 --> 00:02:44,110
+2033–2035, NSA / NIST, CNSA 2.0 exclusive for many classes; quantum-vulnerable algorithms disallowed in NIST standards by 2035.
+
+26
+00:02:44,110 --> 00:02:46,610
+What "2027" requires.
+
+27
+00:02:46,610 --> 00:02:56,995
+The NSA's CNSA 2.0 suite becomes mandatory for new national-security-system acquisitions from January 1, 2027.
+
+28
+00:02:56,995 --> 00:03:02,596
+Even if you're not a government contractor, this date matters: it sets the tone for the whole supply chain.
+
+29
+00:03:02,596 --> 00:03:13,846
+Vendors selling to government must ship PQC, which means the libraries, HSMs, and products you depend on will have quantum-safe options by then — and procurement teams will start asking for them.
+
+30
+00:03:13,846 --> 00:03:20,240
+If you sell software, "do you support PQC?" becomes a real question on security questionnaires around this date.
+
+31
+00:03:20,240 --> 00:03:23,245
+What "2030" requires (deprecated).
+
+32
+00:03:23,245 --> 00:03:31,153
+In NIST's vocabulary, deprecated means an algorithm is still allowed but discouraged, and its use carries acknowledged risk.
+
+33
+00:03:31,153 --> 00:03:43,281
+By 2030, RSA-2048 and ECC P-256 — the asymmetric workhorses behind most TLS and signatures today — hit this status.
+
+34
+00:03:43,281 --> 00:03:54,951
+Practically: by 2030 you should have PQC (in hybrid mode) deployed for anything long-lived, and a concrete plan to retire pure-classical asymmetric crypto.
+
+35
+00:03:54,951 --> 00:03:59,266
+Auditors and frameworks will start flagging deprecated algorithms.
+
+36
+00:03:59,266 --> 00:04:02,439
+What "2035" requires (disallowed).
+
+37
+00:04:02,439 --> 00:04:08,329
+Disallowed is the hard stop: the algorithm may no longer be used in compliant systems.
+
+38
+00:04:08,329 --> 00:04:13,557
+By 2035, quantum-vulnerable algorithms are removed from NIST standards entirely.
+
+39
+00:04:13,557 --> 00:04:22,896
+If you're still running RSA/ECC for key exchange or signatures in a regulated context at that point, you're out of compliance.
+
+40
+00:04:22,896 --> 00:04:32,103
+2035 sounds distant, but at a 5–15 year migration horizon, a program that starts in 2026 is on schedule, not early.
+
+41
+00:04:32,103 --> 00:04:35,264
+Next up: What this means for you, by situation.
+
+42
+00:04:35,282 --> 00:04:38,068
+You build SaaS / web services.
+
+43
+00:04:38,068 --> 00:04:47,599
+Plan hybrid TLS (X25519 + ML-KEM) and PQC-capable signing on the 2030 horizon.
+
+44
+00:04:47,599 --> 00:04:50,039
+Start your crypto inventory now (below).
+
+45
+00:04:50,039 --> 00:04:52,635
+Long-lived secrets are the urgent part..
+
+46
+00:04:52,635 --> 00:04:56,001
+You sell software to enterprises/government.
+
+47
+00:04:56,001 --> 00:05:00,736
+"PQC support" becomes a sales requirement around 2027.
+
+48
+00:05:00,736 --> 00:05:04,847
+Being early is a differentiator on security questionnaires..
+
+49
+00:05:04,847 --> 00:05:12,143
+You handle long-confidentiality data (health, finance, legal, government — exactly the kind I've built for).
+
+50
+00:05:12,143 --> 00:05:17,924
+Harvest-now-decrypt-later makes this your most urgent category regardless of the headline dates..
+
+51
+00:05:17,924 --> 00:05:19,570
+You're an individual engineer.
+
+52
+00:05:19,570 --> 00:05:23,080
+PQC fluency is becoming a hiring signal.
+
+53
+00:05:23,080 --> 00:05:31,169
+Understanding ML-KEM vs ML-DSA and hybrid cryptography is a genuinely scarce, valuable skill..
+
+54
+00:05:31,169 --> 00:05:35,568
+Let's explore The first concrete step (do this in 2026).
+
+55
+00:05:35,568 --> 00:05:37,900
+You cannot migrate what you cannot see.
+
+56
+00:05:37,900 --> 00:05:55,604
+The universal starting move — the one every framework and the NCSC and NIST all agree on — is to build a cryptographic inventory, a Cryptographic Bill of Materials (CBOM): every place you use asymmetric crypto, the algorithm, and how long the data it protects must stay confidential.
+
+57
+00:05:55,604 --> 00:06:00,183
+That inventory, sorted by data lifetime, is your migration plan.
+
+58
+00:06:00,183 --> 00:06:06,578
+I walk through building one in Cryptographic Bill of Materials (CBOM): Step 1 of PQC Migration.
+
+59
+00:06:06,578 --> 00:06:14,907
+The second move is crypto-agility — routing crypto through an abstraction so swapping algorithms is config, not a rewrite.
+
+60
+00:06:14,907 --> 00:06:20,292
+That's what turns these deadlines from a panic into a schedule, and it's the core of the migration guide.
+
+61
+00:06:20,292 --> 00:06:21,866
+Now let's look at The takeaway.
+
+62
+00:06:21,866 --> 00:06:34,546
+The post-quantum transition now has real dates: 2027 (NSA acquisitions), 2030 (RSA/ECC deprecated), 2035 (disallowed).
+
+63
+00:06:34,546 --> 00:06:47,984
+Because migrations take 5–15 years and "harvest now, decrypt later" is already in play, a program that begins in 2026 with a crypto inventory and an agility layer is exactly on time.
+
+64
+00:06:47,984 --> 00:06:59,126
+The organizations that treat these as a 2034 problem will be the ones doing it in a panic; the ones that start their CBOM this year will swap algorithms calmly when the deadlines land.
+
+65
+00:06:59,126 --> 00:07:06,217
+Related reading: Migrating to Post-Quantum Cryptography: A Practical Developer Guide (2026).
+
+66
+00:07:06,217 --> 00:07:11,530
+Cryptographic Bill of Materials (CBOM): Step 1 of PQC Migration.
+
+67
+00:07:11,530 --> 00:07:17,179
+ML-KEM vs ML-DSA: NIST's Post-Quantum Standards Explained.
+
+68
+00:07:17,179 --> 00:07:20,364
+QAuth: The Post-Quantum Authentication Protocol.
+
+69
+00:07:20,364 --> 00:07:22,167
+And that's the end of this article.
+
+70
+00:07:22,167 --> 00:07:23,308
+Thanks for listening.
+

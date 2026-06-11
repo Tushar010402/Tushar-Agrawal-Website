@@ -1,0 +1,284 @@
+1
+00:00:00,050 --> 00:00:06,442
+You're listening to: Cryptographic Bill of Materials (CBOM): Step 1 of PQC Migration.
+
+2
+00:00:06,442 --> 00:00:09,495
+You can't migrate cryptography you can't see.
+
+3
+00:00:09,495 --> 00:00:22,019
+A practical guide to building a Cryptographic Bill of Materials — what to inventory, how to find hidden crypto, how to score by data lifetime, and how the CBOM becomes your post-quantum migration plan.
+
+4
+00:00:22,019 --> 00:00:23,064
+Let's get started.
+
+5
+00:00:23,064 --> 00:00:32,548
+Every serious post-quantum migration plan starts with the same unglamorous step, and almost everyone wants to skip it: find all your cryptography first.
+
+6
+00:00:32,548 --> 00:00:45,108
+Not the crypto you think you use — the crypto you actually use, including the dependency three levels down that pins an RSA key, the legacy service nobody owns, and the TLS config you've never looked at.
+
+7
+00:00:45,108 --> 00:00:50,661
+That inventory has a name now: a Cryptographic Bill of Materials (CBOM).
+
+8
+00:00:50,661 --> 00:00:58,341
+Building one is genuinely the highest-leverage thing you can do in 2026, because every later decision depends on it.
+
+9
+00:00:58,341 --> 00:01:00,072
+This is the practical how-to.
+
+10
+00:01:00,072 --> 00:01:05,168
+It's the concrete first move behind the PQC deadlines and the migration guide.
+
+11
+00:01:05,168 --> 00:01:08,197
+Now, let's talk about Why a CBOM, and why now.
+
+12
+00:01:08,197 --> 00:01:13,774
+The logic is simple: you cannot protect, prioritize, or replace what you can't see.
+
+13
+00:01:13,774 --> 00:01:25,961
+NIST, the NCSC, and every enterprise migration framework converge on inventory-first for a reason — the alternative is migrating blind and discovering the RSA you missed during an incident.
+
+14
+00:01:25,961 --> 00:01:39,290
+A CBOM is to cryptography what an SBOM (Software Bill of Materials) is to dependencies: a structured, maintained record of every cryptographic asset, where it's used, and its risk.
+
+15
+00:01:39,290 --> 00:01:49,867
+The "harvest now, decrypt later" threat makes it urgent — data being captured today is already on the clock, and you can't triage it without knowing where it lives.
+
+16
+00:01:49,867 --> 00:01:51,838
+Moving on to What goes in a CBOM.
+
+17
+00:01:51,838 --> 00:01:56,442
+For each cryptographic usage, capture enough to make a migration decision:
+
+18
+00:01:56,442 --> 00:01:57,956
+Field, Why it matters.
+
+19
+00:01:57,956 --> 00:02:04,699
+Asset / location, Service, endpoint, library, or file where crypto is used.
+
+20
+00:02:04,699 --> 00:02:15,949
+Algorithm & key size, RSA-2048, ECC P-256, AES-256… — what needs replacing vs what's fine.
+
+21
+00:02:15,949 --> 00:02:24,795
+Purpose, Key exchange, signature, or data-at-rest encryption (determines ML-KEM vs ML-DSA vs nothing).
+
+22
+00:02:24,795 --> 00:02:31,514
+Data confidentiality lifetime, How long the protected data must stay secret — the priority driver.
+
+23
+00:02:31,514 --> 00:02:33,641
+Owner, Who can actually change it.
+
+24
+00:02:33,641 --> 00:02:37,776
+Crypto-agility, Is the algorithm swappable, or hard-coded?.
+
+25
+00:02:37,776 --> 00:02:44,122
+That fourth row — data lifetime — is the one most inventories forget and the most important.
+
+26
+00:02:44,122 --> 00:02:54,375
+A session token that's worthless in 15 minutes and a medical record that must stay private for 30 years are completely different risks, even if both use the same algorithm.
+
+27
+00:02:54,375 --> 00:02:58,233
+Next up: The hard part: finding crypto you forgot you had.
+
+28
+00:02:58,233 --> 00:03:00,733
+The visible crypto is easy.
+
+29
+00:03:00,733 --> 00:03:03,040
+The dangerous crypto is hidden.
+
+30
+00:03:03,040 --> 00:03:05,072
+Hunt in all of these places:
+
+31
+00:03:05,072 --> 00:03:14,987
+TLS everywhere — public endpoints, internal mTLS between services, database connections, message-broker TLS, VPNs..
+
+32
+00:03:14,987 --> 00:03:23,677
+Tokens and signatures — JWT signing keys, API request signing, code/firmware signing, document signing..
+
+33
+00:03:23,677 --> 00:03:37,235
+Data at rest — disk/volume encryption, encrypted database columns, encrypted backups and archives (these have the longest lifetimes — backups from today might be restored in 2040)..
+
+34
+00:03:37,235 --> 00:03:41,141
+Dependencies — the crypto your libraries use internally.
+
+35
+00:03:41,141 --> 00:03:48,100
+A package.json or requirements.txt doesn't show you that a transitive dependency pins an algorithm.
+
+36
+00:03:48,100 --> 00:03:51,117
+This is where automated scanning earns its keep..
+
+37
+00:03:51,117 --> 00:03:57,776
+Certificates and PKI — your CA hierarchy, cert algorithms, and key sizes..
+
+38
+00:03:57,776 --> 00:04:02,836
+Secrets managers and HSMs — what algorithms they're configured for..
+
+39
+00:04:02,836 --> 00:04:18,281
+Practical tactics: scan source for crypto API calls and hard-coded algorithm names, enumerate TLS configs across hosts, pull certificate inventories, and use SBOM/dependency tooling to surface library-level crypto.
+
+40
+00:04:18,281 --> 00:04:22,632
+The goal of the first pass isn't perfection — it's to stop being blind.
+
+41
+00:04:22,632 --> 00:04:26,526
+Let's explore Turn the inventory into a priority order.
+
+42
+00:04:26,526 --> 00:04:28,449
+A raw list isn't a plan.
+
+43
+00:04:28,449 --> 00:04:29,218
+Sort it.
+
+44
+00:04:29,218 --> 00:04:31,274
+Rank each asset by roughly:
+
+45
+00:04:31,298 --> 00:04:40,118
+Urgent: long-lived secrets crossing capturable networks — health, financial, legal, government data; long-retention backups.
+
+46
+00:04:40,118 --> 00:04:42,798
+These are the harvest-now-decrypt-later targets.
+
+47
+00:04:42,798 --> 00:04:45,647
+Migrate (in hybrid mode) first..
+
+48
+00:04:45,647 --> 00:04:50,502
+Important: medium-lifetime data and broadly-exposed signing keys..
+
+49
+00:04:50,502 --> 00:04:57,401
+Later: ephemeral data whose value evaporates quickly — short sessions, transient caches..
+
+50
+00:04:57,401 --> 00:05:00,250
+This sorted list is your migration roadmap.
+
+51
+00:05:00,250 --> 00:05:04,505
+You're not migrating "the company"; you're migrating the top of this list first.
+
+52
+00:05:04,505 --> 00:05:07,594
+Now let's look at Note crypto-agility while you're in there.
+
+53
+00:05:07,594 --> 00:05:12,498
+For each asset, record whether the algorithm is swappable or hard-coded.
+
+54
+00:05:12,498 --> 00:05:20,418
+This does double duty: it tells you the effort to migrate each item, and it surfaces the architectural debt you need to pay down.
+
+55
+00:05:20,418 --> 00:05:29,998
+Hard-coded crypto is what turns migration into a multi-quarter slog; flagging it now lets you prioritize adding an agility layer where it'll hurt most.
+
+56
+00:05:29,998 --> 00:05:31,921
+Now, let's talk about Keep it alive.
+
+57
+00:05:31,921 --> 00:05:37,461
+A CBOM is not a one-time spreadsheet — it's a living artifact, like an SBOM.
+
+58
+00:05:37,461 --> 00:05:41,572
+New services add crypto; dependencies change algorithms.
+
+59
+00:05:41,572 --> 00:05:51,103
+Wire inventory updates into your process: a CI check that flags new cryptographic dependencies, a periodic re-scan, and ownership so it doesn't rot.
+
+60
+00:05:51,103 --> 00:05:58,796
+The teams that will swap algorithms calmly when the 2030 deprecation lands are the ones whose CBOM is current and trusted.
+
+61
+00:05:58,796 --> 00:06:00,418
+Moving on to The takeaway.
+
+62
+00:06:00,418 --> 00:06:06,644
+Building a Cryptographic Bill of Materials is the boring, decisive first step of post-quantum migration.
+
+63
+00:06:06,644 --> 00:06:17,774
+Inventory every cryptographic use, hunt down the hidden ones (dependencies and backups especially), tag each with its data-confidentiality lifetime, and sort by risk.
+
+64
+00:06:17,774 --> 00:06:23,856
+What falls out is a prioritized migration plan grounded in reality instead of guesswork.
+
+65
+00:06:23,856 --> 00:06:31,716
+Start it in 2026 — before the deadlines force you to do it under pressure, and before you find the RSA you missed the hard way.
+
+66
+00:06:31,716 --> 00:06:38,904
+Related reading: Post-Quantum Cryptography Deadlines: 2027, 2030 & 2035.
+
+67
+00:06:38,904 --> 00:06:45,010
+Migrating to Post-Quantum Cryptography: A Practical Developer Guide (2026).
+
+68
+00:06:45,010 --> 00:06:52,257
+Hybrid Cryptography: Why Ed25519 + ML-DSA Is the Safe Migration Path.
+
+69
+00:06:52,257 --> 00:06:56,945
+QuantumShield: Building a Post-Quantum Cryptography Library from Scratch.
+
+70
+00:06:56,945 --> 00:06:58,675
+And that's the end of this article.
+
+71
+00:06:58,675 --> 00:06:59,805
+Thanks for listening.
+

@@ -1,0 +1,240 @@
+1
+00:00:00,050 --> 00:00:06,790
+You're listening to: GraphQL vs REST API: Complete Comparison Guide for 2024.
+
+2
+00:00:06,790 --> 00:00:11,045
+Understand when to use GraphQL vs REST API.
+
+3
+00:00:11,045 --> 00:00:20,528
+Compare performance, flexibility, caching, real-world use cases, and learn practical implementation with code examples in Python and Node.js.
+
+4
+00:00:20,528 --> 00:00:21,622
+Let's get started.
+
+5
+00:00:21,622 --> 00:00:23,677
+Now, let's talk about Introduction.
+
+6
+00:00:23,677 --> 00:00:29,735
+The GraphQL vs REST debate continues to be one of the most discussed topics in API design.
+
+7
+00:00:29,735 --> 00:00:41,274
+Having implemented both at scale—REST APIs handling millions of requests and GraphQL for complex data requirements—I'll share practical insights to help you make the right choice.
+
+8
+00:00:41,274 --> 00:00:42,956
+Moving on to Quick Comparison.
+
+9
+00:00:42,956 --> 00:00:45,156
+Aspect, REST, GraphQL.
+
+10
+00:00:45,156 --> 00:00:48,822
+Data Fetching, Fixed endpoints, Flexible queries.
+
+11
+00:00:48,822 --> 00:00:51,334
+Over-fetching, Common problem, Solved.
+
+12
+00:00:51,334 --> 00:00:54,759
+Under-fetching, Multiple requests, Single request.
+
+13
+00:00:54,759 --> 00:00:58,437
+Caching, HTTP caching, Complex, custom.
+
+14
+00:00:58,437 --> 00:01:00,841
+Learning Curve, Lower, Higher.
+
+15
+00:01:00,841 --> 00:01:04,747
+Tooling, Mature ecosystem, Growing rapidly.
+
+16
+00:01:04,747 --> 00:01:08,653
+File Upload, Native support, Needs workarounds.
+
+17
+00:01:08,653 --> 00:01:12,776
+Real-time, Requires WebSocket, Subscriptions built-in.
+
+18
+00:01:12,776 --> 00:01:15,492
+Next up: REST API Overview.
+
+19
+00:01:15,492 --> 00:01:17,367
+Traditional REST Approach.
+
+20
+00:01:17,367 --> 00:01:21,562
+REST Implementation (Python/FastAPI).
+
+21
+00:01:21,562 --> 00:01:24,747
+REST Problems: Over-fetching and Under-fetching.
+
+22
+00:01:24,747 --> 00:01:27,235
+Let's explore GraphQL Overview.
+
+23
+00:01:27,235 --> 00:01:29,543
+GraphQL Query Language.
+
+24
+00:01:29,543 --> 00:01:32,692
+GraphQL Query - Get Exactly What You Need.
+
+25
+00:01:32,692 --> 00:01:36,923
+GraphQL Implementation (Python/Strawberry).
+
+26
+00:01:36,923 --> 00:01:38,918
+Now let's look at Performance Comparison.
+
+27
+00:01:38,918 --> 00:01:40,276
+Network Efficiency.
+
+28
+00:01:40,276 --> 00:01:41,718
+Caching Differences.
+
+29
+00:01:41,718 --> 00:01:44,302
+Now, let's talk about When to Use REST.
+
+30
+00:01:44,302 --> 00:01:46,911
+1. Simple CRUD Operations.
+
+31
+00:01:46,911 --> 00:01:48,954
+2. Public APIs.
+
+32
+00:01:48,954 --> 00:01:50,588
+3. File Uploads.
+
+33
+00:01:50,588 --> 00:01:53,257
+4. Microservices Communication.
+
+34
+00:01:53,257 --> 00:01:55,733
+Moving on to When to Use GraphQL.
+
+35
+00:01:55,733 --> 00:01:59,086
+1. Complex, Nested Data Requirements.
+
+36
+00:01:59,086 --> 00:02:01,177
+2. Mobile Applications.
+
+37
+00:02:01,177 --> 00:02:03,846
+3. Rapidly Evolving Frontend.
+
+38
+00:02:03,846 --> 00:02:05,937
+4. Real-time Features.
+
+39
+00:02:05,937 --> 00:02:08,052
+Next up: Hybrid Approach.
+
+40
+00:02:08,052 --> 00:02:11,995
+Let's explore N+1 Problem and Solutions.
+
+41
+00:02:11,995 --> 00:02:14,483
+Now let's look at Security Considerations.
+
+42
+00:02:14,483 --> 00:02:16,826
+GraphQL-Specific Security.
+
+43
+00:02:16,826 --> 00:02:19,290
+Now, let's talk about Key Takeaways.
+
+44
+00:02:19,290 --> 00:02:22,536
+Choose REST When, Choose GraphQL When.
+
+45
+00:02:22,536 --> 00:02:25,300
+Simple CRUD apps, Complex data needs.
+
+46
+00:02:25,300 --> 00:02:28,112
+Public APIs, Mobile-first apps.
+
+47
+00:02:28,112 --> 00:02:30,444
+File handling, Rapid iteration.
+
+48
+00:02:30,444 --> 00:02:33,161
+Microservices, Real-time features.
+
+49
+00:02:33,161 --> 00:02:36,875
+HTTP caching critical, Bandwidth critical.
+
+50
+00:02:36,875 --> 00:02:40,120
+Team new to APIs, Team experienced.
+
+51
+00:02:40,120 --> 00:02:41,766
+Moving on to Conclusion.
+
+52
+00:02:41,766 --> 00:02:43,557
+There's no universal winner.
+
+53
+00:02:43,557 --> 00:02:48,317
+REST remains excellent for simple, public, and cache-heavy APIs.
+
+54
+00:02:48,317 --> 00:02:53,004
+GraphQL shines with complex data requirements and mobile applications.
+
+55
+00:02:53,004 --> 00:03:00,552
+Many successful companies use both—REST for simplicity where it fits, GraphQL for complex frontend needs.
+
+56
+00:03:00,552 --> 00:03:05,156
+Choose based on your specific requirements, team expertise, and use case.
+
+57
+00:03:05,156 --> 00:03:06,466
+Building APIs?
+
+58
+00:03:06,466 --> 00:03:09,615
+Connect on LinkedIn to discuss architecture decisions.
+
+59
+00:03:09,615 --> 00:03:11,274
+And that's the end of this article.
+
+60
+00:03:11,274 --> 00:03:12,403
+Thanks for listening.
+

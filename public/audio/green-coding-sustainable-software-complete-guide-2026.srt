@@ -1,0 +1,448 @@
+1
+00:00:00,050 --> 00:00:06,442
+You're listening to: Green Coding: Complete Guide to Sustainable Software Development 2026.
+
+2
+00:00:06,442 --> 00:00:09,086
+Write energy-efficient, sustainable code.
+
+3
+00:00:09,086 --> 00:00:15,540
+Learn green coding practices, Carbon Aware SDK, measuring software carbon footprint.
+
+4
+00:00:15,540 --> 00:00:19,206
+Complete guide for eco-conscious Indian developers.
+
+5
+00:00:19,206 --> 00:00:20,264
+Let's get started.
+
+6
+00:00:20,264 --> 00:00:23,581
+Now, let's talk about Your Code Has a Carbon Footprint.
+
+7
+00:00:23,581 --> 00:00:26,923
+Every time your code runs, it uses electricity.
+
+8
+00:00:26,923 --> 00:00:29,290
+That electricity comes from power plants.
+
+9
+00:00:29,290 --> 00:00:32,656
+Those power plants (often) burn fossil fuels.
+
+10
+00:00:32,656 --> 00:00:35,492
+Those fossil fuels release carbon dioxide.
+
+11
+00:00:35,492 --> 00:00:38,389
+Your code is contributing to climate change.
+
+12
+00:00:38,389 --> 00:00:42,740
+Before you dismiss this as negligible, consider these numbers:
+
+13
+00:00:42,740 --> 00:00:44,831
+Moving on to Why Should Developers Care?.
+
+14
+00:00:44,831 --> 00:00:49,170
+Let me give you three reasons: ethics, economics, and employment.
+
+15
+00:00:49,170 --> 00:00:51,129
+1. The Ethical Argument.
+
+16
+00:00:51,129 --> 00:00:53,269
+2. The Economic Argument.
+
+17
+00:00:53,269 --> 00:00:55,288
+3. The Employment Argument.
+
+18
+00:00:55,288 --> 00:00:58,365
+Next up: Understanding Energy in Software.
+
+19
+00:00:58,365 --> 00:01:02,403
+Every operation your code performs consumes energy:
+
+20
+00:01:02,403 --> 00:01:05,853
+The Algorithm Complexity-Energy Relationship.
+
+21
+00:01:05,853 --> 00:01:09,218
+Let's explore Green Coding Practices (Actionable).
+
+22
+00:01:09,218 --> 00:01:12,560
+Let's dive into specific practices you can implement today.
+
+23
+00:01:12,560 --> 00:01:14,447
+1. Code Efficiency.
+
+24
+00:01:14,447 --> 00:01:15,372
+The Problem:
+
+25
+00:01:15,372 --> 00:01:16,430
+The Solution:
+
+26
+00:01:16,430 --> 00:01:17,620
+More Examples:
+
+27
+00:01:17,620 --> 00:01:19,591
+2. Memory Management.
+
+28
+00:01:19,591 --> 00:01:21,838
+3. Network Optimization.
+
+29
+00:01:21,838 --> 00:01:24,002
+4. Database Efficiency.
+
+30
+00:01:24,002 --> 00:01:26,322
+5. Frontend Optimization.
+
+31
+00:01:26,322 --> 00:01:28,401
+Now let's look at Carbon Aware Computing.
+
+32
+00:01:28,401 --> 00:01:32,307
+Here's a concept that will change how you think about scheduling workloads:
+
+33
+00:01:32,307 --> 00:01:37,692
+The same computation produces different carbon emissions depending on WHEN and WHERE it runs.
+
+34
+00:01:37,692 --> 00:01:39,555
+What This Means for Developers.
+
+35
+00:01:39,555 --> 00:01:42,644
+Now, let's talk about Tools for Measuring Carbon Footprint.
+
+36
+00:01:42,644 --> 00:01:44,747
+1. Cloud Carbon Footprint.
+
+37
+00:01:44,747 --> 00:01:47,728
+Open-source tool to measure your cloud emissions.
+
+38
+00:01:47,728 --> 00:01:50,540
+2. Carbon Aware SDK.
+
+39
+00:01:50,540 --> 00:01:55,432
+From the Green Software Foundation - schedule workloads based on carbon intensity.
+
+40
+00:01:55,432 --> 00:01:57,548
+3. Green Metrics Tool.
+
+41
+00:01:57,548 --> 00:02:00,853
+Measure actual energy consumption of your application.
+
+42
+00:02:00,853 --> 00:02:03,629
+4. EcoCode - IDE Plugin.
+
+43
+00:02:03,629 --> 00:02:06,250
+Real-time feedback on code efficiency.
+
+44
+00:02:06,250 --> 00:02:10,444
+Moving on to Green DevOps and CI/CD.
+
+45
+00:02:10,444 --> 00:02:14,879
+Your CI/CD pipeline runs hundreds of times per day.
+
+46
+00:02:14,879 --> 00:02:17,908
+Small optimizations here have huge impact.
+
+47
+00:02:17,908 --> 00:02:19,903
+Dockerfile Optimization.
+
+48
+00:02:19,903 --> 00:02:23,209
+Next up: Cloud Provider Sustainability Features.
+
+49
+00:02:23,209 --> 00:02:25,264
+AWS Sustainability.
+
+50
+00:02:25,264 --> 00:02:27,367
+Google Cloud Sustainability.
+
+51
+00:02:27,367 --> 00:02:28,930
+Azure Sustainability.
+
+52
+00:02:28,930 --> 00:02:31,550
+Let's explore Green Architecture Patterns.
+
+53
+00:02:31,550 --> 00:02:33,918
+1. Serverless for Efficiency.
+
+54
+00:02:33,918 --> 00:02:36,358
+2. Event-Driven Over Polling.
+
+55
+00:02:36,358 --> 00:02:38,918
+3. Smart Caching Architecture.
+
+56
+00:02:38,918 --> 00:02:41,225
+4. Efficient Data Transfer.
+
+57
+00:02:41,225 --> 00:02:45,468
+Now let's look at Practical Project: Build a Carbon-Aware Application.
+
+58
+00:02:45,468 --> 00:02:49,627
+Let's build an image processing service that runs during low-carbon hours.
+
+59
+00:02:49,627 --> 00:02:52,307
+Now, let's talk about Measuring Your Impact.
+
+60
+00:02:52,307 --> 00:02:54,507
+Moving on to The Future and Your Role.
+
+61
+00:02:54,507 --> 00:02:57,139
+Green Software Foundation Certifications.
+
+62
+00:02:57,139 --> 00:02:59,771
+Next up: Conclusion: Code Green.
+
+63
+00:02:59,771 --> 00:03:00,745
+You've learned:
+
+64
+00:03:00,745 --> 00:03:05,769
+Software's carbon footprint - 4% of global emissions and growing.
+
+65
+00:03:05,769 --> 00:03:09,483
+Why it matters - Ethics, economics, and employment.
+
+66
+00:03:09,483 --> 00:03:14,242
+Energy in software - CPU, memory, network, storage.
+
+67
+00:03:14,242 --> 00:03:19,555
+Green coding practices - Efficient algorithms, memory, network, database.
+
+68
+00:03:19,555 --> 00:03:23,629
+Carbon-aware computing - Temporal and spatial shifting.
+
+69
+00:03:23,629 --> 00:03:28,593
+Measurement tools - Cloud Carbon Footprint, Carbon Aware SDK.
+
+70
+00:03:28,593 --> 00:03:33,245
+Green DevOps - CI/CD optimization, caching.
+
+71
+00:03:33,245 --> 00:03:38,449
+Cloud sustainability - AWS, GCP, Azure features.
+
+72
+00:03:38,449 --> 00:03:42,644
+Architecture patterns - Serverless, event-driven, caching.
+
+73
+00:03:42,644 --> 00:03:43,930
+Key takeaways:
+
+74
+00:03:43,930 --> 00:03:47,800
+Every line of code has a carbon cost - be intentional.
+
+75
+00:03:47,800 --> 00:03:52,980
+Efficient code is green code - optimization benefits planet AND users.
+
+76
+00:03:52,980 --> 00:03:56,550
+When and where matters - use carbon-aware scheduling.
+
+77
+00:03:56,550 --> 00:04:00,384
+Measure to improve - use tools to understand impact.
+
+78
+00:04:00,384 --> 00:04:06,610
+Small changes scale - 1% improvement across 1 million users = massive impact.
+
+79
+00:04:06,610 --> 00:04:09,711
+The software industry has a unique opportunity.
+
+80
+00:04:09,711 --> 00:04:15,360
+Unlike many industries, we can reduce our environmental impact while improving our products.
+
+81
+00:04:15,360 --> 00:04:19,074
+Efficient code is faster, cheaper, AND greener.
+
+82
+00:04:19,074 --> 00:04:20,072
+Start today:
+
+83
+00:04:20,072 --> 00:04:22,824
+Run Cloud Carbon Footprint on your cloud account.
+
+84
+00:04:22,824 --> 00:04:25,504
+Add caching to your most-hit endpoints.
+
+85
+00:04:25,504 --> 00:04:29,362
+Review your CI/CD pipeline for waste.
+
+86
+00:04:29,362 --> 00:04:31,406
+Check your Docker images for bloat.
+
+87
+00:04:31,406 --> 00:04:34,074
+Consider region selection for new deployments.
+
+88
+00:04:34,074 --> 00:04:36,394
+The planet needs green developers.
+
+89
+00:04:36,394 --> 00:04:37,187
+Be one.
+
+90
+00:04:37,187 --> 00:04:39,026
+Let's explore Resources.
+
+91
+00:04:39,026 --> 00:04:40,733
+Official Documentation.
+
+92
+00:04:40,682 --> 00:04:42,410
+Green Software Foundation.
+
+93
+00:04:42,410 --> 00:04:44,622
+Carbon Aware SDK.
+
+94
+00:04:44,622 --> 00:04:46,160
+Cloud Carbon Footprint.
+
+95
+00:04:46,160 --> 00:04:48,059
+AWS Sustainability.
+
+96
+00:04:48,059 --> 00:04:50,235
+Google Cloud Sustainability.
+
+97
+00:04:50,235 --> 00:04:51,653
+Learning Resources.
+
+98
+00:04:51,653 --> 00:04:53,997
+Green Software Practitioner Course.
+
+99
+00:04:53,997 --> 00:04:56,172
+Principles of Green Software Engineering.
+
+100
+00:04:56,172 --> 00:04:58,516
+The Sustainable Web Manifesto.
+
+101
+00:04:58,516 --> 00:04:59,454
+Tools.
+
+102
+00:04:59,454 --> 00:05:01,377
+Website Carbon Calculator.
+
+103
+00:05:01,377 --> 00:05:02,458
+EcoGrader.
+
+104
+00:05:02,458 --> 00:05:04,382
+Lighthouse Sustainability.
+
+105
+00:05:04,382 --> 00:05:05,776
+Indian Context.
+
+106
+00:05:05,776 --> 00:05:07,555
+India Energy Dashboard.
+
+107
+00:05:07,555 --> 00:05:09,670
+MNRE Solar Calculator.
+
+108
+00:05:09,670 --> 00:05:12,494
+CEA CO2 Database.
+
+109
+00:05:12,494 --> 00:05:17,374
+This guide is part of my series on emerging technologies for Indian developers.
+
+110
+00:05:17,374 --> 00:05:19,910
+Follow for more in-depth technical guides.
+
+111
+00:05:19,910 --> 00:05:21,617
+And that's the end of this article.
+
+112
+00:05:21,617 --> 00:05:22,735
+Thanks for listening.
+

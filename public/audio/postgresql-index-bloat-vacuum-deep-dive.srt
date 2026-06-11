@@ -1,0 +1,340 @@
+1
+00:00:00,050 --> 00:00:06,250
+You're listening to: Postgres Index Bloat Nearly Took Down Production: A VACUUM Deep-Dive.
+
+2
+00:00:06,250 --> 00:00:13,088
+A table that was 2 GB of data carried 14 GB of dead tuples and bloated indexes.
+
+3
+00:00:13,088 --> 00:00:24,783
+How MVCC creates bloat, how to measure it, and how autovacuum tuning, HOT updates, and a careful REINDEX brought query times back from 3s to 40ms.
+
+4
+00:00:24,783 --> 00:00:25,853
+Let's get started.
+
+5
+00:00:25,853 --> 00:00:30,600
+Our lab_results table held about 2 GB of actual data.
+
+6
+00:00:30,600 --> 00:00:35,096
+On disk, it and its indexes occupied 31 GB.
+
+7
+00:00:35,096 --> 00:00:40,216
+Queries that used to return in 40ms were creeping past 3 seconds.
+
+8
+00:00:40,216 --> 00:00:44,254
+Nothing in the schema had changed; the row count had barely grown.
+
+9
+00:00:44,254 --> 00:00:49,122
+The disk was just... filling up, and the database was getting slower in lockstep.
+
+10
+00:00:49,122 --> 00:00:55,913
+The culprit was bloat — and understanding it means understanding how PostgreSQL handles updates under the hood.
+
+11
+00:00:55,913 --> 00:00:59,459
+This is the deep-dive I wish I'd read before the incident.
+
+12
+00:00:59,459 --> 00:01:06,682
+For the broader scaling picture, pair it with database sharding & partitioning and PostgreSQL performance optimization.
+
+13
+00:01:06,682 --> 00:01:10,997
+Now, let's talk about Why Postgres creates dead rows: MVCC.
+
+14
+00:01:10,997 --> 00:01:18,257
+PostgreSQL uses MVCC (Multi-Version Concurrency Control) so that readers never block writers.
+
+15
+00:01:18,257 --> 00:01:22,475
+The trick: when you UPDATE a row, Postgres does not overwrite it.
+
+16
+00:01:22,475 --> 00:01:28,004
+It writes a new version of the row and marks the old version as dead (a "dead tuple").
+
+17
+00:01:28,004 --> 00:01:34,002
+Transactions that started before the update still see the old version; new ones see the new version.
+
+18
+00:01:34,002 --> 00:01:36,742
+A DELETE similarly just marks the row dead.
+
+19
+00:01:36,742 --> 00:01:44,182
+This is brilliant for concurrency and terrible if you ignore it, because those dead tuples don't disappear on their own.
+
+20
+00:01:44,182 --> 00:01:47,319
+Every update to a row leaves a corpse behind.
+
+21
+00:01:47,319 --> 00:01:55,300
+Our lab_results table got a status update several times per result — each one creating a new live tuple and a dead one.
+
+22
+00:01:55,300 --> 00:02:02,656
+Multiply by millions of results and you get 14 GB of dead tuples sitting in a 2 GB table.
+
+23
+00:02:02,656 --> 00:02:05,817
+The mechanism that reclaims this space is VACUUM.
+
+24
+00:02:05,817 --> 00:02:07,992
+Moving on to Measuring the damage.
+
+25
+00:02:07,992 --> 00:02:10,024
+Before touching anything, measure.
+
+26
+00:02:10,024 --> 00:02:15,324
+This query shows dead-tuple counts and the last (auto)vacuum time per table:
+
+27
+00:02:15,324 --> 00:02:25,360
+Ours showed lab_results with a dead_ratio near 7 — seven dead tuples for every live one — and a last_autovacuum of three weeks ago.
+
+28
+00:02:25,360 --> 00:02:31,237
+Autovacuum, the background process that is supposed to clean this up, had effectively stopped keeping up.
+
+29
+00:02:31,237 --> 00:02:35,336
+For index bloat specifically, pgstattuple gives the truth:
+
+30
+00:02:35,336 --> 00:02:43,221
+Our primary index was at ~22% leaf density — meaning ~78% of the index pages were wasted space.
+
+31
+00:02:43,221 --> 00:02:49,927
+That is why query times had quadrupled: every index scan was reading four times more pages than it needed to.
+
+32
+00:02:49,927 --> 00:02:52,836
+Next up: Why autovacuum fell behind.
+
+33
+00:02:52,836 --> 00:02:58,221
+Autovacuum is triggered per-table when dead tuples exceed a threshold:
+
+34
+00:02:58,221 --> 00:03:05,877
+The default scale_factor is 0.2 — autovacuum only kicks in after 20% of the table is dead.
+
+35
+00:03:05,877 --> 00:03:14,230
+On a large, update-heavy table, 20% is a lot of dead tuples, and by the time autovacuum runs it has a huge amount to clean.
+
+36
+00:03:14,230 --> 00:03:23,413
+Worse, our autovacuum was being throttled by conservative cost-delay settings and was getting cancelled by an ALTER/lock from a nightly job before it finished.
+
+37
+00:03:23,413 --> 00:03:26,754
+Two configuration changes fixed the ongoing problem.
+
+38
+00:03:26,754 --> 00:03:31,646
+I tuned them per-table rather than globally, because only a few hot tables needed it:
+
+39
+00:03:31,646 --> 00:03:37,283
+Vacuuming little and often is far cheaper than vacuuming rarely and enormously.
+
+40
+00:03:37,283 --> 00:03:40,985
+Let's explore Reducing bloat at the source: HOT updates.
+
+41
+00:03:40,985 --> 00:03:44,002
+The best bloat is the kind you never create.
+
+42
+00:03:44,002 --> 00:03:57,512
+PostgreSQL has an optimization called HOT (Heap-Only Tuple) updates: if an update does not change any indexed column, and there's room on the same page, Postgres can update the row in place without touching every index.
+
+43
+00:03:57,512 --> 00:04:01,682
+HOT updates dramatically reduce both table and index bloat.
+
+44
+00:04:01,682 --> 00:04:03,040
+We were defeating it.
+
+45
+00:04:03,040 --> 00:04:10,552
+Our status-update query touched an indexed updated_at column on every write, so no update qualified as HOT.
+
+46
+00:04:10,552 --> 00:04:11,899
+Two changes helped:
+
+47
+00:04:11,899 --> 00:04:16,550
+Don't index columns that change on every write unless you truly query by them.
+
+48
+00:04:16,550 --> 00:04:19,206
+We dropped an index on a high-churn column..
+
+49
+00:04:19,206 --> 00:04:24,290
+Lower the table's fillfactor so each page leaves room for in-place updates:.
+
+50
+00:04:24,314 --> 00:04:31,355
+A fillfactor of 85 leaves 15% of each page free for HOT updates to land in place.
+
+51
+00:04:31,355 --> 00:04:45,526
+After a rewrite, the ratio of HOT updates (n_tup_hot_upd / n_tup_upd in pg_stat_user_tables) jumped from near-zero to over 90%, and bloat accumulation slowed to a crawl.
+
+52
+00:04:45,526 --> 00:04:48,506
+Now let's look at Reclaiming the space already lost.
+
+53
+00:04:48,506 --> 00:04:53,735
+Tuning stops new bloat; it does not shrink the 31 GB you already have.
+
+54
+00:04:53,735 --> 00:04:58,446
+VACUUM marks dead space reusable but rarely returns it to the OS.
+
+55
+00:04:58,446 --> 00:05:01,307
+To actually reclaim disk, you have two options:
+
+56
+00:05:01,307 --> 00:05:10,333
+VACUUM FULL — fully rewrites the table compactly, but takes an ACCESS EXCLUSIVE lock (the table is unavailable for the duration).
+
+57
+00:05:10,333 --> 00:05:14,720
+Fine at 3 AM on a small table; unacceptable on a hot one..
+
+58
+00:05:14,720 --> 00:05:20,934
+pg_repack — rebuilds the table and indexes with only brief locking, online.
+
+59
+00:05:20,934 --> 00:05:22,172
+This is what I used..
+
+60
+00:05:22,172 --> 00:05:30,982
+For the indexes specifically, REINDEX INDEX CONCURRENTLY (Postgres 12+) rebuilds a bloated index without blocking writes:
+
+61
+00:05:30,982 --> 00:05:43,807
+After repack + concurrent reindex, the table-plus-indexes footprint dropped from 31 GB to 2.4 GB, and the patient-lookup query went from ~3s back to ~40ms.
+
+62
+00:05:43,807 --> 00:05:45,477
+Now, let's talk about Results.
+
+63
+00:05:45,477 --> 00:05:47,352
+Metric, Before, After.
+
+64
+00:05:47,352 --> 00:05:53,302
+On-disk size (table + indexes), 31 GB, 2.4 GB.
+
+65
+00:05:53,302 --> 00:05:57,449
+Dead-tuple ratio, ~7.0, ~0.1.
+
+66
+00:05:57,449 --> 00:06:02,196
+Index leaf density, ~22%, ~91%.
+
+67
+00:06:02,196 --> 00:06:07,965
+Patient-lookup query, ~3,000ms, ~40ms.
+
+68
+00:06:07,965 --> 00:06:11,884
+HOT update ratio, ~3%, ~92%.
+
+69
+00:06:11,884 --> 00:06:16,187
+Moving on to The checklist I now run on every write-heavy table.
+
+70
+00:06:16,187 --> 00:06:22,845
+Monitor n_dead_tup and last_autovacuum in pg_stat_user_tables.
+
+71
+00:06:22,845 --> 00:06:27,401
+Silent autovacuum failure is the root of most bloat incidents..
+
+72
+00:06:27,401 --> 00:06:35,658
+Tune autovacuum_vacuum_scale_factor per hot table (0.01–0.05), not globally..
+
+73
+00:06:35,658 --> 00:06:43,026
+Protect HOT updates: don't index high-churn columns; set a fillfactor around 85 on update-heavy tables..
+
+74
+00:06:43,026 --> 00:06:47,425
+Reclaim space online with pg_repack and REINDEX ...
+
+75
+00:06:47,425 --> 00:06:52,100
+CONCURRENTLY, not VACUUM FULL, on anything user-facing..
+
+76
+00:06:52,100 --> 00:07:00,285
+Watch long-running transactions — they hold back the "oldest visible" horizon and can prevent vacuum from removing dead tuples at all..
+
+77
+00:07:00,285 --> 00:07:09,840
+Bloat is not a bug in Postgres; it is the cost of MVCC, and MVCC is why Postgres handles concurrency so gracefully.
+
+78
+00:07:09,840 --> 00:07:12,569
+The job is to keep the cleanup keeping pace.
+
+79
+00:07:12,569 --> 00:07:18,939
+For where to go when a single node is no longer enough, see database sharding & partitioning.
+
+80
+00:07:18,939 --> 00:07:22,629
+Related reading: PostgreSQL Performance Optimization.
+
+81
+00:07:22,629 --> 00:07:26,715
+Database Sharding & Partitioning: An Advanced Guide.
+
+82
+00:07:26,715 --> 00:07:31,114
+Database Connection Pooling: The Performance Fix That Saved Our Production.
+
+83
+00:07:31,114 --> 00:07:35,634
+MongoDB vs PostgreSQL: A Database Comparison.
+
+84
+00:07:35,634 --> 00:07:37,413
+And that's the end of this article.
+
+85
+00:07:37,413 --> 00:07:38,554
+Thanks for listening.
+

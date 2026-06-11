@@ -1,0 +1,380 @@
+1
+00:00:00,050 --> 00:00:07,572
+You're listening to: Quantum Computing Part 2: Real Applications, Careers & How to Start (2026 Guide).
+
+2
+00:00:07,572 --> 00:00:13,112
+Part 2 of our quantum guide: Real-world applications in finance, healthcare, climate.
+
+3
+00:00:13,112 --> 00:00:15,192
+Career paths and salaries.
+
+4
+00:00:15,192 --> 00:00:16,995
+Free learning resources.
+
+5
+00:00:16,995 --> 00:00:19,266
+Q-Day cybersecurity threats.
+
+6
+00:00:19,266 --> 00:00:21,201
+Quantum internet progress.
+
+7
+00:00:21,201 --> 00:00:22,896
+All verified facts.
+
+8
+00:00:22,896 --> 00:00:23,942
+Let's get started.
+
+9
+00:00:23,942 --> 00:00:26,586
+Now, let's talk about Welcome to Part 2.
+
+10
+00:00:26,586 --> 00:00:30,853
+In Part 1, we covered: What quantum computers are and how they work.
+
+11
+00:00:30,853 --> 00:00:34,459
+The 2025 breakthroughs that changed everything.
+
+12
+00:00:34,459 --> 00:00:38,762
+Current machines from IBM, Google, IonQ, Microsoft.
+
+13
+00:00:38,762 --> 00:00:41,454
+India's National Quantum Mission progress.
+
+14
+00:00:41,454 --> 00:00:46,213
+Part 2 focuses on the practical side: Real applications happening RIGHT NOW.
+
+15
+00:00:46,213 --> 00:00:49,435
+Career paths and salaries (verified data).
+
+16
+00:00:49,435 --> 00:00:51,610
+How to actually learn quantum computing.
+
+17
+00:00:51,610 --> 00:00:54,194
+The cybersecurity threat timeline.
+
+18
+00:00:54,194 --> 00:00:56,514
+Industry-specific use cases.
+
+19
+00:00:56,514 --> 00:00:57,463
+Let's dive in.
+
+20
+00:00:57,463 --> 00:01:03,581
+Moving on to Part 1: Real Applications Happening Now (2025-2026).
+
+21
+00:01:03,581 --> 00:01:06,899
+Quantum computing isn't just research anymore.
+
+22
+00:01:06,899 --> 00:01:09,567
+Companies are using it for real problems.
+
+23
+00:01:09,567 --> 00:01:11,009
+Finance & Banking.
+
+24
+00:01:11,009 --> 00:01:13,052
+Banks are leading quantum adoption.
+
+25
+00:01:13,052 --> 00:01:14,795
+Here's what's actually happening:
+
+26
+00:01:14,795 --> 00:01:15,901
+Why Banks Care:
+
+27
+00:01:15,901 --> 00:01:17,620
+Healthcare & Medicine.
+
+28
+00:01:17,620 --> 00:01:21,021
+Quantum is entering hospitals and pharma labs.
+
+29
+00:01:21,021 --> 00:01:24,086
+Cancer Research Breakthrough (2025
+
+30
+00:01:24,086 --> 00:01:26,021
+Climate & Sustainability.
+
+31
+00:01:26,021 --> 00:01:28,389
+Quantum could help save the planet.
+
+32
+00:01:28,389 --> 00:01:30,432
+Here's the verified progress:
+
+33
+00:01:30,432 --> 00:01:32,644
+Quantum Machine Learning (QML).
+
+34
+00:01:32,644 --> 00:01:36,406
+The hottest research area combining AI and quantum.
+
+35
+00:01:36,406 --> 00:01:40,805
+Next up: Part 2: The Cybersecurity Crisis (Q-Day).
+
+36
+00:01:40,805 --> 00:01:45,564
+This section is critical for every developer and IT professional.
+
+37
+00:01:45,564 --> 00:01:46,586
+What is Q-Day?.
+
+38
+00:01:46,586 --> 00:01:49,278
+Q-Day Timeline (Expert Estimates).
+
+39
+00:01:49,278 --> 00:01:51,814
+The "Harvest Now, Decrypt Later" Threat.
+
+40
+00:01:51,814 --> 00:01:53,713
+Current State of Preparation.
+
+41
+00:01:53,713 --> 00:01:56,250
+Post-Quantum Cryptography Deadlines.
+
+42
+00:01:56,250 --> 00:01:57,968
+What Developers Should Do NOW.
+
+43
+00:01:57,968 --> 00:02:00,937
+Let's explore Part 3: The Quantum Internet.
+
+44
+00:02:00,937 --> 00:02:03,810
+A parallel development that's often overlooked.
+
+45
+00:02:03,810 --> 00:02:05,192
+What is the Quantum Internet?.
+
+46
+00:02:05,192 --> 00:02:07,980
+2025 Progress (Verified).
+
+47
+00:02:07,980 --> 00:02:09,975
+Timeline for Quantum Internet.
+
+48
+00:02:09,975 --> 00:02:14,338
+Now let's look at Part 4: Career Paths & Salaries (Verified Data).
+
+49
+00:02:14,338 --> 00:02:16,430
+The quantum job market is booming.
+
+50
+00:02:16,430 --> 00:02:17,644
+Here are the facts.
+
+51
+00:02:17,644 --> 00:02:18,786
+Market Demand.
+
+52
+00:02:18,786 --> 00:02:21,225
+Salary Ranges (US Market).
+
+53
+00:02:21,225 --> 00:02:23,016
+India Salary Estimates.
+
+54
+00:02:23,016 --> 00:02:24,326
+Career Paths.
+
+55
+00:02:24,326 --> 00:02:25,588
+Do You Need a PhD?.
+
+56
+00:02:25,588 --> 00:02:29,771
+Now, let's talk about Part 5: How to Actually Learn Quantum Computing.
+
+57
+00:02:29,771 --> 00:02:31,862
+Free resources to start TODAY.
+
+58
+00:02:31,862 --> 00:02:33,137
+Prerequisites.
+
+59
+00:02:33,137 --> 00:02:35,444
+Free Learning Resources (Verified).
+
+60
+00:02:35,444 --> 00:02:37,560
+Learning Path (Step by Step).
+
+61
+00:02:37,560 --> 00:02:39,531
+Hands-On Practice Platforms.
+
+62
+00:02:39,531 --> 00:02:40,973
+Build Your Portfolio.
+
+63
+00:02:40,973 --> 00:02:44,951
+Moving on to Part 6: Industry Applications Deep Dive.
+
+64
+00:02:44,951 --> 00:02:46,418
+By Industry Sector.
+
+65
+00:02:46,418 --> 00:02:48,473
+India-Specific Opportunities.
+
+66
+00:02:48,473 --> 00:02:51,538
+Next up: Summary: Key Takeaways.
+
+67
+00:02:51,538 --> 00:02:53,569
+Let's explore Related Articles.
+
+68
+00:02:53,569 --> 00:02:59,302
+Part 1: Quantum Computing Complete Beginner's Guide - Start here if you haven't read Part 1.
+
+69
+00:02:59,302 --> 00:03:06,009
+AI Capabilities in 2026: Complete Guide - How AI and quantum computing intersect.
+
+70
+00:03:06,009 --> 00:03:11,057
+Backend Developer Roadmap India 2026 - Including quantum skills.
+
+71
+00:03:11,057 --> 00:03:13,173
+Now let's look at Sources and References.
+
+72
+00:03:13,173 --> 00:03:18,701
+Industry Reports: Bain & Company - Quantum Computing Report 2025.
+
+73
+00:03:18,701 --> 00:03:21,646
+McKinsey - Quantum Computing and Climate.
+
+74
+00:03:21,646 --> 00:03:24,447
+McKinsey - Quantum in Life Sciences.
+
+75
+00:03:24,447 --> 00:03:28,413
+Finance Applications: JPMorgan Quantum Insights.
+
+76
+00:03:28,413 --> 00:03:30,600
+American Banker - Quantum Leap.
+
+77
+00:03:30,600 --> 00:03:32,896
+Coinlaw - Quantum Finance Statistics.
+
+78
+00:03:32,896 --> 00:03:37,055
+Healthcare: PMC - Quantum Computing in Medicine.
+
+79
+00:03:37,055 --> 00:03:40,036
+Frontiers - Quantum in Clinical Care.
+
+80
+00:03:40,036 --> 00:03:41,550
+St. Jude Research.
+
+81
+00:03:41,550 --> 00:03:45,793
+Cybersecurity: SANS Emerging Threats Summit 2025.
+
+82
+00:03:45,793 --> 00:03:47,860
+IonQ - Q-Day Impact.
+
+83
+00:03:47,860 --> 00:03:50,649
+Palo Alto Networks - Quantum Threats.
+
+84
+00:03:50,649 --> 00:03:55,096
+Quantum Internet: SCIO China - Quantum Communication.
+
+85
+00:03:55,096 --> 00:03:57,596
+Euronews - Germany Quantum Network.
+
+86
+00:03:57,596 --> 00:04:00,829
+The Quantum Insider - Satellite Communications.
+
+87
+00:04:00,829 --> 00:04:04,447
+Careers & Learning: Glassdoor - Quantum Salaries.
+
+88
+00:04:04,447 --> 00:04:07,367
+IEEE Spectrum - Quantum Jobs Skills.
+
+89
+00:04:07,367 --> 00:04:09,579
+UChicago - Quantum Careers.
+
+90
+00:04:09,579 --> 00:04:12,055
+SpinQ - Learning Resources.
+
+91
+00:04:12,055 --> 00:04:14,675
+Part 2 of our quantum computing series.
+
+92
+00:04:14,675 --> 00:04:17,235
+All facts verified with cited sources.
+
+93
+00:04:17,235 --> 00:04:21,442
+Last updated: January 27, 2026.
+
+94
+00:04:21,442 --> 00:04:23,185
+And that's the end of this article.
+
+95
+00:04:23,185 --> 00:04:24,290
+Thanks for listening.
+

@@ -1,0 +1,344 @@
+1
+00:00:00,050 --> 00:00:05,877
+You're listening to: Designing Async, Long-Running APIs for AI Agents.
+
+2
+00:00:05,877 --> 00:00:12,860
+AI agents kick off tasks that run for minutes — synchronous request/response breaks down fast.
+
+3
+00:00:12,860 --> 00:00:24,314
+A practical guide to the async job pattern: 202 + status URLs, polling vs webhooks vs streaming, durable queues, and idempotent resumption.
+
+4
+00:00:24,314 --> 00:00:25,336
+Let's get started.
+
+5
+00:00:25,336 --> 00:00:32,872
+The synchronous request/response model has one quiet assumption: the work finishes before the connection times out.
+
+6
+00:00:32,872 --> 00:00:36,141
+AI agents break that assumption constantly.
+
+7
+00:00:36,141 --> 00:00:48,774
+An agent asks your backend to "research this topic," "generate this report," or "run this multi-step workflow," and the honest answer takes 30 seconds, two minutes, sometimes more.
+
+8
+00:00:48,774 --> 00:00:56,911
+Hold the HTTP connection open that long and you'll hit gateway timeouts, blocked worker threads, and lost work on every deploy.
+
+9
+00:00:56,911 --> 00:01:02,740
+The fix is an old pattern made newly essential: the asynchronous job API.
+
+10
+00:01:02,740 --> 00:01:11,694
+This is the practical guide to building one for agent clients — it complements the reliability foundations in building backends for AI agents.
+
+11
+00:01:11,694 --> 00:01:14,795
+Now, let's talk about Why synchronous breaks for agents.
+
+12
+00:01:14,795 --> 00:01:16,490
+Three forces converge:
+
+13
+00:01:16,490 --> 00:01:17,764
+Long tasks.
+
+14
+00:01:17,764 --> 00:01:26,706
+Agent work (research, generation, orchestration) routinely exceeds typical 30–60s gateway timeouts..
+
+15
+00:01:26,706 --> 00:01:28,233
+Blocked resources.
+
+16
+00:01:28,233 --> 00:01:34,062
+A request held open for two minutes ties up a worker/connection the whole time.
+
+17
+00:01:34,062 --> 00:01:40,192
+A burst of agent calls exhausts your pool — the same way a cache stampede exhausts a connection pool..
+
+18
+00:01:40,192 --> 00:01:41,622
+Lost work on failure.
+
+19
+00:01:41,622 --> 00:01:48,425
+If the task lives only inside the request handler, a crash or deploy mid-request loses everything.
+
+20
+00:01:48,425 --> 00:01:53,016
+Agents then retry, and now you're doing the expensive work twice..
+
+21
+00:01:53,016 --> 00:01:56,947
+The answer is to decouple starting the work from getting the result.
+
+22
+00:01:56,947 --> 00:02:01,718
+Moving on to The core pattern: 202 + a status resource.
+
+23
+00:02:01,718 --> 00:02:06,887
+Instead of one blocking call, split it into three cheap, fast interactions:
+
+24
+00:02:06,887 --> 00:02:07,680
+Start.
+
+25
+00:02:07,680 --> 00:02:14,146
+POST /jobs → returns 202 Accepted immediately with a job ID and a status URL.
+
+26
+00:02:14,146 --> 00:02:16,346
+The work is enqueued, not done..
+
+27
+00:02:16,346 --> 00:02:17,091
+Check.
+
+28
+00:02:17,091 --> 00:02:28,569
+GET /jobs/{id} → returns pending / running / succeeded / failed, plus progress and (when done) the result or a result URL..
+
+29
+00:02:28,569 --> 00:02:29,471
+Retrieve.
+
+30
+00:02:29,471 --> 00:02:33,064
+The result is in the status response or at a linked URL..
+
+31
+00:02:33,064 --> 00:02:38,341
+Note the idempotency key on start — covered in idempotency keys.
+
+32
+00:02:38,341 --> 00:02:44,555
+Agents retry the POST, and without it a flaky network spawns five identical two-minute jobs.
+
+33
+00:02:44,555 --> 00:02:47,223
+With it, retries return the same job.
+
+34
+00:02:47,223 --> 00:02:50,012
+Next up: How does the agent learn the result?
+
+35
+00:02:50,012 --> 00:02:51,225
+Three options.
+
+36
+00:02:51,225 --> 00:02:53,677
+1. Polling (start here).
+
+37
+00:02:53,677 --> 00:02:58,834
+The agent calls GET /jobs/{id} on an interval until it's done.
+
+38
+00:02:58,834 --> 00:03:02,752
+Simple, firewall-friendly, and works for every client.
+
+39
+00:03:02,752 --> 00:03:05,120
+The cost is wasted requests.
+
+40
+00:03:05,120 --> 00:03:07,355
+Tame it with guidance and backoff:
+
+41
+00:03:07,355 --> 00:03:11,310
+Return a Retry-After header so the client knows how long to wait..
+
+42
+00:03:11,310 --> 00:03:16,959
+Suggest exponential backoff (1s, 2s, 4s…) rather than tight polling..
+
+43
+00:03:16,959 --> 00:03:24,711
+For most agent integrations, polling is the right default — it's the least that can go wrong, and agents are perfectly happy to poll.
+
+44
+00:03:24,711 --> 00:03:27,728
+2. Webhooks (push, for efficiency).
+
+45
+00:03:27,728 --> 00:03:32,788
+The caller registers a callback URL; you POST the result when the job finishes.
+
+46
+00:03:32,788 --> 00:03:35,661
+No wasted polls, near-instant delivery.
+
+47
+00:03:35,661 --> 00:03:49,759
+The costs are real, though: the receiver needs a public endpoint, and you must treat your own webhook as an at-least-once delivery — sign it, retry on failure with backoff, and make the receiver idempotent (it may arrive twice).
+
+48
+00:03:49,759 --> 00:03:54,435
+Webhooks shine for server-to-server agents that run their own infrastructure.
+
+49
+00:03:54,435 --> 00:03:57,427
+3. Streaming (for incremental output).
+
+50
+00:03:57,427 --> 00:04:06,057
+When the agent benefits from partial results — tokens of a generation, steps of a research run — stream with SSE or a WebSocket.
+
+51
+00:04:06,057 --> 00:04:09,038
+This is great UX for "show your work" tasks.
+
+52
+00:04:09,038 --> 00:04:18,353
+The trade-off is that a held-open stream reintroduces some of the resource cost you were escaping, so use it for genuinely incremental output, not as a default.
+
+53
+00:04:18,353 --> 00:04:20,024
+(WebSocket patterns here.)
+
+54
+00:04:20,024 --> 00:04:22,656
+Mechanism, Best for, Watch out for.
+
+55
+00:04:22,656 --> 00:04:28,221
+Polling, Default; any client, Wasted requests (mitigate with backoff).
+
+56
+00:04:28,221 --> 00:04:34,507
+Webhooks, Server-side agents, Needs public endpoint; at-least-once → idempotent receiver.
+
+57
+00:04:34,507 --> 00:04:38,605
+Streaming, Incremental output, Held-open connection cost.
+
+58
+00:04:38,605 --> 00:04:43,617
+Let's explore Behind the API: durable queues, not background threads.
+
+59
+00:04:43,610 --> 00:04:45,855
+The endpoint is the easy half.
+
+60
+00:04:45,855 --> 00:04:49,040
+The hard requirement is that the work survives a crash.
+
+61
+00:04:49,040 --> 00:04:57,454
+Do not run a two-minute task in a fire-and-forget thread inside your web process — a deploy kills it and the job is silently lost.
+
+62
+00:04:57,454 --> 00:05:09,629
+Instead, enqueue jobs to a durable queue (a real broker, or a jobs table polled by workers — the trade-offs are in message queues: RabbitMQ vs Redis vs Kafka).
+
+63
+00:05:09,629 --> 00:05:10,807
+Properties you want:
+
+64
+00:05:10,807 --> 00:05:11,877
+Durability.
+
+65
+00:05:11,877 --> 00:05:15,194
+A job persists until a worker acknowledges completion..
+
+66
+00:05:15,194 --> 00:05:17,069
+Retries with a dead-letter queue.
+
+67
+00:05:17,069 --> 00:05:28,103
+A failing job retries a bounded number of times, then parks in a DLQ for inspection — exactly the discipline that saved a partition in the Kafka consumer-lag war story..
+
+68
+00:05:28,103 --> 00:05:29,906
+Idempotent processing.
+
+69
+00:05:29,906 --> 00:05:37,574
+A redelivered job must not double its side effects — persist status transitions and guard the side effects with the action key..
+
+70
+00:05:37,574 --> 00:05:48,427
+Model the job's lifecycle as durable state — ideally an append-only log of enqueued → running → succeeded/failed — so you can resume, audit, and report progress.
+
+71
+00:05:48,427 --> 00:05:52,358
+That's the same event-driven backbone agent runs want anyway.
+
+72
+00:05:52,358 --> 00:05:55,855
+Now let's look at Don't forget cancellation and TTLs.
+
+73
+00:05:55,855 --> 00:05:59,052
+Agents change their minds and abandon tasks.
+
+74
+00:05:59,052 --> 00:06:11,889
+Give them DELETE /jobs/{id} to cancel, have workers check a cancellation flag at safe points, and expire finished jobs after a TTL so your store doesn't grow forever.
+
+75
+00:06:11,889 --> 00:06:16,132
+Small touches, but they're what separate a toy from something an agent can lean on.
+
+76
+00:06:16,132 --> 00:06:18,235
+Now, let's talk about The takeaway.
+
+77
+00:06:18,235 --> 00:06:25,531
+Long-running agent work needs the backend to say "I've got it, here's where to check" — not to hold a connection hostage for two minutes.
+
+78
+00:06:25,531 --> 00:06:38,151
+The async job pattern (202 + status resource), an idempotent start, a durable queue with retries and a DLQ, and a sane result-delivery mechanism is the whole recipe.
+
+79
+00:06:38,151 --> 00:06:44,858
+It's not new — it's how robust systems have always handled slow work — but agents have made it table stakes.
+
+80
+00:06:44,858 --> 00:06:50,002
+Build it once and every long tool your agents call gets reliable for free.
+
+81
+00:06:50,002 --> 00:06:56,648
+Related reading: Building Backends for AI Agents: Idempotency, Retries & State.
+
+82
+00:06:56,648 --> 00:07:03,475
+MCP vs Direct API Calls: The Token-Efficiency Debate (2026).
+
+83
+00:07:03,475 --> 00:07:07,754
+Message Queues: RabbitMQ vs Redis vs Kafka.
+
+84
+00:07:07,754 --> 00:07:12,009
+Idempotency Keys: How We Stopped Double-Charging Customers.
+
+85
+00:07:12,009 --> 00:07:13,680
+And that's the end of this article.
+
+86
+00:07:13,680 --> 00:07:14,822
+Thanks for listening.
+

@@ -1,0 +1,172 @@
+1
+00:00:00,050 --> 00:00:06,105
+You're listening to: How to Get a Software Developer Job in India 2026: Complete Guide.
+
+2
+00:00:06,105 --> 00:00:10,588
+Step-by-step guide to landing your first software developer job in India.
+
+3
+00:00:10,588 --> 00:00:18,293
+Resume tips, interview preparation, salary negotiation, and job search strategies for freshers and experienced developers.
+
+4
+00:00:18,293 --> 00:00:19,362
+Let's get started.
+
+5
+00:00:19,362 --> 00:00:24,122
+Now, let's talk about Software Developer Job Market in India (2026).
+
+6
+00:00:24,122 --> 00:00:30,841
+India's tech industry continues to grow, with software developer roles among the most in-demand positions.
+
+7
+00:00:30,841 --> 00:00:35,528
+Whether you're a fresher or looking to switch jobs, this guide covers everything you need.
+
+8
+00:00:35,528 --> 00:00:38,509
+Moving on to Step 1: Build the Right Skills.
+
+9
+00:00:38,509 --> 00:00:39,735
+For Freshers.
+
+10
+00:00:39,735 --> 00:00:41,826
+For Experienced Developers.
+
+11
+00:00:41,826 --> 00:00:45,132
+Next up: Step 2: Build Your Portfolio.
+
+12
+00:00:45,132 --> 00:00:47,439
+GitHub Profile Optimization.
+
+13
+00:00:47,439 --> 00:00:49,399
+Portfolio Project Ideas.
+
+14
+00:00:49,399 --> 00:00:52,956
+Let's explore Step 3: Create a Winning Resume.
+
+15
+00:00:52,956 --> 00:00:54,326
+Resume Structure.
+
+16
+00:00:54,326 --> 00:00:56,538
+Resume Bullet Point Examples.
+
+17
+00:00:56,538 --> 00:00:59,423
+Now let's look at Step 4: Job Search Strategy.
+
+18
+00:00:59,423 --> 00:01:00,673
+Where to Find Jobs.
+
+19
+00:01:00,673 --> 00:01:02,295
+Application Strategy.
+
+20
+00:01:02,295 --> 00:01:03,653
+Networking Strategy.
+
+21
+00:01:03,653 --> 00:01:06,911
+Now, let's talk about Step 5: Interview Preparation.
+
+22
+00:01:06,911 --> 00:01:08,810
+Interview Process (Typical).
+
+23
+00:01:08,810 --> 00:01:10,492
+DSA Preparation.
+
+24
+00:01:10,492 --> 00:01:12,343
+System Design Preparation.
+
+25
+00:01:12,343 --> 00:01:15,769
+Moving on to Step 6: Salary Negotiation.
+
+26
+00:01:15,769 --> 00:01:19,086
+Salary Benchmarks (India 2026).
+
+27
+00:01:19,086 --> 00:01:20,901
+Negotiation Tips.
+
+28
+00:01:20,901 --> 00:01:23,281
+Next up: Company Types in India.
+
+29
+00:01:23,281 --> 00:01:25,757
+Let's explore Common Mistakes to Avoid.
+
+30
+00:01:25,757 --> 00:01:27,283
+Now let's look at Action Plan.
+
+31
+00:01:27,283 --> 00:01:29,002
+Now, let's talk about Conclusion.
+
+32
+00:01:29,002 --> 00:01:37,512
+Getting a software developer job in India requires a combination of right skills, good resume, strategic job search, and interview preparation.
+
+33
+00:01:37,512 --> 00:01:44,098
+Focus on building real projects, practicing DSA consistently, and networking actively.
+
+34
+00:01:44,098 --> 00:01:49,819
+Start today: Update your LinkedIn, push code to GitHub, and apply to 3 jobs.
+
+35
+00:01:49,819 --> 00:01:51,562
+Looking for job search advice?
+
+36
+00:01:51,562 --> 00:01:52,956
+Connect on LinkedIn.
+
+37
+00:01:52,956 --> 00:01:54,879
+Moving on to Related Articles.
+
+38
+00:01:54,879 --> 00:01:57,944
+Backend Developer Roadmap 2026.
+
+39
+00:01:57,944 --> 00:01:59,987
+System Design Interview Questions.
+
+40
+00:01:59,987 --> 00:02:01,790
+Python vs Go for Backend.
+
+41
+00:02:01,790 --> 00:02:04,038
+Docker Tutorial for Beginners.
+
+42
+00:02:04,038 --> 00:02:05,685
+And that's the end of this article.
+
+43
+00:02:05,685 --> 00:02:06,802
+Thanks for listening.
+

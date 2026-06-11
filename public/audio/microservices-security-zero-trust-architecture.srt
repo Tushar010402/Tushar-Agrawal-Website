@@ -1,0 +1,176 @@
+1
+00:00:00,050 --> 00:00:06,213
+You're listening to: Microservices Security: Zero Trust Architecture Implementation Guide.
+
+2
+00:00:06,213 --> 00:00:11,418
+Complete guide to implementing Zero Trust security in microservices.
+
+3
+00:00:11,418 --> 00:00:20,048
+mTLS, service mesh security, API authentication, secrets management, and OWASP best practices for production systems.
+
+4
+00:00:20,048 --> 00:00:21,105
+Let's get started.
+
+5
+00:00:21,105 --> 00:00:23,209
+Now, let's talk about Introduction.
+
+6
+00:00:23,209 --> 00:00:28,112
+In a microservices architecture, the attack surface expands dramatically.
+
+7
+00:00:28,112 --> 00:00:36,081
+The old "castle and moat" security model fails when services communicate across networks, containers, and clouds.
+
+8
+00:00:36,081 --> 00:00:43,942
+Zero Trust assumes no implicit trust—every request must be authenticated, authorized, and encrypted.
+
+9
+00:00:43,942 --> 00:00:51,634
+Building HIPAA-compliant healthcare systems at Dr. Dangs Lab taught me that security isn't optional—it's foundational.
+
+10
+00:00:51,634 --> 00:00:56,478
+This guide covers production-tested patterns for securing microservices.
+
+11
+00:00:56,478 --> 00:00:58,870
+Moving on to Zero Trust Principles.
+
+12
+00:00:58,870 --> 00:01:01,201
+Next up: Architecture Overview.
+
+13
+00:01:01,201 --> 00:01:05,336
+Let's explore Service-to-Service Authentication with mTLS.
+
+14
+00:01:05,336 --> 00:01:07,644
+Certificate Management with cert-manager.
+
+15
+00:01:07,644 --> 00:01:10,048
+Python mTLS Client.
+
+16
+00:01:10,048 --> 00:01:13,870
+Now let's look at JWT Authentication & Authorization.
+
+17
+00:01:13,870 --> 00:01:15,985
+Token Service Implementation.
+
+18
+00:01:15,985 --> 00:01:19,050
+Now, let's talk about Service Mesh Security with Istio.
+
+19
+00:01:19,050 --> 00:01:21,009
+Istio Security Policies.
+
+20
+00:01:21,009 --> 00:01:24,158
+Moving on to Secrets Management with HashiCorp Vault.
+
+21
+00:01:24,158 --> 00:01:25,649
+Vault Configuration.
+
+22
+00:01:25,649 --> 00:01:28,834
+Next up: API Security Best Practices.
+
+23
+00:01:28,834 --> 00:01:31,478
+Input Validation & Sanitization.
+
+24
+00:01:31,478 --> 00:01:33,485
+Security Headers Middleware.
+
+25
+00:01:33,485 --> 00:01:35,540
+Let's explore Audit Logging.
+
+26
+00:01:35,540 --> 00:01:37,223
+Now let's look at Conclusion.
+
+27
+00:01:37,223 --> 00:01:41,995
+Zero Trust security in microservices requires multiple layers:
+
+28
+00:01:41,995 --> 00:01:46,406
+mTLS for service-to-service encryption and authentication.
+
+29
+00:01:46,406 --> 00:01:50,637
+JWT with short-lived tokens for user authentication.
+
+30
+00:01:50,637 --> 00:01:55,552
+Service mesh (Istio) for network policies and authorization.
+
+31
+00:01:55,552 --> 00:01:58,822
+Vault for secrets management with dynamic credentials.
+
+32
+00:01:58,822 --> 00:02:02,091
+Input validation to prevent injection attacks.
+
+33
+00:02:02,091 --> 00:02:06,009
+Security headers to protect against common web vulnerabilities.
+
+34
+00:02:06,009 --> 00:02:08,762
+Audit logging for compliance and forensics.
+
+35
+00:02:08,762 --> 00:02:13,112
+Remember: Security is not a feature—it's a foundation.
+
+36
+00:02:13,112 --> 00:02:14,459
+Build it in from the start.
+
+37
+00:02:14,459 --> 00:02:16,923
+Now, let's talk about Related Articles.
+
+38
+00:02:16,923 --> 00:02:23,197
+Authentication & Authorization: JWT & OAuth Guide - Auth patterns.
+
+39
+00:02:23,197 --> 00:02:27,091
+Docker Kubernetes Deployment Guide - Container security.
+
+40
+00:02:27,091 --> 00:02:31,129
+Building Scalable Microservices - Service architecture.
+
+41
+00:02:31,129 --> 00:02:35,024
+HIPAA Compliance for Healthcare SaaS - Healthcare security.
+
+42
+00:02:35,024 --> 00:02:38,293
+Kubernetes Advanced Guide - Service mesh.
+
+43
+00:02:38,293 --> 00:02:39,975
+And that's the end of this article.
+
+44
+00:02:39,975 --> 00:02:41,093
+Thanks for listening.
+

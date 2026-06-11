@@ -1,0 +1,228 @@
+1
+00:00:00,050 --> 00:00:06,586
+You're listening to: MongoDB vs PostgreSQL: Complete Database Comparison Guide.
+
+2
+00:00:06,586 --> 00:00:09,278
+Choose the right database for your project.
+
+3
+00:00:09,278 --> 00:00:19,711
+Compare MongoDB and PostgreSQL on data modeling, performance, scalability, ACID compliance, and use cases with practical examples and benchmarks.
+
+4
+00:00:19,711 --> 00:00:20,757
+Let's get started.
+
+5
+00:00:20,757 --> 00:00:22,920
+Now, let's talk about Introduction.
+
+6
+00:00:22,920 --> 00:00:27,091
+The database choice fundamentally shapes your application's architecture.
+
+7
+00:00:27,091 --> 00:00:35,372
+At Dr. Dangs Lab, we use both PostgreSQL for transactional healthcare data and MongoDB for flexible document storage.
+
+8
+00:00:35,372 --> 00:00:38,365
+Here's a comprehensive comparison to help you choose.
+
+9
+00:00:38,365 --> 00:00:40,144
+Moving on to Quick Comparison.
+
+10
+00:00:40,144 --> 00:00:43,076
+Feature, PostgreSQL, MongoDB.
+
+11
+00:00:43,076 --> 00:00:47,079
+Type, Relational (SQL), Document (NoSQL).
+
+12
+00:00:47,079 --> 00:00:51,141
+Schema, Rigid, predefined, Flexible, dynamic.
+
+13
+00:00:51,141 --> 00:00:55,264
+ACID, Full support, Multi-document since 4.0.
+
+14
+00:00:55,264 --> 00:01:00,096
+Relationships, JOINs, foreign keys, Embedding, referencing.
+
+15
+00:01:00,096 --> 00:01:05,600
+Query Language, SQL, MQL (MongoDB Query Language).
+
+16
+00:01:05,600 --> 00:01:10,096
+Scaling, Vertical + Read replicas, Horizontal sharding.
+
+17
+00:01:10,096 --> 00:01:15,769
+Best For, Complex queries, transactions, Flexible data, rapid dev.
+
+18
+00:01:15,769 --> 00:01:17,524
+Next up: Data Modeling.
+
+19
+00:01:17,524 --> 00:01:19,915
+PostgreSQL: Relational Model.
+
+20
+00:01:19,915 --> 00:01:22,355
+MongoDB: Document Model.
+
+21
+00:01:22,355 --> 00:01:24,927
+Let's explore Schema Flexibility.
+
+22
+00:01:24,927 --> 00:01:27,728
+PostgreSQL: Schema Evolution.
+
+23
+00:01:27,728 --> 00:01:30,793
+MongoDB: Schema-less Flexibility.
+
+24
+00:01:30,793 --> 00:01:33,016
+Now let's look at ACID and Transactions.
+
+25
+00:01:33,016 --> 00:01:36,406
+PostgreSQL: Full ACID Compliance.
+
+26
+00:01:36,406 --> 00:01:41,526
+MongoDB: Multi-Document Transactions (4.0+).
+
+27
+00:01:41,526 --> 00:01:44,038
+Now, let's talk about Performance Comparison.
+
+28
+00:01:44,038 --> 00:01:45,468
+Query Performance.
+
+29
+00:01:45,468 --> 00:01:46,358
+Indexing.
+
+30
+00:01:46,358 --> 00:01:48,629
+Moving on to Scaling Strategies.
+
+31
+00:01:48,629 --> 00:01:50,420
+PostgreSQL Scaling.
+
+32
+00:01:50,420 --> 00:01:52,283
+MongoDB Scaling.
+
+33
+00:01:52,283 --> 00:01:54,963
+Next up: Use Case Recommendations.
+
+34
+00:01:54,963 --> 00:01:56,947
+Choose PostgreSQL For:.
+
+35
+00:01:56,947 --> 00:01:58,774
+Choose MongoDB For:.
+
+36
+00:01:58,774 --> 00:02:01,742
+Let's explore Python ORM Comparison.
+
+37
+00:02:01,742 --> 00:02:04,338
+SQLAlchemy (PostgreSQL).
+
+38
+00:02:04,338 --> 00:02:07,223
+Motor/ODMantic (MongoDB).
+
+39
+00:02:07,223 --> 00:02:09,459
+Now let's look at Key Takeaways.
+
+40
+00:02:09,459 --> 00:02:11,562
+Scenario, Recommendation.
+
+41
+00:02:11,562 --> 00:02:14,591
+Strong consistency needed, PostgreSQL.
+
+42
+00:02:14,591 --> 00:02:17,463
+Complex relationships, PostgreSQL.
+
+43
+00:02:17,463 --> 00:02:20,937
+Flexible/evolving schema, MongoDB.
+
+44
+00:02:20,937 --> 00:02:23,473
+High write throughput, MongoDB.
+
+45
+00:02:23,473 --> 00:02:26,129
+Complex analytics, PostgreSQL.
+
+46
+00:02:26,129 --> 00:02:29,290
+Horizontal scaling priority, MongoDB.
+
+47
+00:02:29,290 --> 00:02:32,391
+ACID transactions critical, PostgreSQL.
+
+48
+00:02:32,391 --> 00:02:35,024
+Rapid prototyping, MongoDB.
+
+49
+00:02:35,024 --> 00:02:36,742
+Now, let's talk about Conclusion.
+
+50
+00:02:36,742 --> 00:02:44,867
+There's no universal "better" database—both PostgreSQL and MongoDB are excellent choices depending on your requirements.
+
+51
+00:02:44,867 --> 00:02:50,444
+PostgreSQL shines for complex relationships, transactions, and analytics.
+
+52
+00:02:50,444 --> 00:02:56,478
+MongoDB excels with flexible schemas, horizontal scaling, and document-centric data.
+
+53
+00:02:56,478 --> 00:03:02,067
+Consider your data model, query patterns, scaling needs, and team expertise when choosing.
+
+54
+00:03:02,067 --> 00:03:04,038
+Need help choosing a database?
+
+55
+00:03:04,038 --> 00:03:06,718
+Connect on LinkedIn to discuss your architecture.
+
+56
+00:03:06,718 --> 00:03:08,305
+And that's the end of this article.
+
+57
+00:03:08,305 --> 00:03:09,411
+Thanks for listening.
+

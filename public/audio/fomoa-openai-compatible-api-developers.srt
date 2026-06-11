@@ -1,0 +1,248 @@
+1
+00:00:00,050 --> 00:00:07,632
+You're listening to: FOMOA for Developers: OpenAI-Compatible API, Deep Research & Ethical Crawling.
+
+2
+00:00:07,632 --> 00:00:24,038
+The complete FOMOA developer guide — a drop-in OpenAI-compatible endpoint, multi-hop deep research, an ethical web-crawl API that respects robots.txt, and entity search over 50,000+ Indian companies and schemes.
+
+3
+00:00:24,038 --> 00:00:25,096
+Let's get started.
+
+4
+00:00:25,096 --> 00:00:30,504
+If you have ever wired an app to the OpenAI API, you already know how to use FOMOA.
+
+5
+00:00:30,504 --> 00:00:40,096
+That is the whole point: FOMOA exposes an OpenAI-compatible endpoint, so you change one line — the base_url — and keep the rest of your code.
+
+6
+00:00:40,096 --> 00:00:49,206
+On top of that drop-in chat API, it adds India-optimised search plus four purpose-built endpoints for research, crawling, and entity lookup.
+
+7
+00:00:49,206 --> 00:00:58,677
+This guide consolidates the developer story: the compatible chat API, deep research, ethical crawling, and entity/company search.
+
+8
+00:00:58,677 --> 00:01:03,858
+For the product overview and how the model was trained, start with the complete FOMOA guide.
+
+9
+00:01:03,858 --> 00:01:07,163
+Now, let's talk about Drop-In OpenAI Replacement.
+
+10
+00:01:07,163 --> 00:01:11,430
+The migration is deliberately boring — which is exactly what you want:
+
+11
+00:01:11,430 --> 00:01:21,622
+Because it speaks the OpenAI wire format, it works with anything built on that format — the official SDK, LangChain, LlamaIndex, and your existing streaming code.
+
+12
+00:01:21,622 --> 00:01:22,512
+Streaming.
+
+13
+00:01:22,512 --> 00:01:30,564
+If you are designing the API layer around this, the usual rules apply — sensible status codes, idempotency, and backpressure.
+
+14
+00:01:30,564 --> 00:01:37,055
+I wrote those up in REST API design best practices and rate limiting & API gateway patterns.
+
+15
+00:01:37,055 --> 00:01:39,795
+Moving on to The India-Specific Endpoints.
+
+16
+00:01:39,795 --> 00:01:48,413
+Beyond /v1/chat/completions, FOMOA exposes four endpoints that a generic chat model does not give you:
+
+17
+00:01:48,413 --> 00:01:49,963
+Endpoint, Purpose.
+
+18
+00:01:49,963 --> 00:01:55,673
+/api/answer, A direct, cited answer to a single question.
+
+19
+00:01:55,673 --> 00:02:01,574
+/api/research, Multi-hop deep research with conflict detection.
+
+20
+00:02:01,574 --> 00:02:06,093
+/api/crawl, Ethical web-content extraction.
+
+21
+00:02:06,093 --> 00:02:12,355
+/api/entities, Structured search over Indian companies & schemes.
+
+22
+00:02:12,355 --> 00:02:16,454
+/api/answer — direct cited answers.
+
+23
+00:02:16,454 --> 00:02:26,165
+When you want a single grounded answer rather than a chat turn, /api/answer returns the response with its citations, so you can show users where each claim came from.
+
+24
+00:02:26,165 --> 00:02:30,180
+Next up: Deep Research: Multi-Hop, Conflict-Aware.
+
+25
+00:02:30,180 --> 00:02:33,689
+A normal search does one query and returns links.
+
+26
+00:02:33,689 --> 00:02:45,889
+Multi-hop research uses the results of the first search to decide what to search next — following leads the way a human researcher would — then synthesises a cited report and flags where sources disagree.
+
+27
+00:02:45,889 --> 00:02:50,432
+FOMOA offers three depths so you can trade latency for thoroughness:
+
+28
+00:02:50,432 --> 00:02:53,557
+Quick (~5s) — a fast single-pass answer..
+
+29
+00:02:53,557 --> 00:02:57,908
+Normal (~15s) — a couple of hops, good for most questions..
+
+30
+00:02:57,908 --> 00:03:03,810
+Deep (~60s) — up to three hops, conflict detection, and a structured report..
+
+31
+00:03:03,810 --> 00:03:18,185
+The conflicts[] array is the interesting part: instead of silently picking one number when two sources disagree, it returns both and tells you which source is more authoritative — the same credibility ranking described in the complete FOMOA guide.
+
+32
+00:03:18,185 --> 00:03:23,750
+This is what makes it usable for journalists, analysts, and anyone who has to defend an answer.
+
+33
+00:03:23,750 --> 00:03:26,021
+Let's explore Ethical Web Crawling.
+
+34
+00:03:26,021 --> 00:03:34,567
+/api/crawl extracts clean, readable content from a URL — but with guardrails that a naive scraper skips:
+
+35
+00:03:34,567 --> 00:03:36,971
+Respects robots.txt.
+
+36
+00:03:36,971 --> 00:03:40,637
+If a site disallows crawling, FOMOA does not crawl it..
+
+37
+00:03:40,637 --> 00:03:46,021
+Rate-limited to ~2 requests/second per site so you do not hammer anyone's server..
+
+38
+00:03:46,021 --> 00:03:51,430
+Returns clean text, links, and metadata rather than raw HTML soup..
+
+39
+00:03:51,430 --> 00:04:00,396
+It supports single-page, site-wide, and sitemap-based modes, handles pagination, and degrades gracefully on JavaScript-heavy pages.
+
+40
+00:04:00,396 --> 00:04:09,843
+The ethical defaults matter: building data pipelines on top of a crawler that ignores robots.txt is how you get your IPs blocked and your project shut down.
+
+41
+00:04:09,843 --> 00:04:13,725
+Now let's look at Entity Search: Indian Companies & Schemes.
+
+42
+00:04:13,725 --> 00:04:26,406
+/api/entities is structured search over India-specific entities — most usefully, 50,000+ Indian startups and companies and the catalogue of government schemes.
+
+43
+00:04:26,426 --> 00:04:33,034
+You can filter by industry, location, and funding stage (and combine them), or pass a natural-language query.
+
+44
+00:04:33,034 --> 00:04:43,383
+For the scheme side — eligibility, documents, official links — see the use-case walkthroughs in FOMOA vs Exa.ai + India Use-Cases.
+
+45
+00:04:43,383 --> 00:04:45,847
+Now, let's talk about Framework Integrations.
+
+46
+00:04:45,847 --> 00:04:51,363
+Because the chat endpoint is OpenAI-compatible, framework integration is trivial:
+
+47
+00:04:51,363 --> 00:04:58,635
+LlamaIndex works the same way — point its OpenAI-compatible LLM wrapper at FOMOA's base_url.
+
+48
+00:04:58,635 --> 00:05:01,303
+Moving on to Error Handling and Rate Limits.
+
+49
+00:05:01,303 --> 00:05:03,851
+Treat it like any production dependency:
+
+50
+00:05:03,851 --> 00:05:06,592
+Handle 429s with backoff.
+
+51
+00:05:06,592 --> 00:05:12,806
+Respect the documented per-key limits and retry with exponential backoff and jitter..
+
+52
+00:05:12,806 --> 00:05:18,695
+Set timeouts, especially for deep research (which can legitimately take ~60s)..
+
+53
+00:05:18,695 --> 00:05:25,895
+Cache repeated answers where freshness allows — the same caching discipline I cover in Redis caching strategies..
+
+54
+00:05:25,895 --> 00:05:28,070
+Next up: Why This Matters.
+
+55
+00:05:28,070 --> 00:05:39,741
+The combination is what is rare: an OpenAI-compatible chat API you can adopt in five minutes, plus research, crawl, and entity endpoints tuned for Indian data — at zero cost.
+
+56
+00:05:39,741 --> 00:05:47,229
+For a paid-vs-free breakdown against the main commercial alternative, read FOMOA vs Exa.ai.
+
+57
+00:05:47,229 --> 00:05:52,409
+Keep reading: FOMOA AI: The Complete Guide (2026).
+
+58
+00:05:52,409 --> 00:05:57,229
+FOMOA vs Exa.ai + India Use-Cases.
+
+59
+00:05:57,229 --> 00:05:59,933
+REST API Design Best Practices.
+
+60
+00:05:59,933 --> 00:06:03,323
+Rate Limiting & API Gateway Patterns.
+
+61
+00:06:03,323 --> 00:06:05,017
+And that's the end of this article.
+
+62
+00:06:05,017 --> 00:06:06,123
+Thanks for listening.
+

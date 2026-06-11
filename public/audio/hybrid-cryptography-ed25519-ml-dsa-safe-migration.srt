@@ -1,0 +1,316 @@
+1
+00:00:00,050 --> 00:00:08,437
+You're listening to: Hybrid Cryptography: Why Ed25519 + ML-DSA Is the Safe Migration Path.
+
+2
+00:00:08,437 --> 00:00:15,060
+Why serious post-quantum rollouts combine a classical and a post-quantum algorithm instead of switching outright.
+
+3
+00:00:15,060 --> 00:00:26,911
+How hybrid signatures and KEMs work, how to combine them correctly, the pitfalls, and why QAuth signs with both Ed25519 and ML-DSA-65.
+
+4
+00:00:26,911 --> 00:00:27,968
+Let's get started.
+
+5
+00:00:27,968 --> 00:00:36,766
+When I designed QAuth, the most important decision wasn't which post-quantum algorithm to use — it was deciding not to trust any single algorithm at all.
+
+6
+00:00:36,766 --> 00:00:46,995
+QAuth signs every token with two signatures: a classical Ed25519 and a post-quantum ML-DSA-65.
+
+7
+00:00:46,995 --> 00:00:48,317
+Both must verify.
+
+8
+00:00:48,317 --> 00:00:57,884
+That belt-and-suspenders design is called hybrid cryptography, and in 2026 it is the consensus path for anyone who takes the migration seriously.
+
+9
+00:00:57,884 --> 00:01:05,829
+This post explains why — and how to combine two algorithms correctly, because doing it wrong quietly throws away the protection.
+
+10
+00:01:05,829 --> 00:01:08,389
+Now, let's talk about The dilemma hybrids solve.
+
+11
+00:01:08,389 --> 00:01:10,396
+You're caught between two risks:
+
+12
+00:01:10,396 --> 00:01:24,098
+Classical crypto (RSA, ECC, Ed25519) is decades-tested against classical attacks — but Shor's algorithm breaks it once a cryptographically-relevant quantum computer exists.
+
+13
+00:01:24,098 --> 00:01:26,418
+(See the migration guide for the threat model.).
+
+14
+00:01:26,418 --> 00:01:33,317
+Post-quantum crypto (ML-KEM, ML-DSA) resists quantum attack — but it is young.
+
+15
+00:01:33,317 --> 00:01:36,718
+ML-DSA was standardized in 2024.
+
+16
+00:01:36,718 --> 00:01:45,396
+We have far less cryptanalytic confidence in lattice schemes than in elliptic curves, and history is full of "proven" schemes that later cracked..
+
+17
+00:01:45,396 --> 00:01:51,718
+So you're asked to bet your security on one of two algorithms, each with a different, serious failure mode.
+
+18
+00:01:51,718 --> 00:01:54,122
+The hybrid answer is: don't pick.
+
+19
+00:01:54,122 --> 00:01:57,968
+Use both, such that an attacker must break both to win.
+
+20
+00:01:57,968 --> 00:02:02,115
+Moving on to How a hybrid is secure if either algorithm holds.
+
+21
+00:02:02,115 --> 00:02:09,675
+The defining property: a hybrid construction stays secure as long as at least one of its component algorithms is unbroken.
+
+22
+00:02:09,675 --> 00:02:11,754
+The threat coverage is complete:
+
+23
+00:02:11,754 --> 00:02:19,375
+Scenario, Classical (Ed25519), Post-quantum (ML-DSA), Hybrid result.
+
+24
+00:02:19,375 --> 00:02:23,834
+Today (no quantum computer), secure, secure, secure.
+
+25
+00:02:23,834 --> 00:02:29,038
+Quantum computer arrives, broken, secure, secure (PQC holds).
+
+26
+00:02:29,038 --> 00:02:34,927
+Flaw found in young lattice scheme, secure, broken, secure (classical holds).
+
+27
+00:02:34,927 --> 00:02:37,812
+Both broken, broken, broken, broken.
+
+28
+00:02:37,812 --> 00:02:45,204
+Only the last row defeats you — and that requires both an unforeseen lattice break and a working quantum computer.
+
+29
+00:02:45,204 --> 00:02:51,021
+The hybrid converts "bet on one horse" into "an attacker must win two independent races."
+
+30
+00:02:51,021 --> 00:02:56,358
+Next up: Hybrid signatures: combine by concatenation (verify both).
+
+31
+00:02:56,358 --> 00:03:07,163
+For signatures, the construction is refreshingly simple and robust: sign the same message independently with each algorithm, and require both signatures to verify.
+
+32
+00:03:07,163 --> 00:03:09,795
+The critical detail is the and.
+
+33
+00:03:09,795 --> 00:03:21,490
+Requiring both is what gives you the "secure if either holds" guarantee for forgery: to forge a token, an attacker must forge under Ed25519 and under ML-DSA.
+
+34
+00:03:21,490 --> 00:03:23,990
+This is exactly QAuth's token design.
+
+35
+00:03:23,990 --> 00:03:29,507
+One subtlety worth knowing: there's a small tension between availability and security.
+
+36
+00:03:29,507 --> 00:03:34,975
+Requiring both signatures maximizes unforgeability (an attacker needs both).
+
+37
+00:03:34,975 --> 00:03:39,987
+If your priority were availability under a single broken scheme, you'd want the opposite.
+
+38
+00:03:39,987 --> 00:03:46,009
+For authentication tokens, unforgeability is the goal — so and is correct.
+
+39
+00:03:46,009 --> 00:03:50,829
+Let's explore Hybrid key exchange: combine the secrets through a KDF.
+
+40
+00:03:50,829 --> 00:03:57,043
+For key exchange you can't just "verify both" — you have two shared secrets and need one session key.
+
+41
+00:03:57,043 --> 00:04:02,427
+The rule: never XOR or concatenate-and-use the raw secrets directly.
+
+42
+00:04:02,427 --> 00:04:04,651
+Feed both into a KDF.
+
+43
+00:04:04,651 --> 00:04:17,355
+Because HKDF's output depends on all its input keying material, the session key is secure as long as either the X25519 secret or the ML-KEM secret is unknown to the attacker.
+
+44
+00:04:17,355 --> 00:04:28,605
+This "KEM combiner" pattern is what TLS hybrid key exchange (X25519 + ML-KEM-768) uses in production today.
+
+45
+00:04:28,605 --> 00:04:32,055
+Now let's look at Pitfalls that silently break a hybrid.
+
+46
+00:04:32,055 --> 00:04:34,387
+Hybrids are easy to get subtly wrong.
+
+47
+00:04:34,387 --> 00:04:35,793
+The ones I watch for:
+
+48
+00:04:35,834 --> 00:04:37,863
+The "either signature passes" bug.
+
+49
+00:04:37,863 --> 00:04:47,178
+Using or instead of and in verification means an attacker only has to break the weaker scheme — you've built a hybrid with the security of its worst component.
+
+50
+00:04:47,178 --> 00:04:48,115
+Always and..
+
+51
+00:04:48,115 --> 00:04:49,738
+Sign different messages.
+
+52
+00:04:49,738 --> 00:04:55,952
+Both algorithms must sign the exact same bytes (including the same canonical encoding).
+
+53
+00:04:55,952 --> 00:05:04,125
+If they sign different serializations, an attacker may mix-and-match a valid classical signature with a forged PQC one..
+
+54
+00:05:04,125 --> 00:05:06,769
+Using raw KEM secrets directly.
+
+55
+00:05:06,769 --> 00:05:11,805
+Skipping the KDF can leak structure or fail to bind both secrets.
+
+56
+00:05:11,805 --> 00:05:17,118
+Always run both through a KEM combiner / KDF with domain separation..
+
+57
+00:05:17,118 --> 00:05:18,536
+No crypto-agility.
+
+58
+00:05:18,536 --> 00:05:20,615
+A hybrid is a transition tool.
+
+59
+00:05:20,615 --> 00:05:30,639
+Hard-code Ed25519+ML-DSA-65 and you'll fight the same migration battle again when the next standard lands.
+
+60
+00:05:30,639 --> 00:05:34,353
+Keep the algorithm names as data, per the migration guide..
+
+61
+00:05:34,353 --> 00:05:37,418
+Now, let's talk about "Isn't this just twice the cost?".
+
+62
+00:05:37,418 --> 00:05:45,279
+Roughly, yes — two signatures to generate and verify, two keypairs to manage, and the payload carries both.
+
+63
+00:05:45,279 --> 00:05:46,553
+The honest accounting:
+
+64
+00:05:46,553 --> 00:05:48,344
+Size is the real cost.
+
+65
+00:05:48,344 --> 00:06:02,118
+An Ed25519 + ML-DSA-65 signature is dominated by the ~3 KB ML-DSA part; the 64-byte Ed25519 addition is negligible on top.
+
+66
+00:06:02,118 --> 00:06:06,457
+(Sizes are tabulated in ML-KEM vs ML-DSA.).
+
+67
+00:06:06,457 --> 00:06:16,108
+CPU is modest — Ed25519 verification is extremely fast, so adding it to ML-DSA barely moves the needle..
+
+68
+00:06:16,108 --> 00:06:30,543
+For authentication and key exchange — operations measured in the thousands, not millions, per second — that overhead is a rounding error against the value of not getting your entire security stack broken by a single algorithmic surprise.
+
+69
+00:06:30,543 --> 00:06:32,106
+Moving on to The takeaway.
+
+70
+00:06:32,106 --> 00:06:36,132
+Hybrid cryptography is risk management expressed in code.
+
+71
+00:06:36,132 --> 00:06:49,245
+You're not choosing between "trust the old crypto" and "trust the new crypto" — you're refusing to make that bet at all, and requiring an attacker to defeat both an algorithm we deeply trust and one that's quantum-resistant.
+
+72
+00:06:49,245 --> 00:06:58,512
+That's why QAuth signs with Ed25519 and ML-DSA-65, and why hybrid is the safe migration path.
+
+73
+00:06:58,512 --> 00:07:12,430
+Combine by and for signatures, by a KDF for key exchange, keep it agile, and you get the best of both eras of cryptography until pure PQC has earned the same trust classical crypto took decades to build.
+
+74
+00:07:12,430 --> 00:07:19,618
+Related reading: Migrating to Post-Quantum Cryptography: A Practical Developer Guide (2026).
+
+75
+00:07:19,618 --> 00:07:25,122
+ML-KEM vs ML-DSA: NIST's Post-Quantum Standards Explained.
+
+76
+00:07:25,122 --> 00:07:28,187
+QAuth: The Post-Quantum Authentication Protocol.
+
+77
+00:07:28,187 --> 00:07:32,947
+Authentication & Authorization: JWT and OAuth Guide.
+
+78
+00:07:32,947 --> 00:07:34,618
+And that's the end of this article.
+
+79
+00:07:34,618 --> 00:07:35,759
+Thanks for listening.
+

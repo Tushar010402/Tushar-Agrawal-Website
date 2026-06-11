@@ -1,0 +1,216 @@
+1
+00:00:00,050 --> 00:00:07,439
+You're listening to: Message Queues: RabbitMQ vs Redis Streams vs Kafka - Complete Comparison.
+
+2
+00:00:07,439 --> 00:00:13,834
+Deep comparison of RabbitMQ, Redis Streams, and Apache Kafka for message queuing.
+
+3
+00:00:13,834 --> 00:00:19,146
+Performance benchmarks, use cases, and production patterns for choosing the right message broker.
+
+4
+00:00:19,146 --> 00:00:20,216
+Let's get started.
+
+5
+00:00:20,216 --> 00:00:22,439
+Now, let's talk about Introduction.
+
+6
+00:00:22,439 --> 00:00:30,757
+Message queues are the backbone of distributed systems, enabling asynchronous communication, load leveling, and service decoupling.
+
+7
+00:00:30,757 --> 00:00:38,521
+But choosing between RabbitMQ, Redis Streams, and Apache Kafka isn't straightforward—each has distinct strengths.
+
+8
+00:00:38,521 --> 00:00:47,475
+Having implemented all three in production healthcare systems at Dr. Dangs Lab, I'll share real-world insights on when to use each technology.
+
+9
+00:00:47,475 --> 00:00:49,699
+Moving on to Architecture Comparison.
+
+10
+00:00:49,699 --> 00:00:52,644
+RabbitMQ - Traditional Message Broker.
+
+11
+00:00:52,644 --> 00:00:55,324
+Redis Streams - Lightweight & F
+
+12
+00:00:55,324 --> 00:00:57,980
+Apache Kafka - Distributed Log.
+
+13
+00:00:57,980 --> 00:01:00,276
+Next up: Performance Benchmarks.
+
+14
+00:01:00,276 --> 00:01:03,112
+Throughput Test (Messages/Second).
+
+15
+00:01:03,112 --> 00:01:06,706
+Latency Test (P99 in milliseconds).
+
+16
+00:01:06,706 --> 00:01:09,399
+Let's explore Implementation Examples.
+
+17
+00:01:09,399 --> 00:01:12,199
+RabbitMQ with Python (aio-pika).
+
+18
+00:01:12,199 --> 00:01:14,134
+Redis Streams with Python.
+
+19
+00:01:14,134 --> 00:01:17,307
+Apache Kafka with Python (aiokafka).
+
+20
+00:01:17,307 --> 00:01:19,507
+Now let's look at Comparison Matrix.
+
+21
+00:01:19,507 --> 00:01:23,052
+Feature, RabbitMQ, Redis Streams, Kafka.
+
+22
+00:01:23,052 --> 00:01:32,271
+Throughput, Medium (25K/s), High (100K/s), Very High (500K/s).
+
+23
+00:01:32,271 --> 00:01:41,574
+Latency, Low (1-5ms), Very Low (<1ms), Medium (2-8ms).
+
+24
+00:01:41,574 --> 00:01:45,348
+Ordering, Per queue, Per stream, Per partition.
+
+25
+00:01:45,348 --> 00:01:51,538
+Persistence, Disk + mirroring, RDB/AOF, Distributed log.
+
+26
+00:01:51,538 --> 00:01:54,711
+Replay, No (consumed once), Yes, Yes.
+
+27
+00:01:54,711 --> 00:01:58,317
+Routing, Complex (exchanges), Basic, Partitioning.
+
+28
+00:01:58,317 --> 00:02:02,319
+Scaling, Clustering, Cluster, Native horizontal.
+
+29
+00:02:02,319 --> 00:02:05,552
+Operations, Moderate, Simple, Complex.
+
+30
+00:02:05,552 --> 00:02:12,235
+Use Case, Task queues, RPC, Caching + streaming, Event sourcing, analytics.
+
+31
+00:02:12,235 --> 00:02:14,831
+Now, let's talk about When to Use Each.
+
+32
+00:02:14,831 --> 00:02:15,961
+RabbitMQ.
+
+33
+00:02:15,961 --> 00:02:17,211
+Redis Streams.
+
+34
+00:02:17,211 --> 00:02:18,701
+Apache Kafka.
+
+35
+00:02:18,701 --> 00:02:20,649
+Moving on to Production Patterns.
+
+36
+00:02:20,649 --> 00:02:22,259
+Dead Letter Queue Pattern.
+
+37
+00:02:22,259 --> 00:02:24,062
+Exactly-Once Processing.
+
+38
+00:02:24,062 --> 00:02:25,733
+Next up: Conclusion.
+
+39
+00:02:25,733 --> 00:02:28,040
+Each message queue has its sweet spot:
+
+40
+00:02:28,040 --> 00:02:32,944
+RabbitMQ: Best for traditional messaging with complex routing needs.
+
+41
+00:02:32,944 --> 00:02:38,317
+Redis Streams: Best for low-latency, simple streaming with existing Redis.
+
+42
+00:02:38,317 --> 00:02:42,608
+Kafka: Best for high-throughput event streaming and event sourcing.
+
+43
+00:02:42,608 --> 00:02:49,399
+In my healthcare systems, I use: Kafka for audit logs and event sourcing (immutable, replayable).
+
+44
+00:02:49,399 --> 00:02:53,762
+RabbitMQ for task queues with priority (lab test processing).
+
+45
+00:02:53,762 --> 00:02:57,572
+Redis Streams for real-time notifications (low latency).
+
+46
+00:02:57,572 --> 00:03:00,600
+Choose based on your specific requirements, not hype.
+
+47
+00:03:00,600 --> 00:03:02,572
+Let's explore Related Articles.
+
+48
+00:03:02,572 --> 00:03:07,187
+Apache Kafka Event Streaming Deep Dive - Kafka internals.
+
+49
+00:03:07,187 --> 00:03:11,009
+Event-Driven Architecture with Kafka - Event patterns.
+
+50
+00:03:11,009 --> 00:03:13,870
+Redis Caching Strategies - Redis patterns.
+
+51
+00:03:13,870 --> 00:03:17,848
+Building Scalable Microservices - Service architecture.
+
+52
+00:03:17,848 --> 00:03:21,213
+System Design Interview Guide - Architecture patterns.
+
+53
+00:03:21,213 --> 00:03:22,860
+And that's the end of this article.
+
+54
+00:03:22,860 --> 00:03:23,954
+Thanks for listening.
+

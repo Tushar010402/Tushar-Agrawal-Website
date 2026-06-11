@@ -1,0 +1,440 @@
+1
+00:00:00,050 --> 00:00:08,545
+You're listening to: Quantum Computing Part 3: Hands-On Tutorials, Interview Prep & Startup Landscape (2026).
+
+2
+00:00:08,545 --> 00:00:12,415
+Part 3: Build your first quantum circuit step-by-step.
+
+3
+00:00:12,415 --> 00:00:16,033
+Qiskit vs Cirq vs Q# comparison.
+
+4
+00:00:16,033 --> 00:00:17,776
+Interview preparation guide.
+
+5
+00:00:17,776 --> 00:00:22,884
+Quantum startup funding ($3.77B in 2025).
+
+6
+00:00:22,884 --> 00:00:24,555
+Common myths debunked.
+
+7
+00:00:24,555 --> 00:00:26,887
+Error correction explained simply.
+
+8
+00:00:26,887 --> 00:00:27,956
+Let's get started.
+
+9
+00:00:27,956 --> 00:00:30,649
+Now, let's talk about Welcome to Part 3.
+
+10
+00:00:30,649 --> 00:00:33,750
+In Part 1, we covered basics and breakthroughs.
+
+11
+00:00:33,750 --> 00:00:36,814
+In Part 2, we covered applications and careers.
+
+12
+00:00:36,814 --> 00:00:41,911
+Part 3 gets hands-on: Build your first quantum circuit (step-by-step code).
+
+13
+00:00:41,911 --> 00:00:45,877
+Qiskit vs Cirq vs Q# - which to learn?.
+
+14
+00:00:45,877 --> 00:00:48,389
+Quantum error correction explained simply.
+
+15
+00:00:48,389 --> 00:00:50,204
+Interview preparation guide.
+
+16
+00:00:50,204 --> 00:00:55,420
+Startup funding landscape ($3.77B in 2025).
+
+17
+00:00:55,420 --> 00:00:58,197
+Common myths debunked by experts.
+
+18
+00:00:58,197 --> 00:00:59,338
+Let's build something.
+
+19
+00:00:59,338 --> 00:01:02,740
+Moving on to Part 1: Build Your First Quantum Circuit.
+
+20
+00:01:02,740 --> 00:01:04,062
+Stop reading theory.
+
+21
+00:01:04,062 --> 00:01:05,576
+Let's write actual code.
+
+22
+00:01:05,576 --> 00:01:07,151
+Setup (5 Minutes).
+
+23
+00:01:07,151 --> 00:01:10,144
+Project 1: Quantum Coin Flip (Beginner).
+
+24
+00:01:10,144 --> 00:01:14,411
+The simplest quantum program - true randomness from quantum mechanics.
+
+25
+00:01:14,411 --> 00:01:15,396
+What Just Happened:
+
+26
+00:01:15,396 --> 00:01:19,663
+Project 2: Bell State / Entanglement (Intermediate).
+
+27
+00:01:19,663 --> 00:01:23,990
+Create two entangled qubits - Einstein's "spooky action."
+
+28
+00:01:23,990 --> 00:01:25,661
+Why This Is Mind-Blowing:
+
+29
+00:01:25,661 --> 00:01:28,930
+Project 3: Grover's Search (Advanced).
+
+30
+00:01:28,930 --> 00:01:31,478
+Find a needle in a haystack - quantumly.
+
+31
+00:01:31,478 --> 00:01:33,040
+The Power of Grover's:
+
+32
+00:01:33,040 --> 00:01:35,060
+Run on REAL Quantum Hardware.
+
+33
+00:01:35,060 --> 00:01:40,925
+Next up: Part 2: Qiskit vs Cirq vs Q# - Which to Learn?.
+
+34
+00:01:40,925 --> 00:01:42,728
+Three major frameworks.
+
+35
+00:01:42,728 --> 00:01:44,338
+Here's the honest comparison.
+
+36
+00:01:44,338 --> 00:01:45,865
+Quick Comparison Table.
+
+37
+00:01:45,865 --> 00:01:47,127
+Detailed Breakdown.
+
+38
+00:01:47,127 --> 00:01:48,353
+My Recommendation.
+
+39
+00:01:48,353 --> 00:01:52,259
+Let's explore Part 3: Quantum Error Correction Made Simple.
+
+40
+00:01:52,259 --> 00:01:57,307
+The #1 challenge in quantum computing, explained without PhD jargon.
+
+41
+00:01:57,307 --> 00:01:58,233
+The Problem.
+
+42
+00:01:58,233 --> 00:02:00,216
+The Solution: Redundancy.
+
+43
+00:02:00,216 --> 00:02:02,463
+Surface Codes Explained Simply.
+
+44
+00:02:02,463 --> 00:02:05,985
+The 2025 Breakthrough: Below Threshold.
+
+45
+00:02:05,985 --> 00:02:07,283
+What This Means for You.
+
+46
+00:02:07,283 --> 00:02:10,480
+Now let's look at Part 4: Interview Preparation Guide.
+
+47
+00:02:10,480 --> 00:02:13,461
+Land that $200K+ quantum job.
+
+48
+00:02:13,461 --> 00:02:14,771
+Market Reality.
+
+49
+00:02:14,771 --> 00:02:16,201
+What Interviewers Ask.
+
+50
+00:02:16,201 --> 00:02:17,800
+Algorithm Questions.
+
+51
+00:02:17,800 --> 00:02:19,302
+Preparation Timeline.
+
+52
+00:02:19,302 --> 00:02:20,516
+What Companies Want.
+
+53
+00:02:20,516 --> 00:02:24,747
+Now, let's talk about Part 5: Startup Funding & Investment Landscape.
+
+54
+00:02:24,747 --> 00:02:30,901
+$3.77 billion flowed into quantum in 9 months of 2025.
+
+55
+00:02:30,901 --> 00:02:33,605
+2025 Funding Explosion.
+
+56
+00:02:33,605 --> 00:02:36,514
+Major Funding Rounds (2025).
+
+57
+00:02:36,514 --> 00:02:38,894
+Public Companies & Valuations.
+
+58
+00:02:38,894 --> 00:02:40,528
+Startup Categories.
+
+59
+00:02:40,528 --> 00:02:42,259
+India's Quantum Startups.
+
+60
+00:02:42,259 --> 00:02:45,384
+Moving on to Part 6: Quantum Myths Debunked.
+
+61
+00:02:45,384 --> 00:02:49,194
+Experts from IBM, Google, and NVIDIA weigh in.
+
+62
+00:02:49,194 --> 00:02:52,932
+Myth 1: Quantum Will Replace Classical Computers.
+
+63
+00:02:52,932 --> 00:02:56,694
+Myth 2: Quantum Computers Are Always Faster.
+
+64
+00:02:56,694 --> 00:03:00,949
+Myth 3: Quantum Computers Use Parallel Universes.
+
+65
+00:03:00,949 --> 00:03:04,639
+Myth 4: Quantum Will Break All Encryption Immediately.
+
+66
+00:03:04,639 --> 00:03:07,187
+Myth 5: "Always 10 Years Away".
+
+67
+00:03:07,187 --> 00:03:09,891
+Myth 6: You Need a Physics PhD.
+
+68
+00:03:09,891 --> 00:03:14,170
+Next up: Part 7: Quantum Advantage vs Supremacy.
+
+69
+00:03:14,170 --> 00:03:16,574
+The terminology debate, clarified.
+
+70
+00:03:16,574 --> 00:03:17,740
+Definitions.
+
+71
+00:03:17,740 --> 00:03:19,375
+Why Terminology Matters.
+
+72
+00:03:19,375 --> 00:03:20,420
+Current State.
+
+73
+00:03:20,420 --> 00:03:24,218
+Let's explore Summary: Part 3 Key Takeaways.
+
+74
+00:03:24,218 --> 00:03:25,697
+Now let's look at What's Next?.
+
+75
+00:03:25,697 --> 00:03:31,694
+You've completed the quantum computing trilogy: Part 1: Fundamentals & Breakthroughs.
+
+76
+00:03:31,694 --> 00:03:34,387
+Part 2: Applications & Careers.
+
+77
+00:03:34,387 --> 00:03:37,403
+Part 3: Hands-On & Advanced Topics.
+
+78
+00:03:37,403 --> 00:03:40,901
+Your Next Steps: Create IBM Quantum account (free).
+
+79
+00:03:40,901 --> 00:03:43,016
+Run the code examples in this guide.
+
+80
+00:03:43,016 --> 00:03:45,216
+Complete Qiskit basics course.
+
+81
+00:03:45,216 --> 00:03:47,175
+Build a portfolio project.
+
+82
+00:03:47,175 --> 00:03:49,230
+Join quantum communities.
+
+83
+00:03:49,230 --> 00:03:51,021
+The quantum era is here.
+
+84
+00:03:51,021 --> 00:03:52,211
+Now you're ready for it.
+
+85
+00:03:52,211 --> 00:03:54,723
+Now, let's talk about Related Articles.
+
+86
+00:03:54,723 --> 00:03:58,185
+Part 1: Quantum Computing Complete Beginner's Guide.
+
+87
+00:03:58,185 --> 00:04:02,127
+Part 2: Applications, Careers & How to Start.
+
+88
+00:04:02,127 --> 00:04:05,901
+AI Capabilities in 2026: Complete Guide.
+
+89
+00:04:05,901 --> 00:04:08,221
+Moving on to Sources and References.
+
+90
+00:04:08,221 --> 00:04:12,896
+Tutorials & Frameworks: IBM Quantum Documentation.
+
+91
+00:04:12,896 --> 00:04:14,699
+Qiskit Medium Projects.
+
+92
+00:04:14,699 --> 00:04:17,764
+Quantum Zeitgeist - Framework Comparison.
+
+93
+00:04:17,764 --> 00:04:22,043
+Error Correction: Nature - Below Threshold Achievement.
+
+94
+00:04:22,043 --> 00:04:24,543
+QuEra - Surface Codes Explained.
+
+95
+00:04:24,543 --> 00:04:26,947
+Azure Quantum - Error Correction.
+
+96
+00:04:26,947 --> 00:04:31,334
+Interview Preparation: InterviewBee - 2025 Guide.
+
+97
+00:04:31,334 --> 00:04:33,750
+Quantum Jobs List - Interview Prep.
+
+98
+00:04:33,750 --> 00:04:36,598
+Patent PC - Job Market Analysis.
+
+99
+00:04:36,598 --> 00:04:42,079
+Funding & Startups: SpinQ - 2025 Funding Analysis.
+
+100
+00:04:42,079 --> 00:04:44,435
+Crunchbase - Venture Highmark.
+
+101
+00:04:44,435 --> 00:04:46,935
+The Quantum Insider - Public Companies.
+
+102
+00:04:46,935 --> 00:04:51,165
+Myths Debunked: The Quantum Insider - Myth Busters Study.
+
+103
+00:04:51,165 --> 00:04:53,269
+Quantropi - Common Myths.
+
+104
+00:04:53,269 --> 00:04:55,733
+FROMDEV - 6 Myths Debunked.
+
+105
+00:04:55,658 --> 00:04:58,672
+Part 3 of our quantum computing trilogy.
+
+106
+00:04:58,672 --> 00:04:59,862
+All code tested.
+
+107
+00:04:59,862 --> 00:05:01,329
+All facts verified.
+
+108
+00:05:01,329 --> 00:05:05,331
+Last updated: January 27, 2026.
+
+109
+00:05:05,331 --> 00:05:07,098
+And that's the end of this article.
+
+110
+00:05:07,098 --> 00:05:08,216
+Thanks for listening.
+
